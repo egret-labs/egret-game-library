@@ -1,0 +1,10 @@
+bin-debug/
+.idea/
+tools/node_modules
+src/resource/**/*.js
+src/resource/**/**/*.js
+
+tools/nodejs/buildTS.local
+*.local
+*.map
+.idea
