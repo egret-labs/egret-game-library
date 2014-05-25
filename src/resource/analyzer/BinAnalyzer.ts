@@ -16,12 +16,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-/// <reference path="../../egret/events/Event.ts"/>
-/// <reference path="../../egret/events/IOErrorEvent.ts"/>
-/// <reference path="../../egret/net/URLLoader.ts"/>
-/// <reference path="../../egret/net/URLLoaderDataFormat.ts"/>
-/// <reference path="../../egret/net/URLRequest.ts"/>
-/// <reference path="../../egret/utils/Recycler.ts"/>
+/// <reference path="../../egret.d.ts"/>
 /// <reference path="AnalyzerBase.ts"/>
 /// <reference path="../core/ResourceItem.ts"/>
 

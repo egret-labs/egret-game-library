@@ -16,7 +16,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-/// <reference path="../../egret/net/URLLoaderDataFormat.ts"/>
+/// <reference path="../../egret.d.ts"/>
 /// <reference path="BinAnalyzer.ts"/>
 
 module ns_egret {
