@@ -51,11 +51,11 @@ module ns_egret {
 		
 		/**
 		 * 加载配置文件并解析
-		 * @param url 配置文件路径
-         * @param folder 每个加载项的共同路径前缀。可将加载项url中重复的部分提取出来作为folder属性。
+		 * @param url 配置文件路径(resource.json的路径)
+         * @param resourceRoot 资源根路径。配置中的所有url都是这个路径的相对值。
 		 */
-		public static loadConfig(url:string,folder:string=""):void{
-			Resource._instance.loadConfig(url,folder);
+		public static loadConfig(url:string,resourceRoot:string=""):void{
+			Resource._instance.loadConfig(url,resourceRoot);
 		}
 		/**
 		 * 根据组名加载一组资源
