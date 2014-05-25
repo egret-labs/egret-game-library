@@ -1,5 +1,5 @@
 var game_library_file_list = [
-	//RES start
+	//Resource start
     "resource/events/ResourceEvent.js",
     "resource/core/ResourceItem.js",
     "resource/core/ResourceConfig.js",
@@ -10,5 +10,5 @@ var game_library_file_list = [
     "resource/analyzer/JsonAnalyzer.js",
     "resource/analyzer/TxtAnalyzer.js",
     "resource/Resource.js"
-    //RES end
+    //Resource end
 ]
