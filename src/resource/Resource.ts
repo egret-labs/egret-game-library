@@ -113,12 +113,10 @@ module ns_egret {
 		public static getResByUrl(url:string,compFunc:Function,thisObject:any,type:string=""):void{
 			Resource._instance.getResByUrl(url,compFunc,thisObject,type);
 		}
-		/**
-		 * 销毁某个资源文件的二进制数据,返回是否删除成功。
-		 * 注意：Res通常是只缓存文件字节流数据(占内存很少),而解码后的对像采用的是动态缓存，
-		 * 在外部引用都断开时能自动回收,所以不需要显式销毁它们。
-		 * @param name 配置文件中加载项的name属性
-		 */
+        /**
+         * 销毁某个资源文件的缓存数据,返回是否删除成功。
+         * @param name 配置文件中加载项的name属性
+         */
 		public static destroyRes(name:string):boolean{
 			return Resource._instance.destroyRes(name);
 		}
@@ -352,12 +350,10 @@ module ns_egret {
                 args.compFunc.call(args.thisObject,res);
 			}
 		}
-		/**
-		 * 销毁某个资源文件的二进制数据,返回是否删除成功。
-		 * 注意：Res通常是只缓存文件字节流数据(占内存很少),而解码后的对像采用的是动态缓存，
-		 * 在外部引用都断开时能自动回收,所以不需要显式销毁它们。
-		 * @param name 配置文件中加载项的name属性
-		 */
+        /**
+         * 销毁某个资源文件的缓存数据,返回是否删除成功。
+         * @param name 配置文件中加载项的name属性
+         */
 		public destroyRes(name:string):boolean{
 			var type:string = this.resConfig.getType(name);
 			if(type=="")
