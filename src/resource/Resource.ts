@@ -23,6 +23,7 @@
 /// <reference path="analyzer/JsonAnalyzer.ts"/>
 /// <reference path="analyzer/TxtAnalyzer.ts"/>
 /// <reference path="analyzer/SheetAnalyzer.ts"/>
+/// <reference path="analyzer/FontAnalyzer.ts"/>
 /// <reference path="core/ResourceConfig.ts"/>
 /// <reference path="core/ResourceItem.ts"/>
 /// <reference path="core/ResourceLoader.ts"/>
@@ -127,7 +128,6 @@ module RES {
     export function addEventListener(type:string, listener:Function, thisObject:any, useCapture:boolean = false, priority:number = 0):void {
         instance.addEventListener(type,listener,thisObject,useCapture,priority);
     }
-
     /**
      * 移除事件侦听器,参考ResourceEvent定义的常量。
      * @method ns_egret.EventDispatcher#removeEventListener
@@ -184,6 +184,8 @@ module RES {
                 ns_egret.Injector.mapClass(AnalyzerBase,JsonAnalyzer,ResourceItem.TYPE_JSON);
             if(!ns_egret.Injector.hasMapRule(AnalyzerBase,ResourceItem.TYPE_SHEET))
                 ns_egret.Injector.mapClass(AnalyzerBase,SheetAnalyzer,ResourceItem.TYPE_SHEET);
+            if(!ns_egret.Injector.hasMapRule(AnalyzerBase,ResourceItem.TYPE_FONT))
+                ns_egret.Injector.mapClass(AnalyzerBase,FontAnalyzer,ResourceItem.TYPE_FONT);
             this.resConfig = new ResourceConfig();
             this.resLoader = new ResourceLoader();
             this.resLoader.callBack = this.onResourceItemComp;
@@ -296,8 +298,14 @@ module RES {
          */
         public getRes(name:string):any{
             var type:string = this.resConfig.getType(name);
-            if(type=="")
-                return null;
+            if(type==""){
+                var prefix:string = RES.AnalyzerBase.getStringPrefix(name);
+                type = this.resConfig.getType(prefix);
+                if(type==""){
+                    return null;
+                }
+            }
+
             var analyzer:AnalyzerBase = this.getAnalyzerByType(type);
             return analyzer.getRes(name);
         }
@@ -312,8 +320,12 @@ module RES {
         public getResAsync(name:string,compFunc:Function,thisObject:any):void{
             var type:string = this.resConfig.getType(name);
             if(type==""){
-                compFunc.call(thisObject,null);
-                return;
+                var prefix:string = RES.AnalyzerBase.getStringPrefix(name);
+                type = this.resConfig.getType(prefix);
+                if(type==""){
+                    compFunc.call(thisObject,null);
+                    return;
+                }
             }
             var analyzer:AnalyzerBase = this.getAnalyzerByType(type);
             var res:any = analyzer.getRes(name);

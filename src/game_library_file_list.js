@@ -10,6 +10,7 @@ var game_library_file_list = [
     "resource/analyzer/JsonAnalyzer.js",
     "resource/analyzer/TxtAnalyzer.js",
 	"resource/analyzer/SheetAnalyzer.js",
-    "resource/Resource.js"
+	"resource/analyzer/FontAnalyzer.js",
+    "resource/Resource.js",
     //Resource end
 ]

@@ -43,6 +43,10 @@ module RES {
          * SpriteSheet文件
          */
         public static TYPE_SHEET:string = "sheet";
+        /**
+         * BitmapTextSpriteSheet文件
+         */
+        public static TYPE_FONT:string = "font";
 
 		/**
 		 * 构造函数
@@ -68,10 +72,6 @@ module RES {
 		 * 加载项文件类型
 		 */
 		public type:string;
-        /**
-         * 若含有逗号分隔的多个url时，将解析到这个列表里。
-         */
-        public urls:Array<string>
 
         /**
          * 所属组名

@@ -49,5 +49,34 @@ module RES {
         public destroyRes(name:string):boolean{
             return false;
         }
+
+        /**
+         * 读取一个字符串里第一个点之前的内容。
+         * @param name {string} 要读取的字符串
+         */
+        public static getStringPrefix(name:string):string{
+            if(!name){
+                return "";
+            }
+            var index:number = name.indexOf(".");
+            if(index!=-1) {
+                return name.substring(0, index);
+            }
+            return "";
+        }
+        /**
+         * 读取一个字符串里第一个点之后的内容。
+         * @param name {string} 要读取的字符串
+         */
+        public static getStringTail(name:string):string{
+            if(!name){
+                return "";
+            }
+            var index:number = name.indexOf(".");
+            if(index!=-1) {
+                return name.substring(index+1);
+            }
+            return "";
+        }
     }
 }

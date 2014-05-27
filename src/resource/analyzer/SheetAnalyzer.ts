@@ -26,11 +26,24 @@ module RES {
 
         public constructor(){
             super();
-            this._dataFormat = ns_egret.URLLoaderDataFormat.TEXTURE;
+            this._dataFormat = ns_egret.URLLoaderDataFormat.TEXT;
         }
 
-        private textureMap:any = {};
-
+        /**
+         * @inheritDoc
+         */
+        public getRes(name:string):any{
+            var res:any = this.fileDic[name];
+            if(!res){
+                var prefix:string = RES.AnalyzerBase.getStringPrefix(name);
+                res = this.fileDic[prefix];
+                if(res){
+                    var tail:string = RES.AnalyzerBase.getStringTail(name);
+                    res = (<ns_egret.SpriteSheet> res).getTexture(tail);
+                }
+            }
+            return res;
+        }
         /**
          * 一项加载结束
          */
@@ -45,16 +58,17 @@ module RES {
             if(resItem.loaded){
                 this.analyzeData(resItem,loader.data)
             }
-            if(loader.data instanceof ns_egret.Texture){
-                this._dataFormat = ns_egret.URLLoaderDataFormat.TEXT;
-                this.loadFile(resItem,compFunc,data.thisObject);
+            if(typeof(loader.data)=="string"){
                 this._dataFormat = ns_egret.URLLoaderDataFormat.TEXTURE;
+                this.loadFile(resItem,compFunc,data.thisObject);
+                this._dataFormat = ns_egret.URLLoaderDataFormat.TEXT;
             }
             else{
                 compFunc.call(data.thisObject,resItem);
             }
         }
 
+        public sheetMap:any = {};
         /**
          * 解析并缓存加载成功的数据
          */
@@ -63,9 +77,8 @@ module RES {
             if(this.fileDic[name]||!data){
                 return;
             }
-            var texture:ns_egret.Texture;
+            var config:any;
             if(typeof(data)=="string"){
-                var config:any;
                 try{
                     var str:string = <string> data;
                     config = JSON.parse(str);
@@ -75,18 +88,31 @@ module RES {
                 if(!config){
                     return;
                 }
-                texture = this.textureMap[name];
-                delete this.textureMap[name];
+                this.sheetMap[name] = config;
+                resItem.loaded = false;
+                resItem.url = this.getRelativePath(resItem.url,config["file"]);
+            }
+            else{
+                var texture:ns_egret.Texture = data;
+                config = this.sheetMap[name];
+                delete this.sheetMap[name];
                 if(texture){
                     var spriteSheet:ns_egret.SpriteSheet = this.parseSpriteSheet(texture,config);
                     this.fileDic[name] = spriteSheet;
                 }
             }
-            else{
-                this.textureMap[name] = data;
-                resItem.loaded = false;
-                resItem.url = resItem.urls[1];
+        }
+
+        private getRelativePath(url:string,file:string):string{
+            url = url.split("\\").join("/");
+            var index:number = url.lastIndexOf("/");
+            if(index!=-1){
+                url = url.substring(0,index+1)+file;
             }
+            else{
+                url = file;
+            }
+            return url;
         }
 
         private parseSpriteSheet(texture:ns_egret.Texture,data:any):ns_egret.SpriteSheet{

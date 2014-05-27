@@ -105,7 +105,8 @@ module RES {
 		 * @inheritDoc
 		 */
 		public hasRes(name:string):boolean{
-			return this.fileDic[name]!=null;
+            var res:any = this.getRes(name);
+			return res!=null;
 		}
 		/**
 		 * @inheritDoc
