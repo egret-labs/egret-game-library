@@ -19,7 +19,7 @@
 
 class GameObject extends egret.HashObject {
 
-    public view:ns_egret.DisplayObject;
+    public view:egret.DisplayObject;
 
     public key:string = "gameObject";
 
