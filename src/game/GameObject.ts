@@ -17,7 +17,7 @@
  */
 
 
-class GameObject extends ns_egret.HashObject {
+class GameObject extends egret.HashObject {
 
     public view:ns_egret.DisplayObject;
 
