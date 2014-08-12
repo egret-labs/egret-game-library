@@ -21,7 +21,7 @@ class ObjectPool {
 
 
     constructor() {
-        ns_egret.Ticker.getInstance().register(this.onEnterFrame, this);
+        egret.Ticker.getInstance().register(this.onEnterFrame, this);
     }
 
     private onEnterFrame(advancedTime:number):void {
