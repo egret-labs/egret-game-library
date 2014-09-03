@@ -1,0 +1,9 @@
+{
+    "name": "adsense",
+    "dependence": ["core"],
+    "source":"src/adsense/",
+    "file_list": [
+        "google.d.ts",
+        "AdSense.ts"
+    ]
+}
