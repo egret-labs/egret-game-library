@@ -3,6 +3,7 @@ bin-debug/
 tools/node_modules
 src/resource/**/*.js
 src/resource/**/**/*.js
+libs/
 
 tools/nodejs/buildTS.local
 *.local
