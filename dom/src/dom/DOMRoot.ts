@@ -48,17 +48,19 @@ module egret.dom {
                 _wrapper(child, i, currentDiv);
             }
 
-            _overrideDoAddChild.apply(container);
-            _overrideDoRemoveChild.apply(container);
+            if (displayObject["__use__dom"] != true) {
+                _overrideDoAddChild.apply(container);
+                _overrideDoRemoveChild.apply(container);
+            }
         }
-
-        displayObject._calculateWorldform = function () {
-
-        };
 
         if (displayObject["__use__dom"]) {
             return;
         }
+        displayObject._calculateWorldform = function () {
+
+        };
+
         displayObject["__use__dom"] = true;
     }
 
