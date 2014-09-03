@@ -1,0 +1,22 @@
+{
+    "name": "dom",
+    "dependence": ["core"],
+    "source":"src/dom/",
+    "file_list": [
+        "DOMDiv.ts",
+        "DOMHeader.ts",
+        "DOMBitmap.ts",
+        "DOMCanvas.ts",
+        "DOMScroll.ts",
+        "DOMDisplayObject.ts",
+        "DOMPool.ts",
+        "DOMMask.ts",
+        "DOMPosition.ts",
+        "DOMRender.ts",
+        "DOMRoot.ts",
+        "DOMTextField.ts",
+        "DOMUtils.ts",
+        "IScroll.ts",
+        "HTML5DOMRenderer.ts"
+    ]
+}
