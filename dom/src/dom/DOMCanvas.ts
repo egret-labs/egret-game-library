@@ -64,6 +64,7 @@ module egret.dom {
             if (!this._doc.visible) {
                 this.visible = false;
                 this.reflow();
+                return;
             }
 
             if (this._doc.getDirty()) {

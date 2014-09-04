@@ -124,7 +124,9 @@ class Main extends egret.DisplayObjectContainer{
         this.textContainer = textContainer;
 
         //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
-        RES.getResAsync("description",this.startAnimation,this)
+        RES.getResAsync("description",this.startAnimation,this);
+
+//        egret.dom.initStage(egret.MainContext.instance.stage);
     }
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

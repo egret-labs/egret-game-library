@@ -70,6 +70,7 @@ module egret.dom {
             if (!this._displayObject.visible) {
                 this.visible = false;
                 this.reflow();
+                return;
             }
 
             if (this._displayObject.getDirty()) {

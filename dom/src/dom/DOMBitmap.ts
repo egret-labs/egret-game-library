@@ -93,6 +93,11 @@ module egret.dom {
             var img;
             if (domDiv.numChildren) {
                 img = domDiv.getChildAt(0);
+
+                if (img.bitmapSrc != src) {
+                    img.changeProperty("src", src);
+                    img.bitmapSrc = src;
+                }
             }
             else {
                 img = DOMPool.getImg(src);
