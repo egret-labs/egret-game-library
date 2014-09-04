@@ -71,8 +71,8 @@ module egret.dom {
         var anchorOffsetX = p.x;
         var anchorOffsetY = p.y;
 
-        var x:number = Math.round(initX - anchorOffsetX * displayObject.scaleX);
-        var y:number = Math.round(initY - anchorOffsetY * displayObject.scaleY);
+        var x:number = Math.round(initX - anchorOffsetX);
+        var y:number = Math.round(initY - anchorOffsetY);
         if (egret.dom._hasTransform) {
             transformStr += "translate(" + x + "px, " + y + "px) ";
         }
@@ -80,6 +80,8 @@ module egret.dom {
             domDiv.setX(x);
             domDiv.setY(y);
         }
+
+        domDiv.changeTrans("transformOrigin", anchorOffsetX + "px " + anchorOffsetY + "px 0px");
 
         var skewScaleY:number = 1;
         if (displayObject.skewX != 0 || displayObject.skewY != 0) {

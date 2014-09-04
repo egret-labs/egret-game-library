@@ -52,9 +52,9 @@ module egret.dom {
             this._style3Types = [];
             this._style3Values = [];
             this._children = [];
-            this.changeTrans("transformOrigin", "0% 0% 0px");
-            this.setY(0);
-            this.setX(0);
+            this.changeTrans("transformOrigin", "0px 0px 0px");
+//            this.setY(0);
+//            this.setX(0);
         }
 
         /**
