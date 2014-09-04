@@ -113,6 +113,8 @@ class Main extends egret.DisplayObjectContainer{
         colorLabel.textAlign = "center";
         colorLabel.text = "Hello Egret";
         colorLabel.size = 20;
+        colorLabel.stroke = 2;
+        colorLabel.strokeColor = 0x000000;
         this.addChild(colorLabel);
 
         var textContainer:egret.Sprite = new egret.Sprite();

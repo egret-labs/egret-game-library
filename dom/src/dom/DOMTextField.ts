@@ -64,6 +64,24 @@ module egret.dom {
             this.changeCss3Style("fontSize", this._textField.size + "px");
             this.changeCss3Style("fontStyle", this._textField.italic ? "italic" : "normal");
             this.changeCss3Style("fontWeight", this._textField.bold ? "bold" : "normal");
+//            this.changeStyle("lineHeight", this._textField.lineSpacing  + this._textField.size);
+
+            var b = (this._textField.strokeColor & 0x0000ff);
+            var g = (this._textField.strokeColor & 0x00ffff) >> 8;
+            var r = (this._textField.strokeColor) >> 16;
+            var rs = r.toString(16);
+            if (rs.length == 1) {
+                rs = "0" + rs;
+            }
+            var gs = g.toString(16);
+            if (gs.length == 1) {
+                gs = "0" + gs;
+            }
+            var bs = b.toString(16);
+            if (bs.length == 1) {
+                bs = "0" + bs;
+            }
+            this.changeCss3Style("textShadow", "0px 0px " + this._textField.stroke + "px " + "#" + rs + gs + bs);
 
 
             var b = (this._textField.textColor & 0x0000ff);
@@ -85,18 +103,18 @@ module egret.dom {
 
             this.changeStyle("color", "#" + rs + gs + bs);
             this.changeCss3Style("textAlign", this._textField.textAlign);
-            this.changeCss3Style("verticalAlign", "top");
+            this.changeCss3Style("verticalAlign", this._textField.verticalAlign);
 
             egret.MainContext.instance.rendererContext.setupFont(this._textField);
 
-            if (!this._textField._hasWidthSet) {
-                var width = egret.MainContext.instance.rendererContext.measureText(this._textField.text);
-                this.changeStyle("width", (width + 4) + "px");
-                this.changeStyle("height", this._textField.height + "px");
-            } else {
+//            if (!this._textField._hasWidthSet) {
+//                var width = egret.MainContext.instance.rendererContext.measureText(this._textField.text);
+//                this.changeStyle("width", (width + 4) + "px");
+//                this.changeStyle("height", this._textField.height + "px");
+//            } else {
                 this.changeStyle("width", this._textField.width + "px");
                 this.changeStyle("height", this._textField.height + "px");
-            }
+//            }
 
             this.setText(this._textField.text);
         }
