@@ -39,8 +39,13 @@ egret_h5.startGame = function () {
     var scaleMode =  egret.MainContext.deviceType == egret.MainContext.DEVICE_MOBILE ? egret.StageScaleMode.SHOW_ALL : egret.StageScaleMode.NO_SCALE;
     context.stage.scaleMode = scaleMode;
 
+    var dom = 1;
     //WebGL是egret的Beta特性，默认关闭
-    if(false){// egret.WebGLUtils.checkCanUseWebGL()) {
+    if (dom == 1) {
+        context.rendererContext = new egret.HTML5DOMRenderer(canvas);
+        egret.dom.initStage(egret.MainContext.instance.stage);
+    }
+    else if(dom == 2){// egret.WebGLUtils.checkCanUseWebGL()) {
         context.rendererContext = new egret.WebGLRenderer(canvas);
     }
     else {
