@@ -1,0 +1,18 @@
+{
+    "document_class": "Main",
+    "modules": [
+        {
+            "name": "core"
+        },
+        {
+            "name":"benchmark",
+            "path":"."
+        }
+    ],
+    "native": {
+        "path_ignore": [
+
+        ]
+    },
+    "egret_version":"1.0.5"
+}
