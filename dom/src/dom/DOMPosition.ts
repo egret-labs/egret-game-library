@@ -116,6 +116,9 @@ module egret.dom {
             domDiv.changeTrans("transitionTimingFunction", 'cubic-bezier(0.33,0.66,0.66,1)');
 
             domDiv.changeTrans("transform", transformStr.substr(0, transformStr.length - 1));
+
+            domDiv.setX(0);
+            domDiv.setY(0);
         }
         else {
             if (domDiv.hasStyle(egret.dom._getTrans("transform"))) {
