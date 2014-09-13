@@ -27,14 +27,20 @@
 module egret.dom {
 
     export function _setScrollRect(rect:egret.Rectangle, domDiv:DOMDiv):void {
-        domDiv.changeStyle("overflow", "auto");
-        var str:string = "rect(" + 0 + "px "
-            + (0 + rect.width) + "px "
-            + (0 + rect.height) + "px "
-            + 0 + "px)";//(y, x + w, y + h, x)
-        domDiv.changeStyle("clip", str);
-        domDiv.domDiv.scrollLeft = rect.x;
-        domDiv.domDiv.scrollTop = rect.y;
+//        domDiv.changeStyle("overflow", "auto");
+//        var str:string = "rect(" + 0 + "px "
+//            + (0 + rect.width) + "px "
+//            + (0 + rect.height) + "px "
+//            + 0 + "px)";//(y, x + w, y + h, x)
+//        domDiv.changeStyle("clip", str);
+//        domDiv._currentDiv.scrollLeft = rect.x;
+//        domDiv._currentDiv.scrollTop = rect.y;
+
+        var str:string = "rect(" + rect.y + "px "
+            + (rect.x + rect.width) + "px "
+            + (rect.y + rect.height) + "px "
+            + rect.x + "px)";//(y, x + w, y + h, x)
+        domDiv.changeStyle("clip", str, "");
     }
 
     export function _setMask(rect:egret.Rectangle, domDiv:DOMDiv):void {
@@ -42,7 +48,7 @@ module egret.dom {
             + (rect.x + rect.width) + "px "
             + (rect.y + rect.height) + "px "
             + rect.x + "px)";//(y, x + w, y + h, x)
-        domDiv.changeStyle("clip", str);
+        domDiv.changeStyle("clip", str, "");
     }
 
     export function _setGraphics(domDiv:DOMDiv):void {
@@ -59,12 +65,10 @@ module egret.dom {
 //
 //            setMask(new egret.Rectangle(0, 0, canvas2.width, canvas2.height), domCanvas);
 //
-//            domCanvas.changeStyle("width", (canvas2.width) + "px");
-//            domCanvas.changeStyle("height", (canvas2.height) + "px");
+//        domCanvas.setWidth(canvas2.width);
+//        domCanvas.setHeight(canvas2.height);
 //            domCanvas.changeStyle("overflow", "hidden");
 //            domCanvas.visible = true;
-//            domCanvas.changeStyle("width", canvas2.width);
-//            domCanvas.changeStyle("height", canvas2.height);
 //            domCanvas.changeCss3Style("backgroundPosition", "-100px-100px");
 //            domCanvas.changeCss3Style("zIndex", -1);
 //            domDiv.addChild(domCanvas);

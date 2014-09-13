@@ -39,7 +39,7 @@ egret_h5.startGame = function () {
     var scaleMode =  egret.MainContext.deviceType == egret.MainContext.DEVICE_MOBILE ? egret.StageScaleMode.SHOW_ALL : egret.StageScaleMode.NO_SCALE;
     context.stage.scaleMode = scaleMode;
 
-    var dom = 0;
+    var dom = 1;
     //WebGL是egret的Beta特性，默认关闭
     if (dom == 1) {
         context.rendererContext = new egret.HTML5DOMRenderer(canvas);

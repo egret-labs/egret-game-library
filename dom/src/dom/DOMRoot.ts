@@ -49,8 +49,8 @@ module egret.dom {
             }
 
             if (displayObject["__use__dom"] != true) {
-                _overrideDoAddChild.apply(container);
-                _overrideDoRemoveChild.apply(container);
+                _overrideDoAddChild.call(container);
+                _overrideDoRemoveChild.call(container);
             }
         }
 
@@ -61,7 +61,27 @@ module egret.dom {
 
         };
 
+        if (!displayObject["alwaysCanvas"] && displayObject != egret.MainContext.instance.stage) {
+            _overrideSetDirty.call(displayObject);
+        }
         displayObject["__use__dom"] = true;
+    }
+
+    export var _renderDisplays:Array<any> = [];
+    export var _alwaysRenderDisplays:Array<any> = [];
+
+    /**
+     * 重写加入方法
+     */
+    export function _overrideSetDirty():void {
+        this.__tempSetDirty = this._setDirty;
+        if (this.getDirty()) {
+            egret.dom._renderDisplays.push(this);
+        }
+        this._setDirty = function ():void {
+            egret.dom._renderDisplays.push(this);
+            this.__tempSetDirty.call(this);
+        };
     }
 
     /**
@@ -71,7 +91,7 @@ module egret.dom {
         this.__tempDoAddChild = this._doAddChild;
         this._doAddChild = function (child:egret.DisplayObject, index:number, notifyListeners:boolean = true):egret.DisplayObject {
             _wrapper(child, index, this["__dom_node"]);
-            this.__tempDoAddChild.apply(this, [child, index, notifyListeners]);
+            this.__tempDoAddChild.call(this, child, index, notifyListeners);
             return child;
         };
     }
@@ -88,7 +108,7 @@ module egret.dom {
                 child["__dom_node"].removeFromParent();
             }
 
-            return this.__tempDoRemoveChild.apply(this, [index, notifyListeners]);
+            return this.__tempDoRemoveChild.call(this, index, notifyListeners);
         };
     }
 }

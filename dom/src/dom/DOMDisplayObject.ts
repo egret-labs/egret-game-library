@@ -33,7 +33,6 @@ module egret.dom {
             super("div", id);
 
             this._displayObject = displayObject;
-
             this._overrideFunctions();
         }
 
@@ -43,40 +42,50 @@ module egret.dom {
             var self = this;
 
             this._displayObject._draw = function (renderContext:egret.RendererContext) {
-                self._draw.apply(self, [renderContext]);
+                self._draw.call(self, renderContext);
             };
-
         }
 
         public _draw(renderContext:egret.RendererContext):void {
-            if (!this._displayObject.visible) {
-                this.visible = false;
-                this.reflow();
+            if (!this._displayObject._visible) {
+                this.hide();
+                _clear(this._displayObject);
                 return;
             }
 
-            if (this._displayObject.getDirty()) {
+            if (this._displayObject == egret.MainContext.instance.stage) {
+                var length:number = egret.dom._renderDisplays.length;
+                if (length > 0) {
+                    for (var i:number = 0; i < length; i++) {
+                        if (egret.dom._renderDisplays[i] == this._displayObject) {
+                            egret.dom._clear(this._displayObject);
+                        }
+                        else {
+                            egret.dom._renderDisplays[i]._draw(renderContext);
+                        }
+                    }
+                    egret.dom._renderDisplays = [];
+                }
+                length = egret.dom._alwaysRenderDisplays.length;
+                if (length > 0) {
+                    for (i = 0; i < length; i++) {
+                        egret.dom._alwaysRenderDisplays[i]._draw(renderContext);
+                    }
+                }
+            }
+            else if (this._displayObject.getDirty()) {
 
-                this.changeStyle("width", Math.round(this._displayObject.width) + "px");
-                this.changeStyle("height", Math.round(this._displayObject.height) + "px");
+                this.setWidth(this._displayObject.width);
+                this.setHeight(this._displayObject.height);
 
                 if (this._displayObject instanceof egret.DisplayObjectContainer) {
-                    this.touchChildren = (<egret.DisplayObjectContainer>this._displayObject).touchChildren;
+                    this.touchChildren = (<egret.DisplayObjectContainer>this._displayObject)._touchChildren;
                 }
                 else {
                     this.touchChildren = false;
                 }
 
                 _renderObject(this._displayObject, this);
-            }
-
-            //绘制children
-            if (this._displayObject instanceof egret.DisplayObjectContainer) {
-                var container:egret.DisplayObjectContainer = <egret.DisplayObjectContainer>this._displayObject;
-                for (var i = 0 , length = container.numChildren; i < length; i++) {
-                    var child = container.getChildAt(i);
-                    child._draw(renderContext);
-                }
             }
         }
     }

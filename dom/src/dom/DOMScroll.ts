@@ -39,15 +39,15 @@ module egret.dom {
             this._listeners = [];
 
             if (this._iscroll.getDirection() == egret.ScrollDirection.BOTH) {
-                this.changeStyle("overflow", "auto");
+                this.changeStyle("overflow", "auto", "");
             }
             else if (this._iscroll.getDirection() == egret.ScrollDirection.HORIZONTAL) {//水平
-                this.changeStyle("overflowX", "auto");
-                this.changeStyle("overflowY", "hidden");
+                this.changeStyle("overflowX", "auto", "");
+                this.changeStyle("overflowY", "hidden", "");
             }
             else {
-                this.changeStyle("overflowX", "hidden");
-                this.changeStyle("overflowY", "auto");
+                this.changeStyle("overflowX", "hidden", "");
+                this.changeStyle("overflowY", "auto", "");
             }
 
             this._overrideFunctions();
@@ -59,7 +59,7 @@ module egret.dom {
             var self = this;
 
             this._displayObject._draw = function (renderContext:egret.RendererContext) {
-                self._draw.apply(self, [renderContext]);
+                self._draw.call(self, renderContext);
             };
 
             this._iscroll.scrollStart = function () {
@@ -67,16 +67,16 @@ module egret.dom {
         }
 
         public _draw(renderContext:egret.RendererContext):void {
-            if (!this._displayObject.visible) {
-                this.visible = false;
-                this.reflow();
+            if (!this._displayObject._visible) {
+                this.hide();
+                _clear(this._displayObject);
                 return;
             }
 
             if (this._displayObject.getDirty()) {
 
-                this.changeStyle("width", Math.round(this._displayObject.width) + "px");
-                this.changeStyle("height", Math.round(this._displayObject.height) + "px");
+                this.setWidth(this._displayObject.width);
+                this.setHeight(this._displayObject.height);
 
                 //设置当前div可否点击情况
                 this.touchEnabled = this._displayObject.touchEnabled;
@@ -87,13 +87,13 @@ module egret.dom {
             }
 
             //绘制children
-            if (this._displayObject instanceof egret.DisplayObjectContainer) {
-                var container:egret.DisplayObjectContainer = <egret.DisplayObjectContainer>this._displayObject;
-                for (var i = 0 , length = container.numChildren; i < length; i++) {
-                    var child = container.getChildAt(i);
-                    child._draw(renderContext);
-                }
-            }
+//            if (this._displayObject instanceof egret.DisplayObjectContainer) {
+//                var container:egret.DisplayObjectContainer = <egret.DisplayObjectContainer>this._displayObject;
+//                for (var i:number = 0, length = container._children.length; i < length; i++) {
+//                    var child = container._children[i];
+//                    child._draw(renderContext);
+//                }
+//            }
         }
 
         /**
@@ -153,14 +153,14 @@ module egret.dom {
             };
             this._listeners.push({"t": type, "u": useCapture, "tl": tempListener});
 
-            this.domDiv.addEventListener(type, tempListener, useCapture);
+            this._currentDiv.addEventListener(type, tempListener, useCapture);
         }
 
         private removeEventListener(type:string, useCapture:boolean):void {
             for (var i:number = 0; i < this._listeners.length; i++) {
                 var info:Object = this._listeners[i];
                 if (info["t"] == type && info["u"] == useCapture) {
-                    this.domDiv.removeEventListener(info["t"], info["tl"], info["u"]);
+                    this._currentDiv.removeEventListener(info["t"], info["tl"], info["u"]);
                     this._listeners.splice(i, 1);
                     return;
                 }

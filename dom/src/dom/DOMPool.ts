@@ -87,7 +87,7 @@ module egret.dom {
          * @returns {egret.dom.DOMScroll}
          */
         public static getScroll(displayObject:egret.DisplayObject, id:string = ""):DOMDiv {
-            return new DOMScroll(displayObject, id);
+            return new DOMDisplayObject(displayObject, id);
         }
 
         /**
@@ -111,21 +111,24 @@ module egret.dom {
             var canvas2:any = document.getElementById(egret.StageDelegate.canvas_name);
 
             var domDiv:DOMDiv = DOMPool.getDiv("renderDiv");
-            domDiv.changeStyle("width", canvas2.width + "px");
-            domDiv.changeStyle("height", canvas2.height + "px");
-            domDiv.changeStyle("overflow", "hidden");
+            domDiv.changeTrans("transformOrigin", "0% 0% 0px");
+
+            domDiv.setWidth(canvas2.width);
+            domDiv.setHeight(canvas2.height);
+
+            domDiv.changeStyle("overflow", "hidden", "");
+            domDiv.changeStyle("pointerEvents", "none", "");
 
             var transformStr = "scale(" + scale + ","
                 + scale + ")";
             domDiv.changeTrans("transform", transformStr);
-            domDiv.visible = true;
             domDiv.touchChildren = true;
             domDiv.touchEnabled = true;
             domDiv.reflow();
             egret.dom.rootDOMDiv = domDiv;
 
             var canvas = document.getElementById(egret.StageDelegate.canvas_div_name);
-            canvas.appendChild(domDiv.domDiv);
+            canvas.appendChild(domDiv._currentDiv);
         }
 
         return egret.dom.rootDOMDiv;

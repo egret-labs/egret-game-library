@@ -40,12 +40,8 @@ module egret.dom {
         var visible = displayObject.visible;
 
         if (!visible) {
-            domDiv.visible = false;
-            domDiv.reflow();
+            domDiv.hide();
             return;
-        }
-        else {
-            domDiv.visible = true;
         }
 
         var widthScale:number = displayObject.scaleX;//宽度修改导致的缩放
@@ -62,8 +58,6 @@ module egret.dom {
             }
         }
 
-        var transformStr:string = "";
-
         var initX:number = displayObject.x + offsetX;
         var initY:number = displayObject.y + offsetY;
 
@@ -73,33 +67,68 @@ module egret.dom {
 
         var x:number = Math.round(initX - anchorOffsetX);
         var y:number = Math.round(initY - anchorOffsetY);
-        if (egret.dom._hasTransform) {
-            transformStr += "translate(" + x + "px, " + y + "px) ";
-        }
-        else {
-            domDiv.setX(x);
-            domDiv.setY(y);
+
+//        var x:number = Math.round(initX - anchorOffsetX * displayObject.scaleX);
+//        var y:number = Math.round(initY - anchorOffsetY * displayObject.scaleY);
+        if (displayObject._scrollRect) {
+            x -= displayObject._scrollRect.x;
+            y -= displayObject._scrollRect.y;
         }
 
-        domDiv.changeTrans("transformOrigin", anchorOffsetX + "px " + anchorOffsetY + "px 0px");
 
+        var transformStr:string = "";
         var skewScaleY:number = 1;
         if (displayObject.skewX != 0 || displayObject.skewY != 0) {
-            transformStr += "rotate(" + (displayObject.skewY) + "deg) ";
+            if (domDiv.rotation != displayObject.skewY || displayObject.skewY != 0) {
+                domDiv.rotation = displayObject.skewY;
+                transformStr += "rotate(" + (displayObject.skewY) + "deg) ";
+            }
+
             var skew:number = displayObject.skewX - displayObject.skewY;
-            transformStr += "skew(" + (-skew) + "deg) ";
+            if (domDiv.skew != skew || skew != 0) {
+                domDiv.skew = skew;
+                transformStr += "skew(" + (-skew) + "deg) ";
+            }
+
             skewScaleY = Math.cos(skew / 180 * Math.PI);
+
         } else {
-            transformStr += "rotate(" + (displayObject.rotation) + "deg) ";
+            if (domDiv.rotation != displayObject.rotation || displayObject.rotation != 0) {
+                domDiv.rotation = displayObject.rotation;
+                transformStr += "rotate(" + (displayObject.rotation) + "deg) ";
+            }
         }
         heightScale *= skewScaleY;
 
-        transformStr += "scale(" + widthScale + ", " + heightScale + ")";
+        if (domDiv.scaleX != widthScale || domDiv.scaleY != heightScale || widthScale != 1 || heightScale != 1) {
+            domDiv.scaleX = widthScale;
+            domDiv.scaleY = heightScale;
+            transformStr += "scale(" + widthScale + ", " + heightScale + ") ";
+        }
 
-        domDiv.changeTrans("transitionDelay", "0");
+        if (transformStr != "" || (displayObject.parent && (displayObject.parent.scrollRect || displayObject.parent.mask))) {
+            transformStr = "translate(" + x + "px, " + y + "px) " + transformStr;
 
-        domDiv.changeTrans("transform", transformStr);
-        domDiv.changeStyle("opacity", displayObject.alpha);
+            domDiv.changeTrans("transformOrigin", anchorOffsetX + "px " + anchorOffsetY + "px 0px");
+
+            domDiv.changeTrans("transitionDelay", "0");
+            domDiv.changeTrans("transitionProperty", egret.dom._getTrans("transform"));
+            domDiv.changeTrans("transitionTimingFunction", 'cubic-bezier(0.33,0.66,0.66,1)');
+
+            domDiv.changeTrans("transform", transformStr.substr(0, transformStr.length - 1));
+        }
+        else {
+            if (domDiv.hasStyle(egret.dom._getTrans("transform"))) {
+                transformStr = "translate(" + x + "px, " + y + "px) " + transformStr;
+                domDiv.changeTrans("transform", transformStr.substr(0, transformStr.length - 1));
+            }
+            else {
+                domDiv.setX(x);
+                domDiv.setY(y);
+            }
+        }
+
+        domDiv.changeStyle("opacity", displayObject.alpha, 1);
         domDiv.reflow();
     }
 }

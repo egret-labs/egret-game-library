@@ -29,14 +29,14 @@ module egret.dom {
      * 设置是否需要原生滚动
      * @type {boolean}
      */
-    export var useScroll:boolean = true;
+    export var useScroll:boolean = false;
 
     /**
      * 当前容器是否只在canvas渲染
      * @param displayObjectContainer
-     */
+     */;
     export function drawAsCanvas(displayObjectContainer:egret.DisplayObjectContainer):void {
-        displayObjectContainer["alwaysCanvas"] = true;
+        displayObjectContainer["alwaysCanvas"] = true
     }
 
     /**

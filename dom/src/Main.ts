@@ -34,6 +34,11 @@ class Main extends egret.DisplayObjectContainer{
 
     public constructor() {
         super();
+
+        egret.MainContext.instance.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, function() {
+            console.log("HI");
+        }, this);
+
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.onAddToStage,this);
     }
 
@@ -103,7 +108,7 @@ class Main extends egret.DisplayObjectContainer{
         icon.y = stageH / 2 - 60;
         icon.scaleX = 0.55;
         icon.scaleY = 0.55;
-        icon.rotation = 90;
+        icon.rotation = 45;
 
         var colorLabel:egret.TextField = new egret.TextField();
         colorLabel.x = stageW / 2;
@@ -113,8 +118,6 @@ class Main extends egret.DisplayObjectContainer{
         colorLabel.textAlign = "center";
         colorLabel.text = "Hello Egret";
         colorLabel.size = 20;
-        colorLabel.stroke = 2;
-        colorLabel.strokeColor = 0x000000;
         this.addChild(colorLabel);
 
         var textContainer:egret.Sprite = new egret.Sprite();
@@ -128,6 +131,8 @@ class Main extends egret.DisplayObjectContainer{
 
         //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
         RES.getResAsync("description",this.startAnimation,this);
+
+//        egret.dom.initStage(egret.MainContext.instance.stage);
 
     }
     /**

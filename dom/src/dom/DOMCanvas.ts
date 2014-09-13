@@ -41,13 +41,11 @@ module egret.dom {
 
             this.initWorldTransform = new egret.Matrix();
 
-            this.changeProperty("width", this._doc.width);
-            this.changeProperty("height", this._doc.height);
-
-            this.changeStyle("width", Math.round(this._doc.width) + "px");
-            this.changeStyle("height", Math.round(this._doc.height) + "px");
+            this.setWidth(this._doc.width);
+            this.setHeight(this._doc.height);
 
             this._overrideFunctions();
+
         }
 
         public _overrideFunctions():void {
@@ -56,14 +54,29 @@ module egret.dom {
             var self = this;
 
             this._doc._draw = function (renderContext:egret.RendererContext) {
-                self._draw.apply(self, [renderContext]);
+                self._draw.call(self, renderContext);
+            };
+
+            var tempAddToStage = this._doc._onAddToStage;
+            this._doc._onAddToStage = function () {
+                egret.dom._alwaysRenderDisplays.push(this);
+                tempAddToStage.call(this);
+            };
+
+            var tempRemoveFromStage = this._doc._onRemoveFromStage;
+            this._doc._onRemoveFromStage = function () {
+                var index:number = egret.dom._alwaysRenderDisplays.indexOf(this);
+                if (index >= 0) {
+                    egret.dom._alwaysRenderDisplays.splice(index, 1);
+                }
+                tempRemoveFromStage.call(this);
             };
         }
 
         public _draw(renderContext:egret.RendererContext):void {
-            if (!this._doc.visible) {
-                this.visible = false;
-                this.reflow();
+            if (!this._doc._visible) {
+                this.hide();
+                _clear(this._doc);
                 return;
             }
 
@@ -71,12 +84,14 @@ module egret.dom {
                 _renderObject(this._doc, this);
             }
 
+            this._render.onRenderStart();
             this._render.clearScreen();
             //子元件通过canvas渲染
-            for (var i:number = 0; i < this._doc.numChildren; i++) {
-                var child:egret.DisplayObject = this._doc.getChildAt(i);
+            for (var i:number = 0, length = this._doc._children.length; i < length; i++) {
+                var child:egret.DisplayObject = this._doc._children[i];
                 child._draw(this._render);
             }
+            this._render.onRenderFinish();
         }
     }
 }

@@ -52,7 +52,7 @@ module egret.dom {
             var self = this;
 
             this._bitmap._draw = function (renderContext:egret.RendererContext) {
-                self._draw.apply(self, [renderContext]);
+                self._draw.call(self, renderContext);
             };
         }
 
@@ -85,36 +85,29 @@ module egret.dom {
         private initBitmapDiv(domDiv:DOMDiv, src:string, w:number, h:number, bitmapX:number, bitmapY:number):void {
 
 //        domDiv.changeCss3Style("backgroundImage", "url('" + src + "')");
-//        domDiv.changeStyle("width", w + "px");
-//        domDiv.changeStyle("height", h + "px");
+//            domDiv.setWidth(w);
+//            domDiv.setHeight(h);
 //        domDiv.changeCss3Style("backgroundPosition", (-bitmapX) + "px " + (-bitmapY) + "px");
 //        return;
 
             var img;
             if (domDiv.numChildren) {
                 img = domDiv.getChildAt(0);
-
-                if (img.bitmapSrc != src) {
-                    img.changeProperty("src", src);
-                    img.bitmapSrc = src;
-                }
             }
             else {
                 img = DOMPool.getImg(src);
             }
             var str = "rect(" + bitmapY + "px, " + Math.round(bitmapX + w) + "px, " + Math.round(bitmapY + h) + "px, " + bitmapX + "px)";
-            img.changeStyle("clip", str);
+            img.changeStyle("clip", str, "");
 
-            domDiv.changeStyle("width", Math.round(w) + "px");
-            domDiv.changeStyle("height", Math.round(h) + "px");
-            domDiv.changeStyle("overflow", "hidden");
+            domDiv.setWidth(w);
+            domDiv.setHeight(h);
+            domDiv.changeStyle("overflow", "hidden", "");
 
             img.setX(-bitmapX);
             img.setY(-bitmapY);
 
             img.reflow();
-
-            domDiv.addChild(img);
 
             if (domDiv.numChildren == 0) {
                 domDiv.addChild(img);
@@ -162,6 +155,7 @@ module egret.dom {
                         + (bitmapH / textureH) + ")";
 
                     childDiv.changeTrans("transform", transformStr);
+                    childDiv.changeTrans("transformOrigin", "0% 0% 0px");
                     childDiv.setX(Math.round(arrW[x]));
                     childDiv.setY(Math.round(arrH[y]));
                     childDiv.reflow();

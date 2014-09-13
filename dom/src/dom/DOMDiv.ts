@@ -29,14 +29,9 @@ module egret.dom {
 
         public _currentDiv;
 
-        //保存style属性
-        private _styleTypes:Array<string>;
-        private _styleValues:Array<any>;
-        //保存css3 style属性
-        private _style3Types:Array<string>;
-        private _style3Values:Array<any>;
+        private _showStyles:Object;
+        private _changeStyles:Object;
 
-        private _children:Array<any>;
         //父节点
         public parent:DOMDiv;
 
@@ -46,22 +41,20 @@ module egret.dom {
                 this._currentDiv.id = id;
             }
 
-            this._styleTypes = [];
-            this._styleValues = [];
+            this._showStyles = {};
+            this._changeStyles = {};
 
-            this._style3Types = [];
-            this._style3Values = [];
             this._children = [];
-            this.changeTrans("transformOrigin", "0px 0px 0px");
-//            this.setY(0);
-//            this.setX(0);
+//            this.changeTrans("transformOrigin", "0% 0% 0px");
+            this.setY(0);
+            this.setX(0);
         }
 
         /**
          * 重写原显示对象方法
          * @private
          */
-        public _overrideFunctions ():void {
+        public _overrideFunctions():void {
 
         }
 
@@ -69,11 +62,11 @@ module egret.dom {
             div.parent = this;
 
             if (index < 0 || index >= this._children.length) {
-                this._currentDiv.appendChild(div.domDiv);
+                this._currentDiv.appendChild(div._currentDiv);
                 this._children.push(div);
             }
             else {
-                this._currentDiv.insertBefore(div.domDiv, this._children[index].domDiv);
+                this._currentDiv.insertBefore(div._currentDiv, this._children[index]._currentDiv);
                 this._children.splice(index, 0, div);
             }
             div._addToParent();
@@ -83,6 +76,8 @@ module egret.dom {
         public addChild(div:DOMDiv):DOMDiv {
             return this.addChildAt(div, this.numChildren);
         }
+
+        public _children:Array<any>;
 
         public get numChildren():number {
             return this._children.length;
@@ -100,7 +95,7 @@ module egret.dom {
             div.parent = null;
             this._children.splice(index, 1);
             //从html中删除
-            this._currentDiv.removeChild(div.domDiv);
+            this._currentDiv.removeChild(div._currentDiv);
 
             div._removeFromParent();
             return div;
@@ -132,7 +127,8 @@ module egret.dom {
             return this;
         }
 
-        public get domDiv() {
+
+        public getDomDiv() {
             return this._currentDiv;
         }
 
@@ -145,12 +141,24 @@ module egret.dom {
             }
         }
 
+        public hasStyle(type:string):boolean {
+            return this._showStyles[type];
+        }
+
         public setX(x:number):void {
-            this.changeStyle("left", x + "px");
+            this.changeStyle("left", Math.round(x) + "px", "0px");
         }
 
         public setY(y:number):void {
-            this.changeStyle("top", y + "px");
+            this.changeStyle("top", Math.round(y) + "px", "0px");
+        }
+
+        public setWidth(w:number):void {
+            this.changeStyle("width", Math.round(w) + "px", "0px");
+        }
+
+        public setHeight(h:number):void {
+            this.changeStyle("height", Math.round(h) + "px", "0px");
         }
 
         public changeProperty(type:string, value:any):void {
@@ -158,23 +166,7 @@ module egret.dom {
         }
 
         public changeTrans(type:string, value:any):void {
-            this.changeCss3Style(egret.dom._getTrans(type), value);
-        }
-
-        /**
-         * 修改css3 style
-         * @param type
-         * @param value
-         */
-        public changeCss3Style(type:string, value:any):void {
-            var index = this._style3Types.indexOf(type);
-            if (index >= 0) {
-                this._style3Types.splice(index, 1);
-                this._style3Values.splice(index, 1);
-            }
-
-            this._style3Types.push(type);
-            this._style3Values.push(value);
+            this.changeStyle(egret.dom._getTrans(type), value, "");
         }
 
         /**
@@ -182,122 +174,97 @@ module egret.dom {
          * @param type
          * @param value
          */
-        public changeStyle(type:string, value:any):void {
-            var index = this._styleTypes.indexOf(type);
-            if (index >= 0) {
-                this._styleTypes.splice(index, 1);
-                this._styleValues.splice(index, 1);
+        public changeStyle(type:string, value:any, defaultValue:any):void {
+            if (value == defaultValue) {
+                if (this._showStyles[type] == null) {
+                    return;
+                }
             }
+            if (this._showStyles[type] == value) {
+                return;
+            }
+            this._changeStyles[type] = value;
+            this._showStyles[type] = value;
+        }
 
-            this._styleTypes.push(type);
-            this._styleValues.push(value);
+        /**
+         * 显示对象是否可见。
+         * @member {boolean} egret.DOMDiv#visible
+         */
+        private _visible:boolean = true;
+
+        public hide():void {
+            if (!this._visible) {
+                return;
+            }
+            this._visible = false;
+            this.changeStyle("display", "none", "");
+//            this.changeStyle("pointerEvents", "none", "");
+            this._currentDiv.style.display = "none";
+//            this._currentDiv.style.pointerEvents = "none";
         }
 
         /**
          * 刷新style
          */
         public reflow():void {
-            if (!this.visible) {//不显示
-                this.changeStyle("display", "none");
-                this.changeStyle("pointerEvents", "none");
-                this._currentDiv.style.display = "none";
-                this._currentDiv.style.pointerEvents = "none";
-                return;
-            }
-            else {
-                this.changeStyle("display", "block");
+            this._visible = true;
+            this.changeStyle("display", "block", "block");
 
-                //判断事件点击
-                if (this instanceof DOMCanvas) {
-                    this.changeStyle("pointerEvents", "none");
+            //判断事件点击
+            if (this instanceof DOMCanvas) {
+//                this.changeStyle("pointerEvents", "none", "");
+            }
+            else if (egret.dom.useScroll) {
+                if (this.parent && !this.parent.touchChildren) {//父层里设置touchChildren = false，当前不可点击
+                    this.changeStyle("pointerEvents", "none", "");
                 }
-                else if (egret.dom.useScroll) {
-                    if (this.parent && !this.parent.touchChildren) {//父层里设置touchChildren = false，当前不可点击
-                        this.changeStyle("pointerEvents", "none");
+                else if (!this.touchEnabled && !this.touchChildren) {//当前层设置touchEnabled touchChildren = false，当前不可点击
+                    this.changeStyle("pointerEvents", "none", "");
+                }
+                else if (!this.touchEnabled) {//只有touchEnabled=false，当前可以点击，但是需要在响应事件里直接return
+                    if (!(this instanceof DOMBitmap)) {
+                        this.changeStyle("width", "0px", "0px");
+                        this.changeStyle("height", "0px", "0px");
                     }
-                    else if (!this.touchEnabled && !this.touchChildren) {//当前层设置touchEnabled touchChildren = false，当前不可点击
-                        this.changeStyle("pointerEvents", "none");
-                    }
-                    else if (!this.touchEnabled) {//只有touchEnabled=false，当前可以点击，但是需要在响应事件里直接return
-                        if (!(this instanceof DOMBitmap)) {
-                            this.changeStyle("width", "0px");
-                            this.changeStyle("height", "0px");
-                        }
-                        this.changeStyle("pointerEvents", "auto");
-                    }
-                    else {
-                        this.changeStyle("pointerEvents", "auto");
-                    }
+                    this.changeStyle("pointerEvents", "auto", "");
                 }
                 else {
-                    this.changeStyle("pointerEvents", "none");
+                    this.changeStyle("pointerEvents", "auto", "");
                 }
-            }
-
-            //修改style值
-            if (false) {
-                var strCss:string = "";
-                for (var i = 0; i < this._styleTypes.length; i++) {
-                    strCss += this._styleTypes[i] + ":" + this._styleValues[i];
-                    if (i != this._styleTypes.length - 1) {
-                        strCss += ";";
-                    }
-                }
-                this._currentDiv.style.cssText = strCss;
             }
             else {
-                for (var i = 0; i < this._styleTypes.length; i++) {
-                    if (this._currentDiv.style[this._styleTypes[i]] != this._styleValues[i]) {
-                        this._currentDiv.style[this._styleTypes[i]] = this._styleValues[i];
-                    }
-                }
+//                this.changeStyle("pointerEvents", "none", "");
             }
 
-            for (var i = 0; i < this._style3Types.length; i++) {
-                if (this._currentDiv.style[this._style3Types[i]] != this._style3Values[i]) {
-                    this._currentDiv.style[this._style3Types[i]] = this._style3Values[i];
-                }
+
+            for (var key in this._changeStyles) {
+                this._currentDiv.style[key] = this._changeStyles[key];
             }
+
+            this._changeStyles = {};
         }
 
+        public rotation:number = 0;
 
-        private _touchEnabled:boolean;
+        public skew:number = 0;
+
+        public scaleX:number = 1;
+
+        public scaleY:number = 1;
+
         /**
          * 指定此对象是否接收鼠标/触摸事件
          * @member {boolean} egret.DOMDiv#touchEnabled
          * @default false
          */
-        public get touchEnabled():boolean {
-            return this._touchEnabled;
-        }
-        public set touchEnabled(value:boolean) {
-            this._touchEnabled = value;
-        }
+        public touchEnabled:boolean = false;
 
-        private _touchChildren:boolean = false;
         /**
          * 指定此对象的子项以及子孙项是否接收鼠标/触摸事件
          * @member {boolean} egret.DOMDiv#touchChildren
          */
-        public get touchChildren():boolean {
-            return this._touchChildren;
-        }
-        public set touchChildren(value:boolean) {
-            this._touchChildren = value;
-        }
-
-        private _visible:boolean = true;
-        /**
-         * 显示对象是否可见。
-         * @member {boolean} egret.DOMDiv#visible
-         */
-        public get visible():boolean {
-            return this._visible;
-        }
-
-        public set visible(value:boolean) {
-            this._visible = value;
-        }
+        public touchChildren:boolean = false;
 
         /**
          * 当前img的url地址
