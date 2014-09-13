@@ -41,6 +41,9 @@ module egret.dom {
 
             this.initWorldTransform = new egret.Matrix();
 
+            this.changeProperty("width", this._doc.width);
+            this.changeProperty("height", this._doc.height);
+
             this.setWidth(this._doc.width);
             this.setHeight(this._doc.height);
 
