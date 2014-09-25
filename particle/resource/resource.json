@@ -1,0 +1,18 @@
+{
+"resources":
+	[
+		{"name":"blood","type":"image","url":"assets/particle/blood.png"},
+		{"name":"star","type":"image","url":"assets/particle/star.png"},
+		{"name":"energy","type":"image","url":"assets/particle/energy.png"},
+		{"name":"magic","type":"image","url":"assets/particle/magic.png"},
+		{"name":"fireworks_json","type":"json","url":"assets/particle/fireworks.json"},
+        {"name":"fire_json","type":"json","url":"assets/particle/fire.json"},
+        {"name":"sun_json","type":"json","url":"assets/particle/sun.json"},
+        {"name":"jellyfish_json","type":"json","url":"assets/particle/jellyfish.json"}
+	],
+
+"groups":
+	[
+        {"name":"preload","keys":"blood,star,energy,magic,fireworks_json,fire_json,sun_json,jellyfish_json"}
+	]
+}

@@ -3,10 +3,6 @@
 	"modules": [
 		{
 			"name": "core"
-		},
-		{
-			"name": "adsense",
-			"path": "."
 		}
 	],
 	"native": {
