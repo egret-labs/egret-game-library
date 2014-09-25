@@ -38,42 +38,10 @@ module egret {
          */
         public canvasContext;
 
-        private _matrixA:number;
-        private _matrixB:number;
-        private _matrixC:number;
-        private _matrixD:number;
-        private _matrixTx:number;
-        private _matrixTy:number;
-
-        public _transformTx:number;
-        public _transformTy:number;
-
-        private blendValue:string;
-
-        constructor(canvas) {
-            this.canvas = canvas;
-            this.canvasContext = canvas.getContext("2d");
-            var f = this.canvasContext.setTransform;
-            var that = this;
-            this.canvasContext.setTransform = function (a, b, c, d, tx, ty) {
-                that._matrixA = a;
-                that._matrixB = b;
-                that._matrixC = c;
-                that._matrixD = d;
-                that._matrixTx = tx;
-                that._matrixTy = ty;
-                f.call(that.canvasContext, a, b, c, d, tx, ty);
-            };
-            this._matrixA = 1;
-            this._matrixB = 0;
-            this._matrixC = 0;
-            this._matrixD = 1;
-            this._matrixTx = 0;
-            this._matrixTy = 0;
-
-            this._transformTx = 0;
-            this._transformTy = 0;
+        constructor() {
             super();
+            this.canvas = document.createElement("canvas");
+            this.canvasContext = this.canvas.getContext("2d");
         }
 
         clearScreen() {

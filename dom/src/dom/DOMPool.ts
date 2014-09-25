@@ -108,13 +108,13 @@ module egret.dom {
         if (egret.dom.rootDOMDiv == null) {
             var scale = egret.StageDelegate.getInstance()._scaleX;
 
-            var canvas2:any = document.getElementById(egret.StageDelegate.canvas_name);
+            var rootDiv:HTMLElement = document.getElementById(egret.StageDelegate.canvas_div_name);
 
             var domDiv:DOMDiv = DOMPool.getDiv("renderDiv");
             domDiv.changeTrans("transformOrigin", "0% 0% 0px");
 
-            domDiv.setWidth(canvas2.width);
-            domDiv.setHeight(canvas2.height);
+            domDiv.setWidth(parseInt(rootDiv.style.width.split("px")[0]));
+            domDiv.setHeight(parseInt(rootDiv.style.height.split("px")[0]));
 
             domDiv.changeStyle("overflow", "hidden", "");
             domDiv.changeStyle("pointerEvents", "none", "");
@@ -127,8 +127,7 @@ module egret.dom {
             domDiv.reflow();
             egret.dom.rootDOMDiv = domDiv;
 
-            var canvas = document.getElementById(egret.StageDelegate.canvas_div_name);
-            canvas.appendChild(domDiv._currentDiv);
+            rootDiv.appendChild(domDiv._currentDiv);
         }
 
         return egret.dom.rootDOMDiv;

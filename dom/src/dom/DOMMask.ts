@@ -27,15 +27,6 @@
 module egret.dom {
 
     export function _setScrollRect(rect:egret.Rectangle, domDiv:DOMDiv):void {
-//        domDiv.changeStyle("overflow", "auto");
-//        var str:string = "rect(" + 0 + "px "
-//            + (0 + rect.width) + "px "
-//            + (0 + rect.height) + "px "
-//            + 0 + "px)";//(y, x + w, y + h, x)
-//        domDiv.changeStyle("clip", str);
-//        domDiv._currentDiv.scrollLeft = rect.x;
-//        domDiv._currentDiv.scrollTop = rect.y;
-
         var str:string = "rect(" + rect.y + "px "
             + (rect.x + rect.width) + "px "
             + (rect.y + rect.height) + "px "
@@ -52,29 +43,6 @@ module egret.dom {
     }
 
     export function _setGraphics(domDiv:DOMDiv):void {
-        return;
-//        if (this.divRenderContext == null) {
-//
-//            var domCanvas:DOMDiv = DOMDiv.createCanvas("");
-//            domCanvas.changeStyle("opacity", 0.8);
-//            domCanvas.changeStyle("position", "absolute");
-//            domCanvas.setY(0);
-//            domCanvas.setX(0);
-//
-//            var canvas2:any = document.getElementById(egret.StageDelegate.canvas_name);
-//
-//            setMask(new egret.Rectangle(0, 0, canvas2.width, canvas2.height), domCanvas);
-//
-//        domCanvas.setWidth(canvas2.width);
-//        domCanvas.setHeight(canvas2.height);
-//            domCanvas.changeStyle("overflow", "hidden");
-//            domCanvas.visible = true;
-//            domCanvas.changeCss3Style("backgroundPosition", "-100px-100px");
-//            domCanvas.changeCss3Style("zIndex", -1);
-//            domDiv.addChild(domCanvas);
-//            this.divRenderContext = egret.RendererContext.createRendererContext(domCanvas.domDiv);
-//        }
-//        this._draw(this.divRenderContext);
     }
 
 }
