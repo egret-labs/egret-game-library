@@ -42,6 +42,8 @@ module egret {
             super();
             this.canvas = document.createElement("canvas");
             this.canvasContext = this.canvas.getContext("2d");
+
+            egret.dom.initStage();
         }
 
         clearScreen() {

@@ -42,12 +42,12 @@ module egret.dom {
     /**
      * @param stage
      */
-    export function initStage(stage:egret.Stage):void {
+    export function initStage():void {
         egret.dom._initTrans();
 
         _createRootDocument();
 
-        _wrapper(stage, 1, egret.dom.rootDOMDiv);
+        _wrapper(egret.MainContext.instance.stage, 1, egret.dom.rootDOMDiv);
     }
 
 }
