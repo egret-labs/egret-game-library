@@ -1,0 +1,33 @@
+{
+    "emitter": {
+        "x": 240,
+        "y": 600
+    },
+    "emitterVariance": {
+        "x": 60,
+        "y": 0
+    },
+    "gravity": {
+        "x": 0,
+        "y": -1400
+    },
+    "maxParticles": 300,
+    "speed": 138,
+    "speedVariance": 0,
+    "lifespan": 700,
+    "lifespanVariance": 0,
+    "emitAngle": 224,
+    "emitAngleVariance": 360,
+    "startSize": 43,
+    "startSizeVariance": 0,
+    "endSize": 138,
+    "endSizeVariance": 0,
+    "startRotation": 0,
+    "startRotationVariance": 0,
+    "endRotation": 0,
+    "endRotationVariance": 0,
+    "radialAcceleration": 0,
+    "radialAccelerationVariance": 0,
+    "tangentialAcceleration": 0,
+    "tangentialAccelerationVariance": 0
+}
