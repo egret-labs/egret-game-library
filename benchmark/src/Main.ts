@@ -120,20 +120,38 @@ class Main extends egret.DisplayObjectContainer{
 
 
 
+        var matrix = new egret.Matrix();
 
+        egret.Matrix.prototype.append = function (a, b, c, d, tx, ty) {
+            var a1 = this.a;
+            var b1 = this.b;
+            var c1 = this.c;
+            var d1 = this.d;
+
+            this.a = a * a1 + b * c1;
+            this.b = a * b1 + b * d1;
+            this.c = c * a1 + d * c1;
+            this.d = c * b1 + d * d1;
+            this.tx = tx * a1 + ty * c1 + this.tx;
+            this.ty = tx * b1 + ty * d1 + this.ty;
+            return this;
+        };
 
 
 // add tests
         suite.add('stage._updateTransform1', function() {
 //            dragonBones.animation.WorldClock.clock.advanceTime(100 / 1000);
-            var touchEvent:egret.TouchEvent = new egret.TouchEvent(egret.TouchEvent.TOUCH_BEGIN,true);
-            container.dispatchEvent(touchEvent)
+//            var touchEvent:egret.TouchEvent = new egret.TouchEvent(egret.TouchEvent.TOUCH_BEGIN,true);
+//            container.dispatchEvent(touchEvent)
+            stage._updateTransform();
+//            matrix.append(2,0,0,2,100,100);
         })
             .add("stage._updateTransform2", function() {
 //                dragonBones.animation.WorldClock.clock.advanceTime(100 / 1000);
-
-                var event:egret.TouchEvent = new egret.TouchEvent(egret.TouchEvent.TOUCH_BEGIN,true);
-                container.dispatchEvent(event)
+                stage._updateTransform();
+//                matrix.append(2,0,0,2,100,100);
+//                var event:egret.TouchEvent = new egret.TouchEvent(egret.TouchEvent.TOUCH_BEGIN,true);
+//                container.dispatchEvent(event)
             })
 
 // add listeners
@@ -141,30 +159,22 @@ class Main extends egret.DisplayObjectContainer{
                 console.log(String(event.target));
 
 //                egret.EventDispatcher.prototype._notifyListener = func;
-//return;
-                egret.DisplayObject.prototype.dispatchEvent = function (event) {
-                    if (!event._bubbles) {
-                        return egret.EventDispatcher.prototype.dispatchEvent.call(this, event);
+//                return;
+                egret.Matrix.prototype.append = function (a, b, c, d, tx, ty) {
+                    var a1 = this.a;
+                    var b1 = this.b;
+                    var c1 = this.c;
+                    var d1 = this.d;
+                    if (a != 1 || b != 0 || c != 0 || d != 1) {
+
+                        this.a = a * a1 + b * c1;
+                        this.b = a * b1 + b * d1;
+                        this.c = c * a1 + d * c1;
+                        this.d = c * b1 + d * d1;
                     }
-                    var target = this;
-
-                    var list = [target];
-
-//                    target = target._parent;
-                    var targetIndex = 0;
-                    while (target) {
-                        list.unshift(target);
-//                        list.push(target);
-                        targetIndex++;
-
-                        target = target._parent;
-                    }
-//                    for (var i = length - 2; i >= 0; i--) {
-//                        list.push(list[i]);
-//                    }
-//                    event._reset();
-//                    this._dispatchPropagationEvent(event, list, targetIndex);
-                    return !event._isDefaultPrevented;
+                    this.tx = tx * a1 + ty * c1 + this.tx;
+                    this.ty = tx * b1 + ty * d1 + this.ty;
+                    return this;
                 };
 
 
