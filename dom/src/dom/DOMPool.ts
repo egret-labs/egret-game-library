@@ -113,8 +113,8 @@ module egret.dom {
             var domDiv:DOMDiv = DOMPool.getDiv("renderDiv");
             domDiv.changeTrans("transformOrigin", "0% 0% 0px");
 
-            domDiv.setWidth(parseInt(rootDiv.style.width.split("px")[0]));
-            domDiv.setHeight(parseInt(rootDiv.style.height.split("px")[0]));
+            domDiv.setWidth(egret.MainContext.instance.stage.stageWidth);
+            domDiv.setHeight(egret.MainContext.instance.stage.stageHeight);
 
             domDiv.changeStyle("overflow", "hidden", "");
             domDiv.changeStyle("pointerEvents", "none", "");
