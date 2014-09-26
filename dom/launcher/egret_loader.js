@@ -26,30 +26,26 @@
  */
 
 egret_h5.startGame = function () {
-    var canvas = document.getElementById(egret.StageDelegate.canvas_name);
     var  context = egret.MainContext.instance;
-    context.touchContext = new egret.HTML5TouchContext(canvas);
+    context.touchContext = new egret.HTML5TouchContext();
     context.deviceContext = new egret.HTML5DeviceContext();
     context.netContext = new egret.HTML5NetContext();
-
-
 
     egret.StageDelegate.getInstance().setDesignSize(480, 800);
     context.stage = new egret.Stage();
     var scaleMode =  egret.MainContext.deviceType == egret.MainContext.DEVICE_MOBILE ? egret.StageScaleMode.SHOW_ALL : egret.StageScaleMode.NO_SCALE;
     context.stage.scaleMode = scaleMode;
 
-    var dom = 1;
     //WebGL是egret的Beta特性，默认关闭
-    if (dom == 1) {
-        context.rendererContext = new egret.HTML5DOMRenderer(canvas);
-        egret.dom.initStage(egret.MainContext.instance.stage);
+    var rendererType = 1;
+    if (rendererType == 1) {
+        context.rendererContext = new egret.HTML5DOMRenderer();
     }
-    else if(dom == 2){// egret.WebGLUtils.checkCanUseWebGL()) {
-        context.rendererContext = new egret.WebGLRenderer(canvas);
+    else if (rendererType == 2) {
+        context.rendererContext = new egret.WebGLRenderer();
     }
     else {
-        context.rendererContext = new egret.HTML5CanvasRenderer(canvas);
+        context.rendererContext = new egret.HTML5CanvasRenderer();
     }
 
     egret.MainContext.instance.rendererContext.texture_scale_factor = 1;
