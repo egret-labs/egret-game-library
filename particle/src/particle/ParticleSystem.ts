@@ -115,6 +115,10 @@ module particle {
             particle.totalTime = 1000;
         }
 
+        /**
+         * 开始创建粒子
+         * @param duration {number} 粒子出现总时间
+         */
         public start(duration:number = -1):void {
             if (this.emissionRate != 0) {
                 this.emissionTime = duration;
@@ -122,6 +126,10 @@ module particle {
             }
         }
 
+        /**
+         * 停止创建粒子
+         * @param clear {boolean} 是否清除掉现有粒子
+         */
         public stop(clear:boolean = false):void {
             this.emissionTime = 0;
             egret.Ticker.getInstance().unregister(this.update, this);
@@ -173,6 +181,10 @@ module particle {
             }
         }
 
+        /**
+         * 更换粒子纹理
+         * @param texture {egret.Texture} 新的纹理
+         */
         public changeTexture(texture:egret.Texture):void {
             if (this.texture != texture) {
                 this.texture = texture;
