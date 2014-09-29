@@ -3,7 +3,11 @@
 	"modules": [
 		{
 			"name": "core"
-		}
+		},
+        {
+            "name": "particle",
+            "path": "."
+        }
 	],
 	"native": {
 		"path_ignore": []

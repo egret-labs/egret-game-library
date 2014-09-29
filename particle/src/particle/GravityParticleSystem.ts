@@ -52,23 +52,23 @@ module particle {
         private startSizeVariance:number;
 
         /**
-         * 表示粒子消食时大小，取值范围(0,Number.MAX_VALUE]，粒子将会在存活时间内由 startSize慢慢变为 endSize
+         * 表示粒子消失时大小，取值范围(0,Number.MAX_VALUE]，粒子将会在存活时间内由 startSize慢慢变为 endSize
          * @member {number} particle.GravityParticleSystem#endSize
          */
         private endSize:number;
         /**
-         * 表示粒子消食时大小差值，取值范围(0,Number.MAX_VALUE]，且不大于endSize
+         * 表示粒子消失时大小差值，取值范围(0,Number.MAX_VALUE]，且不大于endSize
          * @member {number} particle.GravityParticleSystem#endSizeVariance
          */
         private endSizeVariance:number;
 
         /**
-         * 表示粒子发射时的角度，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
+         * 表示粒子出现时的角度，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#emitAngle
          */
         private emitAngle:number;
         /**
-         * 表示粒子发射时的角度差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
+         * 表示粒子出现时的角度差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#emitAngleVariance
          */
         private emitAngleVariance:number;
@@ -85,12 +85,12 @@ module particle {
         private startRotationVariance:number;
 
         /**
-         * 表示粒子消食时旋转值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]，粒子将会在存活时间内由 startRotation 慢慢变为 endRotation
+         * 表示粒子消失时旋转值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]，粒子将会在存活时间内由 startRotation 慢慢变为 endRotation
          * @member {number} particle.GravityParticleSystem#endRotation
          */
         private endRotation:number;
         /**
-         * 表示粒子消食时旋转值差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
+         * 表示粒子消失时旋转值差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#endRotationVariance
          */
         private endRotationVariance:number;
@@ -151,12 +151,12 @@ module particle {
         private startAlphaVariance:number;
 
         /**
-         * 表示粒子消食时的 Alpha 透明度值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]，粒子将会在存活时间内由 startAlpha 慢慢变为 endAlpha
+         * 表示粒子消失时的 Alpha 透明度值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]，粒子将会在存活时间内由 startAlpha 慢慢变为 endAlpha
          * @member {number} particle.GravityParticleSystem#endAlpha
          */
         private endAlpha:number;
         /**
-         * 表示粒子消食时的 Alpha 透明度差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
+         * 表示粒子消失时的 Alpha 透明度差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#endAlphaVariance
          */
         private endAlphaVariance:number;
