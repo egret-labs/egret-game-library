@@ -17,6 +17,7 @@
         "DOMTextField.ts",
         "DOMUtils.ts",
         "IScroll.ts",
-        "HTML5DOMRenderer.ts"
+        "HTML5DOMRenderer.ts",
+        "DOMUIAssetPrototype.js"
     ]
 }

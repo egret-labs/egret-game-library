@@ -24,30 +24,32 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-module egret.dom {
-    /**
-     * 设置是否需要原生滚动
-     * @type {boolean}
-     */
-    export var useScroll:boolean = false;
+var egret = egret || {};
+egret.gui = egret.gui || {};
 
-    /**
-     * 当前容器是否只在canvas渲染
-     * @param displayObjectContainer
-     */
-    export function drawAsCanvas(displayObjectContainer:egret.DisplayObjectContainer):void {
-        displayObjectContainer["alwaysCanvas"] = true
+/**
+ * 皮肤发生改变
+ */
+egret.gui.UIAsset.prototype.contentChanged = function (content, source) {
+    if (source !== this._source)
+        return;
+    if(content instanceof egret.Texture){
+        content = new egret.Bitmap(content);
     }
-
-    /**
-     * @param stage
-     */
-    export function initStage():void {
-        egret.dom._initTrans();
-
-        _createRootDocument();
-
-        _wrapper(egret.MainContext.instance.stage, 1, egret.dom.rootDOMDiv);
+    var oldContent = this._content;
+    this._content = content;
+    if (oldContent !== content) {
+        if (oldContent instanceof egret.DisplayObject) {
+            this._removeFromDisplayList(oldContent);
+        }
+        if (content instanceof egret.DisplayObject) {
+            this._addToDisplayListAt(content, 0);
+        }
     }
-
+    this.invalidateSize();
+    this.invalidateDisplayList();
+    this.contentReused = false;
+    if (this.hasEventListener(egret.gui.UIEvent.CONTENT_CHANGED)) {
+        egret.gui.UIEvent.dispatchUIEvent(this, egret.gui.UIEvent.CONTENT_CHANGED);
+    }
 }

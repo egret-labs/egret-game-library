@@ -100,7 +100,10 @@ module egret.dom {
         }
         heightScale *= skewScaleY;
 
-        if (domDiv.scaleX != widthScale || domDiv.scaleY != heightScale || widthScale != 1 || heightScale != 1) {
+        if ((domDiv instanceof DOMBitmap) && (<DOMBitmap>domDiv).isScale9Grid()) {
+
+        }
+        else if (domDiv.scaleX != widthScale || domDiv.scaleY != heightScale || widthScale != 1 || heightScale != 1) {
             domDiv.scaleX = widthScale;
             domDiv.scaleY = heightScale;
             transformStr += "scale(" + widthScale + ", " + heightScale + ") ";

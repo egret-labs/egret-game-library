@@ -85,7 +85,7 @@ module egret.dom {
 
             this.changeStyle("color", "#" + rs + gs + bs, "");
             this.changeStyle("textAlign", this._textField.textAlign, "");
-            this.changeStyle("verticalAlign", "top", "");
+            this.changeStyle("verticalAlign", this._textField.verticalAlign, "");
 
             egret.MainContext.instance.rendererContext.setupFont(this._textField);
 

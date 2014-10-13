@@ -43,6 +43,14 @@ module egret.dom {
             this._overrideFunctions();
         }
 
+        public isScale9Grid():egret.Rectangle {
+            var scale9Grid = this._bitmap.scale9Grid;
+            if (scale9Grid == null) {
+                scale9Grid = this._bitmap.texture["scale9Grid"];
+            }
+            return scale9Grid;
+        }
+
         /**
          * 重写方法
          */
@@ -61,8 +69,12 @@ module egret.dom {
                 return;
             }
             if (this._bitmap.texture) {
-                if (this._bitmap.scale9Grid) {
-                    this.setScale9Div(this, this._bitmap.scale9Grid,
+                var scale9Grid = this._bitmap.scale9Grid;
+                if (scale9Grid == null) {
+                    scale9Grid = this._bitmap.texture["scale9Grid"];
+                }
+                if (scale9Grid) {
+                    this.setScale9Div(this, scale9Grid,
                         this._bitmap.texture, this._bitmap.width, this._bitmap.height);
                 }
                 else {

@@ -48,6 +48,13 @@ module egret.dom {
 //            this.changeTrans("transformOrigin", "0% 0% 0px");
             this.setY(0);
             this.setX(0);
+
+            this.changeStyle("display", "block", "");
+            this.changeStyle("position", "absolute", "");
+            this.changeStyle("margin", "0 auto", "");
+            this.changeStyle("padding", "0", "");
+            this.changeStyle("border", "0", "");
+            this.changeStyle("outline", "medium", "");
         }
 
         /**
@@ -202,6 +209,7 @@ module egret.dom {
 //            this.changeStyle("pointerEvents", "none", "");
             this._currentDiv.style.display = "none";
 //            this._currentDiv.style.pointerEvents = "none";
+
         }
 
         /**
