@@ -57,7 +57,7 @@ module egret.dom {
         if (displayObject["__use__dom"]) {
             return;
         }
-        displayObject._calculateWorldform = function () {
+        displayObject._calculateWorldTransform = function () {
 
         };
 
