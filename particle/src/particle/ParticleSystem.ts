@@ -236,6 +236,7 @@ module particle {
                     this.transform.identityMatrix(this._worldTransform);
                     this.transform.appendTransform(particle.x, particle.y, particle.scale, particle.scale, particle.rotation, 0, 0, 0, 0);
                     renderContext.setTransform(this.transform);
+                    renderContext.setAlpha(particle.alpha, egret.BlendMode.NORMAL);
                     renderFilter.drawImage(renderContext, this, bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
                 }
             }

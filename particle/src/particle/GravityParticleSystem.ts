@@ -256,9 +256,14 @@ module particle {
 
             var startRotation:number = GravityParticleSystem.getValue(this.startRotation, this.startRotationVariance);
             var endRotation:number = GravityParticleSystem.getValue(this.endRotation, this.endRotationVariance);
-
             locParticle.rotation = startRotation;
             locParticle.rotationDelta = (endRotation - startRotation) / lifespan;
+
+            var startAlpha:number = GravityParticleSystem.getValue(this.startAlpha, this.startAlphaVariance);
+            var endAlpha:number = GravityParticleSystem.getValue(this.endAlpha, this.endAlphaVariance);
+
+            locParticle.alpha = startAlpha;
+            locParticle.alphaDelta = (endAlpha - startAlpha) / lifespan;
         }
 
         private static getValue(base:number, variance:number):number {
@@ -299,6 +304,7 @@ module particle {
 
             locParticle.scale += locParticle.scaleDelta * dt * 1000;
             locParticle.rotation += locParticle.rotationDelta * dt * 1000;
+            locParticle.alpha += locParticle.alphaDelta * dt * 1000;
         }
     }
 }

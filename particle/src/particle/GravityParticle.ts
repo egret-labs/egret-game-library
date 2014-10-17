@@ -26,6 +26,7 @@ module particle {
         public tangentialAcceleration:number;
         public rotationDelta:number;
         public scaleDelta:number;
+        public alphaDelta:number;
 
         public reset():void {
             super.reset();
