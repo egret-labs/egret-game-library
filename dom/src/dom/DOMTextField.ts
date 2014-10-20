@@ -62,6 +62,7 @@ module egret.dom {
         private setTextFieldDiv():void {
             this.changeStyle("fontFamily", this._textField.fontFamily, "");
             this.changeStyle("fontSize", this._textField.size + "px", "");
+            this.changeStyle("lineHeight", this._textField.size + "px", "");
             this.changeStyle("fontStyle", this._textField.italic ? "italic" : "normal", "normal");
             this.changeStyle("fontWeight", this._textField.bold ? "bold" : "normal", "normal");
 
@@ -82,10 +83,10 @@ module egret.dom {
             if (bs.length == 1) {
                 bs = "0" + bs;
             }
-
             this.changeStyle("color", "#" + rs + gs + bs, "");
             this.changeStyle("textAlign", this._textField.textAlign, "");
             this.changeStyle("verticalAlign", this._textField.verticalAlign, "");
+            this.changeStyle("letterSpacing", "0px", "0px");
 
             egret.MainContext.instance.rendererContext.setupFont(this._textField);
 

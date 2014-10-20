@@ -18,6 +18,7 @@
         "DOMUtils.ts",
         "IScroll.ts",
         "HTML5DOMRenderer.ts",
+        "DOMUIAssetPrototype.d.ts",
         "DOMUIAssetPrototype.js"
     ]
 }

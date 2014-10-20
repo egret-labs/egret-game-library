@@ -163,13 +163,15 @@ module egret.dom {
 
                     this.initBitmapDiv(childDiv, texture.bitmapData.src, textureW, textureH, texture._bitmapX + arrX[x], texture._bitmapY + arrY[y]);
 
-                    var transformStr = "scale(" + (bitmapW / textureW) + ", "
-                        + (bitmapH / textureH) + ")";
+                    var rapX = x == 0 ? 0 : 3;
+                    var rapY = y == 0 ? 0 : 3;
+                    var transformStr = "scale(" + ((bitmapW + rapX) / textureW) + ", "
+                        + ((bitmapH + rapY) / textureH) + ")";
 
                     childDiv.changeTrans("transform", transformStr);
                     childDiv.changeTrans("transformOrigin", "0% 0% 0px");
-                    childDiv.setX(Math.round(arrW[x]));
-                    childDiv.setY(Math.round(arrH[y]));
+                    childDiv.setX(Math.round(arrW[x] - rapX));
+                    childDiv.setY(Math.round(arrH[y] - rapY));
                     childDiv.reflow();
                     if (!hasChildren) {
                         domDiv.addChild(childDiv);

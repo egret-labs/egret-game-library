@@ -57,7 +57,7 @@ module egret.dom {
         if (displayObject["__use__dom"]) {
             return;
         }
-        displayObject._calculateWorldform = function () {
+        displayObject._calculateWorldTransform = function () {
 
         };
 
@@ -90,6 +90,10 @@ module egret.dom {
     export function _overrideDoAddChild():void {
         this.__tempDoAddChild = this._doAddChild;
         this._doAddChild = function (child:egret.DisplayObject, index:number, notifyListeners:boolean = true):egret.DisplayObject {
+
+//            if (child["__dom_node"] && child["__dom_node"].parent) {
+//                child["__dom_node"].removeFromParent();
+//            }
             _wrapper(child, index, this["__dom_node"]);
             this.__tempDoAddChild.call(this, child, index, notifyListeners);
             return child;

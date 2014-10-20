@@ -43,6 +43,8 @@ module egret.dom {
      * @param stage
      */
     export function initStage():void {
+        egret.dom.resetUIAsset();
+
         egret.dom._initTrans();
 
         _createRootDocument();

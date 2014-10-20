@@ -24,32 +24,44 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var egret = egret || {};
-egret.gui = egret.gui || {};
-
-/**
- * 皮肤发生改变
- */
-egret.gui.UIAsset.prototype.contentChanged = function (content, source) {
-    if (source !== this._source)
-        return;
-    if(content instanceof egret.Texture){
-        content = new egret.Bitmap(content);
-    }
-    var oldContent = this._content;
-    this._content = content;
-    if (oldContent !== content) {
-        if (oldContent instanceof egret.DisplayObject) {
-            this._removeFromDisplayList(oldContent);
+var egret;
+(function (egret) {
+    var dom;
+    (function (dom) {
+        /**
+         * 当前容器是否只在canvas渲染
+         * @param displayObjectContainer
+         */
+        function resetUIAsset() {
+            if (egret && egret.gui && egret.gui.UIAsset != null) {
+                /**
+                 * 皮肤发生改变
+                 */
+                egret.gui.UIAsset.prototype.contentChanged = function (content, source) {
+                    if (source !== this._source)
+                        return;
+                    if(content instanceof egret.Texture){
+                        content = new egret.Bitmap(content);
+                    }
+                    var oldContent = this._content;
+                    this._content = content;
+                    if (oldContent !== content) {
+                        if (oldContent instanceof egret.DisplayObject) {
+                            this._removeFromDisplayList(oldContent);
+                        }
+                        if (content instanceof egret.DisplayObject) {
+                            this._addToDisplayListAt(content, 0);
+                        }
+                    }
+                    this.invalidateSize();
+                    this.invalidateDisplayList();
+                    this.contentReused = false;
+                    if (this.hasEventListener(egret.gui.UIEvent.CONTENT_CHANGED)) {
+                        egret.gui.UIEvent.dispatchUIEvent(this, egret.gui.UIEvent.CONTENT_CHANGED);
+                    }
+                }
+            }
         }
-        if (content instanceof egret.DisplayObject) {
-            this._addToDisplayListAt(content, 0);
-        }
-    }
-    this.invalidateSize();
-    this.invalidateDisplayList();
-    this.contentReused = false;
-    if (this.hasEventListener(egret.gui.UIEvent.CONTENT_CHANGED)) {
-        egret.gui.UIEvent.dispatchUIEvent(this, egret.gui.UIEvent.CONTENT_CHANGED);
-    }
-}
+        dom.resetUIAsset = resetUIAsset;
+    })(dom = egret.dom || (egret.dom = {}));
+})(egret || (egret = {}));
