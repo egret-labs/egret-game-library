@@ -3,6 +3,10 @@
 	"modules": [
 		{
 			"name": "core"
+		},
+        {
+			"name": "gesture",
+			"path": "."
 		}
 	],
 	"native": {
