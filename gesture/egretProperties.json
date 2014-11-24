@@ -4,8 +4,8 @@
 		{
 			"name": "core"
 		},
-		{
-			"name": "benchmark",
+        {
+			"name": "gesture",
 			"path": "."
 		}
 	],
