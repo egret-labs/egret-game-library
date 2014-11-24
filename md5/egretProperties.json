@@ -3,7 +3,11 @@
 	"modules": [
 		{
 			"name": "core"
-		}
+		},
+        {
+            "name": "md5",
+            "path": "."
+        }
 	],
 	"native": {
 		"path_ignore": []
