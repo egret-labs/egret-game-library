@@ -36,6 +36,10 @@ module egret.dom {
             return new DOMDiv("div", id);
         }
 
+        public static getP(id:string = ""):DOMDiv {
+            return new DOMDiv("p", id);
+        }
+
         /**
          * 获取img
          * @param src

@@ -122,6 +122,12 @@ module egret.dom {
 
         }
 
+        public removeChildren():void {
+            while (this._children.length) {
+                this.removeChildAt(0);
+            }
+        }
+
         public removeChild(div:DOMDiv):DOMDiv {
             this.removeChildAt(this._children.indexOf(div));
             return div;
@@ -251,6 +257,10 @@ module egret.dom {
             }
 
             this._changeStyles = {};
+        }
+
+        public getStyle(obj, attr){
+            return obj.currentStyle?obj.currentStyle[attr]:getComputedStyle(obj, null)[attr];
         }
 
         public rotation:number = 0;

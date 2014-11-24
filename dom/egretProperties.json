@@ -3,10 +3,14 @@
 	"modules": [
 		{
 			"name": "core"
-		}
+		},
+        {
+            "name": "dom",
+            "path": "."
+        }
 	],
 	"native": {
 		"path_ignore": []
 	},
-	"egret_version": "1.1.1"
+	"egret_version": "1.1.2"
 }
