@@ -1,0 +1,12 @@
+{
+"resources":
+	[
+		{"name":"rect","type":"image","url":"assets/rect.png"},
+		{"name":"circle","type":"image","url":"assets/circle.png"}
+	],
+
+"groups":
+	[
+        {"name":"preload","keys":"rect,circle"}
+	]
+}
