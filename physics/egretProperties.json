@@ -1,17 +1,16 @@
 {
-    "document_class": "Main",
-    "modules": [
-        {
-            "name": "core"
-        },{
-            "name": "physics",
-            "path":"."
-        }
-    ],
-    "native": {
-        "path_ignore": [
-
-        ]
-    },
-    "egret_version":"1.1.4"
+	"document_class": "Main",
+	"modules": [
+		{
+			"name": "core"
+		},
+		{
+			"name": "physics",
+			"path": "."
+		}
+	],
+	"native": {
+		"path_ignore": []
+	},
+	"egret_version": "1.5.0"
 }
