@@ -96,66 +96,69 @@ module egret.dom {
         private setLines() {
             this.removeChildren();
 
-            var lines:Array<any> = this._textField._getLinesArr();
-
+            var lines:Array<egret.ILineElement> = this._textField._getLinesArr();
             if (!lines) {
                 return;
             }
-            var length:number = lines.length;
+
+            var maxWidth:number = this._textField._hasWidthSet ? this._textField._explicitWidth : this._textField._textMaxWidth;
+            var textHeight:number = this._textField._textMaxHeight + (this._textField._numLines - 1) * this._textField._lineSpacing;
+
             var drawY:number = 0;
-
-            var textHeight:number = 0;
-            var maxWidth:number = 0;
-            for (var i:number = 0; i < lines.length; i++) {
-                var lineArr:Array<any> = lines[i];
-                textHeight += lineArr[lineArr.length - 1][1];
-                maxWidth = Math.max(lineArr[lineArr.length - 1][0], maxWidth);
+            var startLine:number = 0;
+            if (this._textField._hasHeightSet) {//
+                if (textHeight < this._textField._explicitHeight) {//最大高度比需要显示的高度小
+                    var valign:number = 0;
+                    if (this._textField._verticalAlign == VerticalAlign.MIDDLE)
+                        valign = 0.5;
+                    else if (this._textField._verticalAlign == VerticalAlign.BOTTOM)
+                        valign = 1;
+                    drawY += valign * (this._textField._explicitHeight - textHeight);
+                }
+                else if (textHeight > this._textField._explicitHeight) {//最大高度比需要显示的高度大
+                    startLine = Math.max(this._textField._scrollV - 1, 0);
+                    startLine = Math.min(this._textField._numLines - 1, startLine);
+                }
             }
-            textHeight += (length - 1) * this._textField._lineSpacing;
 
-            if (this._textField._hasWidthSet) {
-                maxWidth = this._textField._explicitWidth;
-            }
-
-            var explicitHeight:number = this._textField._hasHeightSet ? this._textField._explicitHeight : Number.POSITIVE_INFINITY;
-            if (this._textField._hasHeightSet && textHeight < explicitHeight) {
-                var valign:number = 0;
-                if (this._textField._verticalAlign == egret.VerticalAlign.MIDDLE)
-                    valign = 0.5;
-                else if (this._textField._verticalAlign == egret.VerticalAlign.BOTTOM)
-                    valign = 1;
-                drawY += valign * (explicitHeight - textHeight);
-            }
             drawY = Math.round(drawY);
             var halign:number = 0;
-            if (this._textField._textAlign == egret.HorizontalAlign.CENTER) {
+            if (this._textField._textAlign == HorizontalAlign.CENTER) {
                 halign = 0.5;
             }
-            else if (this._textField._textAlign == egret.HorizontalAlign.RIGHT) {
+            else if (this._textField._textAlign == HorizontalAlign.RIGHT) {
                 halign = 1;
             }
 
             var drawX:number = 0;
-            for (var i = 0; i < length; i++) {
-                var lineArr:Array<any> = lines[i];
+            for (var i = startLine; i < this._textField._numLines; i++) {
+                var line:egret.ILineElement = lines[i];
+                var h:number = line.height;
+//                drawY += h / 2;
 
-                drawX = Math.round((maxWidth - lineArr[lineArr.length - 1][0]) * halign);
-
-                for (var j:number = 0; j < lineArr.length - 1; j++) {
-                    if (this._textField._type == egret.TextFieldType.INPUT) {
-                        this.setP(lineArr[j][0], drawX, drawY, lineArr[j][2], {});
-                    }
-                    else {
-                        this.setP(lineArr[j][0], drawX, drawY, lineArr[j][2], lineArr[j][1]);
-                    }
-                    drawX += lineArr[j][2];
-                }
-                drawY += lineArr[lineArr.length - 1][1] + this._textField._lineSpacing;
-
-                if (this._textField._hasHeightSet && drawY - this._textField._size * 0.5 > this._textField._explicitHeight) {
+                if (this._textField._hasHeightSet && drawY > this._textField._explicitHeight) {
                     break;
                 }
+
+                drawX = Math.round((maxWidth - line.width) * halign);
+
+                for (var j:number = 0; j < line.elements.length; j++) {
+                    var element:egret.IWTextElement = line.elements[j];
+                    var size:number = element.style.size || this._textField._size;
+
+                    if (this._textField._type == egret.TextFieldType.INPUT) {
+                        this.setP(element.text, drawX, drawY + (h - size) / 2, element.width, {});
+                    }
+                    else {
+                        this.setP(element.text, drawX, drawY + (h - size) / 2, element.width, element.style);
+                    }
+
+                    drawX += element.width;
+                }
+//                drawY += h / 2 + this._textField._lineSpacing;
+                drawY += h + this._textField._lineSpacing;
             }
+
         }
 
         private setP(text:string, x:number, y:number, maxWidth:number, style:Object) {
