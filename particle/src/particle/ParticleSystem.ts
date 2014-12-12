@@ -234,7 +234,7 @@ module particle {
                 for (var i:number = 0; i < this.numParticles; i++) {
                     particle = this.particles[i];
                     this.transform.identityMatrix(this._worldTransform);
-                    this.transform.appendTransform(particle.x, particle.y, particle.scale, particle.scale, particle.rotation, 0, 0, 0, 0);
+                    this.transform.appendTransform(particle.x, particle.y, particle.scale, particle.scale, particle.rotation, 0, 0, textureW / 2, textureH / 2);
                     renderContext.setTransform(this.transform);
                     renderContext.setAlpha(particle.alpha, egret.BlendMode.NORMAL);
                     renderFilter.drawImage(renderContext, this, bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
