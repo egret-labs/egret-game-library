@@ -15,3 +15,12 @@ egret dom 渲染方式
 
 #### md5
 一个简单的md5库
+
+#### gesture
+手势库
+
+#### particle
+粒子系统
+
+#### physics
+物理引擎
