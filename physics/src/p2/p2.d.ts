@@ -197,7 +197,7 @@ declare module p2 {
 
     export class LockConstraint extends Constraint {
 
-        constructor(bodyA: Body, bodyB: Body, type: number, options?: {
+        constructor(bodyA: Body, bodyB: Body, options?: {
             collideConnected?: boolean;
             wakeUpBodies?: boolean;
             localOffsetB?: number[];
