@@ -1,6 +1,34 @@
 Egret Game Library
 ==================
 
+English
+
+### Summary
+Egret Game Library is a 3rd party library which is maintained by egret team. Each library in this project has been verified by egret team.
+
+
+### Index
+
+#### AdScene
+google adscene library
+
+#### dom
+egret rendering with DOM support
+
+#### md5
+MD5 library
+
+#### gesture
+Mobile Gesture library
+
+#### particle
+粒子系统
+
+#### physics
+Physics system based on P2
+
+Chinese
+
 ### 概述
 Egret Game Library 是 Egret 官方团队参与维护的 Egret 第三方库。其中每个文件夹都是符合 Egret 第三方库标准的项目、
 
