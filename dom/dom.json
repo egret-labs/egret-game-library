@@ -1,7 +1,7 @@
 {
     "name": "dom",
     "dependence": ["core"],
-    "source":"dom/",
+    "source":"src/dom/",
     "file_list": [
         "DOMDiv.ts",
         "DOMHeader.ts",
