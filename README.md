@@ -12,19 +12,19 @@ Egret Game Library is a 3rd party library which is maintained by egret team. Eac
 #### AdScene
 google adscene library
 
-#### dom
+#### DOM
 egret rendering with DOM support
 
-#### md5
+#### MD5
 MD5 library
 
-#### gesture
+#### Gesture
 Mobile Gesture library
 
-#### particle
+#### Particle
 Particle system
 
-#### physics
+#### Physics
 Physics system based on P2
 
 
