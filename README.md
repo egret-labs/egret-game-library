@@ -22,7 +22,7 @@ MD5 library
 Mobile Gesture library
 
 #### particle
-粒子系统
+Particle system
 
 #### physics
 Physics system based on P2
