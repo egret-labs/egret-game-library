@@ -27,7 +27,8 @@ Mobile Gesture library
 #### physics
 Physics system based on P2
 
-Chinese
+
+中文
 
 ### 概述
 Egret Game Library 是 Egret 官方团队参与维护的 Egret 第三方库。其中每个文件夹都是符合 Egret 第三方库标准的项目、
