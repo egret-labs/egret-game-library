@@ -1,7 +1,7 @@
 {
     "name": "md5",
     "dependence": ["core"],
-    "source":"src/md5/",
+    "source":"md5/",
     "file_list": [
         "md5.ts"
     ]
