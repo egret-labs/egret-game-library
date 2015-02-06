@@ -1,5 +1,5 @@
 {
-    "name": "p2",
+    "name": "physics",
     "dependence": ["core"],
     "source":"src/p2/",
     "file_list": [

@@ -27,6 +27,9 @@ Particle system
 #### Physics
 Physics system based on P2
 
+#### weixinapi
+wechat API
+
 
 中文
 
@@ -53,3 +56,6 @@ egret dom 渲染方式
 
 #### physics
 物理引擎
+
+#### weixinapi
+微信API
