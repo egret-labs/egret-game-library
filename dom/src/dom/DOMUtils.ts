@@ -43,6 +43,7 @@ module egret.dom {
      * @param stage
      */
     export function initStage():void {
+        egret.MainContext.__use_new_draw = false;
         egret.dom.resetUIAsset();
 
         egret.dom._initTrans();
