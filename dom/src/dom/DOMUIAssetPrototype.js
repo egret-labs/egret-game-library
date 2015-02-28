@@ -42,6 +42,7 @@ var egret;
                         return;
                     if(content instanceof egret.Texture){
                         content = new egret.Bitmap(content);
+                        content.scale9Grid = this.scale9Grid;
                     }
                     var oldContent = this._content;
                     this._content = content;
