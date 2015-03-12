@@ -5,6 +5,9 @@
 			"name": "core"
 		},
 		{
+			"name": "res"
+		},
+		{
 			"name": "md5",
 			"path": "."
 		}
@@ -12,5 +15,5 @@
 	"native": {
 		"path_ignore": []
 	},
-	"egret_version": "1.5.4"
+	"egret_version": "1.5.5"
 }
