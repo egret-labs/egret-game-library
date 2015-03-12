@@ -65,6 +65,16 @@ module egret.dom {
         }
 
         /**
+         * 获取BitmapText对应的Div
+         * @param bitmapText
+         * @param id
+         * @returns {egret.dom.DOMBitmapText}
+         */
+        public static getBitmapText(bitmapText:egret.BitmapText, id:string = ""):DOMDiv {
+            return new DOMBitmapText(bitmapText, id);
+        }
+
+        /**
          * 获得TextField对应的div
          * @param textField
          * @param id
@@ -145,6 +155,9 @@ module egret.dom {
             }
             else if (displayObject instanceof egret.Bitmap) {
                 dom = DOMPool.getBitmap(<egret.Bitmap>displayObject);
+            }
+            else if (displayObject instanceof egret.BitmapText) {
+                dom = DOMPool.getBitmapText(<egret.BitmapText>displayObject);
             }
             else if (displayObject instanceof egret.TextField) {
                 dom = DOMPool.getTextField(<egret.TextField>displayObject);
