@@ -305,14 +305,12 @@ declare class wx {
  * jsApiList: 所有要调用的 API
  */
 declare class BodyConfig {
-
     debug:boolean;
     appId:string;
     timestamp:number;
     nonceStr:string;
     signature:string;
     jsApiList:Array<string>;
-
 }
 
 /**
@@ -320,68 +318,58 @@ declare class BodyConfig {
  * jsApiList:  需要检测的JS接口列表
  */
 declare class BodyCheckJsAPISupport {
-
     success:Function;
     jsApiList:Array<string>;
-
 }
 
+declare class ShareEvent{
+    trigger:Function;
+    success:Function;
+    cancel: Function;
+    fail:Function;
+}
 /**
  * onMenuShareTimeline 参数结构
  */
-declare class BodyMenuShareTimeline {
-
+declare class BodyMenuShareTimeline extends ShareEvent{
     title:string;
     link:string;
     imgUrl:string;
-    success:Function;
-    cancel: Function;
-
 }
 
 /**
  * onMenuShareAppMessage 参数结构
  */
-declare class BodyMenuShareAppMessage {
-
+declare class BodyMenuShareAppMessage extends ShareEvent {
     title:string;
     desc:string;
     link:string;
     imgUrl:string;
     type:string;
     dataUrl:string;
-    success:Function;
-    cancel: Function;
-
 }
 
 /**
  * onMenuShareQQ 参数结构
  */
-declare class BodyMenuShareQQ {
-
+declare class BodyMenuShareQQ extends ShareEvent {
     title:string;
     desc:string;
     link:string;
     imgUrl:string;
     type:string;
     dataUrl:string;
-    success:Function;
-    cancel: Function;
-
+    complete:Function;
 }
 
 
 /**
  * onMenuShareWeibo 参数结构
  */
-declare class BodyMenuShareWeibo {
-
+declare class BodyMenuShareWeibo extends ShareEvent {
     title:string;
     desc:string;
     link:string;
     imgUrl:string;
-    success:Function;
-    cancel: Function;
-
+    complete:Function;
 }
