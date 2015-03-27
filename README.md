@@ -59,3 +59,6 @@ egret dom 渲染方式
 
 #### weixinapi
 微信API
+
+#### socket.io
+socket.io
