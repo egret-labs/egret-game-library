@@ -118,7 +118,7 @@ class Main extends egret.DisplayObjectContainer {
         this.addChild(this.txt);
 
         var self = this;
-        this.socket = io.connect('http://10.0.5.53:3101/');
+        this.socket = io.connect('http://localhost:3101/');
         this.socket.on('news', function (data) {
             self.trace("receive message: " + data);
         });
