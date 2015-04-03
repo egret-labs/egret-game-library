@@ -165,7 +165,7 @@ module egret.dom {
                     var bitmapW = arrW[x + 1] - arrW[x];
                     var bitmapH = arrH[y + 1] - arrH[y];
 
-                    this.initBitmapDiv(childDiv, texture.bitmapData.src, textureW, textureH, texture._bitmapX + arrX[x], texture._bitmapY + arrY[y]);
+                    this.initBitmapDiv(childDiv, texture._bitmapData.src, textureW, textureH, texture._bitmapX + arrX[x], texture._bitmapY + arrY[y]);
 
                     var rapX = x == 0 ? 0 : 3;
                     var rapY = y == 0 ? 0 : 3;
@@ -186,7 +186,7 @@ module egret.dom {
 
         //绘制标准图
         private setBitmapDiv(domDiv:DOMDiv, texture:egret.Texture):void {
-            this.initBitmapDiv(domDiv, texture.bitmapData.src, texture._bitmapWidth, texture._bitmapHeight, texture._bitmapX, texture._bitmapY);
+            this.initBitmapDiv(domDiv, texture._bitmapData.src, texture._bitmapWidth, texture._bitmapHeight, texture._bitmapX, texture._bitmapY);
         }
     }
 }
