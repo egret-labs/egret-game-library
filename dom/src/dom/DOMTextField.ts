@@ -101,37 +101,37 @@ module egret.dom {
                 return;
             }
 
-            var maxWidth:number = this._textField._hasWidthSet ? this._textField._explicitWidth : this._textField._textMaxWidth;
-            var textHeight:number = this._textField._textMaxHeight + (this._textField._numLines - 1) * this._textField._lineSpacing;
+            var maxWidth:number = this._textField._hasWidthSet ? this._textField._explicitWidth : this._textField.textWidth;
+            var textHeight:number = this._textField.textHeight + (this._textField.numLines - 1) * this._textField.lineSpacing;
 
             var drawY:number = 0;
             var startLine:number = 0;
             if (this._textField._hasHeightSet) {//
                 if (textHeight < this._textField._explicitHeight) {//最大高度比需要显示的高度小
                     var valign:number = 0;
-                    if (this._textField._verticalAlign == VerticalAlign.MIDDLE)
+                    if (this._textField.verticalAlign == egret.VerticalAlign.MIDDLE)
                         valign = 0.5;
-                    else if (this._textField._verticalAlign == VerticalAlign.BOTTOM)
+                    else if (this._textField.verticalAlign == egret.VerticalAlign.BOTTOM)
                         valign = 1;
                     drawY += valign * (this._textField._explicitHeight - textHeight);
                 }
                 else if (textHeight > this._textField._explicitHeight) {//最大高度比需要显示的高度大
-                    startLine = Math.max(this._textField._scrollV - 1, 0);
-                    startLine = Math.min(this._textField._numLines - 1, startLine);
+                    startLine = Math.max(this._textField.scrollV - 1, 0);
+                    startLine = Math.min(this._textField.numLines - 1, startLine);
                 }
             }
 
             drawY = Math.round(drawY);
             var halign:number = 0;
-            if (this._textField._textAlign == HorizontalAlign.CENTER) {
+            if (this._textField.textAlign == egret.HorizontalAlign.CENTER) {
                 halign = 0.5;
             }
-            else if (this._textField._textAlign == HorizontalAlign.RIGHT) {
+            else if (this._textField.textAlign == egret.HorizontalAlign.RIGHT) {
                 halign = 1;
             }
 
             var drawX:number = 0;
-            for (var i = startLine; i < this._textField._numLines; i++) {
+            for (var i = startLine; i < this._textField.numLines; i++) {
                 var line:egret.ILineElement = lines[i];
                 var h:number = line.height;
 //                drawY += h / 2;
@@ -144,9 +144,9 @@ module egret.dom {
 
                 for (var j:number = 0; j < line.elements.length; j++) {
                     var element:egret.IWTextElement = line.elements[j];
-                    var size:number = element.style.size || this._textField._size;
+                    var size:number = element.style.size || this._textField.size;
 
-                    if (this._textField._type == egret.TextFieldType.INPUT) {
+                    if (this._textField.type == egret.TextFieldType.INPUT) {
                         this.setP(element.text, drawX, drawY + (h - size) / 2, element.width, {});
                     }
                     else {
@@ -155,8 +155,8 @@ module egret.dom {
 
                     drawX += element.width;
                 }
-//                drawY += h / 2 + this._textField._lineSpacing;
-                drawY += h + this._textField._lineSpacing;
+//                drawY += h / 2 + this._textField.lineSpacing;
+                drawY += h + this._textField.lineSpacing;
             }
 
         }

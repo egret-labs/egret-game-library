@@ -134,7 +134,7 @@ module egret.dom {
                     var bitmapWidth:number = texture._bitmapWidth||texture._textureWidth;
                     var bitmapHeight:number = texture._bitmapHeight||texture._textureHeight;
                     bitmapText._texture_to_render = texture;
-                    this.initBitmapDiv(domDiv, texture.bitmapData.src, bitmapWidth, bitmapHeight, texture._bitmapX, texture._bitmapY, xPos+texture._offsetX, yPos+texture._offsetY);
+                    this.initBitmapDiv(domDiv, texture._bitmapData.src, bitmapWidth, bitmapHeight, texture._bitmapX, texture._bitmapY, xPos+texture._offsetX, yPos+texture._offsetY);
                     //RenderFilter.getInstance().drawImage(renderContext, bitmapText, texture._bitmapX, texture._bitmapY,
                     //    bitmapWidth, bitmapHeight, xPos+texture._offsetX, yPos+texture._offsetY, bitmapWidth,bitmapHeight);
                     xPos += texture._textureWidth;
