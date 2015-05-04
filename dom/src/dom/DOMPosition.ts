@@ -70,9 +70,10 @@ module egret.dom {
 
 //        var x:number = Math.round(initX - anchorOffsetX * displayObject.scaleX);
 //        var y:number = Math.round(initY - anchorOffsetY * displayObject.scaleY);
-        if (displayObject._scrollRect) {
-            x -= displayObject._scrollRect.x;
-            y -= displayObject._scrollRect.y;
+        var do_props = displayObject._DO_Props_;
+        if (do_props._scrollRect) {
+            x -= do_props._scrollRect.x;
+            y -= do_props._scrollRect.y;
         }
 
 

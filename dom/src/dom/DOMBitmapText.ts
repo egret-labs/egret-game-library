@@ -90,7 +90,7 @@ module egret.dom {
 
             img.reflow();
 
-                domDiv.addChild(img);
+            domDiv.addChild(img);
         }
 
         private setBitmapDiv(domDiv:DOMDiv):void {
@@ -100,41 +100,42 @@ module egret.dom {
             this.changeStyle("overflow", "hidden", "");
 
             var bitmapText = this._bitmapText;
+            var do_props = bitmapText._DO_Props_;
             var textLines:Array<string> = bitmapText._getTextLines();
             var length:number = textLines.length;
-            if(length==0){
+            if (length == 0) {
                 return;
             }
             var bitmapFont:BitmapFont = bitmapText._font;
             var emptyHeight:number = bitmapFont._getFirstCharHeight();
-            var emptyWidth:number = Math.ceil(emptyHeight*egret.BitmapText.EMPTY_FACTOR);
+            var emptyWidth:number = Math.ceil(emptyHeight * egret.BitmapText.EMPTY_FACTOR);
             var yPos:number = 0;
-            var maxHeight:number = bitmapText._hasHeightSet?bitmapText._explicitHeight:Number.POSITIVE_INFINITY;
+            var maxHeight:number = do_props._hasHeightSet ? do_props._explicitHeight : Number.POSITIVE_INFINITY;
             var lineHeights:Array<number> = bitmapText._lineHeights;
-            for(var i:number=0;i<length;i++){
+            for (var i:number = 0; i < length; i++) {
                 var lineHeight:number = lineHeights[i];
-                if(i>0&&yPos+lineHeight>maxHeight){
+                if (i > 0 && yPos + lineHeight > maxHeight) {
                     break;
                 }
                 var line:string = textLines[i];
                 var len:number = line.length;
                 var xPos:number = 0;
-                for(var j:number=0;j<len;j++){
+                for (var j:number = 0; j < len; j++) {
                     var character = line.charAt(j);
                     var texture = bitmapFont.getTexture(character);
                     if (!texture) {
-                        if(character==" "){
+                        if (character == " ") {
                             xPos += emptyWidth;
                         }
-                        else{
+                        else {
                             egret.Logger.warningWithErrorId(1011, character);
                         }
                         continue;
                     }
-                    var bitmapWidth:number = texture._bitmapWidth||texture._textureWidth;
-                    var bitmapHeight:number = texture._bitmapHeight||texture._textureHeight;
+                    var bitmapWidth:number = texture._bitmapWidth || texture._textureWidth;
+                    var bitmapHeight:number = texture._bitmapHeight || texture._textureHeight;
                     bitmapText._texture_to_render = texture;
-                    this.initBitmapDiv(domDiv, texture._bitmapData.src, bitmapWidth, bitmapHeight, texture._bitmapX, texture._bitmapY, xPos+texture._offsetX, yPos+texture._offsetY);
+                    this.initBitmapDiv(domDiv, texture._bitmapData.src, bitmapWidth, bitmapHeight, texture._bitmapX, texture._bitmapY, xPos + texture._offsetX, yPos + texture._offsetY);
                     //RenderFilter.getInstance().drawImage(renderContext, bitmapText, texture._bitmapX, texture._bitmapY,
                     //    bitmapWidth, bitmapHeight, xPos+texture._offsetX, yPos+texture._offsetY, bitmapWidth,bitmapHeight);
                     xPos += texture._textureWidth;
