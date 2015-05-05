@@ -6,6 +6,7 @@
         "DOMDiv.ts",
         "DOMHeader.ts",
         "DOMBitmap.ts",
+        "DOMMovieClip.ts",
         "DOMBitmapText.ts",
         "DOMCanvas.ts",
         "DOMScroll.ts",

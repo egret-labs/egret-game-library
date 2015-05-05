@@ -77,7 +77,8 @@ module egret.dom {
         }
 
         public _draw(renderContext:egret.RendererContext):void {
-            if (!this._doc._visible) {
+            var do_props = this._doc._DO_Props_;
+            if (!do_props._visible) {
                 this.hide();
                 _clear(this._doc);
                 return;

@@ -78,7 +78,8 @@ module egret.dom {
 
             egret.MainContext.instance.rendererContext.setupFont(this._textField);
 
-            if (!this._textField._hasWidthSet) {
+            var do_props = this._textField._DO_Props_;
+            if (!do_props._hasWidthSet) {
                 var width = egret.MainContext.instance.rendererContext.measureText(this._textField.text);
                 this.setWidth(width + 4);
                 this.setHeight(this._textField.height);
@@ -100,22 +101,23 @@ module egret.dom {
             if (!lines) {
                 return;
             }
+            var do_props = this._textField._DO_Props_;
 
-            var maxWidth:number = this._textField._hasWidthSet ? this._textField._explicitWidth : this._textField.textWidth;
+            var maxWidth:number = do_props._hasWidthSet ? do_props._explicitWidth : this._textField.textWidth;
             var textHeight:number = this._textField.textHeight + (this._textField.numLines - 1) * this._textField.lineSpacing;
 
             var drawY:number = 0;
             var startLine:number = 0;
-            if (this._textField._hasHeightSet) {//
-                if (textHeight < this._textField._explicitHeight) {//最大高度比需要显示的高度小
+            if (do_props._hasHeightSet) {//
+                if (textHeight < do_props._explicitHeight) {//最大高度比需要显示的高度小
                     var valign:number = 0;
                     if (this._textField.verticalAlign == egret.VerticalAlign.MIDDLE)
                         valign = 0.5;
                     else if (this._textField.verticalAlign == egret.VerticalAlign.BOTTOM)
                         valign = 1;
-                    drawY += valign * (this._textField._explicitHeight - textHeight);
+                    drawY += valign * (do_props._explicitHeight - textHeight);
                 }
-                else if (textHeight > this._textField._explicitHeight) {//最大高度比需要显示的高度大
+                else if (textHeight > do_props._explicitHeight) {//最大高度比需要显示的高度大
                     startLine = Math.max(this._textField.scrollV - 1, 0);
                     startLine = Math.min(this._textField.numLines - 1, startLine);
                 }
@@ -136,7 +138,7 @@ module egret.dom {
                 var h:number = line.height;
 //                drawY += h / 2;
 
-                if (this._textField._hasHeightSet && drawY > this._textField._explicitHeight) {
+                if (do_props._hasHeightSet && drawY > do_props._explicitHeight) {
                     break;
                 }
 
