@@ -57,6 +57,16 @@ module egret.dom {
                 offsetY = bitmap.texture._offsetY || 0;
             }
         }
+        else if (displayObject instanceof egret.MovieClip) {
+            var movieclip:egret.MovieClip = <egret.MovieClip>displayObject;
+            if (movieclip._textureToRender) {
+                widthScale *= movieclip.width / movieclip._textureToRender._textureWidth;
+                heightScale *= movieclip.height / movieclip._textureToRender._textureHeight;
+
+                offsetX = movieclip._textureToRender._offsetX || 0;
+                offsetY = movieclip._textureToRender._offsetY || 0;
+            }
+        }
 
         var initX:number = displayObject.x + offsetX;
         var initY:number = displayObject.y + offsetY;

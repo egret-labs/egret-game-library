@@ -65,6 +65,16 @@ module egret.dom {
         }
 
         /**
+         * 获取MovieClip对应的Div
+         * @param movieclip
+         * @param id
+         * @returns {egret.dom.DOMMovieClip}
+         */
+        public static getMovieClip(movieclip:egret.MovieClip, id:string = ""):DOMDiv {
+            return new DOMMovieClip(movieclip, id);
+        }
+
+        /**
          * 获取BitmapText对应的Div
          * @param bitmapText
          * @param id
@@ -155,6 +165,9 @@ module egret.dom {
             }
             else if (displayObject instanceof egret.Bitmap) {
                 dom = DOMPool.getBitmap(<egret.Bitmap>displayObject);
+            }
+            else if (displayObject instanceof egret.MovieClip) {
+                dom = DOMPool.getMovieClip(<egret.MovieClip>displayObject);
             }
             else if (displayObject instanceof egret.BitmapText) {
                 dom = DOMPool.getBitmapText(<egret.BitmapText>displayObject);
