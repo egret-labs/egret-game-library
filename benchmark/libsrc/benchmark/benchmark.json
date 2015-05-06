@@ -1,0 +1,9 @@
+{
+    "name": "benchmark",
+    "dependence": [],
+    "source":"./",
+    "file_list": [
+        "benchmark.js",
+        "benchmark.d.ts"
+    ]
+}

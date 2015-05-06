@@ -1,9 +1,0 @@
-{
-    "name": "greensock",
-    "dependence": ["core"],
-    "source":"src/greensock/",
-    "file_list": [
-        "greensock.d.ts",
-        "TweenMax.min.js"
-    ]
-}

@@ -1,0 +1,19 @@
+{
+	"document_class": "Main",
+	"modules": [
+		{
+			"name": "core"
+		},
+		{
+			"name": "res"
+		},
+		{
+			"name": "adsense",
+			"path": "../libsrc/adsense"
+		}
+	],
+	"native": {
+		"path_ignore": []
+	},
+	"egret_version": "1.7.0"
+}

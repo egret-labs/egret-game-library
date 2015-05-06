@@ -1,0 +1,11 @@
+{
+    "name": "particle",
+    "dependence": ["core"],
+    "source":"./",
+    "file_list": [
+        "Particle.ts",
+        "ParticleSystem.ts",
+        "GravityParticle.ts",
+        "GravityParticleSystem.ts"
+    ]
+}

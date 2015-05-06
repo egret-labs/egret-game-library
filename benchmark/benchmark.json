@@ -1,9 +1,0 @@
-{
-    "name": "benchmark",
-    "dependence": [],
-    "source":"src",
-    "file_list": [
-        "benchmark.js",
-        "benchmark.d.ts"
-    ]
-}

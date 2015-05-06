@@ -1,0 +1,15 @@
+{
+    "name": "gesture",
+    "dependence": ["core"],
+    "source":"./",
+    "file_list": [
+        "core/PropGesture.ts",
+        "events/GestureEvent.ts",
+        "gestures/GestureRecognizerPlugin.ts",
+        "gestures/PinchGestureRecognizer.ts",
+        "gestures/DoubleTapGestureRecognizer.ts",
+        "utils/GestureType.ts",
+        "utils/GestureState.ts",
+        "GestureManager.ts"
+    ]
+}

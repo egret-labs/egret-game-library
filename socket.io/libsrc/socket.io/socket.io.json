@@ -1,0 +1,9 @@
+{
+    "name": "socket.io",
+    "dependence": ["core"],
+    "source":"./",
+    "file_list": [
+        "socket.io.js",
+        "socket.io.d.ts"
+    ]
+}

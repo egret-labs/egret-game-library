@@ -1,0 +1,8 @@
+{
+    "name": "md5",
+    "dependence": ["core"],
+    "source":"./",
+    "file_list": [
+        "md5.ts"
+    ]
+}
