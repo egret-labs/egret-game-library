@@ -30,6 +30,8 @@ Physics system based on P2
 #### weixinapi
 wechat API
 
+#### dcagent
+DataEye SDK for Egret
 
 中文
 
@@ -62,3 +64,7 @@ egret dom 渲染方式
 
 #### socket.io
 socket.io
+
+#### dcagent
+DataEye SDK for Egret
+[源项目地址](https://github.com/DataEye/dcagent_for_h5)

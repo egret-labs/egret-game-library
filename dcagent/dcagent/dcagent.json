@@ -1,0 +1,10 @@
+{
+	"name": "dcagent",
+	"dependence": ["core"],
+	"source": ".",
+	"file_list": [
+	  	"dcagent.additional.js",
+		"dcagent.min.js",
+		"dcagent.ts"
+	]
+}

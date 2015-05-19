@@ -1,0 +1,20 @@
+{
+	"document_class": "Main",
+	"modules": [
+		{
+			"name": "core"
+		},
+		{
+			"name": "res"
+		},
+		{
+			"name": "dcagent",
+			"path": "../dcagent"
+		}
+	],
+	"native": {
+		"path_ignore": [],
+		"android_path": "..\\DataEyeDemoApp"
+	},
+	"egret_version": "1.7.0"
+}
