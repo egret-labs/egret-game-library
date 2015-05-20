@@ -178,11 +178,12 @@ module particle {
                 }
                 else {
                     this.removeParticle(particle);
-
-                    if (this.numParticles == 0 && this.emissionTime == 0) {
-                        this.dispatchEventWith(egret.Event.COMPLETE);
-                    }
                 }
+            }
+
+            if (this.numParticles == 0 && this.emissionTime == 0) {
+                this.stop();
+                this.dispatchEventWith(egret.Event.COMPLETE);
             }
         }
 
