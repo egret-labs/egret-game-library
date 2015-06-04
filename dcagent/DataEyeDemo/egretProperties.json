@@ -5,6 +5,9 @@
 			"name": "core"
 		},
 		{
+			"name": "version_old"
+		},
+		{
 			"name": "res"
 		},
 		{
@@ -16,5 +19,5 @@
 		"path_ignore": [],
 		"android_path": "..\\DataEyeDemoApp"
 	},
-	"egret_version": "1.7.2"
+	"egret_version": "1.7.3"
 }
