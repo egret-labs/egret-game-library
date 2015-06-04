@@ -169,10 +169,10 @@ module egret.dom {
         private setP(text:string, x:number, y:number, maxWidth:number, style:Object) {
             var p = DOMPool.getP();
 
-            if ("innerText" in p) {
+            if ("innerText" in p._currentDiv) {
                 p._currentDiv.innerText = text;
             }
-            else if ("textContent" in this._currentDiv) {
+            else if ("textContent" in p._currentDiv) {
                 p._currentDiv.textContent = text;
             }
 
