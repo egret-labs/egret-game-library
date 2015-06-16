@@ -143,7 +143,6 @@ module particle {
          */
         public stop(clear:boolean = false):void {
             this.emissionTime = 0;
-            egret.Ticker.getInstance().unregister(this.update, this);
             if (clear) {
                 this.clear();
             }
@@ -183,6 +182,7 @@ module particle {
 
             if (this.numParticles == 0 && this.emissionTime == 0) {
                 this.stop();
+                egret.Ticker.getInstance().unregister(this.update, this);
                 this.dispatchEventWith(egret.Event.COMPLETE);
             }
         }
