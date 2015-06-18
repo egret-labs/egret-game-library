@@ -225,7 +225,7 @@ module particle {
             particle.y -= dt / 6;
         }
 
-        private transform:egret.Matrix = new egret.Matrix();
+        private transformForRender:egret.Matrix = new egret.Matrix();
 
         public _render(renderContext:egret.RendererContext):void {
             if (this.numParticles > 0) {
@@ -245,9 +245,9 @@ module particle {
                 var particle:Particle;
                 for (var i:number = 0; i < this.numParticles; i++) {
                     particle = this.particles[i];
-                    this.transform.identityMatrix(this._worldTransform);
-                    this.transform.appendTransform(particle.x, particle.y, particle.scale, particle.scale, particle.rotation, 0, 0, textureW / 2, textureH / 2);
-                    renderContext.setTransform(this.transform);
+                    this.transformForRender.identityMatrix(this._worldTransform);
+                    this.transformForRender.appendTransform(particle.x, particle.y, particle.scale, particle.scale, particle.rotation, 0, 0, textureW / 2, textureH / 2);
+                    renderContext.setTransform(this.transformForRender);
                     renderContext.setAlpha(particle.alpha, egret.BlendMode.NORMAL);
                     renderFilter.drawImage(renderContext, this, bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
                 }
