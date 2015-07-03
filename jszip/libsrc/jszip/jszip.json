@@ -1,0 +1,10 @@
+{
+  "name": "jszip",
+  "dependence": ["core"],
+  "source":"./",
+  "file_list": [
+    "jszip.min.js",
+    "FileSaver.js",
+    "jszip.d.ts"
+  ]
+}
