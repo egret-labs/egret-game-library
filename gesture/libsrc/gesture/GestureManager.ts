@@ -47,7 +47,7 @@ class GestureManager {
     /**
      * Touch objects
      */
-    private _ts:Array<egret.TouchEvent> = [];
+    private _ts:Array<ITouchValue> = [];
 
     /**
      * Use the target as key value to track all the gesture-managers has been created
@@ -87,7 +87,7 @@ class GestureManager {
 
     private leaveStage(e:egret.Event):void {
         while (this._ts.length > 0) {
-            var event:egret.TouchEvent = this._ts.splice(0, 1)[0];
+            var event:ITouchValue = this._ts.splice(0, 1)[0];
             this._touchEventPool.push(event);
         }
     }
@@ -177,23 +177,26 @@ class GestureManager {
     private removeTouch(e:egret.TouchEvent):void {
         for (var index = 0; index < this._ts.length; index++) {
             if (this._ts[index].touchPointID == e.touchPointID) {
-                var e:egret.TouchEvent = this._ts.splice(index, 1)[0];
-                this._touchEventPool.push(e);
+                var eV:ITouchValue = this._ts.splice(index, 1)[0];
+                this._touchEventPool.push(eV);
                 break;
             }
         }
     }
 
-    private _touchEventPool:Array<egret.TouchEvent> = [];
+    private _touchEventPool:Array<ITouchValue> = [];
 
-    private cloneTouchEvent(e:egret.TouchEvent):egret.TouchEvent {
-        var result:egret.TouchEvent = this._touchEventPool.pop();
+    private cloneTouchEvent(e:egret.TouchEvent):ITouchValue {
+        var result:ITouchValue = this._touchEventPool.pop();
         if (!result) {
-            result = new egret.TouchEvent("");
+            result = {};
         }
-        for (var key in e) {
-            result[key] = e[key];
-        }
+        result.stageX = e.stageX;
+        result.stageY = e.stageY;
+        result.type = e.type;
+        result.touchDown = e.touchDown;
+        result.touchPointID = e.touchPointID;
+
         return result;
     }
 
@@ -203,11 +206,11 @@ class GestureManager {
 
         this._ts.push(this.cloneTouchEvent(e));
 
-        var ts:Array<egret.TouchEvent> = this._ts;
+        var ts:Array<ITouchValue> = this._ts;
         if (ts.length == 0) {
             return;
         }
-        var t:egret.TouchEvent = ts[0];
+        var t:ITouchValue = ts[0];
         var n:number = ts.length;
         if (!t) {
             return;
@@ -443,3 +446,10 @@ class GestureManager {
     }
 }
 
+interface ITouchValue {
+    stageX?:number;
+    stageY?:number;
+    type?:string;
+    touchDown?:boolean;
+    touchPointID?:number;
+}
