@@ -68,3 +68,6 @@ socket.io
 #### dcagent
 DataEye SDK for Egret
 [源项目地址](https://github.com/DataEye/dcagent_for_h5)
+
+#### createjs
+可以将Flash中的矢量绘图在Egret显示列表呈现
