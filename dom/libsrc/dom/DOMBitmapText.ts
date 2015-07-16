@@ -131,7 +131,7 @@ module egret.dom {
                             xPos += emptyWidth;
                         }
                         else {
-                            egret.Logger.warningWithErrorId(1011, character);
+                            egret.$warn(1011, character);
                         }
                         continue;
                     }
