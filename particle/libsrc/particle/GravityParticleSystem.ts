@@ -245,10 +245,9 @@ module particle {
             locParticle.startY = this.emitterY;
 
             var angle:number = GravityParticleSystem.getValue(this.emitAngle, this.emitAngleVariance);
-            angle = angle * Math.PI / 180;
             var speed:number = GravityParticleSystem.getValue(this.speed, this.speedVariance);
-            locParticle.velocityX = speed * Math.cos(angle);
-            locParticle.velocityY = speed * Math.sin(angle);
+            locParticle.velocityX = speed * egret.NumberUtils.cos(angle);
+            locParticle.velocityY = speed * egret.NumberUtils.sin(angle);
 
             locParticle.radialAcceleration = GravityParticleSystem.getValue(this.radialAcceleration, this.radialAccelerationVariance);
             locParticle.tangentialAcceleration = GravityParticleSystem.getValue(this.tangentialAcceleration, this.tangentialAccelerationVariance);
