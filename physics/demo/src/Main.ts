@@ -118,7 +118,7 @@ class Main extends egret.DisplayObjectContainer {
                     if (box) {
                         box.x = boxBody.position[0] * factor;
                         box.y = stageHeight - boxBody.position[1] * factor;
-                        box.rotation = 360 - boxBody.angle * 180 / Math.PI;
+                        box.rotation = 360 - (boxBody.angle + boxBody.shapeAngles[j]) * 180 / Math.PI;
                         if (boxBody.sleepState == p2.Body.SLEEPING) {
                             box.alpha = 0.5;
                         }
@@ -212,7 +212,7 @@ class Main extends egret.DisplayObjectContainer {
                         var w:number = (<p2.Rectangle>boxShape).width * factor;
                         var h:number = (<p2.Rectangle>boxShape).height * factor;
                         var matrix:egret.Matrix = egret.Matrix.identity.identity();
-                        matrix.prependTransform(x, y, 1, 1, 360 - boxBody.angle * 180 / Math.PI, 0, 0, 0, 0);
+                        matrix.prependTransform(x, y, 1, 1, 360 - (boxBody.angle + boxBody.shapeAngles[j]) * 180 / Math.PI, 0, 0, 0, 0);
                         ctx.save();
                         ctx.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
                         ctx.beginPath();
@@ -222,6 +222,7 @@ class Main extends egret.DisplayObjectContainer {
                         ctx.restore();
                     }
                     else if (boxShape instanceof p2.Plane) {
+                        //只考虑水平
                         ctx.save();
                         ctx.setTransform(1, 0, 0, 1, 0, stageHeight - (boxBody.position[1] + boxBody.shapeOffsets[j][1]) * factor);
                         ctx.beginPath();
@@ -235,7 +236,7 @@ class Main extends egret.DisplayObjectContainer {
                         var x:number = (boxBody.position[0] + boxBody.shapeOffsets[j][0]) * factor;
                         var y:number = stageHeight - (boxBody.position[1] + boxBody.shapeOffsets[j][1]) * factor;
                         var matrix:egret.Matrix = egret.Matrix.identity.identity();
-                        matrix.prependTransform(x, y, 1, 1, 360 - boxBody.angle * 180 / Math.PI, 0, 0, 0, 0);
+                        matrix.prependTransform(x, y, 1, 1, 360 - (boxBody.angle + boxBody.shapeAngles[j]) * 180 / Math.PI, 0, 0, 0, 0);
                         ctx.save();
                         ctx.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
                         ctx.beginPath();
