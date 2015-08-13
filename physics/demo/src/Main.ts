@@ -118,7 +118,7 @@ class Main extends egret.DisplayObjectContainer {
                     if (box) {
                         box.x = boxBody.position[0] * factor;
                         box.y = stageHeight - boxBody.position[1] * factor;
-                        box.rotation = 360 - (boxBody.angle + boxBody.shapeAngles[j]) * 180 / Math.PI;
+                        box.rotation = 360 - (boxBody.angle + boxBody.shapeAngles[0]) * 180 / Math.PI;
                         if (boxBody.sleepState == p2.Body.SLEEPING) {
                             box.alpha = 0.5;
                         }
