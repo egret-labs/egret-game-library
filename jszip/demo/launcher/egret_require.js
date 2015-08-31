@@ -27,24 +27,49 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-class LoadingUI extends egret.Sprite{
+egret_h5 = {};
 
-    public constructor(){
-        super();
-        this.createView();
-    }
-    private textField:egret.TextField;
+egret_h5.prefix = "";
 
-    private createView():void {
-        this.textField = new egret.TextField();
-        this.addChild(this.textField);
-        this.textField.y = 300;
-        this.textField.width = 480;
-        this.textField.height = 100;
-        this.textField.textAlign = "center";
-    }
+egret_h5.loadScript = function (list, callback) {
+    var loaded = 0;
+    var loadNext = function () {
+        egret_h5.loadSingleScript(egret_h5.prefix + list[loaded], function () {
+            loaded++;
+            if (loaded >= list.length) {
+                callback();
+            }
+            else {
+                loadNext();
+            }
+        })
+    };
+    loadNext();
+};
 
-    public setProgress(current, total):void {
-        this.textField.text = "游戏加载中..." + current + "/" + total;
+egret_h5.loadSingleScript = function (src, callback) {
+    var s = document.createElement('script');
+    if (s.hasOwnProperty("async")) {
+        s.async = false;
     }
-}
+    s.src = src;
+    s.addEventListener('load', function () {
+        this.removeEventListener('load', arguments.callee, false);
+        callback();
+    }, false);
+    document.body.appendChild(s);
+};
+
+egret_h5.preloadScript = function (list, prefix) {
+    if (!egret_h5.preloadList) {
+        egret_h5.preloadList = [];
+    }
+    egret_h5.preloadList = egret_h5.preloadList.concat(list.map(function (item) {
+        return prefix + item;
+    }))
+};
+
+egret_h5.startLoading = function () {
+    var list = egret_h5.preloadList;
+    egret_h5.loadScript(list, egret_h5.startGame);
+};

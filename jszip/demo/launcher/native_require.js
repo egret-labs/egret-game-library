@@ -1,4 +1,12 @@
+/**
+ * Created by huanghaiying on 14/12/5.
+ */
+var console = {};
 var window = {};
+
+console.log = function (message) {
+    egtlog(message);
+}
 
 egret_native.setSearchPaths([""]);
 
@@ -18,39 +26,106 @@ egret_native.requireFiles = function () {
 
 egret_native.egretInit = function () {
     //此变量用于加载文件判断，请勿修改此处
-    //This variable is used to load the file judgement, please do not change it
-    var needCompile = false;
+    var needCompile = true;
     if (!needCompile) {
         egret_native.requireFiles();
     }
     else {
         require("launcher/game-min-native.js");
     }
-    egret.TextField.default_fontFamily = "/system/fonts/DroidSansFallback.ttf";
+
     //egret.dom为空实现
     egret.dom = {};
     egret.dom.drawAsCanvas = function () {
     };
+
+    var context = egret.MainContext.instance;
+    context.rendererContext = new egret.NativeRendererContext();
+    context.netContext = new egret.NativeNetContext();
+    context.touchContext = new egret.NativeTouchContext();
+    context.deviceContext = new egret.NativeDeviceContext();
+
+    egret.StageDelegate.getInstance().setDesignSize(480, 800);
+    context.stage = new egret.Stage();
+    context.stage.scaleMode = egret.StageScaleMode.SHOW_ALL;
+
+    egret.RendererContext.CONTENT_SCALE_FACTOR = 1;
+
+    context.run();
+};
+
+egret_native.loadVersion = function (completeCall) {
+    //版本控制自动修改 请勿更改
+    //This variable is used to load the file judgement, please do not change it
+    var egretNeedVersionCtr = false;
+    if (!egretNeedVersionCtr) {
+        completeCall();
+        return;
+    }
+
+    var ctr = new egret.NativeVersionController();
+    egret.MainContext.instance.netContext.initVersion(ctr);
+
+    ctr.addEventListener(egret.IOErrorEvent.IO_ERROR, loadError, this);
+    ctr.addEventListener(egret.Event.COMPLETE, loadComplete, this);
+    ctr.fetchVersion();
+
+    function loadError(e) {
+        ctr.removeEventListener(egret.IOErrorEvent.IO_ERROR, loadError, this);
+        ctr.removeEventListener(egret.Event.COMPLETE, loadComplete, this);
+
+        console.log("版本控制文件加载失败，请检查");
+        completeCall();
+    }
+
+    function loadComplete(e) {
+        ctr.removeEventListener(egret.IOErrorEvent.IO_ERROR, loadError, this);
+        ctr.removeEventListener(egret.Event.COMPLETE, loadComplete, this);
+
+        completeCall();
+    }
 };
 
 egret_native.egretStart = function () {
-    //todo 脚本解析，更好的形式
-    var option = {
-        entryClassName: "entryClassName",
-        frameRate: "frameRate",
-        scaleMode: "scaleMode",
-        contentWidth: "contentWidth",
-        contentHeight: "contentHeight",
-        showPaintRect: "showPaintRect",
-        showFPS: "showFPS",
-        fpsStyles: "fpsStyles",
-        showLog: "showLog",
-        logFilter: "logFilter",
-        maxTouches: "maxTouches",
-        textureScaleFactor: "textureScaleFactor"
-    };
-    egret.native.NativePlayer.option = option;
-    egret.runEgret();
-    egret_native.Label.createLabel(egret.TextField.default_fontFamily, 20, "", 0);
-    egret_native.EGTView.preSetOffScreenBufferEnable(true);
+
+    Object.defineProperty(egret.DisplayObject.prototype, "cacheAsBitmap", {
+        get: function () {
+            return false;
+        },
+        set: function (bool) {
+        },
+        enumerable: true,
+        configurable: true
+    });
+
+    var document_class = "Main";
+    var rootClass;
+    if (document_class) {
+        rootClass = egret.getDefinitionByName(document_class);
+    }
+    var context = egret.MainContext.instance;
+    if (rootClass) {
+        var rootContainer = new rootClass();
+        if (rootContainer instanceof egret.DisplayObjectContainer) {
+            context.stage.addChild(rootContainer);
+        }
+        else {
+            throw new Error("文档类必须是egret.DisplayObjectContainer的子类!");
+        }
+    }
+    else {
+        throw new Error("找不到文档类！");
+    }
+};
+
+egret_native.pauseApp = function () {
+    console.log("pauseApp");
+    egret_native.Audio.pauseBackgroundMusic();
+    egret_native.Audio.pauseAllEffects();
+};
+
+egret_native.resumeApp = function () {
+    console.log("resumeApp");
+    egret_native.Audio.resumeBackgroundMusic();
+    egret_native.Audio.resumeAllEffects();
 };
