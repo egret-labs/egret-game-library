@@ -27,24 +27,43 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-class LoadingUI extends egret.Sprite{
+egret_h5.startGame = function () {
+    var  context = egret.MainContext.instance;
+    context.touchContext = new egret.HTML5TouchContext();
+    context.deviceContext = new egret.HTML5DeviceContext();
+    context.netContext = new egret.HTML5NetContext();
 
-    public constructor(){
-        super();
-        this.createView();
-    }
-    private textField:egret.TextField;
+    egret.StageDelegate.getInstance().setDesignSize(480, 800);
+    context.stage = new egret.Stage();
+    var scaleMode =  egret.MainContext.deviceType == egret.MainContext.DEVICE_MOBILE ? egret.StageScaleMode.SHOW_ALL : egret.StageScaleMode.NO_SCALE;
+    context.stage.scaleMode = scaleMode;
 
-    private createView():void {
-        this.textField = new egret.TextField();
-        this.addChild(this.textField);
-        this.textField.y = 300;
-        this.textField.width = 480;
-        this.textField.height = 100;
-        this.textField.textAlign = "center";
+    //WebGL是egret的Beta特性，默认关闭
+    var rendererType = 0;
+    if (rendererType == 1) {// egret.WebGLUtils.checkCanUseWebGL()) {
+        context.rendererContext = new egret.WebGLRenderer();
+    }
+    else {
+        context.rendererContext = new egret.HTML5CanvasRenderer();
     }
 
-    public setProgress(current, total):void {
-        this.textField.text = "游戏加载中..." + current + "/" + total;
+    egret.MainContext.instance.rendererContext.texture_scale_factor = 1;
+    context.run();
+
+    var rootClass;
+    if(document_class){
+        rootClass = egret.getDefinitionByName(document_class);
     }
-}
+    if(rootClass) {
+        var rootContainer = new rootClass();
+        if(rootContainer instanceof egret.DisplayObjectContainer){
+            context.stage.addChild(rootContainer);
+        }
+        else{
+            throw new Error("文档类必须是egret.DisplayObjectContainer的子类!");
+        }
+    }
+    else{
+        throw new Error("找不到文档类！");
+    }
+};
