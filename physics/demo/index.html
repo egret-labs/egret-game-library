@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>HelloWorld</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+    <meta name="full-screen" content="true"/>
+    <meta name="screen-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="360-fullscreen" content="true"/>
+
+    <style>
+        html, body {
+            -ms-touch-action: none;
+            background: #888888;
+            padding: 0;
+            border: 0;
+            margin: 0;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="egret-sample" style="margin: auto;width: 100%;height: 100%;" class="egret-player"
+     data-entry-class="Main"
+     data-scale-mode="showAll"
+     data-frame-rate="30"
+     data-orientation="auto"
+     data-content-width="480"
+     data-content-height="800"
+     data-multi-fingered="2"
+     data-show-paint-rect="false"
+     data-show-fps="true"
+     data-show-fps-style="x:0,y:0,size:24,textColor:0xffffff"
+     data-show-log="false" data-log-filter="">
+</div>
+
+<!--egret_files_start-->
+<script src="libs/core/egret/i18n/tr.js"></script>
+<script src="libs/core/egret/i18n/en_US.js"></script>
+<script src="libs/core/egret/i18n/zh_CN.js"></script>
+<script src="libs/core/egret/utils/registerClass.js"></script>
+<script src="libs/core/Defines.debug.js"></script>
+<script src="libs/core/egret/utils/extends.js"></script>
+<script src="libs/core/egret/utils/NumberUtils.js"></script>
+<script src="libs/core/egret/utils/HashObject.js"></script>
+<script src="libs/core/egret/utils/ByteArray.js"></script>
+<script src="libs/core/egret/utils/getDefinitionByName.js"></script>
+<script src="libs/core/egret/utils/getQualifiedClassName.js"></script>
+<script src="libs/core/egret/utils/getQualifiedSuperclassName.js"></script>
+<script src="libs/core/egret/utils/getTimer.js"></script>
+<script src="libs/core/egret/utils/toColorString.js"></script>
+<script src="libs/core/egret/utils/is.js"></script>
+<script src="libs/core/egret/utils/NONE.js"></script>
+<script src="libs/core/egret/utils/startTick.js"></script>
+<script src="libs/core/egret/utils/stopTick.js"></script>
+<script src="libs/core/egret/utils/XML.js"></script>
+<script src="libs/core/egret/utils/callLater.js"></script>
+<script src="libs/core/egret/utils/Logger.js"></script>
+<script src="libs/core/egret/utils/hasDefinition.js"></script>
+<script src="libs/core/egret/utils/getOption.js"></script>
+<script src="libs/core/egret/geom/Matrix.js"></script>
+<script src="libs/core/egret/geom/Point.js"></script>
+<script src="libs/core/egret/geom/Rectangle.js"></script>
+<script src="libs/core/egret/events/EventDispatcher.js"></script>
+<script src="libs/core/egret/utils/Timer.js"></script>
+<script src="libs/core/egret/events/Event.js"></script>
+<script src="libs/core/egret/events/ProgressEvent.js"></script>
+<script src="libs/core/egret/events/TimerEvent.js"></script>
+<script src="libs/core/egret/events/TouchEvent.js"></script>
+<script src="libs/core/egret/events/HTTPStatusEvent.js"></script>
+<script src="libs/core/egret/events/IOErrorEvent.js"></script>
+<script src="libs/core/egret/events/TextEvent.js"></script>
+<script src="libs/core/egret/events/FocusEvent.js"></script>
+<script src="libs/core/egret/events/GeolocationEvent.js"></script>
+<script src="libs/core/egret/events/OrientationEvent.js"></script>
+<script src="libs/core/egret/display/BlendMode.js"></script>
+<script src="libs/core/egret/display/DisplayObject.js"></script>
+<script src="libs/core/egret/display/Bitmap.js"></script>
+<script src="libs/core/egret/display/BitmapFillMode.js"></script>
+<script src="libs/core/egret/display/Texture.js"></script>
+<script src="libs/core/egret/display/RenderTexture.js"></script>
+<script src="libs/core/egret/display/DisplayObjectContainer.js"></script>
+<script src="libs/core/egret/display/GraphicsRenderContext.js"></script>
+<script src="libs/core/egret/display/Graphics.js"></script>
+<script src="libs/core/egret/display/Shape.js"></script>
+<script src="libs/core/egret/display/Sprite.js"></script>
+<script src="libs/core/egret/display/Stage.js"></script>
+<script src="libs/core/egret/display/SpriteSheet.js"></script>
+<script src="libs/core/egret/net/HttpMethod.js"></script>
+<script src="libs/core/egret/net/HttpResponseType.js"></script>
+<script src="libs/core/egret/net/HttpRequest.js"></script>
+<script src="libs/core/egret/net/ImageLoader.js"></script>
+<script src="libs/core/egret/player/EgretEntry.js"></script>
+<script src="libs/core/egret/player/OrientationMode.js"></script>
+<script src="libs/core/egret/player/DirtyRegion.js"></script>
+<script src="libs/core/egret/player/DisplayList.js"></script>
+<script src="libs/core/egret/player/Player.js"></script>
+<script src="libs/core/egret/player/Region.js"></script>
+<script src="libs/core/egret/player/StageScaleMode.js"></script>
+<script src="libs/core/egret/player/ScreenAdapter.js"></script>
+<script src="libs/core/egret/player/SurfaceFactory.js"></script>
+<script src="libs/core/egret/player/SystemTicker.js"></script>
+<script src="libs/core/egret/player/TouchHandler.js"></script>
+<script src="libs/core/egret/system/Capabilities.js"></script>
+<script src="libs/core/egret/system/Console.js"></script>
+<script src="libs/core/egret/text/HorizontalAlign.js"></script>
+<script src="libs/core/egret/text/TextFieldType.js"></script>
+<script src="libs/core/egret/text/TextField.js"></script>
+<script src="libs/core/egret/text/VerticalAlign.js"></script>
+<script src="libs/core/egret/text/TextFieldUtils.js"></script>
+<script src="libs/core/egret/text/StageText.js"></script>
+<script src="libs/core/egret/text/InputController.js"></script>
+<script src="libs/core/egret/text/HtmlTextParser.js"></script>
+<script src="libs/core/egret/text/BitmapFont.js"></script>
+<script src="libs/core/egret/text/BitmapText.js"></script>
+<script src="libs/core/egret/localStorage/localStorage.js"></script>
+<script src="libs/core/egret/external/ExternalInterface.js"></script>
+<script src="libs/core/egret/filters/Filter.js"></script>
+<script src="libs/core/egret/filters/GlowFilter.js"></script>
+<script src="libs/core/egret/filters/BlurFilter.js"></script>
+<script src="libs/core/egret/filters/ColorMatrixFilter.js"></script>
+<script src="libs/core/egret/filters/DropShadowFilter.js"></script>
+<script src="libs/core/egret/media/Sound.js"></script>
+<script src="libs/core/egret/media/Video.js"></script>
+<script src="libs/core/extension/game/utils/setTimeout.js"></script>
+<script src="libs/core/extension/game/utils/setInterval.js"></script>
+<script src="libs/core/extension/game/utils/Injector.js"></script>
+<script src="libs/core/extension/game/utils/Recycler.js"></script>
+<script src="libs/core/extension/game/system/MainContext.js"></script>
+<script src="libs/core/extension/game/display/FrameLabel.js"></script>
+<script src="libs/core/extension/game/display/MovieClipData.js"></script>
+<script src="libs/core/extension/game/display/MovieClipDataFactory.js"></script>
+<script src="libs/core/extension/game/display/MovieClip.js"></script>
+<script src="libs/core/extension/game/display/ScrollView.js"></script>
+<script src="libs/core/extension/game/display/ScrollViewProperties.js"></script>
+<script src="libs/core/extension/tween/Tween.js"></script>
+<script src="libs/core/extension/tween/Ease.js"></script>
+<script src="libs/core/extension/game/net/IVersionController.js"></script>
+<script src="libs/core/extension/game/net/URLRequestMethod.js"></script>
+<script src="libs/core/extension/game/net/URLLoaderDataFormat.js"></script>
+<script src="libs/core/extension/game/net/URLVariables.js"></script>
+<script src="libs/core/extension/game/net/URLRequestHeader.js"></script>
+<script src="libs/core/extension/game/net/URLRequest.js"></script>
+<script src="libs/core/extension/game/net/URLLoader.js"></script>
+<script src="libs/core/extension/game/net/NetContext.js"></script>
+<script src="libs/core/extension/game/player/Ticker.js"></script>
+<script src="libs/core/egret/text/web/HTML5StageText.js"></script>
+<script src="libs/core/egret/localStorage/web/WebLocalStorage.js"></script>
+<script src="libs/core/egret/external/web/WebExternalInterface.js"></script>
+<script src="libs/core/egret/web/CanvasFactory.js"></script>
+<script src="libs/core/egret/web/EgretWeb.js"></script>
+<script src="libs/core/egret/web/WebBitmapData.js"></script>
+<script src="libs/core/egret/web/WebCapability.js"></script>
+<script src="libs/core/egret/web/WebPlayer.js"></script>
+<script src="libs/core/egret/web/WebTouchHandler.js"></script>
+<script src="libs/core/egret/web/WebXML.js"></script>
+<script src="libs/core/egret/web/WebHideHandler.js"></script>
+<script src="libs/core/egret/media/web/QQSound.js"></script>
+<script src="libs/core/egret/media/web/QQSoundChannel.js"></script>
+<script src="libs/core/egret/media/web/WebAudioSound.js"></script>
+<script src="libs/core/egret/media/web/WebAudioSoundChannel.js"></script>
+<script src="libs/core/egret/media/web/HtmlSound.js"></script>
+<script src="libs/core/egret/media/web/HtmlSoundChannel.js"></script>
+<script src="libs/core/egret/media/web/WebVideo.js"></script>
+<script src="libs/core/egret/web/WebGetOption.js"></script>
+<script src="libs/core/egret/web/WebTexture.js"></script>
+<script src="libs/core/egret/web/Html5Capatibility.js"></script>
+<script src="libs/core/egret/net/web/WebHttpRequest.js"></script>
+<script src="libs/core/egret/net/web/WebImageLoader.js"></script>
+<script src="libs/core/extension/game/web/HTML5NetContext.js"></script>
+<script src="libs/core/extension/version/DefaultLoadingView.js"></script>
+<script src="libs/core/extension/version/Html5VersionController.js"></script>
+<script src="libs/core/extension/resource/events/ResourceEvent.js"></script>
+<script src="libs/core/extension/resource/core/ResourceItem.js"></script>
+<script src="libs/core/extension/resource/core/ResourceConfig.js"></script>
+<script src="libs/core/extension/resource/core/ResourceLoader.js"></script>
+<script src="libs/core/extension/resource/analyzer/AnalyzerBase.js"></script>
+<script src="libs/core/extension/resource/analyzer/BinAnalyzer.js"></script>
+<script src="libs/core/extension/resource/analyzer/ImageAnalyzer.js"></script>
+<script src="libs/core/extension/resource/analyzer/JsonAnalyzer.js"></script>
+<script src="libs/core/extension/resource/analyzer/TextAnalyzer.js"></script>
+<script src="libs/core/extension/resource/analyzer/SheetAnalyzer.js"></script>
+<script src="libs/core/extension/resource/analyzer/FontAnalyzer.js"></script>
+<script src="libs/core/extension/resource/analyzer/SoundAnalyzer.js"></script>
+<script src="libs/core/extension/resource/analyzer/XMLAnalyzer.js"></script>
+<script src="libs/core/extension/resource/Resource.js"></script>
+<script src="libs/physics/p2.min.js"></script>
+<script src="bin-debug/src/LoadingUI.js"></script>
+<script src="bin-debug/src/Main.js"></script>
+<!--egret_files_end-->
+
+
+<script>
+    var useWebP = false;
+    //WebP_replace
+    if(useWebP && (navigator.userAgent.indexOf("Chrome") != -1 || navigator.userAgent.indexOf("MQQBrowser") != -1)) {
+        var img = new Image();
+        img.onload = function () {
+            egret.web.Html5Capatibility._WebPSupport = true;
+            egret.runEgret();
+        };
+        img.onerror = function (){
+            egret.web.Html5Capatibility._WebPSupport = false;
+            egret.runEgret();
+        };
+        img.src = "4x4.webp";
+    }
+    else {
+        egret.runEgret();
+    }
+
+    //处理屏幕大小改变
+    //implement for screen size change
+    var resizeTimer = null;
+    var doResize = function () {
+        egret.updateAllScreens();
+        resizeTimer = null;
+    };
+    window.onresize = function () {
+        if (resizeTimer == null) {
+            resizeTimer = setTimeout(doResize, 300);
+        }
+    };
+</script>
+</body>
+</html>
