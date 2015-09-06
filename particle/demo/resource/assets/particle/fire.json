@@ -11,7 +11,7 @@
         "x": 0,
         "y": 0
     },
-	"useContentRect": false,
+    "useContentRect": false,
     "contentRect": {
         "x": -35,
         "y": -157,
