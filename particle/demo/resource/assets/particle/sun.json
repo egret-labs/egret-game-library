@@ -11,6 +11,13 @@
         "x": 0,
         "y": 0
     },
+	"useContentRect": true,
+    "contentRect": {
+        "x": -70,
+        "y": -100,
+        "width": 200,
+        "height": 160
+    },
     "maxParticles": 500,
     "speed": 260,
     "speedVariance": 10,

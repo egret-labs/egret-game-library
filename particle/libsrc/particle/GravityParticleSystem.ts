@@ -187,6 +187,15 @@ module particle {
 
             this.gravityX = getValue(config.gravity.x);
             this.gravityY = getValue(config.gravity.y);
+            
+            if(config.useContentRect == true){
+                var bounds:egret.Rectangle = new egret.Rectangle();
+                bounds.x = getValue(config.contentRect.x);
+                bounds.y = getValue(config.contentRect.y);
+                bounds.width = getValue(config.contentRect.width);
+                bounds.height = getValue(config.contentRect.height);
+                this.contentBounds = bounds;
+            }
 
             this.maxParticles = getValue(config.maxParticles);
 
