@@ -15,10 +15,6 @@
     },
     {
       "name": "res"
-    },
-    {
-      "name": "weixinapi",
-      "path": "../libsrc/weixinapi"
     }
   ]
 }

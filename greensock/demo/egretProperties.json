@@ -15,10 +15,6 @@
     },
     {
       "name": "res"
-    },
-    {
-      "name": "greensock",
-      "path": "../libsrc/greensock"
     }
   ]
 }

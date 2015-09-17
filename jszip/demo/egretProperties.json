@@ -15,10 +15,6 @@
     },
     {
       "name": "res"
-    },
-    {
-      "name": "jszip",
-      "path": "../libsrc/jszip"
     }
   ]
 }

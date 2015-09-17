@@ -15,10 +15,6 @@
     },
     {
       "name": "res"
-    },
-    {
-      "name": "md5",
-      "path": "../libsrc/md5"
-    }
+    }    
   ]
 }
