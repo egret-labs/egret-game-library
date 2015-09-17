@@ -1,23 +1,24 @@
 {
-	"document_class": "Main",
-	"modules": [
-		{
-			"name": "core"
-		},
-		{
-		  	"name": "version"
-		},
-		{
-			"name": "res"
-		},
-		{
-			"name": "jszip",
-			"path": "../libsrc/jszip"
-		}
-	],
-	"native": {
-		"path_ignore": [
-		]
-	},
-	"egret_version": "2.4.2"
+  "native": {
+    "path_ignore": []
+  },
+  "egret_version": "2.4.3",
+  "modules": [
+    {
+      "name": "egret"
+    },
+    {
+      "name": "game"
+    },
+    {
+      "name": "tween"
+    },
+    {
+      "name": "res"
+    },
+    {
+      "name": "jszip",
+      "path": "../libsrc/jszip"
+    }
+  ]
 }

@@ -46,7 +46,7 @@ class Main extends egret.DisplayObjectContainer {
 
         //初始化Resource资源加载库
         RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
-        RES.loadConfig("resource/resource.json", "resource/");
+        RES.loadConfig("resource/default.res.json", "resource/");
     }
     /**
      * 配置文件加载完成,开始预加载preload资源组。
@@ -167,7 +167,7 @@ class Main extends egret.DisplayObjectContainer {
 
             display.anchorOffsetX = display.width / 2;
             display.anchorOffsetY = display.height / 2;
-            
+
             boxBody.displays = [display];
             self.addChild(display);
         }
