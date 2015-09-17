@@ -46,7 +46,7 @@ class Main extends egret.DisplayObjectContainer{
 
         //初始化Resource资源加载库
         RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE,this.onConfigComplete,this);
-        RES.loadConfig("resource/resource.json","resource/");
+        RES.loadConfig("resource/default.res.json","resource/");
     }
     /**
      * 配置文件加载完成,开始预加载preload资源组。
@@ -99,7 +99,8 @@ class Main extends egret.DisplayObjectContainer{
         this.addChild(topMask);
 
         var icon:egret.Bitmap = this.createBitmapByName("egretIcon");
-        icon.anchorX = icon.anchorY = 0.5;
+        icon.anchorOffsetX = icon.width*0.5;
+        icon.anchorOffsetY = icon.height*0.5;
         this.addChild(icon);
         icon.x = stageW / 2;
         icon.y = stageH / 2 - 60;
@@ -110,18 +111,21 @@ class Main extends egret.DisplayObjectContainer{
         var colorLabel:egret.TextField = new egret.TextField();
         colorLabel.x = stageW / 2;
         colorLabel.y = stageH / 2 + 50;
-        colorLabel.anchorX = colorLabel.anchorY = 0.5;
         colorLabel.textColor = 0xffffff;
         colorLabel.textAlign = "center";
         colorLabel.text = "Hello Egret";
         colorLabel.size = 20;
+        colorLabel.anchorOffsetX = colorLabel.width*0.5;
+        colorLabel.anchorOffsetY = colorLabel.height*0.5;
         this.addChild(colorLabel);
 
         var textContainer:egret.Sprite = new egret.Sprite();
-        textContainer.anchorX = textContainer.anchorY = 0.5;
+        //textContainer.anchorX = textContainer.anchorY = 0.5;
         this.addChild(textContainer);
         textContainer.x = stageW / 2;
         textContainer.y = stageH / 2 + 100;
+        textContainer.anchorOffsetX = textContainer.width*0.5;
+        textContainer.anchorOffsetY = textContainer.height*0.5;
         textContainer.alpha = 0;
 
         this.textContainer = textContainer;
@@ -176,15 +180,14 @@ class Main extends egret.DisplayObjectContainer{
             var info:any = lineArr[i];
             var colorLabel:egret.TextField = new egret.TextField();
             colorLabel.x = w;
-            colorLabel.anchorX = colorLabel.anchorY = 0;
             colorLabel.textColor = parseInt(info["textColor"]);
             colorLabel.text = info["text"];
             colorLabel.size = 40;
+            colorLabel.anchorOffsetX = colorLabel.width*0.5;
+            colorLabel.anchorOffsetY = colorLabel.height*0.5;
             textContainer.addChild(colorLabel);
 
             w += colorLabel.width;
         }
     }
 }
-
-

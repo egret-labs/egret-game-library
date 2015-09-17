@@ -1,22 +1,24 @@
 {
-	"document_class": "Main",
-	"modules": [
-		{
-			"name": "core"
-		},
-		{
-			"name": "version_old"
-		},
-		{
-			"name": "res"
-		},
-		{
-			"name": "weixinapi",
-			"path": "../libsrc/weixinapi"
-		}
-	],
-	"native": {
-		"path_ignore": []
-	},
-	"egret_version": "2.0.5"
+  "native": {
+    "path_ignore": []
+  },
+  "egret_version": "2.4.3",
+  "modules": [
+    {
+      "name": "egret"
+    },
+    {
+      "name": "game"
+    },
+    {
+      "name": "tween"
+    },
+    {
+      "name": "res"
+    },
+    {
+      "name": "weixinapi",
+      "path": "../libsrc/weixinapi"
+    }
+  ]
 }
