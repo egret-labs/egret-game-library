@@ -32,8 +32,9 @@ module particle {
         private _pool:Array<Particle> = [];
         private frameTime:number = 0;
         private particles:Array<Particle> = [];
-        private _contentBounds: egret.Rectangle;
-        private globalContentBounds: egret.Rectangle;
+        private _emitterBounds: egret.Rectangle;
+        //相对当前显示对象坐标系下的内容边界
+        private relativeContentBounds: egret.Rectangle;
         
         private _emitterX:number = 0;
         private _emitterY:number = 0;
@@ -118,38 +119,35 @@ module particle {
         }
         
         /**
-        * 更新全局坐标系下的边框界限
-        * @param contentRect {egret.Rectangle} 相对发射点坐标系下的界限
+        * 更新当前显示对象坐标系下的边框界限
+        * @param emitterRect {egret.Rectangle} 相对发射点坐标系下的界限
         */
-        private updateGlobalBounds(contentRect:egret.Rectangle):void{
-            if(contentRect){
-                if(this.globalContentBounds==null){
-                    this.globalContentBounds = new egret.Rectangle();
+        private updateRelativeBounds(emitterRect:egret.Rectangle):void{
+            if(emitterRect){
+                if(this.relativeContentBounds==null){
+                    this.relativeContentBounds = new egret.Rectangle();
                 }
-                this.globalContentBounds.copyFrom(contentRect);
-                this.globalContentBounds.x += this.emitterX;
-                this.globalContentBounds.y += this.emitterY;
+                this.relativeContentBounds.copyFrom(emitterRect);
+                this.relativeContentBounds.x += this.emitterX;
+                this.relativeContentBounds.y += this.emitterY;
             }else{
-                this.globalContentBounds = null;
+                this.relativeContentBounds = null;
             }
                         
-            this.mask = this.globalContentBounds;
+            this.mask = this.relativeContentBounds;
         }
         
         /**
-        * 设置当前粒子系统指定的渲染边界范围
-        * @member {egret.Rectangle} particle.ParticleSystem#contentBounds
+        * 表示当前粒子系统中发射粒子的渲染边界范围，使用以发射点为基准的坐标系
+        * @member {egret.Rectangle} particle.ParticleSystem#emitterBounds
         */
-        public set contentBounds(rect:egret.Rectangle){
-            this._contentBounds = rect;
-            this.updateGlobalBounds(rect);
+        public set emitterBounds(rect:egret.Rectangle){
+            this._emitterBounds = rect;
+            this.updateRelativeBounds(rect);
         }
         
-        /**
-        * 表示当前粒子系统指定的渲染边界范围
-        */
-        public get contentBounds():egret.Rectangle{
-            return this._contentBounds;
+        public get emitterBounds():egret.Rectangle{
+            return this._emitterBounds;
         }
         
         /**
@@ -159,12 +157,9 @@ module particle {
         */
         public set emitterX(value:number){
             this._emitterX = value;
-            this.updateGlobalBounds(this.contentBounds);
+            this.updateRelativeBounds(this.emitterBounds);
         }
                 
-        /**
-        * 表示粒子出现点X坐标
-        */
         public get emitterX():number{
             return this._emitterX;
         }
@@ -176,12 +171,9 @@ module particle {
         */
         public set emitterY(value:number){
             this._emitterY = value;
-            this.updateGlobalBounds(this.contentBounds);
+            this.updateRelativeBounds(this.emitterBounds);
         }
-                        
-        /**
-        * 表示粒子出现点Y坐标
-        */
+        
         public get emitterY():number{
             return this._emitterY;
         }
@@ -254,8 +246,8 @@ module particle {
         
         $measureContentBounds(bounds:egret.Rectangle):void {
             //如果设置了固定的区域边界则直接使用这个边界，否则进行自动的内容边界测量
-            if(this.globalContentBounds){
-                bounds.copyFrom(this.globalContentBounds);
+            if(this.relativeContentBounds){
+                bounds.copyFrom(this.relativeContentBounds);
                 return;
             }
             
@@ -293,19 +285,6 @@ module particle {
                     }
                     egret.sys.Region.release(tmpRegion);    
                 }
-                if(totalRect.x < 0){
-                    totalRect.x = 0;
-                }
-                if(totalRect.y < 0){
-                    totalRect.y = 0;
-                }
-                if(totalRect.right > this.stage.stageWidth){
-                    totalRect.right = this.stage.stageWidth;
-                }
-                if(totalRect.bottom > this.stage.stageHeight) {
-                    totalRect.bottom = this.stage.stageHeight;
-                }
-                
                 //console.log(totalRect.x + "," + totalRect.y + "," + totalRect.width + "," + totalRect.height);
                 bounds.setTo(totalRect.x, totalRect.y, totalRect.width, totalRect.height);
                 egret.Rectangle.release(totalRect);
@@ -374,6 +353,7 @@ module particle {
                     particle = this.particles[i];
                     
                     this.transformForRender.identity();
+                    this.transformForRender.copyFrom(this.$renderMatrix);
                     this.appendTransform(this.transformForRender, particle.x, particle.y, particle.scale, particle.scale, particle.rotation, 0, 0, textureW / 2, textureH / 2);
                     renderContext.setTransform(this.transformForRender.a,this.transformForRender.b,this.transformForRender.c,this.transformForRender.d,this.transformForRender.tx,this.transformForRender.ty);
                     renderContext.globalAlpha = particle.alpha;

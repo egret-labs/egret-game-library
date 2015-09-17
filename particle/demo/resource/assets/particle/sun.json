@@ -11,8 +11,8 @@
         "x": 0,
         "y": 0
     },
-    "useContentRect": true,
-    "contentRect": {
+    "useEmitterRect": false,
+    "emitterRect": {
         "x": -130,
         "y": -130,
         "width": 260,

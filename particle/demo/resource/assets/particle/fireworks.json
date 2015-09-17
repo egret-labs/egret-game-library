@@ -11,12 +11,12 @@
         "x": 0.0007,
         "y": 0.00143
     },
-    "useContentRect": false,
-    "contentRect": {
-        "x": -100,
-        "y": -100,
+    "useEmitterRect": false,
+    "emitterRect": {
+        "x": -200,
+        "y": -150,
         "width": 400,
-        "height": 200
+        "height": 300
     },
     "maxParticles": 600,
     "speed": 98,
