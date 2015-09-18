@@ -27,74 +27,74 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-class Main extends egret.DisplayObjectContainer{
+class Main extends egret.DisplayObjectContainer {
 
     /**
      * 加载进度界面
      */
-    private loadingView:LoadingUI;
+    private loadingView: LoadingUI;
 
     public constructor() {
         super();
-        this.addEventListener(egret.Event.ADDED_TO_STAGE,this.onAddToStage,this);
+        this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
 
-    private onAddToStage(event:egret.Event){
+    private onAddToStage(event: egret.Event) {
         //设置加载进度界面
-        this.loadingView  = new LoadingUI();
+        this.loadingView = new LoadingUI();
         this.stage.addChild(this.loadingView);
 
         //初始化Resource资源加载库
-        RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE,this.onConfigComplete,this);
-        RES.loadConfig("resource/resource.json","resource/");
+        RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
+        RES.loadConfig("resource/default.res.json", "resource/");
     }
     /**
      * 配置文件加载完成,开始预加载preload资源组。
      */
-    private onConfigComplete(event:RES.ResourceEvent):void{
-        RES.removeEventListener(RES.ResourceEvent.CONFIG_COMPLETE,this.onConfigComplete,this);
-        RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE,this.onResourceLoadComplete,this);
-        RES.addEventListener(RES.ResourceEvent.GROUP_PROGRESS,this.onResourceProgress,this);
+    private onConfigComplete(event: RES.ResourceEvent): void {
+        RES.removeEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
+        RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
+        RES.addEventListener(RES.ResourceEvent.GROUP_PROGRESS, this.onResourceProgress, this);
         RES.loadGroup("preload");
     }
     /**
      * preload资源组加载完成
      */
-    private onResourceLoadComplete(event:RES.ResourceEvent):void {
-        if(event.groupName=="preload"){
+    private onResourceLoadComplete(event: RES.ResourceEvent): void {
+        if (event.groupName == "preload") {
             this.stage.removeChild(this.loadingView);
-            RES.removeEventListener(RES.ResourceEvent.GROUP_COMPLETE,this.onResourceLoadComplete,this);
-            RES.removeEventListener(RES.ResourceEvent.GROUP_PROGRESS,this.onResourceProgress,this);
+            RES.removeEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
+            RES.removeEventListener(RES.ResourceEvent.GROUP_PROGRESS, this.onResourceProgress, this);
             this.createGameScene();
         }
     }
     /**
      * preload资源组加载进度
      */
-    private onResourceProgress(event:RES.ResourceEvent):void {
-        if(event.groupName=="preload"){
-            this.loadingView.setProgress(event.itemsLoaded,event.itemsTotal);
+    private onResourceProgress(event: RES.ResourceEvent): void {
+        if (event.groupName == "preload") {
+            this.loadingView.setProgress(event.itemsLoaded, event.itemsTotal);
         }
     }
 
-    private textContainer:egret.Sprite;
+    private textContainer: egret.Sprite;
     /**
      * 创建游戏场景
      */
-    private createGameScene():void{
+    private createGameScene(): void {
 
         var suite = new Benchmark.Suite;
-        var stage:egret.Stage = this.stage;
+        var stage: egret.Stage = this.stage;
 
-        var parent:egret.DisplayObjectContainer = stage;
-        for (var i = 0 ; i < 10 ; i++){
-            var container:egret.DisplayObjectContainer = new egret.DisplayObjectContainer();
+        var parent: egret.DisplayObjectContainer = stage;
+        for (var i = 0; i < 10; i++) {
+            var container: egret.DisplayObjectContainer = new egret.DisplayObjectContainer();
             parent.addChild(container);
             parent = container;
         }
 
 
-        var func =  function (event) {
+        var func = function(event) {
             var eventMap = event._eventPhase == 1 ? this._captureEventsMap : this._eventsMap;
             if (!eventMap) {
                 return true;
@@ -108,7 +108,7 @@ class Main extends egret.DisplayObjectContainer{
             if (length == 0) {
                 return true;
             }
-//            list = list.concat();
+            //            list = list.concat();
             for (var i = 0; i < length; i++) {
                 var eventBin = list[i];
                 eventBin.listener.call(eventBin.thisObject, event);
@@ -124,7 +124,7 @@ class Main extends egret.DisplayObjectContainer{
 
         var matrix = new egret.Matrix();
 
-        egret.Matrix.prototype.append = function (a, b, c, d, tx, ty) {
+        egret.Matrix.prototype.append = function(a, b, c, d, tx, ty) {
             var a1 = this.a;
             var b1 = this.b;
             var c1 = this.c;
@@ -138,31 +138,17 @@ class Main extends egret.DisplayObjectContainer{
             this.ty = tx * b1 + ty * d1 + this.ty;
             return this;
         };
-
-
-// add tests
-        suite.add('stage._updateTransform1', function() {
-//            dragonBones.animation.WorldClock.clock.advanceTime(100 / 1000);
-//            var touchEvent:egret.TouchEvent = new egret.TouchEvent(egret.TouchEvent.TOUCH_BEGIN,true);
-//            container.dispatchEvent(touchEvent)
-            stage._updateTransform();
-//            matrix.append(2,0,0,2,100,100);
+        console.log("start runing,please wait");
+        suite.add('create new egret.Sprite', function() {
+            var sprite = new egret.Sprite();
         })
-            .add("stage._updateTransform2", function() {
-//                dragonBones.animation.WorldClock.clock.advanceTime(100 / 1000);
-                stage._updateTransform();
-//                matrix.append(2,0,0,2,100,100);
-//                var event:egret.TouchEvent = new egret.TouchEvent(egret.TouchEvent.TOUCH_BEGIN,true);
-//                container.dispatchEvent(event)
+            .add("create new egret.DisplayObject", function() {
+              var shape = new egret.DisplayObject();
+                //console.log(32);
             })
-
-// add listeners
             .on('cycle', function(event) {
                 console.log(String(event.target));
-
-//                egret.EventDispatcher.prototype._notifyListener = func;
-//                return;
-                egret.Matrix.prototype.append = function (a, b, c, d, tx, ty) {
+                egret.Matrix.prototype.append = function(a, b, c, d, tx, ty) {
                     var a1 = this.a;
                     var b1 = this.b;
                     var c1 = this.c;
@@ -180,35 +166,18 @@ class Main extends egret.DisplayObjectContainer{
                 };
 
 
-                egret.DisplayObject.prototype._dispatchPropagationEvent = function (event, list, targetIndex) {
+                egret.DisplayObject.prototype.$dispatchPropagationEvent = function(event, list, targetIndex) {
                     return;
                     var length = list.length;
-//                    for (var i = 0; i < length; i++) {
-//                        var currentTarget = list[i];
-//                        event._currentTarget = currentTarget;
-//                        event._target = this;
-//                        if (i < targetIndex)
-//                            event._eventPhase = 1;
-//                        else if (i == targetIndex)
-//                            event._eventPhase = 2;
-//                        else
-//                            event._eventPhase = 3;
-////                        currentTarget._notifyListener(event);
-//                        if (event._isPropagationStopped || event._isPropagationImmediateStopped) {
-//                            break;
-//                        }
-//                    }
                 };
 
-
-
-                egret.EventDispatcher.prototype._notifyListener = function (event) {
-                    return !event._isDefaultPrevented;
+                egret.EventDispatcher.prototype.$notifyListener = function(event) {
+                    return !event.isDefaultPrevented();
                     var eventMap = this._eventsMap;
                     if (!eventMap) {
                         return true;
                     }
-                    var list = eventMap[event._type];
+                    var list = eventMap[event.type];
 
                     if (!list) {
                         return true;
@@ -221,28 +190,12 @@ class Main extends egret.DisplayObjectContainer{
                     for (var i = 0; i < length; i++) {
                         var eventBin = list[i];
                         eventBin.listener.call(eventBin.thisObject, event);
-                        if (event._isPropagationImmediateStopped) {
+                        if (event.$isPropagationImmediateStopped) {
                             break;
                         }
                     }
-                    return !event._isDefaultPrevented;
+                    return !event.isDefaultPrevented;
                 };
-//                var _getMatrix:Function = function(){
-//                    var matrix = egret.Matrix.identity.identity();
-//                    var anchorX, anchorY;
-//                    if (this.anchorX != 0 || this.anchorY != 0) {
-//                        var bounds = this.getBounds(egret.Rectangle.identity);
-//                        anchorX = bounds.width * this.anchorX;
-//                        anchorY = bounds.height * this.anchorY;
-//                    } else {
-//                        anchorX = this.anchorOffsetX;
-//                        anchorY = this.anchorOffsetY;
-//                    }
-//                    matrix.appendTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.skewX, this.skewY, anchorX, anchorY);
-//                    return matrix;
-//                }
-//                egret.DisplayObject.prototype._getMatrix = _getMatrix;
-
             })
             .on('reset', function(event) {
                 console.log(String(event.target));
@@ -251,17 +204,14 @@ class Main extends egret.DisplayObjectContainer{
                 console.log('Fastest is ' + this.filter('fastest').pluck('name'));
             })
             .run({ 'async': true });
-
     }
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
      */
-    private createBitmapByName(name:string):egret.Bitmap {
-        var result:egret.Bitmap = new egret.Bitmap();
-        var texture:egret.Texture = RES.getRes(name);
+    private createBitmapByName(name: string): egret.Bitmap {
+        var result: egret.Bitmap = new egret.Bitmap();
+        var texture: egret.Texture = RES.getRes(name);
         result.texture = texture;
         return result;
     }
 }
-
-
