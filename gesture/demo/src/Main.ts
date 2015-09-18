@@ -31,6 +31,7 @@ class Main extends egret.DisplayObjectContainer {
 
     /**
      * 加载进度界面
+     * Process interface loading
      */
     private loadingView:LoadingUI;
 
@@ -41,38 +42,57 @@ class Main extends egret.DisplayObjectContainer {
 
     private onAddToStage(event:egret.Event) {
         //设置加载进度界面
+        //Config to load process interface
         this.loadingView = new LoadingUI();
         this.stage.addChild(this.loadingView);
 
         //初始化Resource资源加载库
+        //initiate Resource loading library
         RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
         RES.loadConfig("resource/resource.json", "resource/");
     }
 
     /**
      * 配置文件加载完成,开始预加载preload资源组。
+     * configuration file loading is completed, start to pre-load the preload resource group
      */
     private onConfigComplete(event:RES.ResourceEvent):void {
         RES.removeEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
         RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
+        RES.addEventListener(RES.ResourceEvent.GROUP_LOAD_ERROR, this.onResourceLoadError, this);
         RES.addEventListener(RES.ResourceEvent.GROUP_PROGRESS, this.onResourceProgress, this);
         RES.loadGroup("preload");
     }
 
     /**
      * preload资源组加载完成
+     * Preload resource group is loaded
      */
     private onResourceLoadComplete(event:RES.ResourceEvent):void {
         if (event.groupName == "preload") {
             this.stage.removeChild(this.loadingView);
             RES.removeEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
+            RES.removeEventListener(RES.ResourceEvent.GROUP_LOAD_ERROR, this.onResourceLoadError, this);
             RES.removeEventListener(RES.ResourceEvent.GROUP_PROGRESS, this.onResourceProgress, this);
             this.createGameScene();
         }
     }
 
     /**
+     * 资源组加载出错
+     *  The resource group loading failed
+     */
+    private onResourceLoadError(event:RES.ResourceEvent):void {
+        //TODO
+        console.warn("Group:" + event.groupName + " has failed to load");
+        //忽略加载失败的项目
+        //Ignore the loading failed projects
+        this.onResourceLoadComplete(event);
+    }
+
+    /**
      * preload资源组加载进度
+     * Loading process of preload resource group
      */
     private onResourceProgress(event:RES.ResourceEvent):void {
         if (event.groupName == "preload") {
@@ -92,7 +112,8 @@ class Main extends egret.DisplayObjectContainer {
         var stageH:number = this.stage.stageHeight;
         sky.width = stageW;
         sky.height = stageH;
-        sky.anchorX = sky.anchorY = 0.5;
+        sky.anchorOffsetX = stageW >> 1;
+        sky.anchorOffsetY = stageH >> 1;
         sky.x = stageW >> 1;
         sky.y = stageH >> 1;
         this.sky = sky;
@@ -106,7 +127,8 @@ class Main extends egret.DisplayObjectContainer {
         this.addChild(topMask);
 
         var icon:egret.Bitmap = this.createBitmapByName("egretIcon");
-        icon.anchorX = icon.anchorY = 0.5;
+        icon.anchorOffsetX = icon.width >> 1;
+        icon.anchorOffsetY = icon.height >> 1;
         this.addChild(icon);
         icon.x = stageW / 2;
         icon.y = stageH / 2 - 60;
@@ -116,11 +138,12 @@ class Main extends egret.DisplayObjectContainer {
         var colorLabel:egret.TextField = new egret.TextField();
         colorLabel.x = stageW / 2;
         colorLabel.y = stageH / 2 + 50;
-        colorLabel.anchorX = colorLabel.anchorY = 0.5;
         colorLabel.textColor = 0xffffff;
         colorLabel.textAlign = "center";
         colorLabel.text = "Hello Egret";
         colorLabel.size = 20;
+        colorLabel.anchorOffsetX = colorLabel.width >> 1;
+        colorLabel.anchorOffsetY = colorLabel.height >> 1;
         this.addChild(colorLabel);
 
         var colorLabel2:egret.TextField = new egret.TextField();
@@ -162,6 +185,7 @@ class Main extends egret.DisplayObjectContainer {
 
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
+     * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
      */
     private createBitmapByName(name:string):egret.Bitmap {
         var result:egret.Bitmap = new egret.Bitmap();
@@ -169,6 +193,9 @@ class Main extends egret.DisplayObjectContainer {
         result.texture = texture;
         return result;
     }
+
+
+
 }
 
 
