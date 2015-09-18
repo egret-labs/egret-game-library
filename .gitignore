@@ -4,6 +4,7 @@ tools/node_modules
 src/resource/**/*.js
 src/resource/**/**/*.js
 release/
+temp/
 
 tools/nodejs/buildTS.local
 *.local
