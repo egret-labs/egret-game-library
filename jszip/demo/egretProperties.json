@@ -2,7 +2,11 @@
   "native": {
     "path_ignore": []
   },
-  "egret_version": "2.4.3",
+  "publish": {
+    "web": 0,
+    "native": 1
+  },
+  "egret_version": "2.5.0",
   "modules": [
     {
       "name": "egret"
@@ -12,6 +16,10 @@
     },
     {
       "name": "tween"
+    },
+    {
+      "name": "jszip",
+      "path":"../libsrc"
     },
     {
       "name": "res"
