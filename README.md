@@ -9,12 +9,6 @@ Egret Game Library is a 3rd party library which is maintained by egret team. Eac
 
 ### Index
 
-#### AdScene
-google adscene library
-
-#### DOM
-egret rendering with DOM support
-
 #### MD5
 MD5 library
 
@@ -33,6 +27,9 @@ wechat API
 #### dcagent
 DataEye SDK for Egret
 
+#### tiled
+tiledmap 
+
 中文
 
 ### 概述
@@ -40,12 +37,6 @@ Egret Game Library 是 Egret 官方团队参与维护的 Egret 第三方库。�
 
 
 ### 目录
-
-#### AdScene
-google adscene 扩展库
-
-#### dom
-egret dom 渲染方式
 
 #### md5
 一个简单的md5库
@@ -71,3 +62,6 @@ DataEye SDK for Egret
 
 #### createjs
 可以将Flash中的矢量绘图在Egret显示列表呈现
+
+#### tiled
+tiledmap 支持库
