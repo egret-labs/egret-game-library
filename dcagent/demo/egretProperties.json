@@ -1,0 +1,29 @@
+{
+  "native": {
+    "path_ignore": []
+  },
+  "publish": {
+    "web": 0,
+    "native": 1,
+    "path": "bin-release"
+  },
+  "egret_version": "2.5.0",
+  "modules": [
+    {
+      "name": "egret"
+    },
+    {
+      "name": "game"
+    },
+    {
+      "name": "dcagent",
+      "path": "../libsrc"
+    },
+    {
+      "name": "res"
+    },
+    {
+      "name": "tween"
+    }
+  ]
+}
