@@ -1,0 +1,12 @@
+{
+	"name": "egret",
+	"version": "2.4.3",
+	"modules": [
+		{
+			"name": "md5",
+			"description": "md5",
+			"files": ["md5.ts"],
+			"root": "src"
+		}
+	]
+}

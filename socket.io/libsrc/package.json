@@ -1,0 +1,15 @@
+{
+	"name": "egret",
+	"version": "2.4.3",
+	"modules": [
+		{
+			"name": "socket.io",
+			"description": "socket.io",
+			"files": [
+				"socket.io.js",
+        		"socket.io.d.ts"
+			],
+			"root": "src"
+		}
+	]
+}

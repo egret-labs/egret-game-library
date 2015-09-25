@@ -1,22 +1,25 @@
 {
-	"document_class": "Main",
-	"modules": [
-		{
-			"name": "core"
-		},
-		{
-			"name": "version_old"
-		},
-		{
-			"name": "res"
-		},
-		{
-			"name": "socket.io",
-			"path": "../libsrc/socket.io"
-		}
-	],
-	"native": {
-		"path_ignore": []
-	},
-	"egret_version": "2.0.5"
+  "native": {
+    "path_ignore": []
+  },
+  "publish": {
+    "web": 0,
+    "native": 1
+  },
+  "egret_version": "2.5.0",
+  "modules": [
+    {
+      "name": "egret"
+    },
+    {
+      "name": "game"
+    },
+    {
+      "name": "socket.io",
+      "path": "../libsrc"
+    },
+    {
+      "name": "res"
+    }
+  ]
 }

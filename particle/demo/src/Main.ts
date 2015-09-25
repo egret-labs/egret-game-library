@@ -92,8 +92,7 @@ class Main extends egret.DisplayObjectContainer {
      * 创建游戏场景
      */
     private createGameScene():void {
-        egret.Profiler.getInstance().run();
-
+        
         this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
 
         this.btn1 = new egret.TextField();

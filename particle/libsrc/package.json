@@ -1,0 +1,19 @@
+{
+	"name": "egret",
+	"version": "2.4.3",
+	"modules": [
+		{
+			"name": "particle",
+			"description": "particle",
+			"files": [
+			  "egret.d.ts",
+			  "game.d.ts",
+			  "Particle.ts",
+			  "ParticleSystem.ts",
+			  "GravityParticle.ts",
+			  "GravityParticleSystem.ts"
+			],
+			"root": "src"
+		}
+	]
+}

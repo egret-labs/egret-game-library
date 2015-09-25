@@ -11,6 +11,13 @@
         "x": 0,
         "y": 0
     },
+    "useEmitterRect": false,
+    "emitterRect": {
+        "x": -130,
+        "y": -130,
+        "width": 260,
+        "height": 260
+    },
     "maxParticles": 500,
     "speed": 260,
     "speedVariance": 10,

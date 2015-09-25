@@ -1,0 +1,23 @@
+{
+	"name": "egret",
+	"version": "2.4.3",
+	"modules": [
+		{
+			"name": "gesture",
+			"description": "gesture",
+			"files": [
+			  "egret.d.ts",
+			  "game.d.ts",
+			  "core/PropGesture.ts",
+			  "events/GestureEvent.ts",
+			  "gestures/GestureRecognizerPlugin.ts",
+			  "gestures/PinchGestureRecognizer.ts",
+			  "gestures/DoubleTapGestureRecognizer.ts",
+			  "utils/GestureType.ts",
+			  "utils/GestureState.ts",
+			  "GestureManager.ts"
+			],
+			"root": "src"
+		}
+	]
+}

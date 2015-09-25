@@ -1,18 +1,5 @@
 [
-    [
-        {"text" : "开源", "textColor":"0xF1C40F"},
-        {"text" : "，", "textColor":"0xFFFFFF"},
-        {"text" : "免费", "textColor":"0xF1C40F"},
-        {"text" : "，", "textColor":"0xFFFFFF"},
-        {"text" : "跨平台", "textColor":"0xF1C40F"}
-    ],
-    [
-        {"text" : "推动", "textColor":"0xFFFFFF"},
-        {"text" : "游戏", "textColor":"0xF1C40F"},
-        {"text" : "前行", "textColor":"0xFFFFFF"}
-    ],
-    [
-        {"text" : "HTML5", "textColor":"0xF1C40F"},
-        {"text" : "游戏框架", "textColor":"0xFFFFFF"}
-    ]
+    "<font color=0xF1C40F>Open-source</font>,<font color=0xF1C40F>Free</font>,<font color=0xF1C40F>Multi-platform</font>",
+    "Push <font color=0xF1C40F>Game </font>Forward",
+    "<font color=0xF1C40F>HTML5 </font>Game Engine"
 ]
