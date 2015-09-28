@@ -26,8 +26,7 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var particle;
 (function (particle) {
     var Particle = (function () {
@@ -84,8 +83,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var particle;
 (function (_particle) {
     var ParticleSystem = (function (_super) {
@@ -439,8 +437,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var particle;
 (function (particle) {
     var GravityParticle = (function (_super) {
@@ -500,8 +497,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var particle;
 (function (_particle) {
     var GravityParticleSystem = (function (_super) {

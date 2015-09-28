@@ -3,7 +3,7 @@ bin-debug/
 tools/node_modules
 src/resource/**/*.js
 src/resource/**/**/*.js
-libs/
+
 release/
 
 tools/nodejs/buildTS.local

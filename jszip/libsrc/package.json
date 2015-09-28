@@ -1,15 +1,15 @@
 {
 	"name": "egret",
-	"version": "2.4.3",
+	"version": "2.5.0",
 	"modules": [
 		{
 			"name": "jszip",
 			"description": "jszip",
 			"files": [
-			"jszip.min.js",
-	    	"FileSaver.js",
-		    "jszip.d.ts"
-		    ],
+			  "jszip.min.js",
+			  "FileSaver.js",
+			  "jszip.d.ts"
+			],
 			"root": "src"
 		}
 	]

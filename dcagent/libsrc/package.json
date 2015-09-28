@@ -6,9 +6,10 @@
 			"name": "dcagent",
 			"description": "dcagent",
 			"files": [
-			"dcagent.additional.js",
-			"dcagent.min.js",
-			"dcagent.ts"],
+			  "dcagent.additional.js",
+			  "dcagent.min.js",
+			  "dcagent.ts"
+			],
 			"root": "src"
 		}
 	]

@@ -1,5 +1,4 @@
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var PropGesture = (function () {
     function PropGesture(target, property0, property1, property2, next, isContinuous, priority, numTouchesRequired) {
         if (property0 === void 0) { property0 = "executeGestureRecognizedCallback"; }
@@ -41,8 +40,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var GestureEvent = (function (_super) {
     __extends(GestureEvent, _super);
     /**
@@ -62,8 +60,7 @@ var GestureEvent = (function (_super) {
 })(egret.Event);
 egret.registerClass(GestureEvent,"GestureEvent");
 
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var GestureRecognizerPlugin = (function () {
     function GestureRecognizerPlugin(name, priority, requireGestureRecognizerToFail, continuous, numTouchesRequired) {
         if (name === void 0) { name = ""; }
@@ -156,8 +153,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var PinchGestureRecognizer = (function (_super) {
     __extends(PinchGestureRecognizer, _super);
     function PinchGestureRecognizer(priority, requireGestureRecognizerToFail) {
@@ -246,8 +242,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var DoubleTapGestureRecognizer = (function (_super) {
     __extends(DoubleTapGestureRecognizer, _super);
     function DoubleTapGestureRecognizer(priority, requireGestureRecognizerToFail) {
@@ -307,8 +302,7 @@ var DoubleTapGestureRecognizer = (function (_super) {
 })(GestureRecognizerPlugin);
 egret.registerClass(DoubleTapGestureRecognizer,"DoubleTapGestureRecognizer");
 
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var GestureType = (function () {
     function GestureType() {
     }
@@ -319,8 +313,7 @@ var GestureType = (function () {
 })();
 egret.registerClass(GestureType,"GestureType");
 
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var GestureState = (function () {
     function GestureState() {
     }
@@ -336,8 +329,7 @@ var GestureState = (function () {
 })();
 egret.registerClass(GestureState,"GestureState");
 
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var GestureManager = (function () {
     /**
      * Creates a GestureManager instance

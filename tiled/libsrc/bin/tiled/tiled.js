@@ -1,5 +1,4 @@
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXAnimation = (function () {
     function TMXAnimation($data, x, y, tilemap, tileset) {
         this._currentFrame = 0;
@@ -54,8 +53,7 @@ var TMXAnimation = (function () {
 })();
 egret.registerClass(TMXAnimation,"TMXAnimation");
 
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXAnimationFrame = (function () {
     function TMXAnimationFrame(data, x, y, tilemap, tileset) {
         this._tiledid = +data.attributes.tileid;
@@ -82,8 +80,7 @@ var TMXAnimationFrame = (function () {
 })();
 egret.registerClass(TMXAnimationFrame,"TMXAnimationFrame");
 
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXConstants = (function () {
     function TMXConstants() {
     }
@@ -128,8 +125,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXImageLoadEvent = (function (_super) {
     __extends(TMXImageLoadEvent, _super);
     function TMXImageLoadEvent(type, data, bubbles, cancelable) {
@@ -152,8 +148,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXColorLayer = (function (_super) {
     __extends(TMXColorLayer, _super);
     function TMXColorLayer(tilemap, color, z) {
@@ -170,8 +165,7 @@ var TMXColorLayer = (function (_super) {
 })(egret.Sprite);
 egret.registerClass(TMXColorLayer,"TMXColorLayer");
 
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TexturePool = (function () {
     function TexturePool() {
     }
@@ -196,8 +190,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXImageLayer = (function (_super) {
     __extends(TMXImageLayer, _super);
     function TMXImageLayer(tilemap, data, z) {
@@ -290,8 +283,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 //Tile设置中的Tile TMXLayer中的Tile
 var TMXTile = (function (_super) {
     __extends(TMXTile, _super);
@@ -389,8 +381,7 @@ var TMXTile = (function (_super) {
 })(egret.Sprite);
 egret.registerClass(TMXTile,"TMXTile");
 
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 //包含所有的Tileset的组
 var TMXTilesetGroup = (function () {
     function TMXTilesetGroup($tilemap) {
@@ -450,8 +441,7 @@ var TMXTilesetGroup = (function () {
 })();
 egret.registerClass(TMXTilesetGroup,"TMXTilesetGroup");
 
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var BitmapLoader = (function () {
     function BitmapLoader() {
     }
@@ -490,8 +480,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXImage = (function (_super) {
     __extends(TMXImage, _super);
     function TMXImage(imgData, baseURL) {
@@ -541,8 +530,7 @@ var TMXImage = (function (_super) {
 })(egret.EventDispatcher);
 egret.registerClass(TMXImage,"TMXImage");
 
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXProperty = (function () {
     function TMXProperty() {
         this.gid = 0;
@@ -552,8 +540,7 @@ var TMXProperty = (function () {
 })();
 egret.registerClass(TMXProperty,"TMXProperty");
 
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXRenderer = (function () {
     function TMXRenderer(cols, rows, tilewidth, tileheight) {
         this.offsetsStaggerX = [
@@ -633,8 +620,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXOrthogonalRenderer = (function (_super) {
     __extends(TMXOrthogonalRenderer, _super);
     function TMXOrthogonalRenderer(cols, rows, tilewidth, tileheight) {
@@ -694,8 +680,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXIsometricRenderer = (function (_super) {
     __extends(TMXIsometricRenderer, _super);
     function TMXIsometricRenderer(cols, rows, tilewidth, tileheight) {
@@ -798,8 +783,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXHexagonalRenderer = (function (_super) {
     __extends(TMXHexagonalRenderer, _super);
     function TMXHexagonalRenderer(cols, rows, tilewidth, tileheight, hexsidelength, staggeraxis, staggerindex) {
@@ -947,8 +931,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXTilemap = (function (_super) {
     __extends(TMXTilemap, _super);
     function TMXTilemap(renderwidth, renderheight, data, url) {
@@ -1203,8 +1186,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var Ellipse = (function (_super) {
     __extends(Ellipse, _super);
     function Ellipse(x, y, w, h) {
@@ -1232,8 +1214,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var Polygon = (function (_super) {
     __extends(Polygon, _super);
     function Polygon(x, y, points) {
@@ -1268,8 +1249,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var PolyLine = (function (_super) {
     __extends(PolyLine, _super);
     function PolyLine(x, y, points) {
@@ -1298,8 +1278,7 @@ var PolyLine = (function (_super) {
 })(egret.Sprite);
 egret.registerClass(PolyLine,"PolyLine");
 
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXTileset = (function () {
     function TMXTileset(tilemap, tilesetData) {
         //获取文件扩展名
@@ -1493,8 +1472,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXLayer = (function (_super) {
     __extends(TMXLayer, _super);
     //每1个图层的信息，包括：水平格子数，垂直格子数，渲染方向，tilesets组，层深
@@ -1697,8 +1675,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 //可能存在普通对象，也可能存在动画
 var TMXObject = (function (_super) {
     __extends(TMXObject, _super);
@@ -1888,8 +1865,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXObjectGroup = (function (_super) {
     __extends(TMXObjectGroup, _super);
     function TMXObjectGroup(tmxObjGroupData, orientation, tilesets, z) {
@@ -1961,8 +1937,7 @@ var TMXObjectGroup = (function (_super) {
 })(egret.Sprite);
 egret.registerClass(TMXObjectGroup,"TMXObjectGroup");
 
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var Base64 = (function () {
     function Base64() {
     }
@@ -2057,8 +2032,7 @@ var Base64 = (function () {
 })();
 egret.registerClass(Base64,"Base64");
 
-var __define = this.__define || function (o, p, g, s) { 
-  Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
+var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var TMXUtils = (function () {
     function TMXUtils() {
     }

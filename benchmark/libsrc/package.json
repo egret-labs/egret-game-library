@@ -1,13 +1,13 @@
 {
 	"name": "egret",
-	"version": "2.4.3",
+	"version": "2.5.0",
 	"modules": [
 		{
 			"name": "benchmark",
 			"description": "benchmark",
 			"files": [
-				"benchmark.js",
-        		"benchmark.d.ts"
+			  "benchmark.js",
+			  "benchmark.d.ts"
 			],
 			"root": "src"
 		}
