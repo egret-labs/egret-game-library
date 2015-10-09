@@ -9,7 +9,7 @@ class SewersExample extends egret.DisplayObjectContainer {
         //load complete
         urlLoader.addEventListener(egret.Event.COMPLETE, function (event:egret.Event):void {
             var data:any = egret.XML.parse(event.target.data);
-            var tmxTileMap:TMXTilemap = new TMXTilemap(2000, 2000, data, url);
+            var tmxTileMap:tiled.TMXTilemap = new tiled.TMXTilemap(2000, 2000, data, url);
             tmxTileMap.render();
             self.addChild(tmxTileMap);
         }, url);
