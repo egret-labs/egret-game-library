@@ -183,6 +183,9 @@ var tiled;
         TexturePool.getTexture = function ($url) {
             return this.texturePools[$url];
         };
+        TexturePool.removeAllTextures = function () {
+            this.texturePools = {};
+        };
         TexturePool.texturePools = {};
         return TexturePool;
     })();
@@ -502,11 +505,6 @@ var tiled;
                 return this._source;
             }
         );
-        d(p, "bitmap"
-            ,function () {
-                return this._bitmap;
-            }
-        );
         d(p, "width"
             ,function () {
                 return this._width;
@@ -521,7 +519,7 @@ var tiled;
             var self = this;
             tiled.BitmapLoader.load($url, function ($url) {
                 self._texture = tiled.TexturePool.getTexture($url);
-                self._bitmap = new egret.Bitmap(self._texture);
+                self.bitmap = new egret.Bitmap(self._texture);
                 self.dispatchEvent(new tiled.TMXImageLoadEvent(tiled.TMXImageLoadEvent.IMAGE_COMPLETE, self._texture));
             }, [$url]);
         };
@@ -1051,6 +1049,8 @@ var tiled;
             this._objectGroups = [];
             this._initialized = false;
             this.removeEventListener(egret.Event.ENTER_FRAME, this.onStartRendering, this);
+            tiled.TexturePool.removeAllTextures();
+            tiled.TMXTileset.removeAllTextures();
         };
         //读取地图上的对象
         p.readMapObjects = function (data) {
@@ -1091,6 +1091,8 @@ var tiled;
                 var tileset = this._tilesets.getTilesetByIndex(i);
                 if (tileset.image) {
                     var onImageLoad = function (event) {
+                        var target = event.currentTarget;
+                        target.removeEventListener(tiled.TMXImageLoadEvent.IMAGE_COMPLETE, onImageLoad, this);
                         loadCount++;
                         if (loadCount == this._tilesets.imagelength) {
                             self.dispatchEvent(new tiled.TMXImageLoadEvent(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE));
@@ -1139,6 +1141,7 @@ var tiled;
                 layer.setRenderer(this._tmxRenderer);
             var self = this;
             var onAllImageLoad = function (event) {
+                self.removeEventListener(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE, onAllImageLoad, this);
                 this.draw(new egret.Rectangle(0, 0, self._renderWidth, self._renderHeight));
             };
             this.addEventListener(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE, onAllImageLoad, layer);
@@ -1149,6 +1152,7 @@ var tiled;
             var objectGroup = new tiled.TMXObjectGroup(data, this._orientation, this._tilesets, z);
             var self = this;
             var onAllImageLoad = function (event) {
+                self.removeEventListener(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE, onAllImageLoad, this);
                 this.draw(new egret.Rectangle(0, 0, self._renderWidth, self._renderHeight));
             };
             this.addEventListener(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE, onAllImageLoad, objectGroup);
@@ -1447,6 +1451,10 @@ var tiled;
                     renderer.addChild(tmxTile.bitmap);
                 }
             }
+        };
+        //移除所有缓存的纹理
+        TMXTileset.removeAllTextures = function () {
+            this._cacheRenderTextures = {};
         };
         return TMXTileset;
     })();

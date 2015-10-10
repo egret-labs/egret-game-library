@@ -205,5 +205,11 @@
 				}
 			}   
 		}
+
+		//移除所有缓存的纹理
+		static removeAllTextures():void
+		{
+			this._cacheRenderTextures={};
+		}
 	} 
 }

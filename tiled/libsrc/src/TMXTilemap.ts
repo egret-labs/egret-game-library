@@ -156,6 +156,8 @@
 			this._objectGroups = [];
 			this._initialized = false;
 			this.removeEventListener(egret.Event.ENTER_FRAME, this.onStartRendering, this);
+			tiled.TexturePool.removeAllTextures();
+			tiled.TMXTileset.removeAllTextures();
 		}
 		
 		//读取地图上的对象
@@ -205,6 +207,8 @@
 				var tileset: tiled.TMXTileset = this._tilesets.getTilesetByIndex(i);
 				if (tileset.image) {
 					var onImageLoad: Function = function (event:tiled.TMXImageLoadEvent): void {
+						var target:TMXImage=event.currentTarget;
+						target.removeEventListener(tiled.TMXImageLoadEvent.IMAGE_COMPLETE,onImageLoad,this);
 						loadCount++;
 						if (loadCount == this._tilesets.imagelength) {
 							self.dispatchEvent(new tiled.TMXImageLoadEvent(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE));
@@ -261,6 +265,7 @@
 				layer.setRenderer(this._tmxRenderer);
 			var self: tiled.TMXTilemap = this;
 			var onAllImageLoad: Function = function (event:tiled.TMXImageLoadEvent): void {
+				self.removeEventListener(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE, onAllImageLoad, this);
 				this.draw(new egret.Rectangle(0, 0, self._renderWidth, self._renderHeight));
 			}
 			this.addEventListener(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE, onAllImageLoad, layer);
@@ -272,6 +277,7 @@
 			var objectGroup: tiled.TMXObjectGroup = new tiled.TMXObjectGroup(data, this._orientation, this._tilesets, z);
 			var self: tiled.TMXTilemap = this;
 			var onAllImageLoad: Function = function (event: tiled.TMXImageLoadEvent): void {
+				self.removeEventListener(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE, onAllImageLoad, this);
 				this.draw(new egret.Rectangle(0, 0, self._renderWidth, self._renderHeight));
 			}
 			this.addEventListener(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE, onAllImageLoad, objectGroup);

@@ -80,6 +80,7 @@ declare module tiled {
         static addTexture($url: string, $texture: egret.Texture): void;
         static removeTexture($url: string): void;
         static getTexture($url: string): egret.Texture;
+        static removeAllTextures(): void;
     }
 }
 declare module tiled {
@@ -152,11 +153,10 @@ declare module tiled {
         private _height;
         private _trans;
         private _texture;
-        private _bitmap;
+        bitmap: egret.Bitmap;
         constructor(imgData: any, baseURL: string);
         texture: egret.Texture;
         source: string;
-        bitmap: egret.Bitmap;
         width: number;
         height: number;
         private loadImage($url);
@@ -405,6 +405,7 @@ declare module tiled {
         getTileProperties(tileId: number): any;
         contains(gid: any): boolean;
         drawTile(renderer: egret.Sprite, dx: number, dy: number, tmxTile: tiled.TMXTile): void;
+        static removeAllTextures(): void;
     }
 }
 declare module tiled {

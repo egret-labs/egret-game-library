@@ -14,5 +14,10 @@
 		public static getTexture($url:string): egret.Texture {
 			return this.texturePools[$url];
 		}
+
+		public static removeAllTextures():void
+		{
+			this.texturePools={};
+		}
 	}
 }

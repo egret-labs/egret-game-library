@@ -5,7 +5,7 @@
 		private _height: number;
 		private _trans: number;
 		private _texture: egret.Texture;
-		private _bitmap: egret.Bitmap;
+		public bitmap: egret.Bitmap;
 
 		constructor(imgData: any, baseURL: string) {
 			super(this);
@@ -27,10 +27,6 @@
 			return this._source;
 		}
 
-		get bitmap() {
-			return this._bitmap;
-		}
-
 		get width() {
 			return this._width;
 		}
@@ -43,7 +39,7 @@
 			var self: tiled.TMXImage = this;
 			tiled.BitmapLoader.load($url, function ($url: string): void {
 				self._texture = tiled.TexturePool.getTexture($url);
-				self._bitmap = new egret.Bitmap(self._texture);
+				self.bitmap = new egret.Bitmap(self._texture);
 				self.dispatchEvent(new tiled.TMXImageLoadEvent(tiled.TMXImageLoadEvent.IMAGE_COMPLETE, self._texture));
 			}, [$url]);
 		}
