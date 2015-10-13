@@ -155,7 +155,7 @@ declare module p2 {
 
     export class DistanceConstraint extends Constraint {
 
-        constructor(bodyA: Body, bodyB: Body, type: number, options?: {
+        constructor(bodyA: Body, bodyB: Body, options?: {
             collideConnected?: boolean;
             wakeUpBodies?: boolean;
             distance?: number;
@@ -181,7 +181,7 @@ declare module p2 {
 
     export class GearConstraint extends Constraint {
 
-        constructor(bodyA: Body, bodyB: Body, type: number, options?: {
+        constructor(bodyA: Body, bodyB: Body, options?: {
             collideConnected?: boolean;
             wakeUpBodies?: boolean;
             angle?: number;
@@ -214,7 +214,7 @@ declare module p2 {
 
     export class PrismaticConstraint extends Constraint {
 
-        constructor(bodyA: Body, bodyB: Body, type: number, options?: {
+        constructor(bodyA: Body, bodyB: Body, options?: {
             collideConnected?: boolean;
             wakeUpBodies?: boolean;
             maxForce?: number;
@@ -249,7 +249,7 @@ declare module p2 {
 
     export class RevoluteConstraint extends Constraint {
 
-        constructor(bodyA: Body, bodyB: Body, type: number, options?: {
+        constructor(bodyA: Body, bodyB: Body, options?: {
             collideConnected?: boolean;
             wakeUpBodies?: boolean;
             worldPivot?: number[];
