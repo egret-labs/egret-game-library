@@ -26,7 +26,7 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-    
+
 declare module p2 {
 
     export class AABB {
@@ -841,6 +841,7 @@ declare module p2 {
          * @return {boolean}
          */
         overlaps(body: Body): boolean;
+        toWorldFrame(out: number[], localPoint: number[]): void;
     }
 
     export class Spring {
