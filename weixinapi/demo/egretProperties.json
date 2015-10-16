@@ -1,22 +1,22 @@
 {
-  "native": {
-    "path_ignore": []
-  },
-  "publish": {
-    "web": 0,
-    "native": 1
-  },
-  "egret_version": "2.5.0",
-  "modules": [
-    {
-      "name": "egret"
-    },
-    {
-      "name": "res"
-    },
-    {
-      "name": "weixinapi",
-      "path":"../libsrc"
-    }
-  ]
+	"native": {
+		"path_ignore": []
+	},
+	"publish": {
+		"web": 0,
+		"native": 1
+	},
+	"egret_version": "2.5.2",
+	"modules": [
+		{
+			"name": "egret"
+		},
+		{
+			"name": "res"
+		},
+		{
+			"name": "weixinapi",
+			"path": "../libsrc"
+		}
+	]
 }
