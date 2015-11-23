@@ -114,7 +114,7 @@ class Main extends egret.DisplayObjectContainer {
                 if (box) {
                     box.x = boxBody.position[0] * factor;
                     box.y = stageHeight - boxBody.position[1] * factor;
-                    box.rotation = 360 - (boxBody.angle + boxBody.shapeAngles[0]) * 180 / Math.PI;
+                    box.rotation = 360 - (boxBody.angle + boxBody.shapes[0].angle) * 180 / Math.PI;
                     if (boxBody.sleepState == p2.Body.SLEEPING) {
                         box.alpha = 0.5;
                     }
@@ -135,22 +135,24 @@ class Main extends egret.DisplayObjectContainer {
             var display: egret.DisplayObject;
             if (Math.random() > 0.5) {
                 //添加方形刚体
-                var boxShape: p2.Shape = new p2.Rectangle(2, 1);
+                //var boxShape: p2.Shape = new p2.Rectangle(2, 1);
+                var boxShape: p2.Shape = new p2.Box({width: 2, height: 1});
                 var boxBody: p2.Body = new p2.Body({ mass: 1, position: [positionX, positionY], angularVelocity: 1 });
                 boxBody.addShape(boxShape);
                 world.addBody(boxBody);
 
                 if(self.isDebug){
-                  display = self.createBox((<p2.Rectangle>boxShape).width * factor,(<p2.Rectangle>boxShape).height * factor);
+                  display = self.createBox((<p2.Box>boxShape).width * factor,(<p2.Box>boxShape).height * factor);
                 }else{
                     display = self.createBitmapByName("rect");
                 }
-                display.width = (<p2.Rectangle>boxShape).width * factor;
-                display.height = (<p2.Rectangle>boxShape).height * factor;
+                display.width = (<p2.Box>boxShape).width * factor;
+                display.height = (<p2.Box>boxShape).height * factor;
             }
             else {
                 //添加圆形刚体
-                var boxShape: p2.Shape = new p2.Circle(1);
+                //var boxShape: p2.Shape = new p2.Circle(1);
+                var boxShape: p2.Shape = new p2.Circle({ radius: 1 });
                 var boxBody: p2.Body = new p2.Body({ mass: 1, position: [positionX, positionY] });
                 boxBody.addShape(boxShape);
                 world.addBody(boxBody);

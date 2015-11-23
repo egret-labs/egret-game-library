@@ -61,12 +61,14 @@ class Main extends egret.DisplayObjectContainer {
         this.world.addBody(groundBody);
     }
     private createBodies(): void {
-        var boxShape: p2.Shape = new p2.Rectangle(100, 50);
+        //var boxShape: p2.Shape = new p2.Rectangle(100, 50);
+        var boxShape: p2.Shape = new p2.Box({width: 100, height: 50});
         var boxBody: p2.Body = new p2.Body({ mass: 1, position: [200, 200] });
         boxBody.addShape(boxShape);
         this.world.addBody(boxBody);
 
-        var boxShape: p2.Shape = new p2.Rectangle(50, 50);
+        //var boxShape: p2.Shape = new p2.Rectangle(50, 50);
+        var boxShape: p2.Shape = new p2.Box({width: 50, height: 50});
         var boxBody: p2.Body = new p2.Body({ mass: 1, position: [200, 180], angularVelocity: 1 });
         boxBody.addShape(boxShape);
         this.world.addBody(boxBody);
@@ -93,16 +95,20 @@ class Main extends egret.DisplayObjectContainer {
         //shapeType = "particle";
         switch (shapeType) {
             case "box":
-                shape = new p2.Rectangle(Math.random() * 150 + 50, 100);
+                //shape = new p2.Rectangle(Math.random() * 150 + 50, 100);
+                shape = new p2.Box({width: Math.random() * 150 + 50, height: 100});
                 break;
             case "circle":
-                shape = new p2.Circle(50);
+                //shape = new p2.Circle(50);
+                shape = new p2.Circle({radius: 50});
                 break;
             case "capsule":
-                shape = new p2.Capsule(50, 10);
+                //shape = new p2.Capsule(50, 10);
+                shape = new p2.Capsule({length: 50, radius: 10});
                 break;
             case "line":
-                shape = new p2.Line(150);
+                //shape = new p2.Line(150);
+                shape = new p2.Line({length: 150});
                 break;
             case "particle":
                 shape = new p2.Particle();
