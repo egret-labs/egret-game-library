@@ -149,7 +149,7 @@ declare module p2 {
         });
 
         type: number;
-        equeations: Equation[];
+        equations: Equation[];
         bodyA: Body;
         bodyB: Body;
         collideConnected: boolean;
@@ -368,7 +368,7 @@ declare module p2 {
 
     export class EventEmitter {
 
-        on(type: string, listener: Function): EventEmitter;
+        on(type: string, listener: Function, context: any): EventEmitter;
         has(type: string, listener: Function): boolean;
         off(type: string, listener: Function): EventEmitter;
         emit(event: any): EventEmitter;
