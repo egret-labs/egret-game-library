@@ -367,7 +367,7 @@ declare module p2 {
 
     export class EventEmitter {
 
-        on(type: string, listener: Function, context: any): EventEmitter;
+        on(type: string, listener: Function, context?: any): EventEmitter;
         has(type: string, listener: Function): boolean;
         off(type: string, listener: Function): EventEmitter;
         emit(event: any): EventEmitter;

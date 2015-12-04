@@ -25,7 +25,7 @@
 //  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 class p2DebugDraw {
 
     private sprite: egret.Sprite;
@@ -68,6 +68,8 @@ class p2DebugDraw {
                     this.drawPlane(<p2.Plane>shape, body);
                 } else if (shape instanceof p2.Capsule) {
                     this.drawCapsule(<p2.Capsule>shape, body);
+                } else if (shape instanceof p2.Heightfield) {
+                    this.drawHeightfield(<p2.Heightfield>shape, body);
                 }
             }
         }
@@ -93,11 +95,19 @@ class p2DebugDraw {
         var g: egret.Graphics = this.sprite.graphics;
         g.lineStyle(this.lineWidth, color);
         g.beginFill(color, 0.5);
-        g.drawCircle(b.position[0], b.position[1], shape.radius);
 
+        //支持复合刚体
+        var x:number = shape.position[0];
+        var y:number = shape.position[1];
+        var p:number[] = [];
+        b.toWorldFrame(p, [x, y]);
+        g.drawCircle(p[0], p[1], shape.radius);
+
+        var edgeX:number = x + shape.radius;
+        var edgeY:number = y + 0;
         var edge: number[] = new Array();
-        b.toWorldFrame(edge, [shape.radius, 0]);
-        g.moveTo(b.position[0], b.position[1]);
+        b.toWorldFrame(edge, [edgeX, edgeY]);
+        g.moveTo(p[0], p[1]);
         g.lineTo(edge[0], edge[1]);
 
         g.endFill();
@@ -105,55 +115,113 @@ class p2DebugDraw {
     private drawCapsule(shape: p2.Capsule, b: p2.Body): void {
         var color: number = this.getColor(b);
 
+        //支持复合刚体
+        var x:number = shape.position[0];
+        var y:number = shape.position[1];
+        var angle:number = shape.angle;
         var len: number = shape.length;
         var radius: number = shape.radius;
 
-        var p1: number[] = new Array(), p2: number[] = new Array(), p3: number[] = new Array(), p4: number[] = new Array();
+        var pt1: number[] = new Array(), pt2: number[] = new Array(), pt3: number[] = new Array(), pt4: number[] = new Array();
         var a1: number[] = new Array(), a2: number[] = new Array();
 
-        b.toWorldFrame(p1, [-len / 2, -radius]);
-        b.toWorldFrame(p2, [len / 2, -radius]);
-        b.toWorldFrame(p3, [len / 2, radius]);
-        b.toWorldFrame(p4, [-len / 2, radius]);
-        b.toWorldFrame(a1, [len / 2, 0]);
-        b.toWorldFrame(a2, [-len / 2, 0]);
+        //支持Shape内部的旋转变换
+        p2.vec2.rotate(pt1, [-len / 2, -radius], angle);
+        p2.vec2.rotate(pt2, [len / 2, -radius], angle);
+        p2.vec2.rotate(pt3, [len / 2, radius], angle);
+        p2.vec2.rotate(pt4, [-len / 2, radius], angle);
+        p2.vec2.rotate(a1, [len / 2, 0], angle);
+        p2.vec2.rotate(a2, [-len / 2, 0], angle);
+
+        var globalpt1: number[] = new Array(), globalpt2: number[] = new Array(), globalpt3: number[] = new Array(), globalpt4: number[] = new Array();
+        var globala1: number[] = new Array(), globala2: number[] = new Array();
+
+        b.toWorldFrame(globalpt1, [x + pt1[0], y + pt1[1]]);
+        b.toWorldFrame(globalpt2, [x + pt2[0], y + pt2[1]]);
+        b.toWorldFrame(globalpt3, [x + pt3[0], y + pt3[1]]);
+        b.toWorldFrame(globalpt4, [x + pt4[0], y + pt4[1]]);
+        b.toWorldFrame(globala1, [x + a1[0], y + a1[1]]);
+        b.toWorldFrame(globala2, [x + a2[0], y + a2[1]]);
 
         var g: egret.Graphics = this.sprite.graphics;
         g.lineStyle(this.lineWidth, color);
         g.beginFill(color, 0.5);
-        g.drawCircle(a1[0], a1[1], radius);
+        g.drawCircle(globala1[0], globala1[1], radius);
         g.endFill();
         g.lineStyle(this.lineWidth, color);
         g.beginFill(color, 0.5);
-        g.drawCircle(a2[0], a2[1], radius);
+        g.drawCircle(globala2[0], globala2[1], radius);
         g.endFill();
 
         g.lineStyle(this.lineWidth, color);
         g.beginFill(color, 0.5);
-        g.moveTo(p1[0], p1[1]);
-        g.lineTo(p2[0], p2[1]);
-        g.lineTo(p3[0], p3[1]);
-        g.lineTo(p4[0], p4[1]);
+        g.moveTo(globalpt1[0], globalpt1[1]);
+        g.lineTo(globalpt2[0], globalpt2[1]);
+        g.lineTo(globalpt3[0], globalpt3[1]);
+        g.lineTo(globalpt4[0], globalpt4[1]);
 
         g.endFill();
     }
     private drawLine(shape: p2.Line, b: p2.Body): void {
         var color: number = this.getColor(b);
 
+        //支持复合刚体
+        var x:number = shape.position[0];
+        var y:number = shape.position[1];
+        var angle:number = shape.angle;
         var len: number = shape.length;
 
-        var p1: number[] = new Array(), p2: number[] = new Array();
+        var point1: number[] = new Array(), point2: number[] = new Array();
+        //支持Shape内部的旋转变换
+        p2.vec2.rotate(point1, [-len / 2, 0], angle);
+        p2.vec2.rotate(point2, [len / 2, 0], angle);
 
-        b.toWorldFrame(p1, [-len / 2, 0]);
-        b.toWorldFrame(p2, [len / 2, 0]);
-
+        var finalpoint1:number[]=[];
+        var finalpoint2:number[]=[];
+        b.toWorldFrame(finalpoint1, [x+point1[0], y+point1[1]]);
+        b.toWorldFrame(finalpoint2, [x+point2[0], y+point2[1]]);
         var g: egret.Graphics = this.sprite.graphics;
 
         g.lineStyle(this.lineWidth, color);
-        g.moveTo(p1[0], p1[1]);
-        g.lineTo(p2[0], p2[1]);
+
+        g.moveTo(finalpoint1[0], finalpoint1[1]);
+        g.lineTo(finalpoint2[0], finalpoint2[1]);
 
         g.endFill();
+    }
+    private drawHeightfield(shape: p2.Heightfield, b: p2.Body): void {
+        var color: number = this.getColor(b);
+        var heights:number[] = shape.heights;
+        var len:number = heights.length;
+        var elementWidth = shape.elementWidth;
+
+        if(len>0){
+            //支持复合刚体
+            var x:number = shape.position[0];
+            var y:number = shape.position[1];
+
+            var p:number[]=[];
+            var initP:number[]=[];
+            var initX = 0;
+
+            var g: egret.Graphics = this.sprite.graphics;
+            g.lineStyle(this.lineWidth, color);
+            g.beginFill(color, 0.5);
+            //底部的左侧起点
+            b.toWorldFrame(initP, [x + initX, y - 100]);
+            g.moveTo(initP[0], initP[1]);
+            //遍历上部的每个点
+            for(var i=0;i<len;i++){
+                var tmpY = heights[i];
+                b.toWorldFrame(p, [x + initX + i*elementWidth, y + tmpY]);
+                g.lineTo(p[0], p[1]);
+            }
+            //底部右侧的最后一个点
+            b.toWorldFrame(p, [x + initX + len*elementWidth, y - 100]);
+            g.lineTo(p[0], p[1]);
+            //填充形成闭合的块
+            g.endFill();
+        }
     }
     private drawParticle(shape: p2.Particle, b: p2.Body): void {
         var color: number = this.getColor(b);
@@ -161,11 +229,18 @@ class p2DebugDraw {
         var g: egret.Graphics = this.sprite.graphics;
         g.lineStyle(this.lineWidth, color);
         g.beginFill(color, 0.5);
-        g.drawCircle(b.position[0], b.position[1], 1);
+
+        //支持复合刚体
+        var x:number = shape.position[0];
+        var y:number = shape.position[1];
+        var centerX:number = b.position[0] + x;
+        var centerY:number = b.position[1] + y;
+
+        g.drawCircle(centerX, centerY, this.lineWidth);
         g.endFill();
 
         g.lineStyle(this.lineWidth, color);
-        g.drawCircle(b.position[0], b.position[1], 5);
+        g.drawCircle(centerX, centerY, this.lineWidth*5);
         g.endFill();
     }
     private drawConvex(shape: p2.Convex, b: p2.Body): void {
@@ -176,16 +251,25 @@ class p2DebugDraw {
         g.lineStyle(this.lineWidth, color);
         g.beginFill(color, 0.5);
 
+        //支持复合刚体
+        var x:number = shape.position[0];
+        var y:number = shape.position[1];
+        var centerP: number[] = new Array();
+        b.toWorldFrame(centerP, [x,y]);
+
+        var localP:number[] = shape.vertices[0];
+        var p:number[] = [x + localP[0], y + localP[1]];
+
         var worldPoint: number[] = new Array();
-        b.toWorldFrame(worldPoint, shape.vertices[0]);
-        //g.moveTo(worldPoint[0], worldPoint[1]);
-        g.moveTo(b.position[0], b.position[1]);
+        b.toWorldFrame(worldPoint, p);
+        g.moveTo(centerP[0], centerP[1]);
         g.lineTo(worldPoint[0], worldPoint[1]);
         for (var i: number = 1; i <= l; i++) {
-            b.toWorldFrame(worldPoint, shape.vertices[i % l]);
+            localP = shape.vertices[i % l];
+            p = [x + localP[0], y + localP[1]];
+            b.toWorldFrame(worldPoint, p);
             g.lineTo(worldPoint[0], worldPoint[1]);
         }
-
 
         g.endFill();
     }
@@ -196,22 +280,36 @@ class p2DebugDraw {
         g.lineStyle(this.lineWidth, color);
         g.beginFill(color, 1);
 
+        //支持复合刚体
+        var x:number = shape.position[0];
+        var y:number = shape.position[1];
+        var angle:number = shape.angle;
+
         var start: number[] = new Array();
         var end: number[] = new Array();
-        b.toWorldFrame(start, [-1000, 0]);
-        g.moveTo(start[0], start[1]);
+        var startGlobal: number[] = [];
+        var endGlobal: number[] = [];
 
-        b.toWorldFrame(end, [1000, 0]);
-        g.lineTo(end[0], end[1]);
+        //支持Shape内部的旋转变换
+        p2.vec2.rotate(start, [-1000, 0], angle);
+        b.toWorldFrame(startGlobal, [x+start[0], y+start[1]]);
+        g.moveTo(startGlobal[0], startGlobal[1]);
 
-        b.toWorldFrame(end, [1000, -1000]);
-        g.lineTo(end[0], end[1]);
+        p2.vec2.rotate(end, [1000, 0], angle);
+        b.toWorldFrame(endGlobal, [x+end[0], y+end[1]]);
+        g.lineTo(endGlobal[0], endGlobal[1]);
 
-        b.toWorldFrame(end, [-1000, -1000]);
-        g.lineTo(end[0], end[1]);
+        p2.vec2.rotate(end, [1000, -1000], angle);
+        b.toWorldFrame(endGlobal, [x+end[0], y+end[1]]);
+        g.lineTo(endGlobal[0], endGlobal[1]);
 
-        b.toWorldFrame(end, [-1000, -0]);
-        g.lineTo(end[0], end[1]);
+        p2.vec2.rotate(end, [-1000, -1000], angle);
+        b.toWorldFrame(endGlobal, [x+end[0], y+end[1]]);
+        g.lineTo(endGlobal[0], endGlobal[1]);
+
+        p2.vec2.rotate(end, [-1000, -0], angle);
+        b.toWorldFrame(endGlobal, [x+end[0], y+end[1]]);
+        g.lineTo(endGlobal[0], endGlobal[1]);
 
         g.endFill();
 
