@@ -155,10 +155,13 @@ class Main extends egret.DisplayObjectContainer {
         // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
         RES.getResAsync("description", this.startAnimation, this);
 
-        //获取压缩包,来自官方实例
-        this.getZip();
+        RES.getResByUrl("resource/default.res.json.zip", function (data) {
+            var zip = new JSZip(data);
+            console.log(zip.file("default.res.json").asText());
+        }, this, RES.ResourceItem.TYPE_BIN);
     }
     private getZip(): void {
+        //这个只有h5可以用,runtime没有blob方式以及下载文件接口
         var zip = new JSZip();
         zip.file("Hello.txt", "Hello World\n");
         var img = zip.folder("images");
