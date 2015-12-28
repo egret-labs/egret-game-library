@@ -47,6 +47,27 @@ class Main extends egret.DisplayObjectContainer {
             case 3:
                 this.addChild(new HeightfieldScene());
                 break;
+            case 4:
+                this.addChild(new TearableScene());
+                break;
+            case 5:
+                this.addChild(new KinematicScene());
+                break;
+            case 6:
+                this.addChild(new RestitutionScene());
+                break;
+            case 7:
+                this.addChild(new LockScene());
+                break;
+            case 8:
+                this.addChild(new SleepScene());
+                break;
+            case 9:
+                this.addChild(new SpringsScene());
+                break;
+            case 10:
+                this.addChild(new PistonScene());
+                break;
         }
     }
 

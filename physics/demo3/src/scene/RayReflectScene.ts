@@ -245,7 +245,6 @@ class RayReflectScene extends egret.DisplayObjectContainer {
     }
 
     private loop(): void {
-        //this.world.step(60 / 1000);
         this.world.step(1/60);
         this.debugDraw.drawDebug();
         this.drawRays();

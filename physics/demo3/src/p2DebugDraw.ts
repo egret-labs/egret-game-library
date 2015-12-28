@@ -32,7 +32,7 @@ class p2DebugDraw {
     private world: p2.World;
     private COLOR_D_SLEEP: number = 0x999999;
     private COLOR_D_WAKE: number = 0xe5b2b2;
-    private COLOR_K: number = 0x7f7fe5;
+    private COLOR_K: number = 0x9d9df5;
     private COLOR_S: number = 0x7fe57f;
 
     private lineWidth:number = 1;

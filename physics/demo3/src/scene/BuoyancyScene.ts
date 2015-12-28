@@ -10,6 +10,8 @@ class BuoyancyScene extends egret.DisplayObjectContainer {
     private world: p2.World;
     private debugDraw: p2DebugDraw;
 
+    private dragHelper:DragHelper;
+
     private createGameScene(): void {
 
         this.init();
@@ -66,7 +68,7 @@ class BuoyancyScene extends egret.DisplayObjectContainer {
         var liftForce = [0,0];
         var viscousForce = [0,0];
         var shapeAngle = 0;
-        var k = 100; // up force per submerged "volume"
+        var k = 25; // up force per submerged "volume"
         var c = 0.8; // viscosity
         var v = [0,0];
         var aabb = new p2.AABB();
@@ -84,10 +86,12 @@ class BuoyancyScene extends egret.DisplayObjectContainer {
                 shape.computeAABB(aabb, shapePosition, shapeAngle);
 
                 var areaUnderWater;
+                var isFullyIn=0;
                 if(aabb.upperBound[1] < planePosition[1]){
                     // Fully submerged
                     p2.vec2.copy(centerOfBouyancy,shapePosition);
                     areaUnderWater = shape.area;
+                    isFullyIn = 1;
                 } else if(aabb.lowerBound[1] < planePosition[1]){
                     // Partially submerged
                     var width = aabb.upperBound[0] - aabb.lowerBound[0];
@@ -99,8 +103,16 @@ class BuoyancyScene extends egret.DisplayObjectContainer {
                 }
 
                 // Compute lift force
-                p2.vec2.subtract(liftForce, planePosition, centerOfBouyancy);
-                p2.vec2.scale(liftForce, liftForce, areaUnderWater * k);
+
+                //当全没入水中后浮力大小应该就固定了。
+                if(isFullyIn==1){
+                    p2.vec2.subtract(liftForce, aabb.upperBound, centerOfBouyancy);
+                }else{
+                    p2.vec2.subtract(liftForce, planePosition, centerOfBouyancy);
+                }
+                //使用底边长度算
+                var w = aabb.upperBound[0] - aabb.lowerBound[0];
+                p2.vec2.scale(liftForce, liftForce, w * k);
                 liftForce[0] = 0;
 
                 // Make center of bouycancy relative to the body
@@ -108,7 +120,7 @@ class BuoyancyScene extends egret.DisplayObjectContainer {
 
                 // Viscous force
                 body.getVelocityAtPoint(v, centerOfBouyancy);
-                p2.vec2.scale(viscousForce, v, -c);
+                p2.vec2.scale(viscousForce, v, -c*(Math.abs(w)));
 
                 // Apply forces
                 body.applyForce(viscousForce,centerOfBouyancy);
@@ -118,7 +130,6 @@ class BuoyancyScene extends egret.DisplayObjectContainer {
     }
 
     private loop(): void {
-        //this.world.step(60 / 1000);
         this.world.step(1 / 60);
         this.debugDraw.drawDebug();
     }
@@ -135,5 +146,7 @@ class BuoyancyScene extends egret.DisplayObjectContainer {
         sprite.y = this.stage.stageHeight/2;
         sprite.scaleX = 50;
         sprite.scaleY = -50;
+
+        this.dragHelper = new DragHelper(this.stage, sprite, this.world);
     }
 }

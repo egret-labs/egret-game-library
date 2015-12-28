@@ -10,6 +10,8 @@ class HeightfieldScene extends egret.DisplayObjectContainer {
     private world: p2.World;
     private debugDraw: p2DebugDraw;
 
+    private dragHelper:DragHelper;
+
     private createGameScene(): void {
 
         this.init();
@@ -144,7 +146,6 @@ class HeightfieldScene extends egret.DisplayObjectContainer {
     }
 
     private loop(): void {
-        //this.world.step(60 / 1000);
         this.world.step(1 / 60);
         this.debugDraw.drawDebug();
     }
@@ -161,6 +162,8 @@ class HeightfieldScene extends egret.DisplayObjectContainer {
         sprite.y = this.stage.stageHeight/2;
         sprite.scaleX = 50;
         sprite.scaleY = -50;
+
+        this.dragHelper = new DragHelper(this.stage, sprite, this.world);
 
     }
 }
