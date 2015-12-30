@@ -1,12 +1,13 @@
 {
 	"native": {
-		"path_ignore": []
+		"path_ignore": [],
+		"android_path": "../demoA"
 	},
 	"publish": {
 		"web": 0,
 		"native": 1
 	},
-	"egret_version": "2.5.8",
+	"egret_version": "3.0.0",
 	"modules": [
 		{
 			"name": "egret"
