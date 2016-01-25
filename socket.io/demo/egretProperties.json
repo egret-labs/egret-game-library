@@ -7,7 +7,7 @@
 		"web": 0,
 		"native": 1
 	},
-	"egret_version": "3.0.1",
+	"egret_version": "3.0.2",
 	"modules": [
 		{
 			"name": "egret"
