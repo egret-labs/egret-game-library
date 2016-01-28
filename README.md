@@ -59,6 +59,7 @@ socket.io
 使用方法:
 
 * npm install socket.io -g
+* npm install express -g
 * 进入到demo目录，使用node index.js命令打开服务器
 * 运行demo，点击屏幕发送消息
 
