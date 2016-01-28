@@ -56,6 +56,12 @@ Egret Game Library 是 Egret 官方团队参与维护的 Egret 第三方库。�
 #### socket.io
 socket.io
 
+使用方法:
+
+* npm install socket.io -g
+* 进入到demo目录，使用node index.js命令打开服务器
+* 运行demo，点击屏幕发送消息
+
 #### dcagent
 DataEye SDK for Egret
 [源项目地址](https://github.com/DataEye/dcagent_for_h5)
