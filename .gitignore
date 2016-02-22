@@ -13,3 +13,5 @@ tools/nodejs/buildTS.local
 */demo/libs/
 
 tsconfig.json
+
+socket.io/demo/node_modules

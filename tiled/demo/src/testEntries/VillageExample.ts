@@ -9,7 +9,8 @@ class VillageExample extends egret.DisplayObjectContainer {
         //load complete
         urlLoader.addEventListener(egret.Event.COMPLETE, function (event:egret.Event):void {
             var data:any = egret.XML.parse(event.target.data);
-            var tmxTileMap:tiled.TMXTilemap = new tiled.TMXTilemap(2000, 2000, data, url);
+            var tmxTileMap:tiled.TMXTilemap = new tiled.TMXTilemap(2000, 2000, data, this);
+			tmxTileMap.x=-200;
             tmxTileMap.render();
             self.addChild(tmxTileMap);
         }, url);
