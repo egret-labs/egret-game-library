@@ -1,11 +1,21 @@
-﻿module tiled{
+module tiled{
 	export class Base64 {
 		private static _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
+		/**
+		 * 判断是否原生支持Base64位解析
+		 * @version Egret 3.0.3
+		 */
 		static get nativeBase64() {
 			return (typeof (window.atob) === "function");
 		}
 
+		
+		/**
+		 * 解码
+		 * @param input
+		 * @version Egret 3.0.3
+		 */
 		static decode(input:string): string {
 			input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
 
@@ -39,6 +49,12 @@
 			}
 		}
 
+		
+		/**
+		 * 编码
+		 * @param input
+		 * @version Egret 3.0.3
+		 */
 		static encode(input:string): string {
 			input = input.replace(/\r\n/g, "\n");
 			if (this.nativeBase64) {
@@ -72,6 +88,13 @@
 			}
 		}
 
+		
+		/**
+		 * 解析Base64格式数据
+		 * @param input
+		 * @param bytes
+		 * @version egret 3.0.3
+		 */
 		static decodeBase64AsArray(input: string, bytes: number): Uint32Array {
 			bytes = bytes || 1;
 
@@ -87,10 +110,23 @@
 			return ar;
 		}
 
+		/**
+		 * 暂时不支持
+		 * @param data
+		 * @param decoded
+		 * @param compression
+		 * @version egret 3.0.3
+		 * @private
+		 */
 		static decompress(data: string, decoded: any, compression: string): any {
 			throw new Error("GZIP/ZLIB compressed TMX Tile Map not supported!");
 		}
 
+		/**
+		 * 解析csv数据
+		 * @param input
+		 * @version egret 3.0.3
+		 */
 		static decodeCSV(input: string): Array<number> {
 			var entries: Array<any> = input.replace("\n", "").trim().split(",");
 

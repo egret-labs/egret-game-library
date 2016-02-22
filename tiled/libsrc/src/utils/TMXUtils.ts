@@ -1,27 +1,42 @@
-﻿module tiled{
+module tiled{
 	export class TMXUtils {
-		static create($renderwidth:number,$renderheight:number,$url: string, $parentContainer: egret.Sprite, $onComplete: Function=null): void {
-			var urlLoader: egret.URLLoader = new egret.URLLoader();
-			urlLoader.dataFormat = egret.URLLoaderDataFormat.TEXT;
-			urlLoader.addEventListener(egret.Event.COMPLETE, function (event: egret.Event): void {
-				try{
-					var data: any = egret.XML.parse(event.target.data);
-				}catch(e)
-				{
-					throw new Error("tmx文件格式不正确！");
-				}
-				var tmxTileMap: tiled.TMXTilemap = new tiled.TMXTilemap($renderwidth, $renderheight, data, $url);
-				tmxTileMap.render();
-				$parentContainer.addChild(tmxTileMap);
-				if ($onComplete != null)
-					$onComplete();
-			},this);
-			urlLoader.load(new egret.URLRequest($url));
-			urlLoader.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event: egret.Event): void {
-				throw new Error("TMXTiledMap加载错误！！");
-			}, this);
+		/**
+		 * 快速创建TMX地图
+		 * @param $renderwidth 渲染宽（单位：像素）
+		 * @param $renderheight 渲染高（单位：像素）
+		 * @param $url tmx文件地址
+		 * @param $parentContainer 渲染容器
+		 * @param $onComplete 创建完成回去调
+		 * @param $thisObject 回调函数绑定this对象
+		 * 
+		 * @version Egret 3.0.3
+		 */
+		static create($renderwidth:number,$renderheight:number,$url: string, $parentContainer: egret.Sprite, $onComplete: Function=null, $thisObject:any=null): void {
+			RES.getResByUrl($url,function(data:any):void{
+                    try {
+                        var data: any = egret.XML.parse(data);
+                    } catch(e) {
+                        throw new Error("tmx文件格式不正确！");
+                    }
+                    var tmxTileMap: tiled.TMXTilemap = new tiled.TMXTilemap($renderwidth,$renderheight,data,$url);
+                    tmxTileMap.render();
+                    $parentContainer.addChild(tmxTileMap);
+                    
+                    if($onComplete)
+                        $onComplete.apply($thisObject);
+    			},this,RES.ResourceItem.TYPE_XML);
 		}
 
+		
+		/**
+		 * 解码
+		 * @param data 数据
+		 * @param encoding 编码方式 目前暂时只支持XML、base64(无压缩)、csv解析
+		 * @param compression 压缩方式
+		 * @returns 返回解析后的数据列表
+		 * 
+		 * @version Egret 3.0.3
+		 */
 		static decode(data: any, encoding: any, compression: string): Array<number> {
 			compression = compression || "none";
 			encoding = encoding || "none";
@@ -50,6 +65,13 @@
 			}
 		}
 		
+		
+		/**
+		 * 将带"#"号的颜色字符串转换为16进制的颜色,例如：可将"#ff0000"转换为"0xff0000"
+		 * @param $color 要转换的颜色字符串
+		 * @returns 返回16进制的颜色值
+		 * @version Egret 3.0.3
+		 */
 		static color16ToUnit($color:string): number {
 			var colorStr: string = "0x" + $color.slice(1);
 			return parseInt(colorStr, 16);
