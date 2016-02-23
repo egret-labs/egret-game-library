@@ -1,6 +1,6 @@
 {
 	"name": "egret",
-	"version": "2.4.3",
+	"version": "3.0.3",
 	"modules": [
 		{
 			"name": "tiled",
@@ -10,12 +10,12 @@
 				"animation/TMXAnimationFrame.ts",
 				"const/TMXConstants.ts",
 				"events/TMXImageLoadEvent.ts",
+				"layer/Ilayer.ts",
+				"layer/TMXLayerBase.ts",
 				"layer/TMXColorLayer.ts",
-				"utils/TexturePool.ts",
 				"layer/TMXImageLayer.ts",
 				"tile/TMXTile.ts",
 				"tileset/TMXTilesetGroup.ts",
-				"utils/BitmapLoader.ts",
 				"object/TMXImage.ts",
 				"property/TMXProperty.ts",
 				"render/TMXRenderer.ts",

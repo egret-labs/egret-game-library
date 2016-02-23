@@ -15,6 +15,7 @@ var game_file_list = [
 	"bin-debug/testEntries/HexagonaExample.js",
 	"bin-debug/testEntries/SewersExample.js",
 	"bin-debug/testEntries/TerrainExample.js",
+	"bin-debug/testEntries/TestExample.js",
 	"bin-debug/testEntries/TilesheetExample.js",
 	"bin-debug/testEntries/VillageExample.js",
 	"bin-debug/testEntries/WallsExample.js",
