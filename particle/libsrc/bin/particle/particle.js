@@ -26,14 +26,13 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var particle;
 (function (particle) {
     var Particle = (function () {
         function Particle() {
             this.reset();
         }
-        var d = __define,c=Particle;p=c.prototype;
+        var d = __define,c=Particle,p=c.prototype;
         p.reset = function () {
             this.x = 0;
             this.y = 0;
@@ -44,9 +43,9 @@ var particle;
             this.totalTime = 1000;
         };
         return Particle;
-    })();
+    }());
     particle.Particle = Particle;
-    egret.registerClass(Particle,"particle.Particle");
+    egret.registerClass(Particle,'particle.Particle');
 })(particle || (particle = {}));
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -77,15 +76,8 @@ var particle;
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var particle;
-(function (_particle) {
+(function (particle_1) {
     var ParticleSystem = (function (_super) {
         __extends(ParticleSystem, _super);
         function ParticleSystem(texture, emissionRate) {
@@ -124,7 +116,7 @@ var particle;
             this.texture = texture;
             this.$renderRegion = new egret.sys.Region();
         }
-        var d = __define,c=ParticleSystem;p=c.prototype;
+        var d = __define,c=ParticleSystem,p=c.prototype;
         p.getParticle = function () {
             var result;
             if (this._pool.length) {
@@ -134,7 +126,7 @@ var particle;
                 result = new this.particleClass();
             }
             else {
-                result = new _particle.Particle();
+                result = new particle_1.Particle();
             }
             return result;
         };
@@ -398,9 +390,9 @@ var particle;
             return matrix;
         };
         return ParticleSystem;
-    })(egret.DisplayObject);
-    _particle.ParticleSystem = ParticleSystem;
-    egret.registerClass(ParticleSystem,"particle.ParticleSystem");
+    }(egret.DisplayObject));
+    particle_1.ParticleSystem = ParticleSystem;
+    egret.registerClass(ParticleSystem,'particle.ParticleSystem');
 })(particle || (particle = {}));
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -431,13 +423,6 @@ var particle;
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var particle;
 (function (particle) {
     var GravityParticle = (function (_super) {
@@ -445,7 +430,7 @@ var particle;
         function GravityParticle() {
             _super.apply(this, arguments);
         }
-        var d = __define,c=GravityParticle;p=c.prototype;
+        var d = __define,c=GravityParticle,p=c.prototype;
         p.reset = function () {
             _super.prototype.reset.call(this);
             this.startX = 0;
@@ -458,9 +443,9 @@ var particle;
             this.scaleDelta = 0;
         };
         return GravityParticle;
-    })(particle.Particle);
+    }(particle.Particle));
     particle.GravityParticle = GravityParticle;
-    egret.registerClass(GravityParticle,"particle.GravityParticle");
+    egret.registerClass(GravityParticle,'particle.GravityParticle');
 })(particle || (particle = {}));
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -491,24 +476,17 @@ var particle;
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 var particle;
-(function (_particle) {
+(function (particle_1) {
     var GravityParticleSystem = (function (_super) {
         __extends(GravityParticleSystem, _super);
         function GravityParticleSystem(texture, config) {
             _super.call(this, texture, 200);
             this.parseConfig(config);
             this.emissionRate = this.lifespan / this.maxParticles;
-            this.particleClass = _particle.GravityParticle;
+            this.particleClass = particle_1.GravityParticle;
         }
-        var d = __define,c=GravityParticleSystem;p=c.prototype;
+        var d = __define,c=GravityParticleSystem,p=c.prototype;
         p.parseConfig = function (config) {
             this.emitterX = getValue(config.emitter.x);
             this.emitterY = getValue(config.emitter.y);
@@ -625,8 +603,8 @@ var particle;
             locParticle.alpha += locParticle.alphaDelta * dt * 1000;
         };
         return GravityParticleSystem;
-    })(_particle.ParticleSystem);
-    _particle.GravityParticleSystem = GravityParticleSystem;
-    egret.registerClass(GravityParticleSystem,"particle.GravityParticleSystem");
+    }(particle_1.ParticleSystem));
+    particle_1.GravityParticleSystem = GravityParticleSystem;
+    egret.registerClass(GravityParticleSystem,'particle.GravityParticleSystem');
 })(particle || (particle = {}));
 
