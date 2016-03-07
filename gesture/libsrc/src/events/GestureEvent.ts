@@ -58,8 +58,8 @@ class GestureEvent extends egret.Event {
      * @param state        What state of the gesture when this happen, see ache.Gesture.utils.GestureState
      */
     public constructor(type:string, gm:GestureManager, state:string = "") {
+        super(type, false, null);
         this.gm = gm;
         this.state = state;
-        super(type, false, null);
     }
 }

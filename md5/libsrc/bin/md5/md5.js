@@ -6,7 +6,6 @@
 * Distributed under the BSD License
 * See http://pajhome.org.uk/crypt/md5 for more info.
 */
-var __define = this.__define || function (o, p, g, s) {   Object.defineProperty(o, p, { configurable:true, enumerable:true, get:g,set:s }) };
 /*
  * Configurable variables. You may need to tweak these to be compatible with
  * the server-side, but the defaults work in most cases.
@@ -16,29 +15,17 @@ var md5 = (function () {
         this.hexcase = 0; /* hex output format. 0 - lowercase; 1 - uppercase        */
         this.b64pad = ""; /* base-64 pad character. "=" for strict RFC compliance   */
     }
-    var d = __define,c=md5;p=c.prototype;
+    var d = __define,c=md5,p=c.prototype;
     /*
      * These are the privates you'll usually want to call
      * They take string arguments and return either hex or base-64 encoded strings
      */
-    p.hex_md5 = function (s) {
-        return this.rstr2hex(this.rstr_md5(this.str2rstr_utf8(s)));
-    };
-    p.b64_md5 = function (s) {
-        return this.rstr2b64(this.rstr_md5(this.str2rstr_utf8(s)));
-    };
-    p.any_md5 = function (s, e) {
-        return this.rstr2any(this.rstr_md5(this.str2rstr_utf8(s)), e);
-    };
-    p.hex_hmac_md5 = function (k, d) {
-        return this.rstr2hex(this.rstr_hmac_md5(this.str2rstr_utf8(k), this.str2rstr_utf8(d)));
-    };
-    p.b64_hmac_md5 = function (k, d) {
-        return this.rstr2b64(this.rstr_hmac_md5(this.str2rstr_utf8(k), this.str2rstr_utf8(d)));
-    };
-    p.any_hmac_md5 = function (k, d, e) {
-        return this.rstr2any(this.rstr_hmac_md5(this.str2rstr_utf8(k), this.str2rstr_utf8(d)), e);
-    };
+    p.hex_md5 = function (s) { return this.rstr2hex(this.rstr_md5(this.str2rstr_utf8(s))); };
+    p.b64_md5 = function (s) { return this.rstr2b64(this.rstr_md5(this.str2rstr_utf8(s))); };
+    p.any_md5 = function (s, e) { return this.rstr2any(this.rstr_md5(this.str2rstr_utf8(s)), e); };
+    p.hex_hmac_md5 = function (k, d) { return this.rstr2hex(this.rstr_hmac_md5(this.str2rstr_utf8(k), this.str2rstr_utf8(d))); };
+    p.b64_hmac_md5 = function (k, d) { return this.rstr2b64(this.rstr_hmac_md5(this.str2rstr_utf8(k), this.str2rstr_utf8(d))); };
+    p.any_hmac_md5 = function (k, d, e) { return this.rstr2any(this.rstr_hmac_md5(this.str2rstr_utf8(k), this.str2rstr_utf8(d)), e); };
     /*
      * Perform a simple self-test to see if the VM is working
      */
@@ -81,7 +68,8 @@ var md5 = (function () {
         var x;
         for (var i = 0; i < input.length; i++) {
             x = input.charCodeAt(i);
-            output += hex_tab.charAt((x >>> 4) & 0x0F) + hex_tab.charAt(x & 0x0F);
+            output += hex_tab.charAt((x >>> 4) & 0x0F)
+                + hex_tab.charAt(x & 0x0F);
         }
         return output;
     };
@@ -99,7 +87,9 @@ var md5 = (function () {
         var output = "";
         var len = input.length;
         for (var i = 0; i < len; i += 3) {
-            var triplet = (input.charCodeAt(i) << 16) | (i + 1 < len ? input.charCodeAt(i + 1) << 8 : 0) | (i + 2 < len ? input.charCodeAt(i + 2) : 0);
+            var triplet = (input.charCodeAt(i) << 16)
+                | (i + 1 < len ? input.charCodeAt(i + 1) << 8 : 0)
+                | (i + 2 < len ? input.charCodeAt(i + 2) : 0);
             for (var j = 0; j < 4; j++) {
                 if (i * 8 + j * 6 > input.length * 8)
                     output += this.b64pad;
@@ -126,7 +116,8 @@ var md5 = (function () {
          * forms the dividend for the next step. All remainders are stored for later
          * use.
          */
-        var full_length = Math.ceil(input.length * 8 / (Math.log(encoding.length) / Math.log(2)));
+        var full_length = Math.ceil(input.length * 8 /
+            (Math.log(encoding.length) / Math.log(2)));
         var remainders = Array(full_length);
         for (j = 0; j < full_length; j++) {
             quotient = Array();
@@ -332,6 +323,6 @@ var md5 = (function () {
         return (num << cnt) | (num >>> (32 - cnt));
     };
     return md5;
-})();
-egret.registerClass(md5,"md5");
+}());
+egret.registerClass(md5,'md5');
 

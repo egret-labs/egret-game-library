@@ -14,7 +14,7 @@ module tiled{
 		 * @version Egret 3.0.3
 		 */
 		constructor(data: any, baseURL: string) {
-			super(this);
+			super();
 
 			this._width     = +data.attributes.width;
 			this._height    = +data.attributes.height;
