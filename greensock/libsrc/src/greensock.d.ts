@@ -106,7 +106,7 @@ declare class TimelineLite extends SimpleTimeline {
     constructor(vars?:Object);
 
     add(value:any, position?:any, align?:string, stagger?:number):any;
-    addLabel(label:string, position:any):any;
+    addLabel(label:string, position?:any):any;
     addPause(position?:any, callback?:Function, params?:any[], scope?:any):any;
     append(value:any, offsetOrLabel?:any):any;
     appendMultiple(tweens:any[], offsetOrLabel?:any, align?:string, stagger?:number):any;
@@ -114,6 +114,7 @@ declare class TimelineLite extends SimpleTimeline {
     clear(labels?:boolean):any;
     duration(value:number):any;
     exportRoot(vars?:Object, omitDelayedCalls?:boolean):TimelineLite;
+    from(target:Object, duration:number, fromVars:Object, position?:any):any;
     fromTo(target:Object, duration:number, fromVars:Object, toVars:Object, position?:any):any;
     getChildren(nested?:boolean, tweens?:boolean, timelines?:boolean, ignoreBeforeTime?:number):any[];
     getLabelTime(label:string):number;
