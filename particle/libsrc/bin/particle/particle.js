@@ -226,9 +226,9 @@ var particle;
         p.stop = function (clear) {
             if (clear === void 0) { clear = false; }
             this.emissionTime = 0;
-            egret.Ticker.getInstance().unregister(this.update, this);
             if (clear) {
                 this.clear();
+                egret.Ticker.getInstance().unregister(this.update, this);
             }
         };
         p.update = function (dt) {
@@ -263,7 +263,7 @@ var particle;
             }
             this.$invalidateContentBounds();
             if (this.numParticles == 0 && this.emissionTime == 0) {
-                this.stop();
+                egret.Ticker.getInstance().unregister(this.update, this);
                 this.dispatchEventWith(egret.Event.COMPLETE);
             }
         };
