@@ -32,10 +32,10 @@ module particle {
         private _pool:Array<Particle> = [];
         private frameTime:number = 0;
         private particles:Array<Particle> = [];
-        private _emitterBounds: egret.Rectangle;
+        private _emitterBounds:egret.Rectangle;
         //相对当前显示对象坐标系下的内容边界
-        private relativeContentBounds: egret.Rectangle;
-        
+        private relativeContentBounds:egret.Rectangle;
+
         private _emitterX:number = 0;
         private _emitterY:number = 0;
         /**
@@ -80,7 +80,7 @@ module particle {
             super();
             this.emissionRate = emissionRate;
             this.texture = texture;
-            this.$renderRegion = new egret.sys.Region();
+            this.$renderNode = new egret.sys.GroupNode();
         }
 
         private getParticle():Particle {
@@ -117,64 +117,64 @@ module particle {
             particle.currentTime = 0;
             particle.totalTime = 1000;
         }
-        
+
         /**
-        * 更新当前显示对象坐标系下的边框界限
-        * @param emitterRect {egret.Rectangle} 相对发射点坐标系下的界限
-        */
-        private updateRelativeBounds(emitterRect:egret.Rectangle):void{
-            if(emitterRect){
-                if(this.relativeContentBounds==null){
+         * 更新当前显示对象坐标系下的边框界限
+         * @param emitterRect {egret.Rectangle} 相对发射点坐标系下的界限
+         */
+        private updateRelativeBounds(emitterRect:egret.Rectangle):void {
+            if (emitterRect) {
+                if (this.relativeContentBounds == null) {
                     this.relativeContentBounds = new egret.Rectangle();
                 }
                 this.relativeContentBounds.copyFrom(emitterRect);
                 this.relativeContentBounds.x += this.emitterX;
                 this.relativeContentBounds.y += this.emitterY;
-            }else{
+            } else {
                 this.relativeContentBounds = null;
             }
-                        
+
             this.mask = this.relativeContentBounds;
         }
-        
+
         /**
-        * 表示当前粒子系统中发射粒子的渲染边界范围，使用以发射点为基准的坐标系
-        * @member {egret.Rectangle} particle.ParticleSystem#emitterBounds
-        */
-        public set emitterBounds(rect:egret.Rectangle){
+         * 表示当前粒子系统中发射粒子的渲染边界范围，使用以发射点为基准的坐标系
+         * @member {egret.Rectangle} particle.ParticleSystem#emitterBounds
+         */
+        public set emitterBounds(rect:egret.Rectangle) {
             this._emitterBounds = rect;
             this.updateRelativeBounds(rect);
         }
-        
-        public get emitterBounds():egret.Rectangle{
+
+        public get emitterBounds():egret.Rectangle {
             return this._emitterBounds;
         }
-        
+
         /**
-        * 表示粒子出现点X坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
-        * @member {number} particle.ParticleSystem#emitterX
-        * @default 0
-        */
-        public set emitterX(value:number){
+         * 表示粒子出现点X坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
+         * @member {number} particle.ParticleSystem#emitterX
+         * @default 0
+         */
+        public set emitterX(value:number) {
             this._emitterX = value;
             this.updateRelativeBounds(this.emitterBounds);
         }
-                
-        public get emitterX():number{
+
+        public get emitterX():number {
             return this._emitterX;
         }
-        
+
         /**
-        * 表示粒子出现点Y坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
-        * @member {number} particle.ParticleSystem#emitterY
-        * @default 0
-        */
-        public set emitterY(value:number){
+         * 表示粒子出现点Y坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
+         * @member {number} particle.ParticleSystem#emitterY
+         * @default 0
+         */
+        public set emitterY(value:number) {
             this._emitterY = value;
             this.updateRelativeBounds(this.emitterBounds);
         }
-        
-        public get emitterY():number{
+
+        public get emitterY():number {
             return this._emitterY;
         }
 
@@ -232,7 +232,7 @@ module particle {
                     this.removeParticle(particle);
                 }
             }
-            
+
             this.$invalidateContentBounds();
 
             if (this.numParticles == 0 && this.emissionTime == 0) {
@@ -240,27 +240,27 @@ module particle {
                 this.dispatchEventWith(egret.Event.COMPLETE);
             }
         }
-        
-        private particleMeasureRect: egret.Rectangle = new egret.Rectangle();
+
+        private particleMeasureRect:egret.Rectangle = new egret.Rectangle();
         private transformForMeasure:egret.Matrix = new egret.Matrix();
-        
+
         $measureContentBounds(bounds:egret.Rectangle):void {
             //如果设置了固定的区域边界则直接使用这个边界，否则进行自动的内容边界测量
-            if(this.relativeContentBounds){
+            if (this.relativeContentBounds) {
                 bounds.copyFrom(this.relativeContentBounds);
                 return;
             }
-            
-            if(this.numParticles > 0) {
-                var texture: egret.Texture = this.texture;
 
-                var textureW: number = Math.round(texture.$getScaleBitmapWidth());
-                var textureH: number = Math.round(texture.$getScaleBitmapHeight());
-                
-                var totalRect: egret.Rectangle = egret.Rectangle.create();
+            if (this.numParticles > 0) {
+                var texture:egret.Texture = this.texture;
 
-                var particle: Particle;
-                for(var i: number = 0;i < this.numParticles;i++) {
+                var textureW:number = Math.round(texture.$getScaleBitmapWidth());
+                var textureH:number = Math.round(texture.$getScaleBitmapHeight());
+
+                var totalRect:egret.Rectangle = egret.Rectangle.create();
+
+                var particle:Particle;
+                for (var i:number = 0; i < this.numParticles; i++) {
                     particle = this.particles[i];
                     this.transformForMeasure.identity();
                     this.appendTransform(this.transformForMeasure, particle.x, particle.y, particle.scale, particle.scale, particle.rotation, 0, 0, textureW / 2, textureH / 2);
@@ -268,30 +268,30 @@ module particle {
                     this.particleMeasureRect.setEmpty();
                     this.particleMeasureRect.width = textureW;
                     this.particleMeasureRect.height = textureH;
-                    
-                    var tmpRegion: egret.sys.Region = egret.sys.Region.create();
+
+                    var tmpRegion:egret.sys.Region = egret.sys.Region.create();
                     tmpRegion.updateRegion(this.particleMeasureRect, this.transformForMeasure);
 
-                    if(i==0){
+                    if (i == 0) {
                         totalRect.setTo(tmpRegion.minX, tmpRegion.minY, tmpRegion.maxX - tmpRegion.minX, tmpRegion.maxY - tmpRegion.minY);
-                    }else{
-                        var l: number = Math.min(totalRect.x,tmpRegion.minX);
-                        var t: number = Math.min(totalRect.y,tmpRegion.minY);
-                        
-                        var r: number = Math.max(totalRect.right,tmpRegion.maxX);
-                        var b: number = Math.max(totalRect.bottom,tmpRegion.maxY);
-                        
+                    } else {
+                        var l:number = Math.min(totalRect.x, tmpRegion.minX);
+                        var t:number = Math.min(totalRect.y, tmpRegion.minY);
+
+                        var r:number = Math.max(totalRect.right, tmpRegion.maxX);
+                        var b:number = Math.max(totalRect.bottom, tmpRegion.maxY);
+
                         totalRect.setTo(l, t, r - l, b - t);
                     }
-                    egret.sys.Region.release(tmpRegion);    
+                    egret.sys.Region.release(tmpRegion);
                 }
                 //console.log(totalRect.x + "," + totalRect.y + "," + totalRect.width + "," + totalRect.height);
                 bounds.setTo(totalRect.x, totalRect.y, totalRect.width, totalRect.height);
                 egret.Rectangle.release(totalRect);
             }
-            
+
         }
-        
+
         public setCurrentParticles(num:number):void {
             for (var i:number = this.numParticles; i < num && this.numParticles < this.maxParticles; i++) {
                 this.addOneParticle();
@@ -331,39 +331,57 @@ module particle {
 
         private transformForRender:egret.Matrix = new egret.Matrix();
 
-        public $render(renderContext:egret.sys.RenderContext):void {
+        private setTransformNodeList:Array<egret.sys.SetTransformNode> = [];
+        private setAlphaNodeList:Array<egret.sys.SetAlphaNode> = [];
+        private bitmapNodeList:Array<egret.sys.BitmapNode> = [];
+
+        public $render():void {
             if (this.numParticles > 0) {
 
                 //todo 考虑不同粒子使用不同的texture，或者使用egret.SpriteSheet
                 var texture:egret.Texture = this.texture;
-                renderContext.imageSmoothingEnabled = false;
-                
+
                 var textureW:number = Math.round(texture.$getScaleBitmapWidth());
                 var textureH:number = Math.round(texture.$getScaleBitmapHeight());
-                
+
                 var offsetX = texture._offsetX;
                 var offsetY = texture._offsetY;
                 var bitmapX = texture._bitmapX;
                 var bitmapY = texture._bitmapY;
                 var bitmapWidth = texture._bitmapWidth;
-                var bitmapHeight = texture._bitmapHeight;    
-                
+                var bitmapHeight = texture._bitmapHeight;
+
                 var particle:Particle;
                 for (var i:number = 0; i < this.numParticles; i++) {
                     particle = this.particles[i];
-                    
+
                     this.transformForRender.identity();
-                    this.transformForRender.copyFrom(this.$renderMatrix);
+                    this.transformForRender.copyFrom(this.$renderNode.renderMatrix);
                     this.appendTransform(this.transformForRender, particle.x, particle.y, particle.scale, particle.scale, particle.rotation, 0, 0, textureW / 2, textureH / 2);
-                    renderContext.setTransform(this.transformForRender.a,this.transformForRender.b,this.transformForRender.c,this.transformForRender.d,this.transformForRender.tx,this.transformForRender.ty);
-                    renderContext.globalAlpha = particle.alpha;
-                    
-                    renderContext.drawImage(texture._bitmapData, bitmapX, bitmapY,
-                        bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
+                    var setTransformNode:egret.sys.SetTransformNode;
+                    var setAlphaNode:egret.sys.SetAlphaNode;
+                    var bitmapNode:egret.sys.BitmapNode;
+                    if (!this.setTransformNodeList[i]) {
+                        this.setTransformNodeList[i] = new egret.sys.SetTransformNode();
+                        this.setAlphaNodeList[i] = new egret.sys.SetAlphaNode();
+                        this.bitmapNodeList[i] = new egret.sys.BitmapNode();
+                        (<egret.sys.GroupNode>this.$renderNode).addNode(this.setTransformNodeList[i]);
+                        (<egret.sys.GroupNode>this.$renderNode).addNode(this.setAlphaNodeList[i]);
+                        (<egret.sys.GroupNode>this.$renderNode).addNode(this.bitmapNodeList[i]);
+                    }
+                    setTransformNode = this.setTransformNodeList[i];
+                    setAlphaNode = this.setAlphaNodeList[i];
+                    bitmapNode = this.bitmapNodeList[i];
+
+                    setTransformNode.setTransform(this.transformForRender.a, this.transformForRender.b, this.transformForRender.c, this.transformForRender.d, this.transformForRender.tx, this.transformForRender.ty);
+                    setAlphaNode.setAlpha(particle.alpha);
+
+                    bitmapNode.image = texture._bitmapData;
+                    bitmapNode.drawImage(bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
                 }
             }
         }
-        
+
         private appendTransform(matrix:egret.Matrix, x:number, y:number, scaleX:number, scaleY:number, rotation:number, skewX:number, skewY:number, regX:number, regY:number):egret.Matrix {
             if (rotation % 360) {
                 var r = rotation;// * Matrix.DEG_TO_RAD;
@@ -373,7 +391,7 @@ module particle {
                 cos = 1;
                 sin = 0;
             }
-            
+
             if (skewX || skewY) {
                 // TODO: can this be combined into a single append?
                 //                skewX *= Matrix.DEG_TO_RAD;
@@ -383,7 +401,7 @@ module particle {
             } else {
                 matrix.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, x, y);
             }
-                    
+
             if (regX || regY) {
                 // prepend the registration offset:
                 matrix.tx -= regX * matrix.a + regY * matrix.c;

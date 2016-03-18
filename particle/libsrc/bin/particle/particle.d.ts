@@ -90,26 +90,26 @@ declare module particle {
         private removeParticle(particle);
         initParticle(particle: Particle): void;
         /**
-        * 更新当前显示对象坐标系下的边框界限
-        * @param emitterRect {egret.Rectangle} 相对发射点坐标系下的界限
-        */
+         * 更新当前显示对象坐标系下的边框界限
+         * @param emitterRect {egret.Rectangle} 相对发射点坐标系下的界限
+         */
         private updateRelativeBounds(emitterRect);
         /**
-        * 表示当前粒子系统中发射粒子的渲染边界范围，使用以发射点为基准的坐标系
-        * @member {egret.Rectangle} particle.ParticleSystem#emitterBounds
-        */
+         * 表示当前粒子系统中发射粒子的渲染边界范围，使用以发射点为基准的坐标系
+         * @member {egret.Rectangle} particle.ParticleSystem#emitterBounds
+         */
         emitterBounds: egret.Rectangle;
         /**
-        * 表示粒子出现点X坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
-        * @member {number} particle.ParticleSystem#emitterX
-        * @default 0
-        */
+         * 表示粒子出现点X坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
+         * @member {number} particle.ParticleSystem#emitterX
+         * @default 0
+         */
         emitterX: number;
         /**
-        * 表示粒子出现点Y坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
-        * @member {number} particle.ParticleSystem#emitterY
-        * @default 0
-        */
+         * 表示粒子出现点Y坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
+         * @member {number} particle.ParticleSystem#emitterY
+         * @default 0
+         */
         emitterY: number;
         /**
          * 开始创建粒子
@@ -135,7 +135,10 @@ declare module particle {
         private addOneParticle();
         advanceParticle(particle: Particle, dt: number): void;
         private transformForRender;
-        $render(renderContext: egret.sys.RenderContext): void;
+        private setTransformNodeList;
+        private setAlphaNodeList;
+        private bitmapNodeList;
+        $render(): void;
         private appendTransform(matrix, x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY);
     }
 }

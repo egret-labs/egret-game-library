@@ -53,6 +53,8 @@ declare module egret {
      */
     function registerClass(classDefinition: any, className: string, interfaceNames?: string[]): void;
 }
+declare function __extends(d: any, b: any): void;
+declare var __define: any;
 declare module egret {
     /**
      * @language en_US
@@ -73,12 +75,14 @@ declare module egret {
          * a unique identification number assigned to this instance.
          * @version Egret 2.4
          * @platform Web,Native
+         * @readOnly
          */
         /**
          * @language zh_CN
          * 返回此对象唯一的哈希值,用于唯一确定一个对象。hashCode为大于等于1的整数。
          * @version Egret 2.4
          * @platform Web,Native
+         * @readOnly
          */
         hashCode: number;
     }
@@ -131,6 +135,13 @@ declare module egret {
          * @platform Web,Native
          */
         hashCode: number;
+    }
+    /**
+     * @private
+     */
+    interface AsyncCallback {
+        onSuccess: (data: any) => any;
+        onFail: (error: number, data: any) => any;
     }
 }
 declare module egret {
@@ -245,7 +256,21 @@ declare module egret {
          */
         $notifyListener(event: Event, capturePhase: boolean): boolean;
         /**
-         * @inheritDoc
+         * @language en_US
+         * Distribute a specified event parameters.
+         * @param type The type of the event. Event listeners can access this information through the inherited type property.
+         * @param bubbles Determines whether the Event object bubbles. Event listeners can access this information through
+         * the inherited bubbles property.
+         * @param data {any} data
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 派发一个指定参数的事件。
+         * @param type {string} 事件类型
+         * @param bubbles {boolean} 确定 Event 对象是否参与事件流的冒泡阶段。默认值为 false。
+         * @param data {any} 事件data
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -283,1102 +308,6 @@ declare module egret.sys {
          * @private
          */
         dispatchOnce: boolean;
-    }
-}
-declare module egret {
-    /**
-     * @language en_US
-     * The Matrix class represents a transformation matrix that determines how to map points from one coordinate space to
-     * another. You can perform various graphical transformations on a display object by setting the properties of a Matrix
-     * object, applying that Matrix object to the matrix property of a display object, These transformation functions include
-     * translation (x and y repositioning), rotation, scaling, and skewing.
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @includeExample egret/geom/Matrix.ts
-     */
-    /**
-     * @language zh_CN
-     * Matrix 类表示一个转换矩阵，它确定如何将点从一个坐标空间映射到另一个坐标空间。
-     * 您可以对一个显示对象执行不同的图形转换，方法是设置 Matrix 对象的属性，将该 Matrix
-     * 对象应用于显示对象的 matrix 属性。这些转换函数包括平移（x 和 y 重新定位）、旋转、缩放和倾斜。
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @includeExample egret/geom/Matrix.ts
-     */
-    class Matrix extends HashObject {
-        /**
-         * @language en_US
-         * Releases a matrix instance to the object pool
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 释放一个Matrix实例到对象池
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        static release(matrix: Matrix): void;
-        /**
-         * @language en_US
-         * get a matrix instance from the object pool or create a new one.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 从对象池中取出或创建一个新的Matrix对象。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        static create(): Matrix;
-        /**
-         * @language en_US
-         * Creates a new Matrix object with the specified parameters.
-         * @param a The value that affects the positioning of pixels along the x axis when scaling or rotating an image.
-         * @param b The value that affects the positioning of pixels along the y axis when rotating or skewing an image.
-         * @param c The value that affects the positioning of pixels along the x axis when rotating or skewing an image.
-         * @param d The value that affects the positioning of pixels along the y axis when scaling or rotating an image..
-         * @param tx The distance by which to translate each point along the x axis.
-         * @param ty The distance by which to translate each point along the y axis.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 使用指定参数创建一个 Matrix 对象
-         * @param a 缩放或旋转图像时影响像素沿 x 轴定位的值。
-         * @param b 旋转或倾斜图像时影响像素沿 y 轴定位的值。
-         * @param c 旋转或倾斜图像时影响像素沿 x 轴定位的值。
-         * @param d 缩放或旋转图像时影响像素沿 y 轴定位的值。
-         * @param tx 沿 x 轴平移每个点的距离。
-         * @param ty 沿 y 轴平移每个点的距离。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        constructor(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number);
-        /**
-         * @language en_US
-         * The value that affects the positioning of pixels along the x axis when scaling or rotating an image.
-         * @default 1
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 缩放或旋转图像时影响像素沿 x 轴定位的值
-         * @default 1
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        a: number;
-        /**
-         * @language en_US
-         * The value that affects the positioning of pixels along the y axis when rotating or skewing an image.
-         * @default 0
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 旋转或倾斜图像时影响像素沿 y 轴定位的值
-         * @default 0
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        b: number;
-        /**
-         * @language en_US
-         * The value that affects the positioning of pixels along the x axis when rotating or skewing an image.
-         * @default 0
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 旋转或倾斜图像时影响像素沿 x 轴定位的值
-         * @default 0
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        c: number;
-        /**
-         * @language en_US
-         * The value that affects the positioning of pixels along the y axis when scaling or rotating an image.
-         * @default 1
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 缩放或旋转图像时影响像素沿 y 轴定位的值
-         * @default 1
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        d: number;
-        /**
-         * @language en_US
-         * The distance by which to translate each point along the x axis.
-         * @default 0
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 沿 x 轴平移每个点的距离
-         * @default 0
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        tx: number;
-        /**
-         * @language en_US
-         * The distance by which to translate each point along the y axis.
-         * @default 0
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 沿 y 轴平移每个点的距离
-         * @default 0
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        ty: number;
-        /**
-         * @language en_US
-         * Returns a new Matrix object that is a clone of this matrix, with an exact copy of the contained object.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 返回一个新的 Matrix 对象，它是此矩阵的克隆，带有与所含对象完全相同的副本。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        clone(): Matrix;
-        /**
-         * @language en_US
-         * Concatenates a matrix with the current matrix, effectively combining the geometric effects of the two. In mathematical
-         * terms, concatenating two matrixes is the same as combining them using matrix multiplication.
-         * @param other The matrix to be concatenated to the source matrix.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 将某个矩阵与当前矩阵连接，从而将这两个矩阵的几何效果有效地结合在一起。在数学术语中，将两个矩阵连接起来与使用矩阵乘法将它们结合起来是相同的。
-         * @param other 要连接到源矩阵的矩阵。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        concat(other: Matrix): void;
-        /**
-         * @language en_US
-         * Copies all of the matrix data from the source Point object into the calling Matrix object.
-         * @param other  The Matrix object from which to copy the data.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 将源 Matrix 对象中的所有矩阵数据复制到调用方 Matrix 对象中。
-         * @param other 要拷贝的目标矩阵
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        copyFrom(other: Matrix): Matrix;
-        /**
-         * @language en_US
-         * Sets each matrix property to a value that causes a null transformation. An object transformed by applying an
-         * identity matrix will be identical to the original. After calling the identity() method, the resulting matrix
-         * has the following properties: a=1, b=0, c=0, d=1, tx=0, ty=0.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 为每个矩阵属性设置一个值，该值将导致矩阵无转换。通过应用恒等矩阵转换的对象将与原始对象完全相同。
-         * 调用 identity() 方法后，生成的矩阵具有以下属性：a=1、b=0、c=0、d=1、tx=0 和 ty=0。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        identity(): void;
-        /**
-         * @language en_US
-         * Performs the opposite transformation of the original matrix. You can apply an inverted matrix to an object to
-         * undo the transformation performed when applying the original matrix.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 执行原始矩阵的逆转换。
-         * 您可以将一个逆矩阵应用于对象来撤消在应用原始矩阵时执行的转换。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        invert(): void;
-        /**
-         * @private
-         */
-        $invertInto(target: Matrix): void;
-        /**
-         * @language en_US
-         * Applies a rotation transformation to the Matrix object.
-         * The rotate() method alters the a, b, c, and d properties of the Matrix object.
-         * @param angle The rotation angle in radians.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 对 Matrix 对象应用旋转转换。
-         * rotate() 方法将更改 Matrix 对象的 a、b、c 和 d 属性。
-         * @param angle 以弧度为单位的旋转角度。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        rotate(angle: number): void;
-        /**
-         * @language en_US
-         * Applies a scaling transformation to the matrix. The x axis is multiplied by sx, and the y axis it is multiplied by sy.
-         * The scale() method alters the a and d properties of the Matrix object.
-         * @param sx A multiplier used to scale the object along the x axis.
-         * @param sy A multiplier used to scale the object along the y axis.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 对矩阵应用缩放转换。x 轴乘以 sx，y 轴乘以 sy。
-         * scale() 方法将更改 Matrix 对象的 a 和 d 属性。
-         * @param sx 用于沿 x 轴缩放对象的乘数。
-         * @param sy 用于沿 y 轴缩放对象的乘数。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        scale(sx: number, sy: number): void;
-        /**
-         * @language en_US
-         * Sets the members of Matrix to the specified values
-         * @param a The value that affects the positioning of pixels along the x axis when scaling or rotating an image.
-         * @param b The value that affects the positioning of pixels along the y axis when rotating or skewing an image.
-         * @param c The value that affects the positioning of pixels along the x axis when rotating or skewing an image.
-         * @param d The value that affects the positioning of pixels along the y axis when scaling or rotating an image..
-         * @param tx The distance by which to translate each point along the x axis.
-         * @param ty The distance by which to translate each point along the y axis.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 将 Matrix 的成员设置为指定值
-         * @param a 缩放或旋转图像时影响像素沿 x 轴定位的值。
-         * @param b 旋转或倾斜图像时影响像素沿 y 轴定位的值。
-         * @param c 旋转或倾斜图像时影响像素沿 x 轴定位的值。
-         * @param d 缩放或旋转图像时影响像素沿 y 轴定位的值。
-         * @param tx 沿 x 轴平移每个点的距离。
-         * @param ty 沿 y 轴平移每个点的距离。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        setTo(a: number, b: number, c: number, d: number, tx: number, ty: number): Matrix;
-        /**
-         * @language en_US
-         * Returns the result of applying the geometric transformation represented by the Matrix object to the specified point.
-         * @param pointX The x coordinate for which you want to get the result of the Matrix transformation.
-         * @param pointY The y coordinate for which you want to get the result of the Matrix transformation.
-         * @param resultPoint A reusable instance of Point for saving the results. Passing this parameter can reduce the
-         * number of reallocate objects, which allows you to get better code execution performance.
-         * @returns The point resulting from applying the Matrix transformation.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 返回将 Matrix 对象表示的几何转换应用于指定点所产生的结果。
-         * @param pointX 想要获得其矩阵转换结果的点的x坐标。
-         * @param pointY 想要获得其矩阵转换结果的点的y坐标。
-         * @param resultPoint 框架建议尽可能减少创建对象次数来优化性能，可以从外部传入一个复用的Point对象来存储结果，若不传入将创建一个新的Point对象返回。
-         * @returns 由应用矩阵转换所产生的点。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        transformPoint(pointX: number, pointY: number, resultPoint?: Point): Point;
-        /**
-         * @language en_US
-         * Translates the matrix along the x and y axes, as specified by the dx and dy parameters.
-         * @param dx The amount of movement along the x axis to the right, in pixels.
-         * @param dy The amount of movement down along the y axis, in pixels.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 沿 x 和 y 轴平移矩阵，由 dx 和 dy 参数指定。
-         * @param dx 沿 x 轴向右移动的量（以像素为单位）。
-         * @param dy 沿 y 轴向下移动的量（以像素为单位）。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        translate(dx: number, dy: number): void;
-        /**
-         * @language en_US
-         * Determines whether two matrixes are equal.
-         * @param other The matrix to be compared.
-         * @returns A value of true if the object is equal to this Matrix object; false if it is not equal.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 是否与另一个矩阵数据相等
-         * @param other 要比较的另一个矩阵对象。
-         * @returns 是否相等，ture表示相等。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        equals(other: Matrix): boolean;
-        /**
-         * @language en_US
-         * prepend matrix
-         * @param a The value that affects the positioning of pixels along the x axis when scaling or rotating an image.
-         * @param b The value that affects the positioning of pixels along the y axis when rotating or skewing an image.
-         * @param c The value that affects the positioning of pixels along the x axis when rotating or skewing an image.
-         * @param d The value that affects the positioning of pixels along the y axis when scaling or rotating an image..
-         * @param tx The distance by which to translate each point along the x axis.
-         * @param ty The distance by which to translate each point along the y axis.
-         * @returns matrix
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 前置矩阵
-         * @param a 缩放或旋转图像时影响像素沿 x 轴定位的值
-         * @param b 缩放或旋转图像时影响像素沿 y 轴定位的值
-         * @param c 缩放或旋转图像时影响像素沿 x 轴定位的值
-         * @param d 缩放或旋转图像时影响像素沿 y 轴定位的值
-         * @param tx 沿 x 轴平移每个点的距离
-         * @param ty 沿 y 轴平移每个点的距离
-         * @returns 矩阵自身
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        prepend(a: number, b: number, c: number, d: number, tx: number, ty: number): Matrix;
-        /**
-         * @language en_US
-         * append matrix
-         * @param a The value that affects the positioning of pixels along the x axis when scaling or rotating an image.
-         * @param b The value that affects the positioning of pixels along the y axis when rotating or skewing an image.
-         * @param c The value that affects the positioning of pixels along the x axis when rotating or skewing an image.
-         * @param d The value that affects the positioning of pixels along the y axis when scaling or rotating an image..
-         * @param tx The distance by which to translate each point along the x axis.
-         * @param ty The distance by which to translate each point along the y axis.
-         * @returns matrix
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 后置矩阵
-         * @param a 缩放或旋转图像时影响像素沿 x 轴定位的值
-         * @param b 缩放或旋转图像时影响像素沿 y 轴定位的值
-         * @param c 缩放或旋转图像时影响像素沿 x 轴定位的值
-         * @param d 缩放或旋转图像时影响像素沿 y 轴定位的值
-         * @param tx 沿 x 轴平移每个点的距离
-         * @param ty 沿 y 轴平移每个点的距离
-         * @returns 矩阵自身
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        append(a: number, b: number, c: number, d: number, tx: number, ty: number): Matrix;
-        /**
-         * @language en_US
-         * Given a point in the pretransform coordinate space, returns the coordinates of that point after the transformation occurs.
-         * Unlike the standard transformation applied using the transformPoint() method, the deltaTransformPoint() method's transformation does not consider the translation parameters tx and ty.
-         * @param point The point for which you want to get the result of the matrix transformation.
-         * @returns The point resulting from applying the matrix transformation.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 如果给定预转换坐标空间中的点，则此方法返回发生转换后该点的坐标。
-         * 与使用 transformPoint() 方法应用的标准转换不同，deltaTransformPoint() 方法的转换不考虑转换参数 tx 和 ty。
-         * @param point 想要获得其矩阵转换结果的点
-         * @returns 由应用矩阵转换所产生的点
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        deltaTransformPoint(point: Point): Point;
-        /**
-         * @language en_US
-         * Returns a text value listing the properties of the Matrix object.
-         * @returns A string containing the values of the properties of the Matrix object: a, b, c, d, tx, and ty.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 返回将 Matrix 对象表示的几何转换应用于指定点所产生的结果。
-         * @returns 一个字符串，它包含 Matrix 对象的属性值：a、b、c、d、tx 和 ty。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        toString(): string;
-        /**
-         * @language en_US
-         * Includes parameters for scaling, rotation, and translation. When applied to a matrix it sets the matrix's values based on those parameters.
-         * @param scaleX The factor by which to scale horizontally.
-         * @param scaleY The factor by which scale vertically.
-         * @param rotation The amount to rotate, in radians.
-         * @param tx The number of pixels to translate (move) to the right along the x axis.
-         * @param ty The number of pixels to translate (move) down along the y axis.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 包括用于缩放、旋转和转换的参数。当应用于矩阵时，该方法会基于这些参数设置矩阵的值。
-         * @param scaleX 水平缩放所用的系数
-         * @param scaleY 垂直缩放所用的系数
-         * @param rotation 旋转量（以弧度为单位）
-         * @param tx 沿 x 轴向右平移（移动）的像素数
-         * @param ty 沿 y 轴向下平移（移动）的像素数
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        createBox(scaleX: number, scaleY: number, rotation?: number, tx?: number, ty?: number): void;
-        /**
-         * @language en_US
-         * Creates the specific style of matrix expected by the beginGradientFill() and lineGradientStyle() methods of the Graphics class.
-         * Width and height are scaled to a scaleX/scaleY pair and the tx/ty values are offset by half the width and height.
-         * @param width The width of the gradient box.
-         * @param height The height of the gradient box.
-         * @param rotation The amount to rotate, in radians.
-         * @param tx The distance, in pixels, to translate to the right along the x axis. This value is offset by half of the width parameter.
-         * @param ty The distance, in pixels, to translate down along the y axis. This value is offset by half of the height parameter.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 创建 Graphics 类的 beginGradientFill() 和 lineGradientStyle() 方法所需的矩阵的特定样式。
-         * 宽度和高度被缩放为 scaleX/scaleY 对，而 tx/ty 值偏移了宽度和高度的一半。
-         * @param width 渐变框的宽度
-         * @param height 渐变框的高度
-         * @param rotation 旋转量（以弧度为单位）
-         * @param tx 沿 x 轴向右平移的距离（以像素为单位）。此值将偏移 width 参数的一半
-         * @param ty 沿 y 轴向下平移的距离（以像素为单位）。此值将偏移 height 参数的一半
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        createGradientBox(width: number, height: number, rotation?: number, tx?: number, ty?: number): void;
-        /**
-         * @private
-         */
-        $transformBounds(bounds: Rectangle): void;
-        /**
-         * @private
-         */
-        private getDeterminant();
-        /**
-         * @private
-         */
-        $getScaleX(): number;
-        /**
-         * @private
-         */
-        $getScaleY(): number;
-        /**
-         * @private
-         */
-        $getSkewX(): number;
-        /**
-         * @private
-         */
-        $getSkewY(): number;
-        /**
-         * @private
-         */
-        $updateScaleAndRotation(scaleX: number, scaleY: number, skewX: number, skewY: number): void;
-        /**
-         * @private
-         * target = other * this
-         */
-        $preMultiplyInto(other: Matrix, target: Matrix): void;
-    }
-    /**
-     * @private
-     * 仅供框架内复用，要防止暴露引用到外部。
-     */
-    var $TempMatrix: Matrix;
-}
-declare module egret.sys {
-    /**
-     * @private
-     */
-    class Region {
-        /**
-         * @private
-         * 释放一个Region实例到对象池
-         */
-        static release(region: Region): void;
-        /**
-         * @private
-         * 从对象池中取出或创建一个新的Region对象。
-         * 建议对于一次性使用的对象，均使用此方法创建，而不是直接new一个。
-         * 使用完后调用对应的release()静态方法回收对象，能有效减少对象创建数量造成的性能开销。
-         */
-        static create(): Region;
-        /**
-         * @private
-         */
-        minX: number;
-        /**
-         * @private
-         */
-        minY: number;
-        /**
-         * @private
-         */
-        maxX: number;
-        /**
-         * @private
-         */
-        maxY: number;
-        /**
-         * @private
-         */
-        width: number;
-        /**
-         * @private
-         */
-        height: number;
-        /**
-         * @private
-         */
-        area: number;
-        /**
-         * @private
-         * 是否发生移动
-         */
-        moved: boolean;
-        /**
-         * @private
-         */
-        setTo(minX: number, minY: number, maxX: number, maxY: number): Region;
-        /**
-         * @private
-         */
-        updateArea(): void;
-        /**
-         * @private
-         * 注意！由于性能优化，此方法不判断自身是否为空，必须在外部确认自身和目标区域都不为空再调用合并。否则结果始终从0，0点开始。
-         */
-        union(target: Region): void;
-        /**
-         * @private
-         * 注意！由于性能优化，此方法不判断自身是否为空，必须在外部确认自身和目标区域都不为空再调用合并。否则结果始终从0，0点开始。
-         */
-        intersect(target: Region): void;
-        /**
-         * @private
-         */
-        private setEmpty();
-        /**
-         * @private
-         * 确定此 Region 对象是否为空。
-         */
-        isEmpty(): boolean;
-        /**
-         * @private
-         */
-        intersects(target: Region): boolean;
-        /**
-         * @private
-         */
-        updateRegion(bounds: Rectangle, matrix: Matrix): void;
-    }
-}
-declare module egret.sys {
-    /**
-     * @private
-     * 脏矩形计算工具类
-     */
-    class DirtyRegion {
-        /**
-         * @private
-         */
-        private dirtyList;
-        /**
-         * @private
-         */
-        private hasClipRect;
-        /**
-         * @private
-         */
-        private clipWidth;
-        /**
-         * @private
-         */
-        private clipHeight;
-        /**
-         * @private
-         */
-        private clipArea;
-        /**
-         * @private
-         */
-        private clipRectChanged;
-        /**
-         * @private
-         * 设置剪裁边界，超过边界的节点将跳过绘制。
-         */
-        setClipRect(width: number, height: number): void;
-        /**
-         * @private
-         * 添加一个脏矩形区域，返回是否添加成功，当矩形为空或者在屏幕之外时返回false。
-         */
-        addRegion(target: Region): boolean;
-        /**
-         * @private
-         */
-        clear(): void;
-        /**
-         * @private
-         * 获取最终的脏矩形列表
-         */
-        getDirtyRegions(): Region[];
-        /**
-         * @private
-         * 合并脏矩形列表
-         */
-        private mergeDirtyList(dirtyList);
-    }
-}
-declare module egret.sys {
-    /**
-     * @private
-     * 绘图上下文
-     */
-    interface RenderContext {
-        /**
-         * @private
-         * 与绘图上线文关联的画布实例
-         */
-        surface: Surface;
-        /**
-         * @private
-         * 设置新图像如何绘制到已有的图像上的规制
-         */
-        globalCompositeOperation: string;
-        /**
-         * @private
-         * 设置接下来绘图填充的整体透明度
-         */
-        globalAlpha: number;
-        /**
-         * @private
-         * 用于表示剪切斜接的极限值的数字。
-         * @default 10
-         */
-        miterLimit: number;
-        /**
-         * @private
-         * 指定如何绘制每一条线段末端的属性。有3个可能的值，分别是：<br/>
-         * <ul>
-         * <li>"butt": 线段末端以方形结束。</li>
-         * <li>"round": 线段末端以圆形结束。</li>
-         * <li>"square": 线段末端以方形结束，但是增加了一个宽度和线段相同，高度是线段厚度一半的矩形区域。</li>
-         * </ul>
-         * @default "butt"
-         */
-        lineCap: string;
-        /**
-         * @private
-         * 指定用于拐角的连接外观的类型,有3个可能的值，分别是：<br/>
-         * <ul>
-         * <li>"round": 圆角连接</li>
-         * <li>"bevel": 斜角连接。</li>
-         * <li>"miter": 尖角连接。当使用尖角模式时，还可以同时使用 miterLimit 参数限制尖角的长度。</li>
-         * </ul>
-         * @default "miter"
-         */
-        lineJoin: string;
-        /**
-         * @private
-         * 设置线条粗细，以像素为单位。设置为0，负数，Infinity 或 NaN 将会被忽略。
-         * @default 1
-         */
-        lineWidth: number;
-        /**
-         * @private
-         * 设置要在图形边线填充的颜色或样式
-         * @default "#000000"
-         */
-        strokeStyle: any;
-        /**
-         * @private
-         * 设置要在图形内部填充的颜色或样式
-         * @default "#000000"
-         */
-        fillStyle: any;
-        /**
-         * @private
-         * 控制在缩放时是否对位图进行平滑处理。
-         * @default true
-         */
-        imageSmoothingEnabled: boolean;
-        /**
-         * @private
-         * 文本的对齐方式的属性,有5个可能的值，分别是：<br/>
-         * <ul>
-         * <li>"left" 文本左对齐。</li>
-         * <li>"right" 文本右对齐。</li>
-         * <li>"center" 文本居中对齐。</li>
-         * <li>"start" 文本对齐界线开始的地方 （对于从左向右阅读的语言使用左对齐，对从右向左的阅读的语言使用右对齐）。</li>
-         * <li>"end" 文本对齐界线结束的地方 （对于从左向右阅读的语言使用右对齐，对从右向左的阅读的语言使用左对齐）。</li>
-         * </ul>
-         * @default "start"
-         */
-        textAlign: string;
-        /**
-         * @private
-         * 决定文字垂直方向的对齐方式。有6个可能的值，分别是：<br/>
-         * <ul>
-         * <li>"top" 文本基线在文本块的顶部。</li>
-         * <li>"hanging" 文本基线是悬挂基线。</li>
-         * <li>"middle" 文本基线在文本块的中间。</li>
-         * <li>"alphabetic" 文本基线是标准的字母基线。</li>
-         * <li>"ideographic" 文字基线是表意字基线；如果字符本身超出了alphabetic 基线，那么ideograhpic基线位置在字符本身的底部。</li>
-         * <li>"bottom" 文本基线在文本块的底部。 与 ideographic 基线的区别在于 ideographic 基线不需要考虑下行字母。</li>
-         * </ul>
-         * @default "alphabetic"
-         */
-        textBaseline: string;
-        /**
-         * @private
-         * 当前的字体样式
-         */
-        font: string;
-        /**
-         * @private
-         *
-         * @param text
-         * @param x
-         * @param y
-         * @param maxWidth
-         */
-        strokeText(text: any, x: any, y: any, maxWidth: any): any;
-        /**
-         * @private
-         * 绘制一段圆弧路径。圆弧路径的圆心在 (x, y) 位置，半径为 r ，根据anticlockwise （默认为顺时针）指定的方向从 startAngle 开始绘制，到 endAngle 结束。
-         * @param x 圆弧中心（圆心）的 x 轴坐标。
-         * @param y 圆弧中心（圆心）的 y 轴坐标。
-         * @param radius 圆弧的半径。
-         * @param startAngle 圆弧的起始点， x轴方向开始计算，单位以弧度表示。
-         * @param endAngle 圆弧的重点， 单位以弧度表示。
-         * @param anticlockwise 如果为 true，逆时针绘制圆弧，反之，顺时针绘制。
-         */
-        arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise?: boolean): void;
-        /**
-         * @private
-         * 绘制一段二次贝塞尔曲线路径。它需要2个点。 第一个点是控制点，第二个点是终点。 起始点是当前路径最新的点，当创建二次贝赛尔曲线之前，可以使用 moveTo() 方法进行改变。
-         * @param cpx 控制点的 x 轴坐标。
-         * @param cpy 控制点的 y 轴坐标。
-         * @param x 终点的 x 轴坐标。
-         * @param y 终点的 y 轴坐标。
-         */
-        quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): void;
-        /**
-         * @private
-         * 使用直线连接子路径的终点到x，y坐标。
-         * @param x 直线终点的 x 轴坐标。
-         * @param y 直线终点的 y 轴坐标。
-         */
-        lineTo(x: number, y: number): void;
-        /**
-         * @private
-         * 根据当前的填充样式，填充当前或已存在的路径的方法。采取非零环绕或者奇偶环绕规则。
-         * @param fillRule 一种算法，决定点是在路径内还是在路径外。允许的值：
-         * "nonzero": 非零环绕规则， 默认的规则。
-         * "evenodd": 奇偶环绕规则。
-         */
-        fill(fillRule?: string): void;
-        /**
-         * @private
-         * 使笔点返回到当前子路径的起始点。它尝试从当前点到起始点绘制一条直线。如果图形已经是封闭的或者只有一个点，那么此方法不会做任何操作。
-         */
-        closePath(): void;
-        /**
-         * @private
-         * 创建一段矩形路径，矩形的起点位置是 (x, y) ，尺寸为 width 和 height。矩形的4个点通过直线连接，子路径做为闭合的标记，所以你可以填充或者描边矩形。
-         * @param x 矩形起点的 x 轴坐标。
-         * @param y 矩形起点的 y 轴坐标。
-         * @param width 矩形的宽度。
-         * @param height 矩形的高度。
-         */
-        rect(x: number, y: number, w: number, h: number): void;
-        /**
-         * @private
-         * 将一个新的子路径的起始点移动到(x，y)坐标
-         * @param x 点的 x 轴
-         * @param y 点的 y 轴
-         */
-        moveTo(x: number, y: number): void;
-        /**
-         * @private
-         * 绘制一个填充矩形。矩形的起点在 (x, y) 位置，矩形的尺寸是 width 和 height ，fillStyle 属性决定矩形的样式。
-         * @param x 矩形起始点的 x 轴坐标。
-         * @param y 矩形起始点的 y 轴坐标。
-         * @param width 矩形的宽度。
-         * @param height 矩形的高度。
-         */
-        fillRect(x: number, y: number, w: number, h: number): void;
-        /**
-         * @private
-         * 绘制一段三次贝赛尔曲线路径。该方法需要三个点。 第一、第二个点是控制点，第三个点是结束点。起始点是当前路径的最后一个点，
-         * 绘制贝赛尔曲线前，可以通过调用 moveTo() 进行修改。
-         * @param cp1x 第一个控制点的 x 轴坐标。
-         * @param cp1y 第一个控制点的 y 轴坐标。
-         * @param cp2x 第二个控制点的 x 轴坐标。
-         * @param cp2y 第二个控制点的 y 轴坐标。
-         * @param x 结束点的 x 轴坐标。
-         * @param y 结束点的 y 轴坐标。
-         */
-        bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): void;
-        /**
-         * @private
-         * 根据当前的画线样式，绘制当前或已经存在的路径的方法。
-         */
-        stroke(): void;
-        /**
-         * @private
-         * 使用当前的绘画样式，描绘一个起点在 (x, y) 、宽度为 w 、高度为 h 的矩形的方法。
-         * @param x 矩形起点的 x 轴坐标。
-         * @param y 矩形起点的 y 轴坐标。
-         * @param width 矩形的宽度。
-         * @param height 矩形的高度。
-         */
-        strokeRect(x: number, y: number, w: number, h: number): void;
-        /**
-         * @private
-         * 清空子路径列表开始一个新路径。 当你想创建一个新的路径时，调用此方法。
-         */
-        beginPath(): void;
-        /**
-         * @private
-         * 根据控制点和半径绘制一段圆弧路径，使用直线连接前一个点。
-         * @param x1 第一个控制点的 x 轴坐标。
-         * @param y1 第一个控制点的 y 轴坐标。
-         * @param x2 第二个控制点的 x 轴坐标。
-         * @param y2 第二个控制点的 y 轴坐标。
-         * @param radius 圆弧的半径。
-         */
-        arcTo(x1: number, y1: number, x2: number, y2: number, radius: number): void;
-        /**
-         * @private
-         * 使用方法参数描述的矩阵多次叠加当前的变换矩阵。
-         * @param a 水平缩放。
-         * @param b 水平倾斜。
-         * @param c 垂直倾斜。
-         * @param d 垂直缩放。
-         * @param tx 水平移动。
-         * @param ty 垂直移动。
-         */
-        transform(a: number, b: number, c: number, d: number, tx: number, ty: number): void;
-        /**
-         * @private
-         * 通过在网格中移动 surface 和 surface 原点 x 水平方向、原点 y 垂直方向，添加平移变换
-         * @param x 水平移动。
-         * @param y 垂直移动。
-         */
-        translate(x: number, y: number): void;
-        /**
-         * @private
-         * 根据 x 水平方向和 y 垂直方向，为 surface 单位添加缩放变换。
-         * @param x 水平方向的缩放因子。
-         * @param y 垂直方向的缩放因子。
-         */
-        scale(x: number, y: number): void;
-        /**
-         * @private
-         * 在变换矩阵中增加旋转，角度变量表示一个顺时针旋转角度并且用弧度表示。
-         * @param angle 顺时针旋转的弧度。
-         */
-        rotate(angle: number): void;
-        /**
-         * @private
-         * 恢复到最近的绘制样式状态，此状态是通过 save() 保存到”状态栈“中最新的元素。
-         */
-        restore(): void;
-        /**
-         * @private
-         * 使用栈保存当前的绘画样式状态，你可以使用 restore() 恢复任何改变。
-         */
-        save(): void;
-        /**
-         * @private
-         * 从当前路径创建一个剪切路径。在  clip() 调用之后，绘制的所有信息只会出现在剪切路径内部。
-         */
-        clip(fillRule?: string): void;
-        /**
-         * @private
-         * 设置指定矩形区域内（以 点 (x, y) 为起点，范围是(width, height) ）所有像素变成透明，并擦除之前绘制的所有内容。
-         * @param x 矩形起点的 x 轴坐标。
-         * @param y 矩形起点的 y 轴坐标。
-         * @param width 矩形的宽度。
-         * @param height 矩形的高度。
-         */
-        clearRect(x: number, y: number, width: number, height: number): void;
-        /**
-         * @private
-         * 重新设置当前的变换为单位矩阵，并使用同样的变量调用 transform() 方法。
-         * @param a 水平缩放。
-         * @param b 水平倾斜。
-         * @param c 垂直倾斜。
-         * @param d 垂直缩放。
-         * @param tx 水平移动。
-         * @param ty 垂直移动。
-         */
-        setTransform(a: number, b: number, c: number, d: number, tx: number, ty: number): void;
-        /**
-         * @private
-         * 创建一个沿参数坐标指定的直线的渐变。该方法返回一个线性的 GraphicsGradient 对象。
-         * @param x0 起点的 x 轴坐标。
-         * @param y0 起点的 y 轴坐标。
-         * @param x1 终点的 x 轴坐标。
-         * @param y1 终点的 y 轴坐标。
-         */
-        createLinearGradient(x0: number, y0: number, x1: number, y1: number): GraphicsGradient;
-        /**
-         * @private
-         * 根据参数确定的两个圆的坐标，创建一个放射性渐变。该方法返回一个放射性的 GraphicsGradient。
-         * @param x0 开始圆形的 x 轴坐标。
-         * @param y0 开始圆形的 y 轴坐标。
-         * @param r0 开始圆形的半径。
-         * @param x1 结束圆形的 x 轴坐标。
-         * @param y1 结束圆形的 y 轴坐标。
-         * @param r1 结束圆形的半径。
-         */
-        createRadialGradient(x0: number, y0: number, r0: number, x1: number, y1: number, r1: number): GraphicsGradient;
-        /**
-         * @private
-         * 在(x,y)位置绘制（填充）文本。
-         */
-        fillText(text: string, x: number, y: number, maxWidth?: number): void;
-        /**
-         * @private
-         * 测量指定文本宽度，返回 TextMetrics 对象。
-         */
-        measureText(text: string): TextMetrics;
-        /**
-         * @private
-         * 注意：如果要对绘制的图片进行缩放，出于性能优化考虑，系统不会主动去每次重置imageSmoothingEnabled属性，因此您在调用drawImage()方法前请务必
-         * 确保 imageSmoothingEnabled 已被重置为正常的值，否则有可能沿用上个显示对象绘制过程留下的值。
-         */
-        drawImage(image: BitmapData, offsetX: number, offsetY: number, width?: number, height?: number, surfaceOffsetX?: number, surfaceOffsetY?: number, surfaceImageWidth?: number, surfaceImageHeight?: number): void;
-        /**
-         * @private
-         * 基于指定的源图象(BitmapData)创建一个模板，通过repetition参数指定源图像在什么方向上进行重复，返回一个GraphicsPattern对象。
-         * @param bitmapData 做为重复图像源的 BitmapData 对象。
-         * @param repetition 指定如何重复图像。
-         * 可能的值有："repeat" (两个方向重复),"repeat-x" (仅水平方向重复),"repeat-y" (仅垂直方向重复),"no-repeat" (不重复).
-         */
-        createPattern(image: BitmapData, repetition: string): GraphicsPattern;
-        /**
-         * @private
-         * 返回一个 ImageData 对象，用来描述canvas区域隐含的像素数据，这个区域通过矩形表示，起始点为(sx, sy)、宽为sw、高为sh。
-         */
-        getImageData(sx: number, sy: number, sw: number, sh: number): ImageData;
-    }
-    /**
-     * @private
-     */
-    interface TextMetrics {
-        /**
-         * @private
-         */
-        width: number;
-    }
-    /**
-     * @private
-     */
-    interface ImageData {
-        /**
-         * @private
-         */
-        width: number;
-        /**
-         * @private
-         */
-        data: Uint8Array;
-        /**
-         * @private
-         */
-        height: number;
-    }
-}
-declare module egret {
-    /**
-     * @language en_US
-     * A BitmapData object contains an array of pixel data. This data can represent either a fully opaque bitmap or a
-     * transparent bitmap that contains alpha channel data. Either type of BitmapData object is stored as a buffer of 32-bit
-     * integers. Each 32-bit integer determines the properties of a single pixel in the bitmap.<br/>
-     * Each 32-bit integer is a combination of four 8-bit channel values (from 0 to 255) that describe the alpha transparency
-     * and the red, green, and blue (ARGB) values of the pixel. (For ARGB values, the most significant byte represents the
-     * alpha channel value, followed by red, green, and blue.)
-     * @see egret.Bitmap
-     * @version Egret 2.4
-     * @platform Web,Native
-     */
-    /**
-     * @language zh_CN
-     * BitmapData 对象是一个包含像素数据的数组。此数据可以表示完全不透明的位图，或表示包含 Alpha 通道数据的透明位图。
-     * 以上任一类型的 BitmapData 对象都作为 32 位整数的缓冲区进行存储。每个 32 位整数确定位图中单个像素的属性。<br/>
-     * 每个 32 位整数都是四个 8 位通道值（从 0 到 255）的组合，这些值描述像素的 Alpha 透明度以及红色、绿色、蓝色 (ARGB) 值。
-     * （对于 ARGB 值，最高有效字节代表 Alpha 通道值，其后的有效字节分别代表红色、绿色和蓝色通道值。）
-     * @see egret.Bitmap
-     * @version Egret 2.4
-     * @platform Web,Native
-     */
-    interface BitmapData extends HashObject {
-        /**
-         * @language en_US
-         * The width of the bitmap image in pixels.
-         * @readOnly
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 位图图像的宽度，以像素为单位。
-         * @readOnly
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        width: number;
-        /**
-         * @language en_US
-         * The height of the bitmap image in pixels.
-         * @readOnly
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 位图图像的高度，以像素为单位。
-         * @readOnly
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        height: number;
     }
 }
 declare module egret.sys {
@@ -1419,6 +348,11 @@ declare module egret.sys {
         InvalidConcatenatedAlpha = 64,
         /**
          * @private
+         * DrawData失效,需要重新出发render方法.
+         */
+        InvalidRenderNodes = 128,
+        /**
+         * @private
          * 显示对象自身需要重绘的标志
          */
         DirtyRender = 256,
@@ -1434,14 +368,19 @@ declare module egret.sys {
         Dirty = 768,
         /**
          * @private
+         * 显示对象祖代的是否可见属性失效。
+         */
+        InvalidConcatenatedVisible = 1024,
+        /**
+         * @private
          * 添加或删除子项时，需要向子项传递的标志。
          */
-        DownOnAddedOrRemoved = 624,
+        DownOnAddedOrRemoved = 1648,
         /**
          * @private
          * 显示对象初始化时的标志量
          */
-        InitFlags = 880,
+        InitFlags = 2032,
     }
 }
 declare module egret {
@@ -1641,7 +580,7 @@ declare module egret {
         /**
          * @language zh_CN
          * 显示对象的舞台。
-         * 例如，您可以创建多个显示对象并加载到显示列表中，每个显示对象的 stage 属性是指相同的 Stage 对象。<br/>
+         * 例如，您可以创建多个显示对象并加载到显示列表中，每个显示对象的 stage 属性是指向相同的 Stage 对象。<br/>
          * 如果显示对象未添加到显示列表，则其 stage 属性会设置为 null。
          * @version Egret 2.4
          * @platform Web,Native
@@ -1762,8 +701,7 @@ declare module egret {
         /**
          * @language en_US
          * Indicates the horizontal scale (percentage) of the object as applied from the registration point. <br/>
-         * The default 1.0 equals 100% scale.Scaling the local coordinate system changes the x and y property values, which are
-         * defined in whole pixels.
+         * The default 1.0 equals 100% scale.
          * @default 1
          * @version Egret 2.4
          * @platform Web,Native
@@ -1771,7 +709,7 @@ declare module egret {
         /**
          * @language zh_CN
          * 表示从注册点开始应用的对象的水平缩放比例（百分比）。<br/>
-         * 1.0 等于 100% 缩放。缩放本地坐标系统将更改 x 和 y 属性值，这些属性值是以整像素定义的。
+         * 1.0 等于 100% 缩放。
          * @default 1
          * @version Egret 2.4
          * @platform Web,Native
@@ -1791,8 +729,7 @@ declare module egret {
         /**
          * @language en_US
          * Indicates the vertical scale (percentage) of an object as applied from the registration point of the object.
-         * 1.0 is 100% scale.Scaling the local coordinate system changes the x and y property values, which are defined
-         * in whole pixels.
+         * 1.0 is 100% scale.
          * @default 1
          * @version Egret 2.4
          * @platform Web,Native
@@ -1800,7 +737,6 @@ declare module egret {
         /**
          * @language zh_CN
          * 表示从对象注册点开始应用的对象的垂直缩放比例（百分比）。1.0 是 100% 缩放。
-         * 缩放本地坐标系统将更改 x 和 y 属性值，这些属性值是以整像素定义的。
          * @default 1
          * @version Egret 2.4
          * @platform Web,Native
@@ -1875,13 +811,13 @@ declare module egret {
         /**
          * @language en_US
          * Indicates the width of the display object, in pixels. The width is calculated based on the bounds of the content
-         * of the display object. When you set the width property, the scaleX property is adjusted accordingly.
+         * of the display object.
          * @version Egret 2.4
          * @platform Web,Native
          */
         /**
          * @language zh_CN
-         * 表示显示对象的宽度，以像素为单位。宽度是根据显示对象内容的范围来计算的。如果您设置了 width 属性，则 scaleX 属性会相应调整.
+         * 表示显示对象的宽度，以像素为单位。宽度是根据显示对象内容的范围来计算的。
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -1905,13 +841,13 @@ declare module egret {
         /**
          * @language en_US
          * Indicates the height of the display object, in pixels. The height is calculated based on the bounds of the
-         * content of the display object. When you set the height property, the scaleY property is adjusted accordingly.
+         * content of the display object.
          * @version Egret 2.4
          * @platform Web,Native
          */
         /**
          * @language zh_CN
-         * 表示显示对象的高度，以像素为单位。高度是根据显示对象内容的范围来计算的。如果您设置了 height 属性，则 scaleY 属性会相应调整。
+         * 表示显示对象的高度，以像素为单位。高度是根据显示对象内容的范围来计算的。
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -2015,6 +951,11 @@ declare module egret {
         $setVisible(value: boolean): boolean;
         /**
          * @private
+         * 获取这个显示对象跟它所有父级透明度的乘积
+         */
+        $getConcatenatedVisible(): boolean;
+        /**
+         * @private
          * cacheAsBitmap创建的缓存位图节点。
          */
         $displayList: egret.sys.DisplayList;
@@ -2078,26 +1019,43 @@ declare module egret {
          * 获取这个显示对象跟它所有父级透明度的乘积
          */
         $getConcatenatedAlpha(): number;
+        /**
+         * @private
+         * @language en_US
+         * The default touchEnabled property of DisplayObject
+         * @default false
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        /**
+         * @private
+         * @language zh_CN
+         * 显示对象默认的 touchEnabled 属性
+         * @default false
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        static defaultTouchEnabled: boolean;
         $touchEnabled: boolean;
         /**
          * @language en_US
-         * Specifies whether this object receives touch or other user input. The default value is true, which means that
-         * by default any DisplayObject instance that is on the display list receives touch events. If touchEnabled is
+         * Specifies whether this object receives touch or other user input. The default value is false, which means that
+         * by default any DisplayObject instance that is on the display list cannot receive touch events. If touchEnabled is
          * set to false, the instance does not receive any touch events (or other user input events). Any children of
          * this instance on the display list are not affected. To change the touchEnabled behavior for all children of
          * an object on the display list, use DisplayObjectContainer.touchChildren.
          * @see egret.DisplayObjectContainer#touchChildren
-         * @default true
+         * @default false
          * @version Egret 2.4
          * @platform Web,Native
          */
         /**
          * @language zh_CN
-         * 指定此对象是否接收触摸或其他用户输入。默认值为 true，这表示默认情况下，显示列表上的任何 isplayObject 实例都会接收触摸事件或
+         * 指定此对象是否接收触摸或其他用户输入。默认值为 false，这表示默认情况下，显示列表上的任何 DisplayObject 实例都不会接收触摸事件或
          * 其他用户输入事件。如果将 touchEnabled 设置为 false，则实例将不接收任何触摸事件（或其他用户输入事件）。显示列表上的该实例的任
          * 何子级都不会受到影响。要更改显示列表上对象的所有子级的 touchEnabled 行为，请使用 DisplayObjectContainer.touchChildren。
          * @see egret.DisplayObjectContainer#touchChildren
-         * @default true
+         * @default false
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -2201,7 +1159,7 @@ declare module egret {
          * The calling display object is masked by the specified mask object. To ensure that masking works when the Stage
          * is scaled, the mask display object must be in an active part of the display list. The mask object itself is not drawn.
          * Set mask to null to remove the mask. To be able to scale a mask object, it must be on the display list. To be
-         * able to drag a mask Sprite object , it must be on the display list.<br/>
+         * able to drag a mask object , it must be on the display list.<br/>
          * Note: A single mask object cannot be used to mask more than one calling display object. When the mask is assigned
          * to a second display object, it is removed as the mask of the first object, and that object's mask property becomes null.
          * @version Egret 2.4
@@ -2211,7 +1169,7 @@ declare module egret {
          * @language zh_CN
          * 调用显示对象被指定的 mask 对象遮罩。要确保当舞台缩放时蒙版仍然有效，mask 显示对象必须处于显示列表的活动部分。
          * 但不绘制 mask 对象本身。将 mask 设置为 null 可删除蒙版。要能够缩放遮罩对象，它必须在显示列表中。要能够拖动蒙版
-         * Sprite 对象，它必须在显示列表中。<br/>
+         * 对象，它必须在显示列表中。<br/>
          * 注意：单个 mask 对象不能用于遮罩多个执行调用的显示对象。在将 mask 分配给第二个显示对象时，会撤消其作为第一个对象的遮罩，
          * 该对象的 mask 属性将变为 null。
          *
@@ -2347,7 +1305,7 @@ declare module egret {
         /**
          * @private
          * 标记此显示对象需要重绘。此方法会触发自身的cacheAsBitmap重绘。如果只是矩阵改变，自身显示内容并不改变，应该调用$invalidateTransform().
-         * @param notiryChildren 是否标记子项也需要重绘。传入false或不传入，将只标记自身需要重绘。通常只有alpha属性改变会需要通知子项重绘。
+         * @param notiryChildren 是否标记子项也需要重绘。传入false或不传入，将只标记自身需要重绘。注意:当子项cache时不会继续向下标记
          */
         $invalidate(notifyChildren?: boolean): void;
         /**
@@ -2358,29 +1316,19 @@ declare module egret {
         $invalidateTransform(): void;
         /**
          * @private
-         * 是否需要重绘的标志，此属性在渲染时会被访问，所以单独声明一个直接的变量。
+         * 渲染节点,不为空表示自身有绘制到屏幕的内容
          */
-        $isDirty: boolean;
+        $renderNode: sys.RenderNode;
         /**
          * @private
-         * 这个对象在舞台上的整体透明度
+         * 获取渲染节点
          */
-        $renderAlpha: number;
+        $getRenderNode(): sys.RenderNode;
         /**
          * @private
-         * 相对于显示列表根节点或位图缓存根节点上的矩阵对象
+         * 更新对象在舞台上的显示区域,返回显示区域是否发生改变。
          */
-        $renderMatrix: Matrix;
-        /**
-         * @private
-         * 此显示对象自身（不包括子项）在显示列表根节点或位图缓存根节点上的显示尺寸。
-         */
-        $renderRegion: sys.Region;
-        /**
-         * @private
-         * 更新对象在舞台上的显示区域和透明度,返回显示区域是否发生改变。
-         */
-        $update(): boolean;
+        $update(bounds?: Rectangle): boolean;
         /**
          * @private
          * 获取相对于指定根节点的连接矩阵。
@@ -2388,11 +1336,12 @@ declare module egret {
          * @param matrix 目标显示对象相对于舞台的完整连接矩阵。
          */
         $getConcatenatedMatrixAt(root: DisplayObject, matrix: Matrix): void;
+        $getConcatenatedAlphaAt(root: DisplayObject, alpha: number): number;
         /**
          * @private
          * 执行渲染,绘制自身到屏幕
          */
-        $render(context: sys.RenderContext): void;
+        $render(): void;
         /**
          * @private
          */
@@ -2403,7 +1352,7 @@ declare module egret {
          * Note: Don't use accurate pixel collision detection on a large number of objects. Otherwise, this will cause serious performance deterioration.
          * @param x {number}  x coordinate of the object to be tested.
          * @param y {number}  y coordinate of the object to be tested.
-         * @param shapeFlag {boolean} Whether to check the actual pixel of object (true) or check that of border (false).
+         * @param shapeFlag {boolean} Whether to check the actual pixel of object (true) or check that of border (false).Write realized.
          * @returns {boolean} If display object overlaps or crosses with the specified point, it is true; otherwise, it is false.
          * @version Egret 2.4
          * @platform Web,Native
@@ -2474,170 +1423,18 @@ declare module egret {
 declare module egret.sys {
     /**
      * @private
-     * 显示列表
-     */
-    class DisplayList extends HashObject implements Renderable {
-        /**
-         * @private
-         * 释放一个DisplayList实例到对象池
-         */
-        static release(displayList: DisplayList): void;
-        /**
-         * @private
-         * 从对象池中取出或创建一个新的DisplayList对象。
-         */
-        static create(target: DisplayObject): DisplayList;
-        /**
-         * @private
-         * 创建一个DisplayList对象
-         */
-        constructor(root: DisplayObject);
-        /**
-         * @private
-         * 是否需要重绘
-         */
-        $isDirty: boolean;
-        /**
-         * @private
-         * 在舞台上的透明度
-         */
-        $renderAlpha: number;
-        /**
-         * @private
-         * 相对于显示列表根节点或位图缓存根节点的矩阵对象
-         */
-        $renderMatrix: Matrix;
-        $ratioMatrix: Matrix;
-        $ratioChanged: boolean;
-        $pixelRatio: number;
-        /**
-         * @private
-         * 在显示列表根节点或位图缓存根节点上的显示区域
-         */
-        $renderRegion: Region;
-        /**
-         * @private
-         * 更新对象在舞台上的显示区域和透明度,返回显示区域是否发生改变。
-         */
-        $update(): boolean;
-        /**
-         * @private
-         * 呈现绘制结果的目标画布
-         */
-        surface: Surface;
-        /**
-         * @private
-         */
-        offsetX: number;
-        /**
-         * @private
-         */
-        offsetY: number;
-        /**
-         * @private
-         *
-         * @param context
-         */
-        $render(context: RenderContext): void;
-        /**
-         * @private
-         * 显示列表根节点
-         */
-        root: DisplayObject;
-        /**
-         * @private
-         */
-        needRedraw: boolean;
-        /**
-         * @private
-         */
-        private rootMatrix;
-        /**
-         * @private
-         * 绘图上下文
-         */
-        renderContext: RenderContext;
-        /**
-         * @private
-         * 设置剪裁边界，不再绘制完整目标对象，画布尺寸由外部决定，超过边界的节点将跳过绘制。
-         */
-        setClipRect(width: number, height: number): void;
-        /**
-         * @private
-         * 显示对象的渲染节点发生改变时，把自身的IRenderable对象注册到此列表上。
-         */
-        private dirtyNodes;
-        /**
-         * @private
-         */
-        private dirtyNodeList;
-        /**
-         * @private
-         * 标记一个节点需要重新渲染
-         */
-        markDirty(node: Renderable): void;
-        /**
-         * @private
-         */
-        private dirtyList;
-        /**
-         * @private
-         */
-        private dirtyRegion;
-        /**
-         * @private
-         * 更新节点属性并返回脏矩形列表。
-         */
-        updateDirtyRegions(): Region[];
-        /**
-         * @private
-         * 绘制根节点显示对象到目标画布，返回draw的次数。
-         */
-        drawToSurface(): number;
-        /**
-         * @private
-         * 绘制一个显示对象
-         */
-        private drawDisplayObject(displayObject, context, dirtyList, rootMatrix, displayList, clipRegion);
-        /**
-         * @private
-         */
-        private drawWithClip(displayObject, context, dirtyList, rootMatrix, clipRegion);
-        /**
-         * @private
-         */
-        private drawWithScrollRect(displayObject, context, dirtyList, rootMatrix, clipRegion);
-        /**
-         * @private
-         */
-        private createRenderContext(width, height);
-        /**
-         * @private
-         */
-        private sizeChanged;
-        /**
-         * @private
-         * 改变画布的尺寸，由于画布尺寸修改会清空原始画布。所以这里将原始画布绘制到一个新画布上，再与原始画布交换。
-         */
-        changeSurfaceSize(): void;
-        setDevicePixelRatio(ratio?: number): void;
-    }
-}
-declare module egret.sys {
-    /**
-     * @private
      */
     const enum BitmapKeys {
         bitmapData = 0,
         image = 1,
-        clipX = 2,
-        clipY = 3,
-        clipWidth = 4,
-        clipHeight = 5,
+        bitmapX = 2,
+        bitmapY = 3,
+        bitmapWidth = 4,
+        bitmapHeight = 5,
         offsetX = 6,
         offsetY = 7,
-        width = 8,
-        height = 9,
+        textureWidth = 8,
+        textureHeight = 9,
         smoothing = 10,
         explicitBitmapWidth = 11,
         explicitBitmapHeight = 12,
@@ -2676,19 +1473,19 @@ declare module egret {
     class Bitmap extends DisplayObject {
         /**
          * @language en_US
-         * Initializes a Bitmap object to refer to the specified BitmapData object.
-         * @param bitmapData The BitmapData object being referenced.
+         * Initializes a Bitmap object to refer to the specified BitmapData|Texture object.
+         * @param value The BitmapData|Texture object being referenced.
          * @version Egret 2.4
          * @platform Web,Native
          */
         /**
          * @language zh_CN
-         * 创建一个引用指定 BitmapData 实例的 Bitmap 对象
-         * @param bitmapData 被引用的 BitmapData 实例
+         * 创建一个引用指定 BitmapData|Texture 实例的 Bitmap 对象
+         * @param value 被引用的 BitmapData|Texture 实例
          * @version Egret 2.4
          * @platform Web,Native
          */
-        constructor(bitmapData?: BitmapData | Texture);
+        constructor(value?: BitmapData | Texture);
         /**
          * @private
          */
@@ -2706,17 +1503,33 @@ declare module egret {
         /**
          * @language en_US
          * The BitmapData object being referenced.
+         * If you pass the constructor of type Texture or last set for texture, this value returns null.
          * @version Egret 2.4
          * @platform Web,Native
          */
         /**
          * @language zh_CN
          * 被引用的 BitmapData 对象。
+         * 如果传入构造函数的类型为 Texture 或者最后设置的为 texture，则此值返回 null。
          * @version Egret 2.4
          * @platform Web,Native
          */
-        bitmapData: BitmapData | Texture;
-        texture: BitmapData | Texture;
+        bitmapData: BitmapData;
+        /**
+         * @language en_US
+         * The Texture object being referenced.
+         * If you pass the constructor of type BitmapData or last set for bitmapData, this value returns null.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 被引用的 Texture 对象。
+         * 如果传入构造函数的类型为 BitmapData 或者最后设置的为 bitmapData，则此值返回 null。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        texture: Texture;
         /**
          * @private
          */
@@ -2724,7 +1537,11 @@ declare module egret {
         /**
          * @private
          */
-        private setImageData(image, clipX, clipY, clipWidth, clipHeight, offsetX, offsetY, width, height);
+        $refreshImageData(): void;
+        /**
+         * @private
+         */
+        private setImageData(image, bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureWidth, textureHeight);
         /**
          * @private
          */
@@ -2754,8 +1571,6 @@ declare module egret {
         /**
          * @language en_US
          * Determines how the bitmap fills in the dimensions.
-         * <p>When set to <code>BitmapFillMode.CLIP</code>, the bitmap
-         * ends at the edge of the region.</p>
          * <p>When set to <code>BitmapFillMode.REPEAT</code>, the bitmap
          * repeats to fill the region.</p>
          * <p>When set to <code>BitmapFillMode.SCALE</code>, the bitmap
@@ -2770,7 +1585,6 @@ declare module egret {
         /**
          * @language zh_CN
          * 确定位图填充尺寸的方式。
-         * <p>设置为 <code>BitmapFillMode.CLIP</code>时，位图将在边缘处被截断。</p>
          * <p>设置为 <code>BitmapFillMode.REPEAT</code>时，位图将重复以填充区域。</p>
          * <p>设置为 <code>BitmapFillMode.SCALE</code>时，位图将拉伸以填充区域。</p>
          *
@@ -2783,20 +1597,31 @@ declare module egret {
         fillMode: string;
         $setFillMode(value: string): boolean;
         /**
-         * @private
+         * @language en_US
+         * The default value of whether or not is smoothed when scaled.
+         * When object such as Bitmap is created,smoothing property will be set to this value.
+         * @default true。
+         * @version Egret 3.0
+         * @platform Web
          */
-        $smoothing: boolean;
+        /**
+         * @language zh_CN
+         * 控制在缩放时是否进行平滑处理的默认值。
+         * 在 Bitmap 等对象创建时,smoothing 属性会被设置为该值。
+         * @default true。
+         * @version Egret 3.0
+         * @platform Web
+         */
+        static defaultSmoothing: boolean;
         /**
          * @language en_US
          * Whether or not the bitmap is smoothed when scaled.
-         * @default true。
          * @version Egret 2.4
          * @platform Web
          */
         /**
          * @language zh_CN
          * 控制在缩放时是否对位图进行平滑处理。
-         * @default true。
          * @version Egret 2.4
          * @platform Web
          */
@@ -2830,7 +1655,7 @@ declare module egret {
         /**
          * @private
          */
-        $render(context: sys.RenderContext): void;
+        $render(): void;
         private _pixelHitTest;
         /**
          * @language en_US
@@ -2858,21 +1683,69 @@ declare module egret {
         private hitTestPixel(stageX, stageY);
         /**
          * @private
-         *
-         * @param context
-         * @param texture
-         * @param destW
-         * @param destH
-         * @param scale9Grid
-         * @param fillMode
-         * @param smoothing
          */
-        static $drawImage(context: sys.RenderContext, image: any, clipX: number, clipY: number, clipWidth: number, clipHeight: number, offsetX: number, offsetY: number, textureWidth: number, textureHeight: number, destW: number, destH: number, scale9Grid: egret.Rectangle, fillMode: string, smoothing: boolean): void;
+        static $drawImage(node: sys.BitmapNode, image: any, bitmapX: number, bitmapY: number, bitmapWidth: number, bitmapHeight: number, offsetX: number, offsetY: number, textureWidth: number, textureHeight: number, destW: number, destH: number, scale9Grid: egret.Rectangle, fillMode: string, smoothing: boolean): void;
         /**
          * @private
          * 绘制九宫格位图
          */
-        private static $drawScale9GridImage(context, image, scale9Grid, clipX, clipY, clipWidth, clipHeight, offsetX, offsetY, textureWidth, textureHeight, surfaceWidth, surfaceHeight);
+        private static drawScale9GridImage(node, scale9Grid, bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureWidth, textureHeight, destW, destH);
+    }
+}
+declare module egret {
+    /**
+     * @language en_US
+     * A BitmapData object contains an array of pixel data. This data can represent either a fully opaque bitmap or a
+     * transparent bitmap that contains alpha channel data. Either type of BitmapData object is stored as a buffer of 32-bit
+     * integers. Each 32-bit integer determines the properties of a single pixel in the bitmap.<br/>
+     * Each 32-bit integer is a combination of four 8-bit channel values (from 0 to 255) that describe the alpha transparency
+     * and the red, green, and blue (ARGB) values of the pixel. (For ARGB values, the most significant byte represents the
+     * alpha channel value, followed by red, green, and blue.)
+     * @see egret.Bitmap
+     * @version Egret 2.4
+     * @platform Web,Native
+     */
+    /**
+     * @language zh_CN
+     * BitmapData 对象是一个包含像素数据的数组。此数据可以表示完全不透明的位图，或表示包含 Alpha 通道数据的透明位图。
+     * 以上任一类型的 BitmapData 对象都作为 32 位整数的缓冲区进行存储。每个 32 位整数确定位图中单个像素的属性。<br/>
+     * 每个 32 位整数都是四个 8 位通道值（从 0 到 255）的组合，这些值描述像素的 Alpha 透明度以及红色、绿色、蓝色 (ARGB) 值。
+     * （对于 ARGB 值，最高有效字节代表 Alpha 通道值，其后的有效字节分别代表红色、绿色和蓝色通道值。）
+     * @see egret.Bitmap
+     * @version Egret 2.4
+     * @platform Web,Native
+     */
+    interface BitmapData extends HashObject {
+        /**
+         * @language en_US
+         * The width of the bitmap image in pixels.
+         * @readOnly
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 位图图像的宽度，以像素为单位。
+         * @readOnly
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        width: number;
+        /**
+         * @language en_US
+         * The height of the bitmap image in pixels.
+         * @readOnly
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 位图图像的高度，以像素为单位。
+         * @readOnly
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        height: number;
     }
 }
 declare module egret {
@@ -2921,6 +1794,19 @@ declare module egret {
          * @platform Web,Native
          */
         static SCALE: string;
+        /**
+         * @language en_US
+         * The bitmap ends at the edge of the region.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 在区域的边缘处截断不显示位图。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        static CLIP: string;
     }
 }
 declare module egret {
@@ -3005,6 +1891,106 @@ declare module egret.sys {
 declare module egret {
     /**
      * @language en_US
+     * The CapsStyle class is an enumeration of constant values that specify the caps style to use in drawing lines.
+     * The constants are provided for use as values in the caps parameter of the egret.Graphics.lineStyle() method.
+     * @see egret.Graphics#lineStyle()
+     * @version Egret 2.5
+     * @platform Web,Native
+     */
+    /**
+     * @language zh_CN
+     * CapsStyle 类是可指定在绘制线条中使用的端点样式的常量值枚举。常量可用作 egret.Graphics.lineStyle() 方法的 caps 参数中的值。
+     * @see egret.Graphics#lineStyle()
+     * @version Egret 2.5
+     * @platform Web,Native
+     */
+    class CapsStyle {
+        /**
+         * @language en_US
+         * Used to specify no caps in the caps parameter of the egret.Graphics.lineStyle() method.
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 用于在 egret.Graphics.lineStyle() 方法的 caps 参数中指定没有端点。
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        static NONE: string;
+        /**
+         * @language en_US
+         * Used to specify round caps in the caps parameter of the egret.Graphics.lineStyle() method.
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 用于在 egret.Graphics.lineStyle() 方法的 caps 参数中指定圆头端点。
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        static ROUND: string;
+        /**
+         * @language en_US
+         * Used to specify square caps in the caps parameter of the egret.Graphics.lineStyle() method.
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 用于在 egret.Graphics.lineStyle() 方法的 caps 参数中指定方头端点。
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        static SQUARE: string;
+    }
+}
+declare module egret {
+    /**
+     * @language en_US
+     * Values for the dirty region policy
+     * @version Egret 2.5
+     * @platform Web,Native
+     */
+    /**
+     * @language zh_CN
+     * 脏矩形策略常量。
+     * @version Egret 2.5
+     * @platform Web,Native
+     */
+    class DirtyRegionPolicy {
+        /**
+         * @language en_US
+         * Close automatic detection of dirty region
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 关闭自动脏矩形检测
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        static OFF: string;
+        /**
+         * @language en_US
+         * Open automatic detection of dirty region
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 开启自动脏矩形检测
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        static ON: string;
+    }
+}
+declare module egret {
+    /**
+     * @language en_US
      * The DisplayObjectContainer class is a basic display list building block: a display list node that can contain children.
      * @version Egret 2.4
      * @platform Web,Native
@@ -3017,7 +2003,7 @@ declare module egret {
      * @platform Web,Native
      * @includeExample egret/display/DisplayObjectContainer.ts
      */
-    class DisplayObjectContainer extends DisplayObject implements IDisplayObjectContainer {
+    class DisplayObjectContainer extends DisplayObject {
         /**
          * @private
          */
@@ -3044,1400 +2030,14 @@ declare module egret {
          */
         $propagateFlagsDown(flags: sys.DisplayObjectFlags): void;
         /**
-         * @inheritDoc
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        numChildren: number;
-        /**
-         * @inheritDoc
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        addChild(child: DisplayObject): DisplayObject;
-        /**
-         * @inheritDoc
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        addChildAt(child: DisplayObject, index: number): DisplayObject;
-        /**
-         * @private
-         */
-        $doAddChild(child: DisplayObject, index: number, notifyListeners?: boolean): DisplayObject;
-        /**
-         * @inheritDoc
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        contains(child: DisplayObject): boolean;
-        /**
-         * @inheritDoc
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        getChildAt(index: number): DisplayObject;
-        /**
-         * @inheritDoc
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        getChildIndex(child: egret.DisplayObject): number;
-        /**
-         * @inheritDoc
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        getChildByName(name: string): DisplayObject;
-        /**
-         * @inheritDoc
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        removeChild(child: DisplayObject): DisplayObject;
-        /**
-         * @inheritDoc
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        removeChildAt(index: number): DisplayObject;
-        /**
-         * @private
-         */
-        $doRemoveChild(index: number, notifyListeners?: boolean): DisplayObject;
-        /**
-         * @inheritDoc
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        setChildIndex(child: DisplayObject, index: number): void;
-        /**
-         * @private
-         */
-        private doSetChildIndex(child, index);
-        /**
-         * @inheritDoc
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        swapChildrenAt(index1: number, index2: number): void;
-        /**
-         * @inheritDoc
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        swapChildren(child1: DisplayObject, child2: DisplayObject): void;
-        /**
-         * @private
-         */
-        private doSwapChildrenAt(index1, index2);
-        /**
-         * @inheritDoc
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        removeChildren(): void;
-        /**
-         * @private
-         * 一个子项被添加到容器内，此方法不仅在操作addChild()时会被回调，在操作setChildIndex()或swapChildren时也会回调。
-         * 当子项索引发生改变时，会先触发$childRemoved()方法，然后触发$childAdded()方法。
-         */
-        $childAdded(child: DisplayObject, index: number): void;
-        /**
-         * @private
-         * 一个子项从容器内移除，此方法不仅在操作removeChild()时会被回调，在操作setChildIndex()或swapChildren时也会回调。
-         * 当子项索引发生改变时，会先触发$childRemoved()方法，然后触发$childAdded()方法。
-         */
-        $childRemoved(child: DisplayObject, index: number): void;
-        /**
-         * @private
-         */
-        $onAddToStage(stage: Stage, nestLevel: number): void;
-        /**
-         * @private
-         *
-         */
-        $onRemoveFromStage(): void;
-        /**
-         * @private
-         */
-        $measureChildBounds(bounds: Rectangle): void;
-        $touchChildren: boolean;
-        /**
-         * @inheritDoc
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        touchChildren: boolean;
-        /**
-         * @private
-         *
-         * @returns
-         */
-        $getTouchChildren(): boolean;
-        /**
-         * @private
-         */
-        $setTouchChildren(value: boolean): boolean;
-        /**
-         * @private
-         * 标记此显示对象需要重绘。此方法会触发自身的cacheAsBitmap重绘。如果只是矩阵改变，自身显示内容并不改变，应该调用$invalidateTransform().
-         * @param notiryChildren 是否标记子项也需要重绘。传入false或不传入，将只标记自身需要重绘。通常只有alpha属性改变会需要通知子项重绘。
-         */
-        $invalidate(notifyChildren?: boolean): void;
-        /**
-         * @private
-         * 标记自身以及所有子项在父级中变换叠加的显示内容失效。此方法不会触发自身的cacheAsBitmap重绘。
-         * 通常用于矩阵改变或从显示列表添加和移除时。若自身的显示内容已经改变需要重绘，应该调用$invalidate()。
-         */
-        $invalidateTransform(): void;
-        /**
-         * @private
-         */
-        private markChildDirty(child, parentCache);
-        /**
-         * @private
-         */
-        $cacheAsBitmapChanged(): void;
-        /**
-         * @private
-         */
-        private assignParentDisplayList(child, parentCache, newParent);
-        /**
-         * @private
-         */
-        $hitTest(stageX: number, stageY: number): DisplayObject;
-    }
-}
-declare module egret {
-    class GradientType {
-        /**
-         * 用于指定线性渐变填充的值
-         * @method egret.GradientType.LINEAR
-         */
-        static LINEAR: string;
-        /**
-         * 用于指定放射状渐变填充的值
-         * @method egret.GradientType.RADIAL
-         */
-        static RADIAL: string;
-    }
-}
-declare module egret {
-    /**
-     * @language en_US
-     * The Graphics class contains a set of methods for creating vector shape. Display objects that support drawing include Sprite and Shape objects. Each class in these classes includes the graphics attribute that is a Graphics object.
-     * The following auxiliary functions are provided for ease of use: drawRect(), drawRoundRect(), drawCircle(), and drawEllipse().
-     * @see http://docs.egret-labs.org/post/manual/graphics/drawrect.html  Draw Rectangle
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @includeExample egret/display/Graphics.ts
-     */
-    /**
-     * @language zh_CN
-     * Graphics 类包含一组可用来创建矢量形状的方法。支持绘制的显示对象包括 Sprite 和 Shape 对象。这些类中的每一个类都包括 graphics 属性，该属性是一个 Graphics 对象。
-     * 以下是为便于使用而提供的一些辅助函数：drawRect()、drawRoundRect()、drawCircle() 和 drawEllipse()。
-     * @see http://docs.egret-labs.org/post/manual/graphics/drawrect.html  绘制矩形
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @includeExample egret/display/Graphics.ts
-     */
-    class Graphics extends HashObject {
-        /**
-         * @private
-         */
-        $renderContext: GraphicsRenderContext;
-        /**
-         * @private
-         */
-        private strokeStyleColor;
-        /**
-         * @private
-         */
-        private fillStyle;
-        /**
-         * @private
-         */
-        _dirty: boolean;
-        /**
-         * @private
-         */
-        private lineX;
-        /**
-         * @private
-         */
-        private lineY;
-        /**
-         * @private
-         */
-        graphicsRenderContext: GraphicsRenderContext;
-        /**
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        constructor();
-        /**
-         * @private
-         */
-        $hitTest(stageX: number, stageY: number): DisplayObject;
-        /**
-         * @private
-         */
-        $measureContentBounds(bounds: Rectangle): void;
-        /**
-         * @private
-         */
-        $render(context: sys.RenderContext): void;
-        /**
-         * @language en_US
-         * Specify a simple single color fill that will be used for subsequent calls to other Graphics methods (for example, lineTo() and drawCircle()) when drawing.
-         * Calling the clear() method will clear the fill.
-         * @param color {number} Filled color
-         * @param alpha {number} Filled Alpha value
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 指定一种简单的单一颜色填充，在绘制时该填充将在随后对其他 Graphics 方法（如 lineTo() 或 drawCircle()）的调用中使用。
-         * 调用 clear() 方法会清除填充。
-         * @param color {number} 填充的颜色
-         * @param alpha {number} 填充的 Alpha 值
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        beginFill(color: number, alpha?: number): void;
-        /**
-         * @private
-         *
-         * @param color
-         * @param alpha
-         * @returns
-         */
-        _parseColor(color: number, alpha: number): string;
-        /**
-         * @private
-         *
-         * @param colorStr
-         */
-        private _setStyle(colorStr);
-        /**
-         * @language en_US
-         * Specifies a gradient fill used by subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
-         * Calling the clear() method clears the fill.
-         * Note: Only support on Canvas
-         * @param type A value from the GradientType class that specifies which gradient type to use: GradientType.LINEAR or GradientType.RADIAL.
-         * @param colors An array of RGB hexadecimal color values used in the gradient; for example, red is 0xFF0000, blue is 0x0000FF, and so on. You can specify up to 15 colors. For each color, specify a corresponding value in the alphas and ratios parameters.
-         * @param alphas An array of alpha values for the corresponding colors in the colors array;
-         * @param ratios An array of color distribution ratios; valid values are 0-255.
-         * @param matrix A transformation matrix as defined by the flash.geom.Matrix class. The flash.geom.Matrix class includes a createGradientBox() method, which lets you conveniently set up the matrix for use with the beginGradientFill() method.
-         * @platform Web
-         * @version Egret 2.4
-         */
-        /**
-         * @language zh_CN
-         * 指定一种简单的单一颜色填充，在绘制时该填充将在随后对其他 Graphics 方法（如 lineTo() 或 drawCircle()）的调用中使用。
-         * 调用 clear() 方法会清除填充。
-         * 注：该方法目前仅支持H5 Canvas
-         * @param type 用于指定要使用哪种渐变类型的 GradientType 类的值：GradientType.LINEAR 或 GradientType.RADIAL。
-         * @param colors 渐变中使用的 RGB 十六进制颜色值的数组（例如，红色为 0xFF0000，蓝色为 0x0000FF，等等）。对于每种颜色，请在 alphas 和 ratios 参数中指定对应值。
-         * @param alphas colors 数组中对应颜色的 alpha 值数组。
-         * @param ratios 颜色分布比率的数组。有效值为 0 到 255。
-         * @param matrix 一个由 egret.Matrix 类定义的转换矩阵。egret.Matrix 类包括 createGradientBox() 方法，通过该方法可以方便地设置矩阵，以便与 beginGradientFill() 方法一起使用
-         * @platform Web
-         * @version Egret 2.4
-         */
-        beginGradientFill(type: string, colors: Array<number>, alphas: Array<number>, ratios: Array<number>, matrix?: egret.Matrix): void;
-        private getGradient(type, colors, alphas, ratios, matrix);
-        /**
-         * @language en_US
-         * Draw a rectangle
-         * @param x {number} x position of the center, relative to the registration point of the parent display object (in pixels).
-         * @param y {number} y position of the center, relative to the registration point of the parent display object (in pixels).
-         * @param width {number} Width of the rectangle (in pixels).
-         * @param height {number} Height of the rectangle (in pixels).
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 绘制一个矩形
-         * @param x {number} 圆心相对于父显示对象注册点的 x 位置（以像素为单位）。
-         * @param y {number} 相对于父显示对象注册点的圆心的 y 位置（以像素为单位）。
-         * @param width {number} 矩形的宽度（以像素为单位）。
-         * @param height {number} 矩形的高度（以像素为单位）。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        drawRect(x: number, y: number, width: number, height: number): void;
-        /**
-         * @language en_US
-         * Draw a circle.
-         * @param x {number} x position of the center, relative to the registration point of the parent display object (in pixels).
-         * @param y {number} y position of the center, relative to the registration point of the parent display object (in pixels).
-         * @param r {number} Radius of the circle (in pixels).
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 绘制一个圆。
-         * @param x {number} 圆心相对于父显示对象注册点的 x 位置（以像素为单位）。
-         * @param y {number} 相对于父显示对象注册点的圆心的 y 位置（以像素为单位）。
-         * @param r {number} 圆的半径（以像素为单位）。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        drawCircle(x: number, y: number, r: number): void;
-        /**
-         * @language en_US
-         * Draw a rectangle with rounded corners.
-         * @param x {number} x position of the center, relative to the registration point of the parent display object (in pixels).
-         * @param y {number} y position of the center, relative to the registration point of the parent display object (in pixels).
-         * @param width {number} Width of the rectangle (in pixels).
-         * @param height {number} Height of the rectangle (in pixels).
-         * @param ellipseWidth {number} Width used to draw an ellipse with rounded corners (in pixels).
-         * @param ellipseHeight {number} Height used to draw an ellipse with rounded corners (in pixels). (Optional) If no value is specified, the default value matches the value of the ellipseWidth parameter.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 绘制一个圆角矩形。
-         * @param x {number} 圆心相对于父显示对象注册点的 x 位置（以像素为单位）。
-         * @param y {number} 相对于父显示对象注册点的圆心的 y 位置（以像素为单位）。
-         * @param width {number} 矩形的宽度（以像素为单位）。
-         * @param height {number} 矩形的高度（以像素为单位）。
-         * @param ellipseWidth {number} 用于绘制圆角的椭圆的宽度（以像素为单位）。
-         * @param ellipseHeight {number} 用于绘制圆角的椭圆的高度（以像素为单位）。 （可选）如果未指定值，则默认值与为 ellipseWidth 参数提供的值相匹配。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        drawRoundRect(x: number, y: number, width: number, height: number, ellipseWidth: number, ellipseHeight?: number): void;
-        /**
-         * @language en_US
-         * Draw an ellipse.
-         * @param x {number} A number indicating the horizontal position, relative to the registration point of the parent display object (in pixels).
-         * @param y {number} A number indicating the vertical position, relative to the registration point of the parent display object (in pixels).
-         * @param width {number} Width of the rectangle (in pixels).
-         * @param height {number} Height of the rectangle (in pixels).
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 绘制一个椭圆。
-         * @param x {number} 一个表示相对于父显示对象注册点的水平位置的数字（以像素为单位）。
-         * @param y {number} 一个表示相对于父显示对象注册点的垂直位置的数字（以像素为单位）。
-         * @param width {number} 矩形的宽度（以像素为单位）。
-         * @param height {number} 矩形的高度（以像素为单位）。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        drawEllipse(x: number, y: number, width: number, height: number): void;
-        /**
-         * @language en_US
-         * Specify a line style that will be used for subsequent calls to Graphics methods such as lineTo() and drawCircle().
-         * @param thickness {number} An integer, indicating the thickness of the line in points. Valid values are 0 to 255. If a number is not specified, or if the parameter is undefined, a line is not drawn. If a value less than 0 is passed, the default value is 0. Value 0 indicates hairline thickness; the maximum thickness is 255. If a value greater than 255 is passed, the default value is 255.
-         * @param color {number} A hexadecimal color value of the line (for example, red is 0xFF0000, and blue is 0x0000FF, etc.). If no value is specified, the default value is 0x000000 (black). Optional.
-         * @param alpha {number} Indicates Alpha value of the line's color. Valid values are 0 to 1. If no value is specified, the default value is 1 (solid). If the value is less than 0, the default value is 0. If the value is greater than 1, the default value is 1.
-         * @param pixelHinting {boolean} A boolean value that specifies whether to hint strokes to full pixels. This affects both the position of anchors of a curve and the line stroke size itself. With pixelHinting set to true, the line width is adjusted to full pixel width. With pixelHinting set to false, disjoints can appear for curves and straight lines.
-         * @param scaleMode {string} Specifies the scale mode to be used
-         * @param caps {string} Specifies the value of the CapsStyle class of the endpoint type at the end of the line.
-         * @param joints {string} Specifies the type of joint appearance of corner.
-         * @param miterLimit {number} Indicates the limit number of cut miter.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 指定一种线条样式以用于随后对 lineTo() 或 drawCircle() 等 Graphics 方法的调用。
-         * @param thickness {number} 一个整数，以点为单位表示线条的粗细，有效值为 0 到 255。如果未指定数字，或者未定义该参数，则不绘制线条。如果传递的值小于 0，则默认值为 0。值 0 表示极细的粗细；最大粗细为 255。如果传递的值大于 255，则默认值为 255。
-         * @param color {number} 线条的十六进制颜色值（例如，红色为 0xFF0000，蓝色为 0x0000FF 等）。如果未指明值，则默认值为 0x000000（黑色）。可选。
-         * @param alpha {number} 表示线条颜色的 Alpha 值的数字；有效值为 0 到 1。如果未指明值，则默认值为 1（纯色）。如果值小于 0，则默认值为 0。如果值大于 1，则默认值为 1。
-         * @param pixelHinting {boolean} 布尔型值，指定是否提示笔触采用完整像素。它同时影响曲线锚点的位置以及线条笔触大小本身。在 pixelHinting 设置为 true 的情况下，线条宽度会调整到完整像素宽度。在 pixelHinting 设置为 false 的情况下，对于曲线和直线可能会出现脱节。
-         * @param scaleMode {string} 用于指定要使用的比例模式
-         * @param caps {string} 用于指定线条末端处端点类型的 CapsStyle 类的值。
-         * @param joints {string} 指定用于拐角的连接外观的类型。
-         * @param miterLimit {number} 用于表示剪切斜接的极限值的数字。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        lineStyle(thickness?: number, color?: number, alpha?: number, pixelHinting?: boolean, scaleMode?: string, caps?: string, joints?: string, miterLimit?: number): void;
-        /**
-         * @language en_US
-         * Draw a straight line from the current drawing position to (x, y) using the current line style; the current drawing position is then set to (x, y).
-         * @param x {number} A number indicating the horizontal position, relative to the registration point of the parent display object (in pixels).
-         * @param y {number} A number indicating the vertical position, relative to the registration point of the parent display object (in pixels).
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 使用当前线条样式绘制一条从当前绘图位置开始到 (x, y) 结束的直线；当前绘图位置随后会设置为 (x, y)。
-         * @param x {number} 一个表示相对于父显示对象注册点的水平位置的数字（以像素为单位）。
-         * @param y {number} 一个表示相对于父显示对象注册点的垂直位置的数字（以像素为单位）。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        lineTo(x: number, y: number): void;
-        /**
-         * @language en_US
-         * Draw a quadratic Bezier curve from the current drawing position to (anchorX, anchorY) using the current line style according to the control points specified by (controlX, controlY). The current drawing position is then set to (anchorX, anchorY).
-         * If the curveTo() method is called before the moveTo() method, the default value of the current drawing position is (0, 0). If any of these parameters is missed, calling this method will fail and the current drawing position keeps unchanged.
-         * The drawn curve is a quadratic Bezier curve. A quadratic Bezier curve contains two anchor points and one control point. The curve interpolates the two anchor points and bends to the control point.
-         * @param controlX {number} A number indicating the horizontal position of the control point, relative to the registration point of the parent display object.
-         * @param controlY {number} A number indicating the vertical position of the control point, relative to the registration point of the parent display object.
-         * @param anchorX {number} A number indicating the horizontal position of the next anchor point, relative to the registration point of the parent display object.
-         * @param anchorY {number} A number indicating the vertical position of the next anchor point, relative to the registration point of the parent display object.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 使用当前线条样式和由 (controlX, controlY) 指定的控制点绘制一条从当前绘图位置开始到 (anchorX, anchorY) 结束的二次贝塞尔曲线。当前绘图位置随后设置为 (anchorX, anchorY)。
-         * 如果在调用 moveTo() 方法之前调用了 curveTo() 方法，则当前绘图位置的默认值为 (0, 0)。如果缺少任何一个参数，则此方法将失败，并且当前绘图位置不改变。
-         * 绘制的曲线是二次贝塞尔曲线。二次贝塞尔曲线包含两个锚点和一个控制点。该曲线内插这两个锚点，并向控制点弯曲。
-         * @param controlX {number} 一个数字，指定控制点相对于父显示对象注册点的水平位置。
-         * @param controlY {number} 一个数字，指定控制点相对于父显示对象注册点的垂直位置。
-         * @param anchorX {number} 一个数字，指定下一个锚点相对于父显示对象注册点的水平位置。
-         * @param anchorY {number} 一个数字，指定下一个锚点相对于父显示对象注册点的垂直位置。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        curveTo(controlX: number, controlY: number, anchorX: number, anchorY: number): void;
-        /**
-         * @language en_US
-         * adds an arc to the path which is centered at (x, y) position with radius r starting at startAngle and ending
-         * at endAngle going in the given direction by anticlockwise (defaulting to clockwise).
-         * @param x The x coordinate of the arc's center.
-         * @param y The y coordinate of the arc's center.
-         * @param radius The arc's radius.
-         * @param startAngle The angle at which the arc starts, measured clockwise from the positive x axis and expressed in radians.
-         * @param endAngle The angle at which the arc ends, measured clockwise from the positive x axis and expressed in radians.
-         * @param anticlockwise if true, causes the arc to be drawn counter-clockwise between the two angles. By default it is drawn clockwise.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 绘制一段圆弧路径。圆弧路径的圆心在 (x, y) 位置，半径为 r ，根据anticlockwise （默认为顺时针）指定的方向从 startAngle 开始绘制，到 endAngle 结束。
-         * @param x 圆弧中心（圆心）的 x 轴坐标。
-         * @param y 圆弧中心（圆心）的 y 轴坐标。
-         * @param radius 圆弧的半径。
-         * @param startAngle 圆弧的起始点， x轴方向开始计算，单位以弧度表示。
-         * @param endAngle 圆弧的重点， 单位以弧度表示。
-         * @param anticlockwise 如果为 true，逆时针绘制圆弧，反之，顺时针绘制。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        drawArc(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise?: boolean): void;
-        /**
-         * @language en_US
-         * Draws a cubic Bezier curve from the current drawing position to the specified anchor. Cubic Bezier curves consist of two anchor points and two control points. The curve interpolates the two anchor points and two control points to the curve.
-         * @param controlX1 {number} Specifies the first control point relative to the registration point of the parent display the horizontal position of the object.
-         * @param controlY1 {number} Specifies the first control point relative to the registration point of the parent display the vertical position of the object.
-         * @param controlX2 {number} Specify the second control point relative to the registration point of the parent display the horizontal position of the object.
-         * @param controlY2 {number} Specify the second control point relative to the registration point of the parent display the vertical position of the object.
-         * @param anchorX {number} Specifies the anchor point relative to the registration point of the parent display the horizontal position of the object.
-         * @param anchorY {number} Specifies the anchor point relative to the registration point of the parent display the vertical position of the object.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 从当前绘图位置到指定的锚点绘制一条三次贝塞尔曲线。三次贝塞尔曲线由两个锚点和两个控制点组成。该曲线内插这两个锚点，并向两个控制点弯曲。
-         * @param controlX1 {number} 指定首个控制点相对于父显示对象的注册点的水平位置。
-         * @param controlY1 {number} 指定首个控制点相对于父显示对象的注册点的垂直位置。
-         * @param controlX2 {number} 指定第二个控制点相对于父显示对象的注册点的水平位置。
-         * @param controlY2 {number} 指定第二个控制点相对于父显示对象的注册点的垂直位置。
-         * @param anchorX {number} 指定锚点相对于父显示对象的注册点的水平位置。
-         * @param anchorY {number} 指定锚点相对于父显示对象的注册点的垂直位置。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        cubicCurveTo(controlX1: number, controlY1: number, controlX2: number, controlY2: number, anchorX: number, anchorY: number): void;
-        /**
-         * @language en_US
-         * Move the current drawing position to (x, y). If any of these parameters is missed, calling this method will fail and the current drawing position keeps unchanged.
-         * @param x {number} A number indicating the horizontal position, relative to the registration point of the parent display object (in pixels).
-         * @param y {number} A number indicating the vertical position, relative to the registration point of the parent display object (in pixels).
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 将当前绘图位置移动到 (x, y)。如果缺少任何一个参数，则此方法将失败，并且当前绘图位置不改变。
-         * @param x {number} 一个表示相对于父显示对象注册点的水平位置的数字（以像素为单位）。
-         * @param y {number} 一个表示相对于父显示对象注册点的垂直位置的数字（以像素为单位）。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        moveTo(x: number, y: number): void;
-        /**
-         * @language en_US
-         * Clear graphics that are drawn to this Graphics object, and reset fill and line style settings.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 清除绘制到此 Graphics 对象的图形，并重置填充和线条样式设置。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        clear(): void;
-        /**
-         * @language en_US
-         * Apply fill to the lines and curves added after the previous calling to the beginFill() method.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 对从上一次调用 beginFill()方法之后添加的直线和曲线应用填充。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        endFill(): void;
-        /**
-         * @private
-         *
-         */
-        private _createEndFillCommand();
-        /**
-         * @private
-         *
-         */
-        private _fill();
-        /**
-         * @private
-         *
-         */
-        private _createEndLineCommand();
-        /**
-         * @private
-         */
-        private _firstCheck;
-        /**
-         * @private
-         */
-        private _minX;
-        /**
-         * @private
-         */
-        private _minY;
-        /**
-         * @private
-         */
-        private _maxX;
-        /**
-         * @private
-         */
-        private _maxY;
-    }
-}
-declare module egret {
-    /**
-     * @private
-     * @language en_US
-     * The GraphicsGradient interface represents an opaque object describing a gradient. It is returned by the static methods
-     * Graphics.createLinearGradient() or Graphics.createRadialGradient().
-     * @see egret.Graphics#createLinearGradient()
-     * @see egret.Graphics#createRadialGradient()
-     * @see egret.Shape
-     * @version Egret 2.4
-     * @platform Web,Native
-     */
-    /**
-     * @private
-     * @language zh_CN
-     * GraphicsGradient 接口表示描述渐变的不透明对象。通过 Graphics.createLinearGradient() 或 Graphics.createRadialGradient() 等静态方法的返回值得到.
-     * @see egret.Graphics#createLinearGradient()
-     * @see egret.Graphics#createRadialGradient()
-     * @see egret.Shape
-     * @version Egret 2.4
-     * @platform Web,Native
-     */
-    interface GraphicsGradient {
-        /**
-         * @language en_US
-         * Adds a new stop, defined by an offset and a color, to the gradient. If the offset is not between 0 and 1 an
-         * error is thrown, if the color can't be parsed as a color, an error is thrown.
-         * @param offset the value between 0 and 1.
-         * @param color the color to add.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 添加一个由偏移值和颜色值指定的断点到渐变。如果偏移值不在0到1之间，将抛出错误，如果 color 不能被解析为有效的颜色值，也将抛出错误。
-         * @param offset 0到1之间的值
-         * @param color 要设置颜色值。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        addColorStop(offset: number, color: string): void;
-    }
-}
-declare module egret {
-    /**
-     * @private
-     * @language en_US
-     * The GraphicsPattern interface represents an opaque object describing a pattern, based on a BitmapData,
-     * created by the Graphics.createPattern() method.
-     * @see egret.Graphics#createPattern()
-     * @version Egret 2.4
-     * @platform Web,Native
-     */
-    /**
-     * @private
-     * @language zh_CN
-     * GraphicsPattern 接口表示描述一个模板（基于BitmapData）的不透明对象，通过 Graphics.createPattern() 静态方法创建.
-     * @see egret.Graphics#createPattern()
-     * @version Egret 2.4
-     * @platform Web,Native
-     */
-    interface GraphicsPattern {
-    }
-}
-declare module egret {
-    /**
-     * @private
-     * @language en_US
-     * The Graphics class contains a set of methods that you can use to create a vector shape. the Shape object that support
-     * drawing includes a graphics property that is a Graphics object. The following are among those helper functions provided
-     * @see egret.Shape
-     * @version Egret 2.4
-     * @platform Web,Native
-     */
-    /**
-     * @private
-     * @language zh_CN
-     * Graphics 类包含一组可用来创建矢量形状的方法。Shape是支持矢量绘制的显示对象。它含有一个 graphics 属性，该属性是一个 Graphics 对象。
-     * @see egret.Shape
-     * @version Egret 2.4
-     * @platform Web,Native
-     */
-    class GraphicsRenderContext extends HashObject {
-        /**
-         * @language en_US
-         * creates a radial gradient given by the coordinates of the two circles represented by the parameters.
-         * This method returns a radial GraphicsGradient.
-         * @param x0 The x axis of the coordinate of the start circle.
-         * @param y0 The y axis of the coordinate of the start circle.
-         * @param r0 The radius of the start circle.
-         * @param x1 The x axis of the coordinate of the end circle.
-         * @param y1 The y axis of the coordinate of the end circle.
-         * @param r1 The radius of the end circle.
-         * @see egret.GraphicsGradient
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 根据参数确定的两个圆的坐标，创建一个放射性渐变。该方法返回一个放射性的 GraphicsGradient。
-         * @param x0 开始圆形的 x 轴坐标。
-         * @param y0 开始圆形的 y 轴坐标。
-         * @param r0 开始圆形的半径。
-         * @param x1 结束圆形的 x 轴坐标。
-         * @param y1 结束圆形的 y 轴坐标。
-         * @param r1 结束圆形的半径。
-         * @see egret.GraphicsGradient
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        static createRadialGradient(x0: number, y0: number, r0: number, x1: number, y1: number, r1: number): GraphicsGradient;
-        /**
-         * @language en_US
-         * reates a gradient along the line given by the coordinates represented by the parameters.This method returns a linear GraphicsGradient.
-         * @see egret.GraphicsGradient
-         * @param x0 The x axis of the coordinate of the start point.
-         * @param y0 The y axis of the coordinate of the start point.
-         * @param x1 The x axis of the coordinate of the end point.
-         * @param y1 The y axis of the coordinate of the end point.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 创建一个沿参数坐标指定的直线的渐变。该方法返回一个线性的 GraphicsGradient 对象。
-         * @param x0 起点的 x 轴坐标。
-         * @param y0 起点的 y 轴坐标。
-         * @param x1 终点的 x 轴坐标。
-         * @param y1 终点的 y 轴坐标。
-         * @see egret.GraphicsGradient
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        static createLinearGradient(x0: number, y0: number, x1: number, y1: number): GraphicsGradient;
-        /**
-         * @language en_US
-         * creates a pattern using the specified image (BitmapData). It repeats the source in the directions specified by
-         * the repetition argument. This method returns a GraphicsPattern.
-         * @param bitmapData A BitmapData instance to be used as image to repeat.
-         * @param repetition  indicating how to repeat the image. Possible values are:
-         * "repeat" (both directions),
-         * "repeat-x" (horizontal only),
-         * "repeat-y" (vertical only), or
-         * "no-repeat" (neither).
-         * @see egret.GraphicsPattern
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 基于指定的源图象(BitmapData)创建一个模板，通过repetition参数指定源图像在什么方向上进行重复，返回一个GraphicsPattern对象。
-         * @param bitmapData 做为重复图像源的 BitmapData 对象。
-         * @param repetition 指定如何重复图像。
-         * 可能的值有："repeat" (两个方向重复),"repeat-x" (仅水平方向重复),"repeat-y" (仅垂直方向重复),"no-repeat" (不重复).
-         * @see egret.GraphicsPattern
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        static createPattern(bitmapData: BitmapData, repetition: string): GraphicsPattern;
-        /**
-         * @private
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        constructor();
-        /**
-         * @private
-         */
-        private _fillStyle;
-        /**
-         * @language en_US
-         * specifies the color or style to use inside shapes.
-         * @default "#000000"
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 设置要在图形内部填充的颜色或样式
-         * @default "#000000"
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        fillStyle: any;
-        /**
-         * @private
-         */
-        private _lineWidth;
-        /**
-         * @language en_US
-         * sets the thickness of lines in pixels.
-         * setting zero, negative, Infinity and NaN values are ignored
-         * @default 1
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 设置线条粗细，以像素为单位。设置为0，负数，Infinity 或 NaN 将会被忽略。
-         * @default 1
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        lineWidth: number;
-        /**
-         * @private
-         */
-        private _lineCap;
-        /**
-         * @language en_US
-         * determines how the end points of every line are drawn. There are three possible values for this property and those are:<br/>
-         * <ul>
-         * <li>"butt": The ends of lines are squared off at the endpoints.</li>
-         * <li>"round": The ends of lines are rounded.</li>
-         * <li>"square": The ends of lines are squared off by adding a box with an equal width and half the height of the line's thickness.</li>
-         * </ul>
-         * @default "butt"
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 指定如何绘制每一条线段末端的属性。有3个可能的值，分别是：<br/>
-         * <ul>
-         * <li>"butt": 线段末端以方形结束。</li>
-         * <li>"round": 线段末端以圆形结束。</li>
-         * <li>"square": 线段末端以方形结束，但是增加了一个宽度和线段相同，高度是线段厚度一半的矩形区域。</li>
-         * </ul>
-         * @default "butt"
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        lineCap: string;
-        /**
-         * @private
-         */
-        private _strokeStyle;
-        /**
-         * @language en_US
-         * specifies the color or style to use for the lines around shapes.
-         * @default "#000000"
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 设置要在图形边线填充的颜色或样式
-         * @default "#000000"
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        strokeStyle: any;
-        /**
-         * @private
-         */
-        private _lineJoin;
-        /**
-         * @language en_US
-         * specifies the type of joint appearance used at angles.There are three possible values for this property and those are:<br/>
-         * <ul>
-         * <li>"round": Rounds off the corners of a shape by filling an additional sector of disc centered at the common endpoint
-         * of connected segments. The radius for these rounded corners is equal to the line width.</li>
-         * <li>"bevel": Fills an additional triangular area between the common endpoint of connected segments, and the separate
-         * outside rectangular corners of each segment.</li>
-         * <li>"miter": Connected segments are joined by extending their outside edges to connect at a single point, with the
-         * effect of filling an additional lozenge-shaped area. This setting is effected by the miterLimit property.</li>
-         * </ul>
-         * @default "miter"
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 指定用于拐角的连接外观的类型,有3个可能的值，分别是：<br/>
-         * <ul>
-         * <li>"round": 圆角连接</li>
-         * <li>"bevel": 斜角连接。</li>
-         * <li>"miter": 尖角连接。当使用尖角模式时，还可以同时使用 miterLimit 参数限制尖角的长度。</li>
-         * </ul>
-         * @default "miter"
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        lineJoin: string;
-        /**
-         * @private
-         */
-        private _miterLimit;
-        /**
-         * @language en_US
-         * A number that indicates the limit at which a miter is cut off.
-         * @default 10
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 用于表示剪切斜接的极限值的数字。
-         * @default 10
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        miterLimit: number;
-        /**
-         *
-         * @param x0
-         * @param y0
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        scale(x0: number, y0: number): void;
-        /**
-         * @language en_US
-         * adds an arc to the path which is centered at (x, y) position with radius r starting at startAngle and ending
-         * at endAngle going in the given direction by anticlockwise (defaulting to clockwise).
-         * @param x The x coordinate of the arc's center.
-         * @param y The y coordinate of the arc's center.
-         * @param radius The arc's radius.
-         * @param startAngle The angle at which the arc starts, measured clockwise from the positive x axis and expressed in radians.
-         * @param endAngle The angle at which the arc ends, measured clockwise from the positive x axis and expressed in radians.
-         * @param anticlockwise if true, causes the arc to be drawn counter-clockwise between the two angles. By default it is drawn clockwise.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 绘制一段圆弧路径。圆弧路径的圆心在 (x, y) 位置，半径为 r ，根据anticlockwise （默认为顺时针）指定的方向从 startAngle 开始绘制，到 endAngle 结束。
-         * @param x 圆弧中心（圆心）的 x 轴坐标。
-         * @param y 圆弧中心（圆心）的 y 轴坐标。
-         * @param radius 圆弧的半径。
-         * @param startAngle 圆弧的起始点， x轴方向开始计算，单位以弧度表示。
-         * @param endAngle 圆弧的重点， 单位以弧度表示。
-         * @param anticlockwise 如果为 true，逆时针绘制圆弧，反之，顺时针绘制。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise?: boolean): void;
-        /**
-         * @private
-         * 测量圆弧的矩形大小
-         */
-        private arcBounds(x, y, radius, startAngle, endAngle);
-        /**
-         * @language en_US
-         * adds a quadratic Bézier curve to the path. It requires two points. The first point is a control point and the
-         * second one is the end point. The starting point is the last point in the current path, which can be changed using
-         * moveTo() before creating the quadratic Bézier curve.
-         * @param cpx The x axis of the coordinate for the control point.
-         * @param cpy The y axis of the coordinate for the control point.
-         * @param x The x axis of the coordinate for the end point.
-         * @param y The y axis of the coordinate for the end point.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 绘制一段二次贝塞尔曲线路径。它需要2个点。 第一个点是控制点，第二个点是终点。 起始点是当前路径最新的点，当创建二次贝赛尔曲线之前，可以使用 moveTo() 方法进行改变。
-         * @param cpx 控制点的 x 轴坐标。
-         * @param cpy 控制点的 y 轴坐标。
-         * @param x 终点的 x 轴坐标。
-         * @param y 终点的 y 轴坐标。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): void;
-        /**
-         * @language en_US
-         * adds a cubic Bézier curve to the path. It requires three points. The first two points are control points and
-         * the third one is the end point. The starting point is the last point in the current path, which can be changed
-         * using moveTo() before creating the Bézier curve.
-         * @param cp1x The x axis of the coordinate for the first control point.
-         * @param cp1y The y axis of the coordinate for first control point.
-         * @param cp2x The x axis of the coordinate for the second control point.
-         * @param cp2y The y axis of the coordinate for the second control point.
-         * @param x The x axis of the coordinate for the end point.
-         * @param y The y axis of the coordinate for the end point.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 绘制一段三次贝赛尔曲线路径。该方法需要三个点。 第一、第二个点是控制点，第三个点是结束点。起始点是当前路径的最后一个点，
-         * 绘制贝赛尔曲线前，可以通过调用 moveTo() 进行修改。
-         * @param cp1x 第一个控制点的 x 轴坐标。
-         * @param cp1y 第一个控制点的 y 轴坐标。
-         * @param cp2x 第二个控制点的 x 轴坐标。
-         * @param cp2y 第二个控制点的 y 轴坐标。
-         * @param x 结束点的 x 轴坐标。
-         * @param y 结束点的 y 轴坐标。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): void;
-        /**
-         * @language en_US
-         * connects the last point in the sub-path to the x, y coordinates with a straight line
-         * @param x The x axis of the coordinate for the end of the line.
-         * @param y The y axis of the coordinate for the end of the line.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 使用直线连接子路径的终点到x，y坐标。
-         * @param x 直线终点的 x 轴坐标。
-         * @param y 直线终点的 y 轴坐标。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        lineTo(x: number, y: number): void;
-        /**
-         * @language en_US
-         * fills the current or given path with the current fill style using the non-zero or even-odd winding rule.
-         * @param fillRule The algorithm by which to determine if a point is inside a path or outside a path. Possible values:
-         * "nonzero": The non-zero winding rule, which is the default rule.
-         * "evenodd": The even-odd winding rule.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 根据当前的填充样式，填充当前或已存在的路径的方法。采取非零环绕或者奇偶环绕规则。
-         * @param fillRule 一种算法，决定点是在路径内还是在路径外。允许的值：
-         * "nonzero": 非零环绕规则， 默认的规则。
-         * "evenodd": 奇偶环绕规则。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        fill(fillRule?: string): void;
-        /**
-         * @language en_US
-         * causes the point of the pen to move back to the start of the current sub-path. It tries to add a straight line
-         * (but does not actually draw it) from the current point to the start. If the shape has already been closed or
-         * has only one point, this function does nothing.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 使笔点返回到当前子路径的起始点。它尝试从当前点到起始点绘制一条直线。如果图形已经是封闭的或者只有一个点，那么此方法不会做任何操作。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        closePath(): void;
-        /**
-         * @language en_US
-         * creates a path for a rectangle at position (x, y) with a size that is determined by width and height. Those
-         * four points are connected by straight lines and the sub-path is marked as closed, so that you can fill or stroke this rectangle.
-         * @param x The x axis of the coordinate for the rectangle starting point.
-         * @param y The y axis of the coordinate for the rectangle starting point.
-         * @param w The rectangle's width.
-         * @param h The rectangle's height.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 创建一段矩形路径，矩形的起点位置是 (x, y) ，尺寸为 width 和 height。矩形的4个点通过直线连接，子路径做为闭合的标记，所以你可以填充或者描边矩形。
-         * @param x 矩形起点的 x 轴坐标。
-         * @param y 矩形起点的 y 轴坐标。
-         * @param width 矩形的宽度。
-         * @param height 矩形的高度。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        rect(x: number, y: number, width: number, height: number): void;
-        /**
-         * @language en_US
-         * moves the starting point of a new sub-path to the (x, y) coordinates.
-         * @param x The x axis of the point.
-         * @param y The y axis of the point.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 将一个新的子路径的起始点移动到(x，y)坐标
-         * @param x 点的 x 轴
-         * @param y 点的 y 轴
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        moveTo(x: number, y: number): void;
-        /**
-         * @language en_US
-         * draws a filled rectangle at (x, y) position whose size is determined by width and height and whose style is
-         * determined by the fillStyle attribute.
-         * @param x The x axis of the coordinate for the rectangle starting point.
-         * @param y The y axis of the coordinate for the rectangle starting point.
-         * @param w The rectangle's width.
-         * @param h The rectangle's height.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 绘制一个填充矩形。矩形的起点在 (x, y) 位置，矩形的尺寸是 width 和 height ，fillStyle 属性决定矩形的样式。
-         * @param x 矩形起始点的 x 轴坐标。
-         * @param y 矩形起始点的 y 轴坐标。
-         * @param width 矩形的宽度。
-         * @param height 矩形的高度。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        fillRect(x: number, y: number, width: number, height: number): void;
-        /**
-         * @language en_US
-         * strokes the current or given path with the current stroke style.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 根据当前的画线样式，绘制当前或已经存在的路径的方法。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        stroke(): void;
-        /**
-         * @language en_US
-         * paints a rectangle which has a starting point at (x, y) and has a w width and an h height onto the surface,
-         * using the current stroke style.
-         * @param x The x axis of the coordinate for the rectangle starting point.
-         * @param y The y axis of the coordinate for the rectangle starting point.
-         * @param w The rectangle's width.
-         * @param h The rectangle's height.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 使用当前的绘画样式，描绘一个起点在 (x, y) 、宽度为 w 、高度为 h 的矩形的方法。
-         * @param x 矩形起点的 x 轴坐标。
-         * @param y 矩形起点的 y 轴坐标。
-         * @param width 矩形的宽度。
-         * @param height 矩形的高度。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        strokeRect(x: number, y: number, width: number, height: number): void;
-        /**
-         * @language en_US
-         * starts a new path by emptying the list of sub-paths. Call this method when you want to create a new path.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 清空子路径列表开始一个新路径。 当你想创建一个新的路径时，调用此方法。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        beginPath(): void;
-        /**
-         * @language en_US
-         * adds an arc to the path with the given control points and radius, connected to the previous point by a straight line.
-         * @param x1 The x axis of the coordinate for the first control point.
-         * @param y1 The y axis of the coordinate for the first control point.
-         * @param x2 The x axis of the coordinate for the second control point.
-         * @param y2 The y axis of the coordinate for the second control point.
-         * @param radius The arc's radius.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 根据控制点和半径绘制一段圆弧路径，使用直线连接前一个点。
-         * @param x1 第一个控制点的 x 轴坐标。
-         * @param y1 第一个控制点的 y 轴坐标。
-         * @param x2 第二个控制点的 x 轴坐标。
-         * @param y2 第二个控制点的 y 轴坐标。
-         * @param radius 圆弧的半径。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        arcTo(x1: number, y1: number, x2: number, y2: number, radius: number): void;
-        /**
-         * @language en_US
-         * Clears the graphics that were drawn to this Graphics object, and resets fill and line style settings.
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
-         * @language zh_CN
-         * 清除绘制到此 Graphics 对象的图形，并重置填充和线条样式设置。
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        clear(): void;
-        /**
-         * @private
-         */
-        private isFirst;
-        /**
-         * @private
-         */
-        private minX;
-        /**
-         * @private
-         */
-        private minY;
-        /**
-         * @private
-         */
-        private maxX;
-        /**
-         * @private
-         */
-        private maxY;
-        /**
-         * @private
-         */
-        private hasMoved;
-        /**
-         * @private
-         */
-        private moveToX;
-        /**
-         * @private
-         */
-        private moveToY;
-        /**
-         * @private
-         */
-        private hasStroke;
-        /**
-         * @private
-         */
-        private hasFill;
-        /**
-         * @private
-         *
-         */
-        private reset();
-        /**
-         * @private
-         * 目标显示对象
-         */
-        $targetDisplay: DisplayObject;
-        /**
-         * @private
-         * 绘图命令列表
-         */
-        $commands: sys.GraphicsCommand[];
-        /**
-         * @private
-         */
-        private pushCommand(graphicsType, args);
-        /**
-         * @private
-         */
-        private checkMoveTo();
-        /**
-         * @private
-         */
-        private extendByPoint(x, y);
-        /**
-         * @private
-         */
-        $measureContentBounds(bounds: Rectangle): void;
-        /**
-         * @private
-         */
-        $render(context: sys.RenderContext, forHitTest?: boolean): void;
-    }
-}
-declare module egret.sys {
-    /**
-     * @private
-     */
-    interface GraphicsCommand {
-        /**
-         * @private
-         */
-        type: number;
-        /**
-         * @private
-         */
-        arguments: any[];
-    }
-    /**
-     * @private
-     */
-    const enum GraphicsCommandType {
-        /**
-         * @private
-         */
-        miterLimit = 0,
-        /**
-         * @private
-         */
-        lineCap = 1,
-        /**
-         * @private
-         */
-        lineJoin = 2,
-        /**
-         * @private
-         */
-        lineWidth = 3,
-        /**
-         * @private
-         */
-        strokeStyle = 4,
-        /**
-         * @private
-         */
-        fillStyle = 5,
-        /**
-         * @private
-         */
-        arc = 6,
-        /**
-         * @private
-         */
-        quadraticCurveTo = 7,
-        /**
-         * @private
-         */
-        lineTo = 8,
-        /**
-         * @private
-         */
-        fill = 9,
-        /**
-         * @private
-         */
-        closePath = 10,
-        /**
-         * @private
-         */
-        rect = 11,
-        /**
-         * @private
-         */
-        moveTo = 12,
-        /**
-         * @private
-         */
-        fillRect = 13,
-        /**
-         * @private
-         */
-        bezierCurveTo = 14,
-        /**
-         * @private
-         */
-        stroke = 15,
-        /**
-         * @private
-         */
-        strokeRect = 16,
-        /**
-         * @private
-         */
-        beginPath = 17,
-        /**
-         * @private
-         */
-        arcTo = 18,
-        /**
-         * @private
-         */
-        scale = 19,
-    }
-}
-declare module egret {
-    /**
-     * @private
-     * @language en_US
-     * The DisplayObjectContainer class is the base class for all objects that can serve as display object containers on
-     * the display list. The display list manages all objects displayed in the runtime. Use the DisplayObjectContainer
-     * class to arrange the display objects in the display list. Each DisplayObjectContainer object has its own child list
-     * for organizing the z-order of the objects. The z-order is the front-to-back order that determines which object is
-     * drawn in front, which is behind, and so on.
-     * @see egret.DisplayObject
-     * @version Egret 2.4
-     * @platform Web,Native
-     */
-    /**
-     * @private
-     * @language zh_CN
-     * DisplayObjectContainer 接口定义显示列表中的显示对象容器。该显示列表管理运行时中显示的所有对象。使用 DisplayObjectContainer
-     * 排列显示列表中的显示对象。每个 DisplayObjectContainer 对象都有自己的子级列表，用于组织对象的 Z 轴顺序。Z 轴顺序是由前至后的顺序，
-     * 可确定哪个对象绘制在前，哪个对象绘制在后等。
-     * @see egret.DisplayObject
-     * @version Egret 2.4
-     * @platform Web,Native
-     */
-    interface IDisplayObjectContainer extends DisplayObject {
-        /**
          * @language en_US
          * Returns the number of children of this object.
-         * @readOnly
          * @version Egret 2.4
          * @platform Web,Native
          */
         /**
          * @language zh_CN
          * 返回此对象的子项数目。
-         * @readOnly
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -4492,6 +2092,10 @@ declare module egret {
          */
         addChildAt(child: DisplayObject, index: number): DisplayObject;
         /**
+         * @private
+         */
+        $doAddChild(child: DisplayObject, index: number, notifyListeners?: boolean): DisplayObject;
+        /**
          * @language en_US
          * Determines whether the specified display object is a child of the DisplayObjectContainer instance or the instance
          * itself. The search includes the entire display list including this DisplayObjectContainer instance. Grandchildren,
@@ -4541,11 +2145,12 @@ declare module egret {
         /**
          * @language zh_CN
          * 返回 DisplayObject 的 child 实例的索引位置。
+         * @param child 要测试的子对象。
          * @returns 要查找的子显示对象的索引位置。
          * @version Egret 2.4
          * @platform Web,Native
          */
-        getChildIndex(child: DisplayObject): number;
+        getChildIndex(child: egret.DisplayObject): number;
         /**
          * @language en_US
          * Returns the child display object that exists with the specified name. If more that one child display object has
@@ -4617,6 +2222,10 @@ declare module egret {
          */
         removeChildAt(index: number): DisplayObject;
         /**
+         * @private
+         */
+        $doRemoveChild(index: number, notifyListeners?: boolean): DisplayObject;
+        /**
          * @language en_US
          * Changes the position of an existing child in the display object container. This affects the layering of child objects.
          * @param child The child DisplayObject instance for which you want to change the index number.
@@ -4637,6 +2246,10 @@ declare module egret {
          * @platform Web,Native
          */
         setChildIndex(child: DisplayObject, index: number): void;
+        /**
+         * @private
+         */
+        private doSetChildIndex(child, index);
         /**
          * @language en_US
          * Swaps the z-order (front-to-back order) of the child objects at the two specified index positions in the child
@@ -4678,6 +2291,10 @@ declare module egret {
          */
         swapChildren(child1: DisplayObject, child2: DisplayObject): void;
         /**
+         * @private
+         */
+        private doSwapChildrenAt(index1, index2);
+        /**
          * @language en_US
          * Removes all child DisplayObject instances from the child list of the DisplayObjectContainer instance. The parent
          * property of the removed children is set to null , and the objects are garbage collected if no other references to the children exist.
@@ -4696,6 +2313,32 @@ declare module egret {
          */
         removeChildren(): void;
         /**
+         * @private
+         * 一个子项被添加到容器内，此方法不仅在操作addChild()时会被回调，在操作setChildIndex()或swapChildren时也会回调。
+         * 当子项索引发生改变时，会先触发$childRemoved()方法，然后触发$childAdded()方法。
+         */
+        $childAdded(child: DisplayObject, index: number): void;
+        /**
+         * @private
+         * 一个子项从容器内移除，此方法不仅在操作removeChild()时会被回调，在操作setChildIndex()或swapChildren时也会回调。
+         * 当子项索引发生改变时，会先触发$childRemoved()方法，然后触发$childAdded()方法。
+         */
+        $childRemoved(child: DisplayObject, index: number): void;
+        /**
+         * @private
+         */
+        $onAddToStage(stage: Stage, nestLevel: number): void;
+        /**
+         * @private
+         *
+         */
+        $onRemoveFromStage(): void;
+        /**
+         * @private
+         */
+        $measureChildBounds(bounds: Rectangle): void;
+        $touchChildren: boolean;
+        /**
          * @language en_US
          * Determines whether or not the children of the object are touch, or user input device, enabled. If an object is
          * enabled, a user can interact with it by using a touch or user input device.
@@ -4711,6 +2354,594 @@ declare module egret {
          * @platform Web,Native
          */
         touchChildren: boolean;
+        /**
+         * @private
+         *
+         * @returns
+         */
+        $getTouchChildren(): boolean;
+        /**
+         * @private
+         */
+        $setTouchChildren(value: boolean): boolean;
+        /**
+         * @private
+         * 标记此显示对象需要重绘。此方法会触发自身的cacheAsBitmap重绘。如果只是矩阵改变，自身显示内容并不改变，应该调用$invalidateTransform().
+         * @param notiryChildren 是否标记子项也需要重绘。传入false或不传入，将只标记自身需要重绘。通常只有alpha属性改变会需要通知子项重绘。
+         */
+        $invalidate(notifyChildren?: boolean): void;
+        /**
+         * @private
+         * 标记自身以及所有子项在父级中变换叠加的显示内容失效。此方法不会触发自身的cacheAsBitmap重绘。
+         * 通常用于矩阵改变或从显示列表添加和移除时。若自身的显示内容已经改变需要重绘，应该调用$invalidate()。
+         */
+        $invalidateTransform(): void;
+        /**
+         * @private
+         * 标记所有子项失效,若遇到cacheAsBitmap的节点,直接停止继续遍历其子项.
+         */
+        private markChildDirty(child, parentCache);
+        /**
+         * @private
+         */
+        $cacheAsBitmapChanged(): void;
+        /**
+         * @private
+         */
+        private assignParentDisplayList(child, parentCache, newParent);
+        /**
+         * @private
+         */
+        $hitTest(stageX: number, stageY: number): DisplayObject;
+        /**
+         * @private
+         * 子项有可能会被cache而导致标记失效。重写此方法,以便在赋值时对子项深度遍历标记脏区域
+         */
+        $setAlpha(value: number): boolean;
+        /**
+         * @private
+         * 标记所有子项失效,与markChildDirty不同,此方法无视子项是否启用cacheAsBitmap,必须遍历完所有子项.通常只有alpha属性改变需要采用这种操作.
+         */
+        private $invalidateAllChildren();
+    }
+}
+declare module egret {
+    /**
+     * @language en_US
+     * The GradientType class provides values for the type parameter in the beginGradientFill() methods of the egret.Graphics class.
+     *
+     * @see egret.Graphics#beginGradientFill()
+     * @version Egret 2.4
+     * @platform Web,Native
+     */
+    /**
+     * @language zh_CN
+     * GradientType 类为 egret.Graphics 类的 beginGradientFill() 方法中的 type 参数提供值。
+     *
+     * @see egret.Graphics#beginGradientFill()
+     * @version Egret 2.4
+     * @platform Web,Native
+     */
+    class GradientType {
+        /**
+         * @language en_US
+         * Value used to specify a linear gradient fill.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 用于指定线性渐变填充的值
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        static LINEAR: string;
+        /**
+         * @language en_US
+         * Value used to specify a radial gradient fill.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 用于指定放射状渐变填充的值
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        static RADIAL: string;
+    }
+}
+declare module egret {
+    /**
+     * @language en_US
+     * The Graphics class contains a set of methods for creating vector shape. Display objects that support drawing include Sprite and Shape objects. Each class in these classes includes the graphics attribute that is a Graphics object.
+     * The following auxiliary functions are provided for ease of use: drawRect(), drawRoundRect(), drawCircle(), and drawEllipse().
+     * @see http://docs.egret-labs.org/post/manual/graphics/drawrect.html  Draw Rectangle
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @includeExample egret/display/Graphics.ts
+     */
+    /**
+     * @language zh_CN
+     * Graphics 类包含一组可用来创建矢量形状的方法。支持绘制的显示对象包括 Sprite 和 Shape 对象。这些类中的每一个类都包括 graphics 属性，该属性是一个 Graphics 对象。
+     * 以下是为便于使用而提供的一些辅助函数：drawRect()、drawRoundRect()、drawCircle() 和 drawEllipse()。
+     * @see http://docs.egret-labs.org/post/manual/graphics/drawrect.html  绘制矩形
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @includeExample egret/display/Graphics.ts
+     */
+    class Graphics extends HashObject {
+        /**
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        constructor();
+        /**
+         * @private
+         */
+        $renderNode: sys.GraphicsNode;
+        /**
+         * 绑定到的目标显示对象
+         */
+        private targetDisplay;
+        /**
+         * @private
+         * 设置绑定到的目标显示对象
+         */
+        $setTarget(target: DisplayObject): void;
+        /**
+         * 当前移动到的坐标X
+         */
+        private lastX;
+        /**
+         * 当前移动到的坐标Y
+         */
+        private lastY;
+        /**
+         * 当前正在绘制的填充
+         */
+        private fillPath;
+        /**
+         * 当前正在绘制的线条
+         */
+        private strokePath;
+        /**
+         * 线条的左上方宽度
+         */
+        private topLeftStrokeWidth;
+        /**
+         * 线条的右下方宽度
+         */
+        private bottomRightStrokeWidth;
+        /**
+         * 对1像素和3像素特殊处理，向右下角偏移0.5像素，以显示清晰锐利的线条。
+         */
+        private setStrokeWidth(width);
+        /**
+         * @language en_US
+         * Specify a simple single color fill that will be used for subsequent calls to other Graphics methods (for example, lineTo() and drawCircle()) when drawing.
+         * Calling the clear() method will clear the fill.
+         * @param color Filled color
+         * @param alpha Filled Alpha value
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 指定一种简单的单一颜色填充，在绘制时该填充将在随后对其他 Graphics 方法（如 lineTo() 或 drawCircle()）的调用中使用。
+         * 调用 clear() 方法会清除填充。
+         * @param color 填充的颜色
+         * @param alpha 填充的 Alpha 值
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        beginFill(color: number, alpha?: number): void;
+        /**
+         * @language en_US
+         * Specifies a gradient fill used by subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
+         * Calling the clear() method clears the fill.
+         * Note: Only support on Canvas
+         * @param type A value from the GradientType class that specifies which gradient type to use: GradientType.LINEAR or GradientType.RADIAL.
+         * @param colors An array of RGB hexadecimal color values used in the gradient; for example, red is 0xFF0000, blue is 0x0000FF, and so on. You can specify up to 15 colors. For each color, specify a corresponding value in the alphas and ratios parameters.
+         * @param alphas An array of alpha values for the corresponding colors in the colors array;
+         * @param ratios An array of color distribution ratios; valid values are 0-255.
+         * @param matrix A transformation matrix as defined by the egret.Matrix class. The egret.Matrix class includes a createGradientBox() method, which lets you conveniently set up the matrix for use with the beginGradientFill() method.
+         * @platform Web
+         * @version Egret 2.4
+         */
+        /**
+         * @language zh_CN
+         * 指定一种简单的单一颜色填充，在绘制时该填充将在随后对其他 Graphics 方法（如 lineTo() 或 drawCircle()）的调用中使用。
+         * 调用 clear() 方法会清除填充。
+         * 注：该方法目前仅支持H5 Canvas
+         * @param type 用于指定要使用哪种渐变类型的 GradientType 类的值：GradientType.LINEAR 或 GradientType.RADIAL。
+         * @param colors 渐变中使用的 RGB 十六进制颜色值的数组（例如，红色为 0xFF0000，蓝色为 0x0000FF，等等）。对于每种颜色，请在 alphas 和 ratios 参数中指定对应值。
+         * @param alphas colors 数组中对应颜色的 alpha 值数组。
+         * @param ratios 颜色分布比率的数组。有效值为 0 到 255。
+         * @param matrix 一个由 egret.Matrix 类定义的转换矩阵。egret.Matrix 类包括 createGradientBox() 方法，通过该方法可以方便地设置矩阵，以便与 beginGradientFill() 方法一起使用
+         * @platform Web
+         * @version Egret 2.4
+         */
+        beginGradientFill(type: string, colors: number[], alphas: number[], ratios: number[], matrix?: egret.Matrix): void;
+        /**
+         * @language en_US
+         * Apply fill to the lines and curves added after the previous calling to the beginFill() method.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 对从上一次调用 beginFill()方法之后添加的直线和曲线应用填充。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        endFill(): void;
+        /**
+         * @language en_US
+         * Specify a line style that will be used for subsequent calls to Graphics methods such as lineTo() and drawCircle().
+         * @param thickness An integer, indicating the thickness of the line in points. Valid values are 0 to 255. If a number is not specified, or if the parameter is undefined, a line is not drawn. If a value less than 0 is passed, the default value is 0. Value 0 indicates hairline thickness; the maximum thickness is 255. If a value greater than 255 is passed, the default value is 255.
+         * @param color A hexadecimal color value of the line (for example, red is 0xFF0000, and blue is 0x0000FF, etc.). If no value is specified, the default value is 0x000000 (black). Optional.
+         * @param alpha Indicates Alpha value of the line's color. Valid values are 0 to 1. If no value is specified, the default value is 1 (solid). If the value is less than 0, the default value is 0. If the value is greater than 1, the default value is 1.
+         * @param pixelHinting A boolean value that specifies whether to hint strokes to full pixels. This affects both the position of anchors of a curve and the line stroke size itself. With pixelHinting set to true, the line width is adjusted to full pixel width. With pixelHinting set to false, disjoints can appear for curves and straight lines.
+         * @param scaleMode Specifies the scale mode to be used
+         * @param caps Specifies the value of the CapsStyle class of the endpoint type at the end of the line. (default = CapsStyle.ROUND)
+         * @param joints Specifies the type of joint appearance of corner.  (default = JointStyle.ROUND)
+         * @param miterLimit Indicates the limit number of cut miter.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 指定一种线条样式以用于随后对 lineTo() 或 drawCircle() 等 Graphics 方法的调用。
+         * @param thickness 一个整数，以点为单位表示线条的粗细，有效值为 0 到 255。如果未指定数字，或者未定义该参数，则不绘制线条。如果传递的值小于 0，则默认值为 0。值 0 表示极细的粗细；最大粗细为 255。如果传递的值大于 255，则默认值为 255。
+         * @param color 线条的十六进制颜色值（例如，红色为 0xFF0000，蓝色为 0x0000FF 等）。如果未指明值，则默认值为 0x000000（黑色）。可选。
+         * @param alpha 表示线条颜色的 Alpha 值的数字；有效值为 0 到 1。如果未指明值，则默认值为 1（纯色）。如果值小于 0，则默认值为 0。如果值大于 1，则默认值为 1。
+         * @param pixelHinting 布尔型值，指定是否提示笔触采用完整像素。它同时影响曲线锚点的位置以及线条笔触大小本身。在 pixelHinting 设置为 true 的情况下，线条宽度会调整到完整像素宽度。在 pixelHinting 设置为 false 的情况下，对于曲线和直线可能会出现脱节。
+         * @param scaleMode 用于指定要使用的比例模式
+         * @param caps 用于指定线条末端处端点类型的 CapsStyle 类的值。默认值：CapsStyle.ROUND
+         * @param joints 指定用于拐角的连接外观的类型。默认值：JointStyle.ROUND
+         * @param miterLimit 用于表示剪切斜接的极限值的数字。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        lineStyle(thickness?: number, color?: number, alpha?: number, pixelHinting?: boolean, scaleMode?: string, caps?: string, joints?: string, miterLimit?: number): void;
+        /**
+         * @language en_US
+         * Draw a rectangle
+         * @param x x position of the center, relative to the registration point of the parent display object (in pixels).
+         * @param y y position of the center, relative to the registration point of the parent display object (in pixels).
+         * @param width Width of the rectangle (in pixels).
+         * @param height Height of the rectangle (in pixels).
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 绘制一个矩形
+         * @param x 圆心相对于父显示对象注册点的 x 位置（以像素为单位）。
+         * @param y 相对于父显示对象注册点的圆心的 y 位置（以像素为单位）。
+         * @param width 矩形的宽度（以像素为单位）。
+         * @param height 矩形的高度（以像素为单位）。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        drawRect(x: number, y: number, width: number, height: number): void;
+        /**
+         * @language en_US
+         * Draw a rectangle with rounded corners.
+         * @param x x position of the center, relative to the registration point of the parent display object (in pixels).
+         * @param y y position of the center, relative to the registration point of the parent display object (in pixels).
+         * @param width Width of the rectangle (in pixels).
+         * @param height Height of the rectangle (in pixels).
+         * @param ellipseWidth Width used to draw an ellipse with rounded corners (in pixels).
+         * @param ellipseHeight Height used to draw an ellipse with rounded corners (in pixels). (Optional) If no value is specified, the default value matches the value of the ellipseWidth parameter.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 绘制一个圆角矩形。
+         * @param x 圆心相对于父显示对象注册点的 x 位置（以像素为单位）。
+         * @param y 相对于父显示对象注册点的圆心的 y 位置（以像素为单位）。
+         * @param width 矩形的宽度（以像素为单位）。
+         * @param height 矩形的高度（以像素为单位）。
+         * @param ellipseWidth 用于绘制圆角的椭圆的宽度（以像素为单位）。
+         * @param ellipseHeight 用于绘制圆角的椭圆的高度（以像素为单位）。 （可选）如果未指定值，则默认值与为 ellipseWidth 参数提供的值相匹配。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        drawRoundRect(x: number, y: number, width: number, height: number, ellipseWidth: number, ellipseHeight?: number): void;
+        /**
+         * @language en_US
+         * Draw a circle.
+         * @param x x position of the center, relative to the registration point of the parent display object (in pixels).
+         * @param y y position of the center, relative to the registration point of the parent display object (in pixels).
+         * @param r Radius of the circle (in pixels).
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 绘制一个圆。
+         * @param x 圆心相对于父显示对象注册点的 x 位置（以像素为单位）。
+         * @param y 相对于父显示对象注册点的圆心的 y 位置（以像素为单位）。
+         * @param radius 圆的半径（以像素为单位）。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        drawCircle(x: number, y: number, radius: number): void;
+        /**
+         * @language en_US
+         * Draw an ellipse.
+         * @param x A number indicating the horizontal position, relative to the registration point of the parent display object (in pixels).
+         * @param y A number indicating the vertical position, relative to the registration point of the parent display object (in pixels).
+         * @param width Width of the rectangle (in pixels).
+         * @param height Height of the rectangle (in pixels).
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 绘制一个椭圆。
+         * @param x 一个表示相对于父显示对象注册点的水平位置的数字（以像素为单位）。
+         * @param y 一个表示相对于父显示对象注册点的垂直位置的数字（以像素为单位）。
+         * @param width 矩形的宽度（以像素为单位）。
+         * @param height 矩形的高度（以像素为单位）。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        drawEllipse(x: number, y: number, width: number, height: number): void;
+        /**
+         * @language en_US
+         * Move the current drawing position to (x, y). If any of these parameters is missed, calling this method will fail and the current drawing position keeps unchanged.
+         * @param x A number indicating the horizontal position, relative to the registration point of the parent display object (in pixels).
+         * @param y A number indicating the vertical position, relative to the registration point of the parent display object (in pixels).
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 将当前绘图位置移动到 (x, y)。如果缺少任何一个参数，则此方法将失败，并且当前绘图位置不改变。
+         * @param x 一个表示相对于父显示对象注册点的水平位置的数字（以像素为单位）。
+         * @param y 一个表示相对于父显示对象注册点的垂直位置的数字（以像素为单位）。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        moveTo(x: number, y: number): void;
+        /**
+         * @language en_US
+         * Draw a straight line from the current drawing position to (x, y) using the current line style; the current drawing position is then set to (x, y).
+         * @param x A number indicating the horizontal position, relative to the registration point of the parent display object (in pixels).
+         * @param y A number indicating the vertical position, relative to the registration point of the parent display object (in pixels).
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 使用当前线条样式绘制一条从当前绘图位置开始到 (x, y) 结束的直线；当前绘图位置随后会设置为 (x, y)。
+         * @param x 一个表示相对于父显示对象注册点的水平位置的数字（以像素为单位）。
+         * @param y 一个表示相对于父显示对象注册点的垂直位置的数字（以像素为单位）。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        lineTo(x: number, y: number): void;
+        /**
+         * @language en_US
+         * Draw a quadratic Bezier curve from the current drawing position to (anchorX, anchorY) using the current line style according to the control points specified by (controlX, controlY). The current drawing position is then set to (anchorX, anchorY).
+         * If the curveTo() method is called before the moveTo() method, the default value of the current drawing position is (0, 0). If any of these parameters is missed, calling this method will fail and the current drawing position keeps unchanged.
+         * The drawn curve is a quadratic Bezier curve. A quadratic Bezier curve contains two anchor points and one control point. The curve interpolates the two anchor points and bends to the control point.
+         * @param controlX A number indicating the horizontal position of the control point, relative to the registration point of the parent display object.
+         * @param controlY A number indicating the vertical position of the control point, relative to the registration point of the parent display object.
+         * @param anchorX A number indicating the horizontal position of the next anchor point, relative to the registration point of the parent display object.
+         * @param anchorY A number indicating the vertical position of the next anchor point, relative to the registration point of the parent display object.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 使用当前线条样式和由 (controlX, controlY) 指定的控制点绘制一条从当前绘图位置开始到 (anchorX, anchorY) 结束的二次贝塞尔曲线。当前绘图位置随后设置为 (anchorX, anchorY)。
+         * 如果在调用 moveTo() 方法之前调用了 curveTo() 方法，则当前绘图位置的默认值为 (0, 0)。如果缺少任何一个参数，则此方法将失败，并且当前绘图位置不改变。
+         * 绘制的曲线是二次贝塞尔曲线。二次贝塞尔曲线包含两个锚点和一个控制点。该曲线内插这两个锚点，并向控制点弯曲。
+         * @param controlX 一个数字，指定控制点相对于父显示对象注册点的水平位置。
+         * @param controlY 一个数字，指定控制点相对于父显示对象注册点的垂直位置。
+         * @param anchorX 一个数字，指定下一个锚点相对于父显示对象注册点的水平位置。
+         * @param anchorY 一个数字，指定下一个锚点相对于父显示对象注册点的垂直位置。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        curveTo(controlX: number, controlY: number, anchorX: number, anchorY: number): void;
+        /**
+         * @language en_US
+         * Draws a cubic Bezier curve from the current drawing position to the specified anchor. Cubic Bezier curves consist of two anchor points and two control points. The curve interpolates the two anchor points and two control points to the curve.
+         * @param controlX1 Specifies the first control point relative to the registration point of the parent display the horizontal position of the object.
+         * @param controlY1 Specifies the first control point relative to the registration point of the parent display the vertical position of the object.
+         * @param controlX2 Specify the second control point relative to the registration point of the parent display the horizontal position of the object.
+         * @param controlY2 Specify the second control point relative to the registration point of the parent display the vertical position of the object.
+         * @param anchorX Specifies the anchor point relative to the registration point of the parent display the horizontal position of the object.
+         * @param anchorY Specifies the anchor point relative to the registration point of the parent display the vertical position of the object.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 从当前绘图位置到指定的锚点绘制一条三次贝塞尔曲线。三次贝塞尔曲线由两个锚点和两个控制点组成。该曲线内插这两个锚点，并向两个控制点弯曲。
+         * @param controlX1 指定首个控制点相对于父显示对象的注册点的水平位置。
+         * @param controlY1 指定首个控制点相对于父显示对象的注册点的垂直位置。
+         * @param controlX2 指定第二个控制点相对于父显示对象的注册点的水平位置。
+         * @param controlY2 指定第二个控制点相对于父显示对象的注册点的垂直位置。
+         * @param anchorX 指定锚点相对于父显示对象的注册点的水平位置。
+         * @param anchorY 指定锚点相对于父显示对象的注册点的垂直位置。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        cubicCurveTo(controlX1: number, controlY1: number, controlX2: number, controlY2: number, anchorX: number, anchorY: number): void;
+        /**
+         * @language en_US
+         * adds an arc to the path which is centered at (x, y) position with radius r starting at startAngle and ending
+         * at endAngle going in the given direction by anticlockwise (defaulting to clockwise).
+         * @param x The x coordinate of the arc's center.
+         * @param y The y coordinate of the arc's center.
+         * @param radius The arc's radius.
+         * @param startAngle The angle at which the arc starts, measured clockwise from the positive x axis and expressed in radians.
+         * @param endAngle The angle at which the arc ends, measured clockwise from the positive x axis and expressed in radians.
+         * @param anticlockwise if true, causes the arc to be drawn counter-clockwise between the two angles. By default it is drawn clockwise.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 绘制一段圆弧路径。圆弧路径的圆心在 (x, y) 位置，半径为 r ，根据anticlockwise （默认为顺时针）指定的方向从 startAngle 开始绘制，到 endAngle 结束。
+         * @param x 圆弧中心（圆心）的 x 轴坐标。
+         * @param y 圆弧中心（圆心）的 y 轴坐标。
+         * @param radius 圆弧的半径。
+         * @param startAngle 圆弧的起始点， x轴方向开始计算，单位以弧度表示。
+         * @param endAngle 圆弧的终点， 单位以弧度表示。
+         * @param anticlockwise 如果为 true，逆时针绘制圆弧，反之，顺时针绘制。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        drawArc(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise?: boolean): void;
+        /**
+         * @private
+         * 测量圆弧的矩形大小
+         */
+        private arcBounds(x, y, radius, startAngle, endAngle);
+        /**
+         * @language en_US
+         * Clear graphics that are drawn to this Graphics object, and reset fill and line style settings.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 清除绘制到此 Graphics 对象的图形，并重置填充和线条样式设置。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        clear(): void;
+        /**
+         * @private
+         */
+        private minX;
+        /**
+         * @private
+         */
+        private minY;
+        /**
+         * @private
+         */
+        private maxX;
+        /**
+         * @private
+         */
+        private maxY;
+        private extendBoundsByPoint(x, y);
+        /**
+         * @private
+         */
+        private extendBoundsByX(x);
+        /**
+         * @private
+         */
+        private extendBoundsByY(y);
+        /**
+         * 是否已经包含上一次moveTo的坐标点
+         */
+        private includeLastPosition;
+        /**
+         * 更新当前的lineX和lineY值，并标记尺寸失效。
+         */
+        private updatePosition(x, y);
+        /**
+         * @private
+         */
+        $measureContentBounds(bounds: Rectangle): void;
+        /**
+         * @private
+         *
+         */
+        $hitTest(stageX: number, stageY: number): DisplayObject;
+    }
+}
+declare module egret {
+    /**
+     * @language en_US
+     * The JointStyle class is an enumeration of constant values that specify the joint style to use in drawing lines.
+     * These constants are provided for use as values in the joints parameter of the egret.Graphics.lineStyle() method.
+     * @see egret.Graphics#lineStyle()
+     * @version Egret 2.5
+     * @platform Web,Native
+     */
+    /**
+     * @language zh_CN
+     * JointStyle 类是指定要在绘制线条中使用的联接点样式的常量值枚举。提供的这些常量用作 egret.Graphics.lineStyle() 方法的 joints 参数中的值。
+     * @see egret.Graphics#lineStyle()
+     * @version Egret 2.5
+     * @platform Web,Native
+     */
+    class JointStyle {
+        /**
+         * @language en_US
+         * Specifies beveled joints in the joints parameter of the egret.Graphics.lineStyle() method.
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 在 egret.Graphics.lineStyle() 方法的 joints 参数中指定斜角连接。
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        static BEVEL: string;
+        /**
+         * @language en_US
+         * Specifies mitered joints in the joints parameter of the egret.Graphics.lineStyle() method.
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 在 egret.Graphics.lineStyle() 方法的 joints 参数中指定尖角连接。
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        static MITER: string;
+        /**
+         * @language en_US
+         * Specifies round joints in the joints parameter of the egret.Graphics.lineStyle() method.
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 在 egret.Graphics.lineStyle() 方法的 joints 参数中指定圆角连接。
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        static ROUND: string;
+    }
+}
+declare module egret {
+    /**
+     * OrientationMode 类为舞台初始旋转模式提供值。
+     */
+    class OrientationMode {
+        /**
+         * 适配屏幕
+         */
+        static AUTO: string;
+        /**
+         * 默认竖屏
+         */
+        static PORTRAIT: string;
+        /**
+         * 默认横屏，舞台顺时针旋转90度
+         */
+        static LANDSCAPE: string;
+        /**
+         * 默认横屏，舞台逆时针旋转90度
+         */
+        static LANDSCAPE_FLIPPED: string;
     }
 }
 declare module egret {
@@ -4790,13 +3021,13 @@ declare module egret {
         private _textureWidth;
         /**
          * @language en_US
-         * Texture width
+         * Texture width, read only
          * @version Egret 2.4
          * @platform Web,Native
          */
         /**
          * @language zh_CN
-         * 纹理宽度
+         * 纹理宽度，只读属性，不可以设置
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -4809,13 +3040,13 @@ declare module egret {
         private _textureHeight;
         /**
          * @language en_US
-         * Texture height
+         * Texture height, read only
          * @version Egret 2.4
          * @platform Web,Native
          */
         /**
          * @language zh_CN
-         * 纹理高度
+         * 纹理高度，只读属性，不可以设置
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -4910,21 +3141,21 @@ declare module egret {
         toDataURL(type: string, rect?: egret.Rectangle): string;
         /**
          * @language en_US
-         * 裁剪指定区域并保存成图片。
-         * native只支持 "image/png" 和 "image/jpeg"；Web中由于各个浏览器的实现不一样，因此建议也只用这2种。
-         * @param type 转换的类型，如  "image/png"
-         * @param filePath 图片的名称的路径（主目录为游戏的私有空间，路径中不能有 "../"，Web只支持传名称。）
-         * @param rect 需要转换的区域
-         * @version Egret 2.4
-         * @platform Native
-         */
-        /**
-         * @language zh_CN
          * Crop designated area and save it as image.
          * native support only "image / png" and "image / jpeg"; Web browser because of the various implementations are not the same, it is recommended to use only these two kinds.
          * @param type Type conversions, such as "image / png"
          * @param filePath The path name of the image (the home directory for the game's private space, the path can not have "../",Web supports only pass names.)
          * @param rect The need to convert the area
+         * @version Egret 2.4
+         * @platform Native
+         */
+        /**
+         * @language zh_CN
+         * 裁剪指定区域并保存成图片。
+         * native只支持 "image/png" 和 "image/jpeg"；Web中由于各个浏览器的实现不一样，因此建议也只用这2种。
+         * @param type 转换的类型，如  "image/png"
+         * @param filePath 图片的名称的路径（主目录为游戏的私有空间，路径中不能有 "../"，Web只支持传名称。）
+         * @param rect 需要转换的区域
          * @version Egret 2.4
          * @platform Native
          */
@@ -4943,10 +3174,10 @@ declare module egret {
          */
         dispose(): void;
         private static _displayList;
-        static $addDisplayObject(displayObject: DisplayObject, bitmapDataHashCode: number): void;
-        static $removeDisplayObject(displayObject: DisplayObject, bitmapDataHashCode: number): void;
-        static $invalidate(bitmapDataHashCode: number): void;
-        static $dispose(bitmapDataHashCode: number): void;
+        static $addDisplayObject(displayObject: DisplayObject, bitmapData: BitmapData | Texture): void;
+        static $removeDisplayObject(displayObject: DisplayObject, bitmapData: BitmapData | Texture): void;
+        static $invalidate(bitmapData: BitmapData | Texture): void;
+        static $dispose(bitmapData: BitmapData | Texture): void;
     }
 }
 declare module egret {
@@ -4968,6 +3199,7 @@ declare module egret {
      */
     class RenderTexture extends egret.Texture {
         constructor();
+        private renderBuffer;
         /**
          * @language en_US
          * The specified display object is drawn as a texture
@@ -4987,11 +3219,8 @@ declare module egret {
          * @platform Web,Native
          */
         drawToTexture(displayObject: egret.DisplayObject, clipBounds?: Rectangle, scale?: number): boolean;
-        private $update(displayObject);
-        private drawDisplayObject(displayObject, context);
-        private drawWithClip(displayObject, context);
-        private drawWithScrollRect(displayObject, context);
-        private createRenderContext(width, height);
+        getPixel32(x: number, y: number): number[];
+        dispose(): void;
     }
 }
 declare module egret {
@@ -5048,10 +3277,6 @@ declare module egret {
          */
         $measureContentBounds(bounds: Rectangle): void;
         $hitTest(stageX: number, stageY: number): DisplayObject;
-        /**
-         * @private
-         */
-        $render(context: sys.RenderContext): void;
     }
 }
 declare module egret {
@@ -5069,7 +3294,7 @@ declare module egret {
      * @platform Web,Native
      * @includeExample egret/display/Sprite.ts
      */
-    class Sprite extends DisplayObjectContainer implements IDisplayObjectContainer {
+    class Sprite extends DisplayObjectContainer {
         /**
          * @language en_US
          * Creates a new Sprite instance.
@@ -5105,10 +3330,6 @@ declare module egret {
          * @private
          */
         $measureContentBounds(bounds: Rectangle): void;
-        /**
-         * @private
-         */
-        $render(context: sys.RenderContext): void;
     }
 }
 declare module egret {
@@ -5166,7 +3387,7 @@ declare module egret {
          * @private
          * 共享的位图数据
          */
-        private texture;
+        $texture: Texture;
         /**
          * @private
          * 纹理缓存字典
@@ -5460,6 +3681,39 @@ declare module egret {
          * @default 99
          */
         maxTouches: number;
+        private $dirtyRegionPolicy;
+        /**
+         * @language en_US
+         * Set dirty region policy
+         * One of the constants defined by egret.DirtyRegionPolicy
+         * @version Egret 2.5.5
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 设置脏矩形策略
+         * egret.DirtyRegionPolicy 定义的常量之一
+         * @version Egret 2.5.5
+         * @platform Web,Native
+         */
+        dirtyRegionPolicy: string;
+        /**
+         * @language en_US
+         * Set resolution size
+         * @param width width
+         * @param height height
+         * @version Egret 2.5.5
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 设置分辨率尺寸
+         * @param width 宽度
+         * @param height 高度
+         * @version Egret 2.5.5
+         * @platform Web,Native
+         */
+        setContentSize(width: number, height: number): void;
     }
 }
 declare module egret {
@@ -5996,6 +4250,19 @@ declare module egret {
          */
         protected clean(): void;
         /**
+         * @language en_US
+         * EventDispatcher object using the specified event object thrown Event. Objects thrown objects will be cached in the pool for the next round robin.
+         * @param target the event target
+         * @param type The type of the event. Event listeners can access this information through the inherited type property.
+         * @param bubbles Determines whether the Event object bubbles. Event listeners can access this information through
+         * the inherited bubbles property.
+         * @param data {any} data
+         * @method egret.Event.dispatchEvent
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
          * 使用指定的 EventDispatcher 对象来抛出 Event 事件对象。抛出的对象将会缓存在对象池上，供下次循环复用。
          * @param target {egret.IEventDispatcher} 派发事件目标
          * @param type {string} 事件类型
@@ -6020,6 +4287,10 @@ declare module egret {
          * which allows you to get better code execution performance.<br/>
          * Note: If you want to use this method to initialize your custom event object,you must make sure the constructor
          * of your custom event is the same as the constructor of egret.Event.
+         * @param EventClass Event Class。
+         * @param type  The type of the event, accessible as Event.type.
+         * @param bubbles  Determines whether the Event object participates in the bubbling stage of the event flow. The default value is false.
+         * @param cancelable Determines whether the Event object can be canceled. The default values is false.
          * @example
          * <pre>
          *    var event = Event.create(Event,type, bubbles);
@@ -6035,6 +4306,10 @@ declare module egret {
          * 从对象池中取出或创建一个新的事件实例。我们建议您尽可能使用Event.create()和Event.release() 这一对方法来创建和释放事件对象，
          * 这一对方法会将事件实例在内部缓存下来供下次循环使用，减少对象的创建次数,从而获得更高的代码运行性能。<br/>
          * 注意：若使用此方法来创建自定义事件的实例，自定义的构造函数参数列表必须跟Event类一致。
+         * @param EventClass Event类名。
+         * @param type  事件的类型，可以作为 Event.type 访问。
+         * @param bubbles  确定 Event 对象是否参与事件流的冒泡阶段。默认值为 false。
+         * @param cancelable 确定是否可以取消 Event 对象。默认值为 false。
          * @example
          * <pre>
          *    var event = Event.create(Event,type, bubbles);
@@ -7325,12 +5600,16 @@ declare module egret {
         /**
          * @language en_US
          * get a point instance from the object pool or create a new one.
+         * @param x The horizontal coordinate.
+         * @param y The vertical coordinate.
          * @version Egret 2.4
          * @platform Web,Native
          */
         /**
          * @language zh_CN
          * 从对象池中取出或创建一个新的Point对象。
+         * @param x 该对象的x属性值，默认为0
+         * @param y 该对象的y属性值，默认为0
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -7677,6 +5956,20 @@ declare module egret {
         static TOUCH_END: string;
         /**
          * @language en_US
+         * Dispatched when an event of some kind occurred that canceled the touch.
+         * Such as the eui.Scroller will dispatch 'TOUCH_CANCEL' when it start move, the 'TOUCH_END' and 'TOUCH_TAP' will not be triggered.
+         * @version Egret 3.0.1
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 由于某个事件取消了触摸时触发。比如 eui.Scroller 在开始滚动后会触发 'TOUCH_CANCEL' 事件，不再触发后续的 'TOUCH_END' 和 'TOUCH_TAP' 事件
+         * @version Egret 3.0.1
+         * @platform Web,Native
+         */
+        static TOUCH_CANCEL: string;
+        /**
+         * @language en_US
          * Dispatched when the user lifts the point of contact over the same DisplayObject instance on which the contact
          * was initiated on a touch-enabled device.
          * @version Egret 2.4
@@ -7940,6 +6233,7 @@ declare module egret {
 }
 declare module egret {
     /**
+     * @private
      * @version Egret 2.4
      * @platform Web,Native
      */
@@ -8109,6 +6403,550 @@ declare module egret {
          */
         constructor(distance?: number, angle?: number, color?: number, alpha?: number, blurX?: number, blurY?: number, strength?: number, quality?: number, inner?: boolean, knockout?: boolean, hideObject?: boolean);
     }
+}
+declare module egret {
+    /**
+     * @private
+     */
+    var $cos: (angle: number) => number;
+    /**
+     * @private
+     */
+    var $sin: (angle: number) => number;
+    /**
+     * @language en_US
+     * The Matrix class represents a transformation matrix that determines how to map points from one coordinate space to
+     * another. You can perform various graphical transformations on a display object by setting the properties of a Matrix
+     * object, applying that Matrix object to the matrix property of a display object, These transformation functions include
+     * translation (x and y repositioning), rotation, scaling, and skewing.
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @includeExample egret/geom/Matrix.ts
+     */
+    /**
+     * @language zh_CN
+     * Matrix 类表示一个转换矩阵，它确定如何将点从一个坐标空间映射到另一个坐标空间。
+     * 您可以对一个显示对象执行不同的图形转换，方法是设置 Matrix 对象的属性，将该 Matrix
+     * 对象应用于显示对象的 matrix 属性。这些转换函数包括平移（x 和 y 重新定位）、旋转、缩放和倾斜。
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @includeExample egret/geom/Matrix.ts
+     */
+    class Matrix extends HashObject {
+        /**
+         * @language en_US
+         * Releases a matrix instance to the object pool
+         * @param matrix matrix that Needs to be recycled
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 释放一个Matrix实例到对象池
+         * @param matrix 需要回收的 matrix
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        static release(matrix: Matrix): void;
+        /**
+         * @language en_US
+         * get a matrix instance from the object pool or create a new one.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 从对象池中取出或创建一个新的Matrix对象。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        static create(): Matrix;
+        /**
+         * @language en_US
+         * Creates a new Matrix object with the specified parameters.
+         * @param a The value that affects the positioning of pixels along the x axis when scaling or rotating an image.
+         * @param b The value that affects the positioning of pixels along the y axis when rotating or skewing an image.
+         * @param c The value that affects the positioning of pixels along the x axis when rotating or skewing an image.
+         * @param d The value that affects the positioning of pixels along the y axis when scaling or rotating an image..
+         * @param tx The distance by which to translate each point along the x axis.
+         * @param ty The distance by which to translate each point along the y axis.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 使用指定参数创建一个 Matrix 对象
+         * @param a 缩放或旋转图像时影响像素沿 x 轴定位的值。
+         * @param b 旋转或倾斜图像时影响像素沿 y 轴定位的值。
+         * @param c 旋转或倾斜图像时影响像素沿 x 轴定位的值。
+         * @param d 缩放或旋转图像时影响像素沿 y 轴定位的值。
+         * @param tx 沿 x 轴平移每个点的距离。
+         * @param ty 沿 y 轴平移每个点的距离。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        constructor(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number);
+        /**
+         * @language en_US
+         * The value that affects the positioning of pixels along the x axis when scaling or rotating an image.
+         * @default 1
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 缩放或旋转图像时影响像素沿 x 轴定位的值
+         * @default 1
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        a: number;
+        /**
+         * @language en_US
+         * The value that affects the positioning of pixels along the y axis when rotating or skewing an image.
+         * @default 0
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 旋转或倾斜图像时影响像素沿 y 轴定位的值
+         * @default 0
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        b: number;
+        /**
+         * @language en_US
+         * The value that affects the positioning of pixels along the x axis when rotating or skewing an image.
+         * @default 0
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 旋转或倾斜图像时影响像素沿 x 轴定位的值
+         * @default 0
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        c: number;
+        /**
+         * @language en_US
+         * The value that affects the positioning of pixels along the y axis when scaling or rotating an image.
+         * @default 1
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 缩放或旋转图像时影响像素沿 y 轴定位的值
+         * @default 1
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        d: number;
+        /**
+         * @language en_US
+         * The distance by which to translate each point along the x axis.
+         * @default 0
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 沿 x 轴平移每个点的距离
+         * @default 0
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        tx: number;
+        /**
+         * @language en_US
+         * The distance by which to translate each point along the y axis.
+         * @default 0
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 沿 y 轴平移每个点的距离
+         * @default 0
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        ty: number;
+        /**
+         * @language en_US
+         * Returns a new Matrix object that is a clone of this matrix, with an exact copy of the contained object.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 返回一个新的 Matrix 对象，它是此矩阵的克隆，带有与所含对象完全相同的副本。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        clone(): Matrix;
+        /**
+         * @language en_US
+         * Concatenates a matrix with the current matrix, effectively combining the geometric effects of the two. In mathematical
+         * terms, concatenating two matrixes is the same as combining them using matrix multiplication.
+         * @param other The matrix to be concatenated to the source matrix.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 将某个矩阵与当前矩阵连接，从而将这两个矩阵的几何效果有效地结合在一起。在数学术语中，将两个矩阵连接起来与使用矩阵乘法将它们结合起来是相同的。
+         * @param other 要连接到源矩阵的矩阵。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        concat(other: Matrix): void;
+        /**
+         * @language en_US
+         * Copies all of the matrix data from the source Point object into the calling Matrix object.
+         * @param other  The Matrix object from which to copy the data.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 将源 Matrix 对象中的所有矩阵数据复制到调用方 Matrix 对象中。
+         * @param other 要拷贝的目标矩阵
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        copyFrom(other: Matrix): Matrix;
+        /**
+         * @language en_US
+         * Sets each matrix property to a value that causes a null transformation. An object transformed by applying an
+         * identity matrix will be identical to the original. After calling the identity() method, the resulting matrix
+         * has the following properties: a=1, b=0, c=0, d=1, tx=0, ty=0.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 为每个矩阵属性设置一个值，该值将导致矩阵无转换。通过应用恒等矩阵转换的对象将与原始对象完全相同。
+         * 调用 identity() 方法后，生成的矩阵具有以下属性：a=1、b=0、c=0、d=1、tx=0 和 ty=0。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        identity(): void;
+        /**
+         * @language en_US
+         * Performs the opposite transformation of the original matrix. You can apply an inverted matrix to an object to
+         * undo the transformation performed when applying the original matrix.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 执行原始矩阵的逆转换。
+         * 您可以将一个逆矩阵应用于对象来撤消在应用原始矩阵时执行的转换。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        invert(): void;
+        /**
+         * @private
+         */
+        $invertInto(target: Matrix): void;
+        /**
+         * @language en_US
+         * Applies a rotation transformation to the Matrix object.
+         * The rotate() method alters the a, b, c, and d properties of the Matrix object.
+         * @param angle The rotation angle in radians.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 对 Matrix 对象应用旋转转换。
+         * rotate() 方法将更改 Matrix 对象的 a、b、c 和 d 属性。
+         * @param angle 以弧度为单位的旋转角度。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        rotate(angle: number): void;
+        /**
+         * @language en_US
+         * Applies a scaling transformation to the matrix. The x axis is multiplied by sx, and the y axis it is multiplied by sy.
+         * The scale() method alters the a and d properties of the Matrix object.
+         * @param sx A multiplier used to scale the object along the x axis.
+         * @param sy A multiplier used to scale the object along the y axis.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 对矩阵应用缩放转换。x 轴乘以 sx，y 轴乘以 sy。
+         * scale() 方法将更改 Matrix 对象的 a 和 d 属性。
+         * @param sx 用于沿 x 轴缩放对象的乘数。
+         * @param sy 用于沿 y 轴缩放对象的乘数。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        scale(sx: number, sy: number): void;
+        /**
+         * @language en_US
+         * Sets the members of Matrix to the specified values
+         * @param a The value that affects the positioning of pixels along the x axis when scaling or rotating an image.
+         * @param b The value that affects the positioning of pixels along the y axis when rotating or skewing an image.
+         * @param c The value that affects the positioning of pixels along the x axis when rotating or skewing an image.
+         * @param d The value that affects the positioning of pixels along the y axis when scaling or rotating an image..
+         * @param tx The distance by which to translate each point along the x axis.
+         * @param ty The distance by which to translate each point along the y axis.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 将 Matrix 的成员设置为指定值
+         * @param a 缩放或旋转图像时影响像素沿 x 轴定位的值。
+         * @param b 旋转或倾斜图像时影响像素沿 y 轴定位的值。
+         * @param c 旋转或倾斜图像时影响像素沿 x 轴定位的值。
+         * @param d 缩放或旋转图像时影响像素沿 y 轴定位的值。
+         * @param tx 沿 x 轴平移每个点的距离。
+         * @param ty 沿 y 轴平移每个点的距离。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        setTo(a: number, b: number, c: number, d: number, tx: number, ty: number): Matrix;
+        /**
+         * @language en_US
+         * Returns the result of applying the geometric transformation represented by the Matrix object to the specified point.
+         * @param pointX The x coordinate for which you want to get the result of the Matrix transformation.
+         * @param pointY The y coordinate for which you want to get the result of the Matrix transformation.
+         * @param resultPoint A reusable instance of Point for saving the results. Passing this parameter can reduce the
+         * number of reallocate objects, which allows you to get better code execution performance.
+         * @returns The point resulting from applying the Matrix transformation.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 返回将 Matrix 对象表示的几何转换应用于指定点所产生的结果。
+         * @param pointX 想要获得其矩阵转换结果的点的x坐标。
+         * @param pointY 想要获得其矩阵转换结果的点的y坐标。
+         * @param resultPoint 框架建议尽可能减少创建对象次数来优化性能，可以从外部传入一个复用的Point对象来存储结果，若不传入将创建一个新的Point对象返回。
+         * @returns 由应用矩阵转换所产生的点。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        transformPoint(pointX: number, pointY: number, resultPoint?: Point): Point;
+        /**
+         * @language en_US
+         * Translates the matrix along the x and y axes, as specified by the dx and dy parameters.
+         * @param dx The amount of movement along the x axis to the right, in pixels.
+         * @param dy The amount of movement down along the y axis, in pixels.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 沿 x 和 y 轴平移矩阵，由 dx 和 dy 参数指定。
+         * @param dx 沿 x 轴向右移动的量（以像素为单位）。
+         * @param dy 沿 y 轴向下移动的量（以像素为单位）。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        translate(dx: number, dy: number): void;
+        /**
+         * @language en_US
+         * Determines whether two matrixes are equal.
+         * @param other The matrix to be compared.
+         * @returns A value of true if the object is equal to this Matrix object; false if it is not equal.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 是否与另一个矩阵数据相等
+         * @param other 要比较的另一个矩阵对象。
+         * @returns 是否相等，ture表示相等。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        equals(other: Matrix): boolean;
+        /**
+         * @language en_US
+         * prepend matrix
+         * @param a The value that affects the positioning of pixels along the x axis when scaling or rotating an image.
+         * @param b The value that affects the positioning of pixels along the y axis when rotating or skewing an image.
+         * @param c The value that affects the positioning of pixels along the x axis when rotating or skewing an image.
+         * @param d The value that affects the positioning of pixels along the y axis when scaling or rotating an image..
+         * @param tx The distance by which to translate each point along the x axis.
+         * @param ty The distance by which to translate each point along the y axis.
+         * @returns matrix
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 前置矩阵
+         * @param a 缩放或旋转图像时影响像素沿 x 轴定位的值
+         * @param b 缩放或旋转图像时影响像素沿 y 轴定位的值
+         * @param c 缩放或旋转图像时影响像素沿 x 轴定位的值
+         * @param d 缩放或旋转图像时影响像素沿 y 轴定位的值
+         * @param tx 沿 x 轴平移每个点的距离
+         * @param ty 沿 y 轴平移每个点的距离
+         * @returns 矩阵自身
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        prepend(a: number, b: number, c: number, d: number, tx: number, ty: number): Matrix;
+        /**
+         * @language en_US
+         * append matrix
+         * @param a The value that affects the positioning of pixels along the x axis when scaling or rotating an image.
+         * @param b The value that affects the positioning of pixels along the y axis when rotating or skewing an image.
+         * @param c The value that affects the positioning of pixels along the x axis when rotating or skewing an image.
+         * @param d The value that affects the positioning of pixels along the y axis when scaling or rotating an image..
+         * @param tx The distance by which to translate each point along the x axis.
+         * @param ty The distance by which to translate each point along the y axis.
+         * @returns matrix
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 后置矩阵
+         * @param a 缩放或旋转图像时影响像素沿 x 轴定位的值
+         * @param b 缩放或旋转图像时影响像素沿 y 轴定位的值
+         * @param c 缩放或旋转图像时影响像素沿 x 轴定位的值
+         * @param d 缩放或旋转图像时影响像素沿 y 轴定位的值
+         * @param tx 沿 x 轴平移每个点的距离
+         * @param ty 沿 y 轴平移每个点的距离
+         * @returns 矩阵自身
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        append(a: number, b: number, c: number, d: number, tx: number, ty: number): Matrix;
+        /**
+         * @language en_US
+         * Given a point in the pretransform coordinate space, returns the coordinates of that point after the transformation occurs.
+         * Unlike the standard transformation applied using the transformPoint() method, the deltaTransformPoint() method's transformation does not consider the translation parameters tx and ty.
+         * @param point The point for which you want to get the result of the matrix transformation.
+         * @returns The point resulting from applying the matrix transformation.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 如果给定预转换坐标空间中的点，则此方法返回发生转换后该点的坐标。
+         * 与使用 transformPoint() 方法应用的标准转换不同，deltaTransformPoint() 方法的转换不考虑转换参数 tx 和 ty。
+         * @param point 想要获得其矩阵转换结果的点
+         * @returns 由应用矩阵转换所产生的点
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        deltaTransformPoint(point: Point): Point;
+        /**
+         * @language en_US
+         * Returns a text value listing the properties of the Matrix object.
+         * @returns A string containing the values of the properties of the Matrix object: a, b, c, d, tx, and ty.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 返回将 Matrix 对象表示的几何转换应用于指定点所产生的结果。
+         * @returns 一个字符串，它包含 Matrix 对象的属性值：a、b、c、d、tx 和 ty。
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        toString(): string;
+        /**
+         * @language en_US
+         * Includes parameters for scaling, rotation, and translation. When applied to a matrix it sets the matrix's values based on those parameters.
+         * @param scaleX The factor by which to scale horizontally.
+         * @param scaleY The factor by which scale vertically.
+         * @param rotation The amount to rotate, in radians.
+         * @param tx The number of pixels to translate (move) to the right along the x axis.
+         * @param ty The number of pixels to translate (move) down along the y axis.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 包括用于缩放、旋转和转换的参数。当应用于矩阵时，该方法会基于这些参数设置矩阵的值。
+         * @param scaleX 水平缩放所用的系数
+         * @param scaleY 垂直缩放所用的系数
+         * @param rotation 旋转量（以弧度为单位）
+         * @param tx 沿 x 轴向右平移（移动）的像素数
+         * @param ty 沿 y 轴向下平移（移动）的像素数
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        createBox(scaleX: number, scaleY: number, rotation?: number, tx?: number, ty?: number): void;
+        /**
+         * @language en_US
+         * Creates the specific style of matrix expected by the beginGradientFill() and lineGradientStyle() methods of the Graphics class.
+         * Width and height are scaled to a scaleX/scaleY pair and the tx/ty values are offset by half the width and height.
+         * @param width The width of the gradient box.
+         * @param height The height of the gradient box.
+         * @param rotation The amount to rotate, in radians.
+         * @param tx The distance, in pixels, to translate to the right along the x axis. This value is offset by half of the width parameter.
+         * @param ty The distance, in pixels, to translate down along the y axis. This value is offset by half of the height parameter.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 创建 Graphics 类的 beginGradientFill() 和 lineGradientStyle() 方法所需的矩阵的特定样式。
+         * 宽度和高度被缩放为 scaleX/scaleY 对，而 tx/ty 值偏移了宽度和高度的一半。
+         * @param width 渐变框的宽度
+         * @param height 渐变框的高度
+         * @param rotation 旋转量（以弧度为单位）
+         * @param tx 沿 x 轴向右平移的距离（以像素为单位）。此值将偏移 width 参数的一半
+         * @param ty 沿 y 轴向下平移的距离（以像素为单位）。此值将偏移 height 参数的一半
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        createGradientBox(width: number, height: number, rotation?: number, tx?: number, ty?: number): void;
+        /**
+         * @private
+         */
+        $transformBounds(bounds: Rectangle): void;
+        /**
+         * @private
+         */
+        private getDeterminant();
+        /**
+         * @private
+         */
+        $getScaleX(): number;
+        /**
+         * @private
+         */
+        $getScaleY(): number;
+        /**
+         * @private
+         */
+        $getSkewX(): number;
+        /**
+         * @private
+         */
+        $getSkewY(): number;
+        /**
+         * @private
+         */
+        $updateScaleAndRotation(scaleX: number, scaleY: number, skewX: number, skewY: number): void;
+        /**
+         * @private
+         * target = other * this
+         */
+        $preMultiplyInto(other: Matrix, target: Matrix): void;
+    }
+    /**
+     * @private
+     * 仅供框架内复用，要防止暴露引用到外部。
+     */
+    var $TempMatrix: Matrix;
 }
 declare module egret {
     /**
@@ -8735,6 +7573,18 @@ declare module egret.localStorage {
      */
     var clear: () => void;
 }
+declare module egret.sys {
+    /**
+     * @private
+     * @param channel
+     */
+    function $pushSoundChannel(channel: SoundChannel): void;
+    /**
+     * @private
+     * @param channel
+     */
+    function $popSoundChannel(channel: SoundChannel): boolean;
+}
 declare module egret {
     /**
      * @language en_US
@@ -8746,18 +7596,19 @@ declare module egret {
      * @event egret.IOErrorEvent.IO_ERROR Dispatch when the audio resource is failed to load
      * @version Egret 2.4
      * @platform Web,Native
-     * @includeExample egret/media/SoundExample.ts
+     * @includeExample egret/media/Sound.ts
      */
     /**
      * @language zh_CN
      * Sound 允许您在应用程序中使用声音。使用 Sound 类可以创建 Sound 对象、将外部音频文件加载到该对象并播放该文件。
      * 可通过 SoundChannel 对声音执行更精细的控制，如控制音量和监控播放进度。
+     * @see http://edn.egret.com/cn/docs/page/156 音频系统
      *
      * @event egret.Event.COMPLETE 音频加载完成时抛出
      * @event egret.IOErrorEvent.IO_ERROR 音频加载失败时抛出
      * @version Egret 2.4
      * @platform Web,Native
-     * @includeExample egret/media/SoundExample.ts
+     * @includeExample egret/media/Sound.ts
      */
     interface Sound extends EventDispatcher {
         /**
@@ -8877,20 +7728,20 @@ declare module egret {
      * The SoundChannel class contains a stop() method, properties for
      * set the volume of the channel
      *
-     * @event egret.Event.SOUND_COMPLETE Dispatch when a sound has finished playing
+     * @event egret.Event.SOUND_COMPLETE Dispatch when a sound has finished playing at last time
      * @version Egret 2.4
      * @platform Web,Native
-     * @includeExample examples/Samples/src/egret/media/SoundExample.ts
+     * @includeExample egret/media/Sound.ts
      */
     /**
     * @language zh_CN
      * SoundChannel 类控制应用程序中的声音。每个声音均分配给一个声道，而且应用程序可以具有混合在一起的多个声道。
      * SoundChannel 类包含 stop() 方法、用于设置音量和监视播放进度的属性。
      *
-     * @event egret.Event.SOUND_COMPLETE 音频播放完成时抛出
+     * @event egret.Event.SOUND_COMPLETE 音频最后一次播放完成时抛出
      * @version Egret 2.4
      * @platform Web,Native
-     * @includeExample examples/Samples/src/egret/media/SoundExample.ts
+     * @includeExample egret/media/Sound.ts
     */
     interface SoundChannel extends IEventDispatcher {
         /**
@@ -8948,24 +7799,25 @@ declare module egret {
      *
      * @event egret.Event.COMPLETE Dispatch when the video resource is loaded and ready to play
      * @event egret.Event.ENDED Dispatch when the video playback ended
-     * @event egret.Event.IO_ERROR when the video is failed to load
+     * @event egret.IOErrorEvent.IO_ERROR when the video is failed to load
      * @version Egret 2.4
-     * @platform Web,Native
-     * @includeExample egret/media/VideoExample.ts
+     * @platform Web
+     * @includeExample egret/media/Video.ts
      */
     /**
      * @language zh_CN
      * Video 允许您在应用程序中使用视频。使用 Video 类可以创建 Video 对象、将外部视频文件加载到该对象并播放该文件。<br/>
      * 注意: 在大多数移动设备中，视频是强制全屏播放的，所以你可以直接调用 play() 方法全屏播放视频，不用将它绘制在Stage中。
+     * @see http://edn.egret.com/cn/index.php/article/index/id/657 视频系统
      *
      * @param url 要播放的视频的URL，如果url不为空，Video会立即加载这个视频
      *
      * @event egret.Event.COMPLETE 视频加载完成时抛出
      * @event egret.Event.ENDED 视频播放完成时抛出
-     * @event egret.Event.IO_ERROR 视频加载失败市触发
+     * @event egret.IOErrorEvent.IO_ERROR 视频加载失败时触发
      * @version Egret 2.4
-     * @platform Web,Native
-     * @includeExample egret/media/VideoExample.ts
+     * @platform Web
+     * @includeExample egret/media/Video.ts
      */
     interface Video extends DisplayObject {
         /**
@@ -8973,14 +7825,14 @@ declare module egret {
          * Initiates loading of an external video file from the specified URL.
          * @param url Audio file URL
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         /**
          * @language zh_CN
          * 启动从指定 URL 加载外部视频文件的过程。
          * @param url 需要加载的视频文件URL
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         load(url: string): void;
         /**
@@ -8990,7 +7842,7 @@ declare module egret {
          * @param loop Defines should play the video again when the video is ended. (default = false)
          * @param fullscreen Defines should play the video in fullscreen mode. (default = false)
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         /**
          * @language zh_CN
@@ -8999,72 +7851,74 @@ declare module egret {
          * @param loop 是否需要循环播放，默认值是 false
          * @param fullscreen 是否需要全屏播放，默认值是 false
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         play(startTime?: number, loop?: boolean): any;
         /**
          * @language en_US
          * Closes the stream, causing any download of data to cease
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         /**
          * @language zh_CN
          * 关闭该流，从而停止所有数据的下载。
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         close(): void;
         /**
          * @language en_US
          * The URL of the video you want to play.
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         /**
          * @language zh_CN
          * 想要播放的视频的URL
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         src: string;
         /**
          * @language en_US
          * The URL of an image you want to display before the video is loaded or video cannot been draw on the canvas on some mobile device.
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         /**
          * @language zh_CN
          * 视频加载前，或者在不支持将 video 画在 canvas 的设备上，想要显示的视频截图地址。
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         poster: string;
         /**
          * @language en_US
          * Should play the video in fullscreen mode (default = true).
+         * Currently only supports full-screen mobile terminal web.
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         /**
          * @language zh_CN
          * 是否全屏播放这个视频（默认值是 true）。
+         * 目前移动端 web 只支持全屏。
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         fullscreen: boolean;
         /**
          * @language en_US
          * The volume, ranging from 0 (silent) to 1 (full volume).
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         /**
          * @language zh_CN
          * 音量范围从 0（静音）至 1（最大音量）。
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         volume: number;
         /**
@@ -9072,26 +7926,26 @@ declare module egret {
          * When the video is playing, the position property indicates
          * in seconds the current point that is being played in the video file.
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         /**
          * @language zh_CN
          * 当播放视频时，position 属性表示视频文件中当前播放的位置（以秒为单位）
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         position: number;
         /**
          * @language en_US
          * Pause the video playing.
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         /**
          * @language zh_CN
          * 暂停播放。
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         pause(): void;
         /**
@@ -9100,16 +7954,31 @@ declare module egret {
          * Note: On most mobile device, the video is playback in the full screen mode.
          * So you can just use the play() method instead of draw it on the Stage
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         /**
          * @language zh_CN
          *  获取视频的 bitmapData, 你可以将视频绘制到舞台上。
          * 注意： 在大多数移动设备中，视频是全屏播放的，所以你可以直接调用 play() 方法全屏播放视频，不用将它绘制在Stage中。
          * @version Egret 2.4
-         * @platform Web,Native
+         * @platform Web
          */
         bitmapData: BitmapData;
+        /**
+         * @language en_US
+         * Whether current video is paused.
+         * @version Egret 2.4
+         * @platform Web
+         * @readOnly
+         */
+        /**
+         * @language zh_CN
+         * 当前视频是否在暂停状态。
+         * @version Egret 2.4
+         * @platform Web
+         * @readOnly
+         */
+        paused: boolean;
     }
     /**
      * @copy egret.Video
@@ -9117,13 +7986,6 @@ declare module egret {
     var Video: {
         new (): Video;
     };
-}
-declare module egret.native {
-    /**
-     * @private
-     * 转换 Image，Canvas，Video 为 Egret 框架内使用的 BitmapData 对象。
-     */
-    function toBitmapData(data: any): BitmapData;
 }
 declare module egret_native {
     var nativeType: string;
@@ -9134,6 +7996,9 @@ declare module egret_native {
     function startGame(): void;
     function loglevel(logType: any): void;
     function callRender(): void;
+    function getVersion(): any;
+    function setScreenCanvas(canvas: Canvas): void;
+    function setFrameRate(frameRate: number): void;
     function onTouchesBegin(num: number, ids: Array<any>, xs_array: Array<any>, ys_array: Array<any>): any;
     function onTouchesMove(num: number, ids: Array<any>, xs_array: Array<any>, ys_array: Array<any>): any;
     function onTouchesEnd(num: number, ids: Array<any>, xs_array: Array<any>, ys_array: Array<any>): any;
@@ -9147,13 +8012,14 @@ declare module egret_native {
     function pauseApp(): void;
     function resumeApp(): void;
     function readXML(filepath: string): any;
+    function xmlStr2JsonStr(text: string): any;
     function isFileExists(filepath: string): boolean;
     function isRecordExists(filepath: string): boolean;
-    function readFileSync(filepath: string): any;
+    function readFileSync(filepath: string, type?: string): any;
     function readResourceFileSync(filepath: string): any;
     function readUpdateFileSync(filepath: string): any;
     function deleteUpdateFile(filepath: string): void;
-    function readFileAsync(filepath: string, promise: egret.PromiseObject): any;
+    function readFileAsync(filepath: string, promise: egret.PromiseObject, type?: string): any;
     function writeFileSync(filepath: string, fileContent: string): any;
     function requireHttpSync(url: string, callback: Function): void;
     function requireHttp(url: string, param: any, callback: Function): void;
@@ -9165,6 +8031,10 @@ declare module egret_native {
     module Audio {
         function preloadBackgroundMusic(path: string): void;
         function playBackgroundMusic(path: string, loop: boolean): void;
+        function setBackgroundMusicVolume(value: number): void;
+        function setEffectsVolume(value: number): void;
+        function getBackgroundMusicVolume(): number;
+        function getEffectsVolume(): number;
         function stopBackgroundMusic(isRelease: boolean): void;
         function preloadEffect(path: string): void;
         function preloadEffectAsync(path: string, promise: egret.PromiseObject): void;
@@ -9231,6 +8101,9 @@ declare module egret_native {
         function setVisibleRect(x: number, y: number, w: number, h: number): number;
         function setDesignSize(w: number, h: number): number;
     }
+    /**
+     * @private
+     */
     class RenderTexture {
         constructor(width: number, height: number);
         begin(): any;
@@ -9261,14 +8134,26 @@ declare module egret_native {
         function restore(): void;
         function createLinearGradient(x0: number, y0: number, x1: number, y1: number): CanvasGradient;
         function createRadialGradient(x0: number, y0: number, r0: number, x1: number, y1: number, r1: number): CanvasGradient;
+        /**
+         * @private
+         */
         var lineWidth: number;
+        /**
+         * @private
+         */
         var strokeStyle: any;
+        /**
+         * @private
+         */
         var fillStyle: any;
     }
     module Game {
         function listResource(root: any, promise: any): any;
         function listUpdate(root: any, promise: any): any;
     }
+    /**
+     * @private
+     */
     class RenderContext {
         clearScreen(r: number, g: number, b: number): void;
         drawImage(texture: any, sourceX: any, sourceY: any, sourceWidth: any, sourceHeight: any, destX: any, destY: any, destWidth: any, destHeight: any): void;
@@ -9277,6 +8162,9 @@ declare module egret_native {
         pushClip(x: number, y: number, w: number, h: number): void;
         popClip(): void;
     }
+    /**
+     * @private
+     */
     class Canvas {
         constructor(width: number, height: number);
         width: number;
@@ -9329,6 +8217,16 @@ declare module egret {
          * @version Egret 2.4
          * @platform Web,Native
          */
+        onResponseHeaderFunc: Function;
+        /**
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        onResponseHeaderThisObject: any;
+        /**
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
         constructor();
         /**
          *
@@ -9354,6 +8252,12 @@ declare module egret {
          * @param args
          */
         private downloadingSize(...args);
+        /**
+         * @private
+         *
+         * @param args
+         */
+        private onResponseHeader(...args);
         /**
          * @private
          *
@@ -9650,7 +8554,7 @@ declare module egret {
      * The Loader class is used to load image (JPG, PNG, or GIF) files. Use the load() method to initiate loading.
      * The loaded image data is in the data property of ImageLoader.
      * @event egret.Event.COMPLETE Dispatched when the net request is complete.
-     * @event egret.Event.IO_ERROR Dispatched when the net request is failed.
+     * @event egret.IOErrorEvent.IO_ERROR Dispatched when the net request is failed.
      * @see egret.HttpRequest
      * @version Egret 2.4
      * @platform Web,Native
@@ -9660,7 +8564,7 @@ declare module egret {
      * @language zh_CN
      * ImageLoader 类可用于加载图像（JPG、PNG 或 GIF）文件。使用 load() 方法来启动加载。被加载的图像对象数据将存储在 ImageLoader.data 属性上 。
      * @event egret.Event.COMPLETE 加载完成
-     * @event egret.Event.IO_ERROR 加载失败
+     * @event egret.IOErrorEvent.IO_ERROR 加载失败
      * @see egret.HttpRequest
      * @version Egret 2.4
      * @platform Web,Native
@@ -9730,19 +8634,217 @@ declare module egret {
      * @platform Web,Native
      */
     var ImageLoader: {
+        /**
+         * @language en_US
+         * constructor
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 构造函数
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
         new (): ImageLoader;
+        /**
+         * @language en_US
+         * Specifies whether to enable cross-origin resource sharing, If ImageLoader instance has been set crossOrigin property will be used to set the property.
+         * @version Egret 2.5.7
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 指定是否启用跨域资源共享,如果ImageLoader实例有设置过crossOrigin属性将使用设置的属性
+         * @version Egret 2.5.7
+         * @platform Web,Native
+         */
+        crossOrigin: string;
     };
+}
+declare module egret.sys {
+    /**
+     * @private
+     * 脏矩形计算工具类
+     */
+    class DirtyRegion {
+        constructor(root: DisplayObject);
+        /**
+         * @private
+         */
+        private root;
+        /**
+         * @private
+         */
+        private dirtyList;
+        /**
+         * @private
+         */
+        private hasClipRect;
+        /**
+         * @private
+         */
+        private clipWidth;
+        /**
+         * @private
+         */
+        private clipHeight;
+        /**
+         * @private
+         */
+        private clipArea;
+        /**
+         * @private
+         */
+        private clipRectChanged;
+        /**
+         * @private
+         * 设置剪裁边界，超过边界的节点将跳过绘制。
+         */
+        setClipRect(width: number, height: number): void;
+        /**
+         * @private
+         * 添加一个脏矩形区域，返回是否添加成功，当矩形为空或者在屏幕之外时返回false。
+         */
+        addRegion(target: Region): boolean;
+        /**
+         * @private
+         */
+        clear(): void;
+        /**
+         * @private
+         * 获取最终的脏矩形列表
+         */
+        getDirtyRegions(): Region[];
+        /**
+         * @private
+         * 合并脏矩形列表
+         */
+        private mergeDirtyList(dirtyList);
+        private $dirtyRegionPolicy;
+        setDirtyRegionPolicy(policy: string): void;
+    }
+}
+declare module egret.sys {
+    /**
+     * @private
+     * 显示列表
+     */
+    class DisplayList extends HashObject implements sys.Renderable {
+        /**
+         * 创建一个DisplayList对象，若内存不足或无法创建RenderBuffer，将会返回null。
+         */
+        static create(target: DisplayObject): DisplayList;
+        /**
+         * @private
+         * 创建一个DisplayList对象
+         */
+        constructor(root: DisplayObject);
+        private isStage;
+        /**
+         * 位图渲染节点
+         */
+        $renderNode: RenderNode;
+        /**
+         * @private
+         * 获取渲染节点
+         */
+        $getRenderNode(): sys.RenderNode;
+        /**
+         * @private
+         * 更新对象在舞台上的显示区域和透明度,返回显示区域是否发生改变。
+         */
+        $update(): boolean;
+        /**
+         * @private
+         */
+        renderBuffer: RenderBuffer;
+        /**
+         * @private
+         */
+        offsetX: number;
+        /**
+         * @private
+         */
+        offsetY: number;
+        /**
+         * @private
+         */
+        private offsetMatrix;
+        /**
+         * @private
+         * 显示列表根节点
+         */
+        root: DisplayObject;
+        /**
+         * @private
+         */
+        isDirty: boolean;
+        needUpdateRegions: boolean;
+        /**
+         * @private
+         * 设置剪裁边界，不再绘制完整目标对象，画布尺寸由外部决定，超过边界的节点将跳过绘制。
+         */
+        setClipRect(width: number, height: number): void;
+        /**
+         * @private
+         * 显示对象的渲染节点发生改变时，把自身的IRenderable对象注册到此列表上。
+         */
+        private dirtyNodes;
+        /**
+         * @private
+         */
+        private dirtyNodeList;
+        /**
+         * @private
+         * 标记一个节点需要重新渲染
+         */
+        markDirty(node: Renderable): void;
+        /**
+         * @private
+         */
+        private dirtyList;
+        /**
+         * @private
+         */
+        private dirtyRegion;
+        /**
+         * @private
+         * 更新节点属性并返回脏矩形列表。
+         */
+        updateDirtyRegions(): Region[];
+        /**
+         * @private
+         * 绘制根节点显示对象到目标画布，返回draw的次数。
+         */
+        drawToSurface(): number;
+        /**
+         * @private
+         */
+        private sizeChanged;
+        /**
+         * @private
+         * 改变画布的尺寸，由于画布尺寸修改会清空原始画布。所以这里将原始画布绘制到一个新画布上，再与原始画布交换。
+         */
+        changeSurfaceSize(): void;
+        setDirtyRegionPolicy(policy: string): void;
+    }
 }
 declare module egret {
     /**
      * @language en_US
      * egret project entry function
+     * @param options An object containing the initialization properties for egret engine.
      */
     /**
      * @language zh_CN
      * egret工程入口函数
+     * @param options 一个可选对象，包含初始化Egret引擎需要的参数。
      */
-    function runEgret(): void;
+    function runEgret(options?: {
+        renderMode?: string;
+        screenAdapter?: sys.IScreenAdapter;
+    }): void;
     /**
      * @language en_US
      * Refresh the screen display
@@ -9752,96 +8854,6 @@ declare module egret {
      * 刷新屏幕显示
      */
     function updateAllScreens(): void;
-}
-declare module egret.sys {
-    /**
-     * @private
-     * 屏幕适配器接口，当播放器视口尺寸改变时，屏幕适配器将被用于计算当前对应的舞台显示尺寸。
-     */
-    interface IScreenAdapter {
-        /**
-         * @private
-         * 计算舞台显示尺寸
-         * @param scaleMode 当前的缩放模式
-         * @param screenWidth 播放器视口宽度
-         * @param screenHeight 播放器视口高度
-         * @param contentWidth 初始化内容宽度
-         * @param contentHeight 初始化内容高度
-         */
-        calculateStageSize(scaleMode: string, screenWidth: number, screenHeight: number, contentWidth: number, contentHeight: number): StageDisplaySize;
-    }
-    /**
-     * @private
-     * 舞台显示尺寸数据
-     */
-    interface StageDisplaySize {
-        /**
-         * @private
-         * 舞台宽度
-         */
-        stageWidth: number;
-        /**
-         * @private
-         * 舞台高度
-         */
-        stageHeight: number;
-        /**
-         * @private
-         * 显示宽度，若跟舞台宽度不同，将会产生缩放。
-         */
-        displayWidth: number;
-        /**
-         * @private
-         * 显示高度，若跟舞台高度不同，将会产生缩放。
-         */
-        displayHeight: number;
-    }
-}
-declare module egret.sys {
-    /**
-     *
-     * @param value
-     * @returns
-     * @version Egret 2.4
-     * @platform Web,Native
-     */
-    function isUndefined(value: any): boolean;
-    /**
-     *
-     * @param value
-     * @returns
-     * @version Egret 2.4
-     * @platform Web,Native
-     */
-    function getNumber(value: number): number;
-}
-declare module egret {
-    /**
-     * @private
-     * OrientationMode 类为舞台初始旋转模式提供值。
-     */
-    class OrientationMode {
-        /**
-         * @private
-         * 适配屏幕
-         */
-        static AUTO: string;
-        /**
-         * @private
-         * 默认竖屏
-         */
-        static PORTRAIT: string;
-        /**
-         * @private
-         * 默认横屏，舞台顺时针旋转90度
-         */
-        static LANDSCAPE: string;
-        /**
-         * @private
-         * 默认横屏，舞台逆时针旋转90度
-         */
-        static LANDSCAPE_FLIPPED: string;
-    }
 }
 declare module egret.sys {
     var $TempStage: egret.Stage;
@@ -9854,11 +8866,11 @@ declare module egret.sys {
          * @private
          * 实例化一个播放器对象。
          */
-        constructor(context: RenderContext, stage: Stage, entryClassName: string);
+        constructor(buffer: RenderBuffer, stage: Stage, entryClassName: string);
         /**
          * @private
          */
-        private createDisplayList(stage, context);
+        private createDisplayList(stage, buffer);
         /**
          * @private
          */
@@ -9906,7 +8918,7 @@ declare module egret.sys {
          * @private
          * 渲染屏幕
          */
-        $render(triggerByFrame: boolean): void;
+        $render(triggerByFrame: boolean, costTicker: number): void;
         /**
          * @private
          *
@@ -9923,10 +8935,10 @@ declare module egret.sys {
          * @param stageWidth 舞台宽度（以像素为单位）
          * @param stageHeight 舞台高度（以像素为单位）
          */
-        updateStageSize(stageWidth: number, stageHeight: number, pixelRatio?: number): void;
+        updateStageSize(stageWidth: number, stageHeight: number): void;
         /**
          * @private
-         * 显示FPS，仅在DEBUG模式下有效。
+         * 显示FPS。
          */
         displayFPS: (showFPS: boolean, showLog: boolean, logFilter: string, fpsStyles: Object) => void;
         /**
@@ -9943,7 +8955,7 @@ declare module egret.sys {
         private fpsDisplay;
         /**
          * @private
-         * 是否显示脏矩形重绘区，仅在DEBUG模式下有效。
+         * 是否显示脏矩形重绘区。
          */
         showPaintRect: (value: boolean) => void;
         /**
@@ -10033,37 +9045,188 @@ declare module egret.sys {
     /**
      * @private
      */
+    class Region {
+        /**
+         * @private
+         * 释放一个Region实例到对象池
+         */
+        static release(region: Region): void;
+        /**
+         * @private
+         * 从对象池中取出或创建一个新的Region对象。
+         * 建议对于一次性使用的对象，均使用此方法创建，而不是直接new一个。
+         * 使用完后调用对应的release()静态方法回收对象，能有效减少对象创建数量造成的性能开销。
+         */
+        static create(): Region;
+        /**
+         * @private
+         */
+        minX: number;
+        /**
+         * @private
+         */
+        minY: number;
+        /**
+         * @private
+         */
+        maxX: number;
+        /**
+         * @private
+         */
+        maxY: number;
+        /**
+         * @private
+         */
+        width: number;
+        /**
+         * @private
+         */
+        height: number;
+        /**
+         * @private
+         */
+        area: number;
+        /**
+         * @private
+         * 是否发生移动
+         */
+        moved: boolean;
+        /**
+         * @private
+         */
+        setTo(minX: number, minY: number, maxX: number, maxY: number): Region;
+        /**
+         * @private
+         */
+        updateArea(): void;
+        /**
+         * @private
+         * 注意！由于性能优化，此方法不判断自身是否为空，必须在外部确认自身和目标区域都不为空再调用合并。否则结果始终从0，0点开始。
+         */
+        union(target: Region): void;
+        /**
+         * @private
+         * 注意！由于性能优化，此方法不判断自身是否为空，必须在外部确认自身和目标区域都不为空再调用合并。否则结果始终从0，0点开始。
+         */
+        intersect(target: Region): void;
+        /**
+         * @private
+         */
+        private setEmpty();
+        /**
+         * @private
+         * 确定此 Region 对象是否为空。
+         */
+        isEmpty(): boolean;
+        /**
+         * @private
+         */
+        intersects(target: Region): boolean;
+        /**
+         * @private
+         */
+        updateRegion(bounds: Rectangle, matrix: Matrix): void;
+    }
+}
+declare module egret.sys {
+    /**
+     * 共享的用于碰撞检测的渲染缓冲
+     */
+    var hitTestBuffer: sys.RenderBuffer;
+    /**
+     * @private
+     * 渲染缓冲
+     */
+    interface RenderBuffer {
+        /**
+         * 呈现最终绘图结果的画布。
+         * @readOnly
+         */
+        surface: any;
+        /**
+         * 渲染上下文。
+         * @readOnly
+         */
+        context: any;
+        /**
+         * 渲染缓冲的宽度，以像素为单位。
+         * @readOnly
+         */
+        width: number;
+        /**
+         * 渲染缓冲的高度，以像素为单位。
+         * @readOnly
+         */
+        height: number;
+        /**
+         * 改变渲染缓冲的大小并清空缓冲区
+         * @param width 改变后的宽
+         * @param height 改变后的高
+         * @param useMaxSize 若传入true，则将改变后的尺寸与已有尺寸对比，保留较大的尺寸。
+         */
+        resize(width: number, height: number, useMaxSize?: boolean): void;
+        /**
+         * 改变渲染缓冲为指定大小，但保留原始图像数据
+         * @param width 改变后的宽
+         * @param height 改变后的高
+         * @param offsetX 原始图像数据在改变后缓冲区的绘制起始位置x
+         * @param offsetY 原始图像数据在改变后缓冲区的绘制起始位置y
+         */
+        resizeTo(width: number, height: number, offsetX: number, offsetY: number): void;
+        /**
+         * 清空并设置裁切区域
+         * @param regions 矩形列表
+         * @param offsetX 矩形偏移量x
+         * @param offsetY 矩形偏移量y
+         */
+        beginClip(regions: sys.Region[], offsetX?: number, offsetY?: number): void;
+        /**
+         * 取消上一次设置的clip。
+         */
+        endClip(): void;
+        /**
+         * 获取指定坐标的像素
+         */
+        getPixel(x: number, y: number): number[];
+        /**
+         * 转换成base64字符串，如果图片（或者包含的图片）跨域，则返回null
+         * @param type 转换的类型，如: "image/png","image/jpeg"
+         */
+        toDataURL(type?: string, ...args: any[]): string;
+        /**
+         * 清空缓冲区数据
+         */
+        clear(): void;
+        /**
+         * 销毁渲染缓冲
+         */
+        destroy(): void;
+    }
+    var RenderBuffer: {
+        /**
+         * 创建一个RenderTarget。
+         * 注意：若内存不足或创建缓冲区失败，将会抛出错误异常。
+         * @param width 渲染缓冲的初始宽
+         * @param height 渲染缓冲的初始高
+         */
+        new (width?: number, height?: number): RenderBuffer;
+    };
+}
+declare module egret.sys {
+    /**
+     * @private
+     */
     interface Renderable extends HashObject {
         /**
-         * @private
-         * 是否需要重绘的标志
+         * 获取渲染节点
          */
-        $isDirty: boolean;
-        /**
-         * @private
-         * 在舞台上的透明度
-         */
-        $renderAlpha: number;
-        /**
-         * @private
-         * 在舞台上的矩阵对象
-         */
-        $renderMatrix: Matrix;
-        /**
-         * @private
-         * 在屏幕上的显示区域
-         */
-        $renderRegion: Region;
+        $getRenderNode(): RenderNode;
         /**
          * @private
          * 更新对象在舞台上的显示区域和透明度,返回显示区域是否发生改变。
+         * 注意：此方法必须在$getRenderNode()被调用之后执行。
          */
         $update(): boolean;
-        /**
-         * @private
-         * 执行绘制
-         */
-        $render(context: RenderContext): void;
     }
 }
 declare module egret.sys {
@@ -10082,9 +9245,56 @@ declare module egret.sys {
          * 更新触摸数量
          */
         updateMaxTouches(): any;
+        /**
+         * @private
+         * 设置分辨率尺寸
+         */
+        setContentSize(width: number, height: number): any;
     }
 }
 declare module egret.sys {
+    /**
+     * @private
+     * 屏幕适配器接口，当播放器视口尺寸改变时，屏幕适配器将被用于计算当前对应的舞台显示尺寸。
+     */
+    interface IScreenAdapter {
+        /**
+         * @private
+         * 计算舞台显示尺寸
+         * @param scaleMode 当前的缩放模式
+         * @param screenWidth 播放器视口宽度
+         * @param screenHeight 播放器视口高度
+         * @param contentWidth 初始化内容宽度
+         * @param contentHeight 初始化内容高度
+         */
+        calculateStageSize(scaleMode: string, screenWidth: number, screenHeight: number, contentWidth: number, contentHeight: number): StageDisplaySize;
+    }
+    /**
+     * @private
+     * 舞台显示尺寸数据
+     */
+    interface StageDisplaySize {
+        /**
+         * @private
+         * 舞台宽度
+         */
+        stageWidth: number;
+        /**
+         * @private
+         * 舞台高度
+         */
+        stageHeight: number;
+        /**
+         * @private
+         * 显示宽度，若跟舞台宽度不同，将会产生缩放。
+         */
+        displayWidth: number;
+        /**
+         * @private
+         * 显示高度，若跟舞台高度不同，将会产生缩放。
+         */
+        displayHeight: number;
+    }
     /**
      * @private
      * 屏幕适配器实例，开发者可以通过给这个变量赋值实现了IScreenAdapter接口的实例，从而注入自定义的屏幕适配器。
@@ -10094,7 +9304,7 @@ declare module egret.sys {
      * @private
      * 屏幕适配器默认实现，开发者可以实现自定义规则的屏幕适配器。并在初始化加载时将适配器的实例赋值给egret.sys.screenAdapter上，从而替换掉默认适配器。
      */
-    class ScreenAdapter extends HashObject implements IScreenAdapter {
+    class DefaultScreenAdapter extends HashObject implements IScreenAdapter {
         /**
          * @private
          */
@@ -10193,49 +9403,55 @@ declare module egret {
          * 在此模式下，舞台高度(Stage.stageHeight)始终等于初始化时外部传入的应用程序内容高度。舞台宽度(Stage.stageWidth)由当前的缩放比例与播放器视口宽度决定。
          */
         static FIXED_HEIGHT: string;
+        /**
+         * @language en_US
+         * Keep the original aspect ratio scaling application content, after scaling application content in the horizontal and vertical directions to fill the viewport player,a narrow direction may not be wide enough and fill.<br/>
+         * In this mode, the stage height (Stage.stageHeight) and the stage width (Stage.stageWidth) by the current scale with the player viewport size.
+         */
+        /**
+         * @language zh_CN
+         * 保持原始宽高比缩放应用程序内容，缩放后应用程序内容在水平和垂直方向都填满播放器视口，应用程序内容的较窄方向可能会不够宽而填充。<br/>
+         * 在此模式下，舞台高度(Stage.stageHeight)和舞台宽度(Stage.stageWidth)由当前的缩放比例与播放器视口宽高决定。
+         */
+        static FIXED_NARROW: string;
+        /**
+         * @language en_US
+         * Keep the original aspect ratio scaling application content, after scaling application content in the horizontal and vertical directions to fill the viewport player, a wide direction may exceed the viewport and the player is cut.<br/>
+         * In this mode, the stage height (Stage.stageHeight) and the stage width (Stage.stageWidth) by the current scale with the player viewport size.
+         */
+        /**
+         * @language zh_CN
+         * 保持原始宽高比缩放应用程序内容，缩放后应用程序内容在水平和垂直方向都填满播放器视口，应用程序内容的较宽方向的两侧可能会超出播放器视口而被裁切。<br/>
+         * 在此模式下，舞台高度(Stage.stageHeight)和舞台宽度(Stage.stageWidth)由当前的缩放比例与播放器视口宽高决定。
+         */
+        static FIXED_WIDE: string;
     }
 }
 declare module egret.sys {
+    var systemRenderer: SystemRenderer;
     /**
      * @private
-     * 呈现最终绘图结果的画布
+     * 显示渲染器接口
      */
-    interface Surface extends BitmapData {
+    interface SystemRenderer {
         /**
-         * @private
-         * 绘图上下文
+         * 渲染一个显示对象
+         * @param displayObject 要渲染的显示对象
+         * @param buffer 渲染缓冲
+         * @param matrix 要对显示对象整体叠加的变换矩阵
+         * @param dirtyList 脏矩形列表
+         * @param forRenderTexture 绘制目标是RenderTexture的标志
+         * @returns drawCall触发绘制的次数
          */
-        renderContext: RenderContext;
-        toDataURL(type?: string, ...args: any[]): string;
-    }
-}
-declare module egret.sys {
-    /**
-     * @private
-     * 全局共享的RenderContext。通常用于交换缓存，测量文本或创建填充对象。
-     */
-    var sharedRenderContext: sys.RenderContext;
-    /**
-     * @private
-     * surfaceFactory实例
-     */
-    var surfaceFactory: SurfaceFactory;
-    /**
-     * @private
-     */
-    interface SurfaceFactory {
+        render(displayObject: DisplayObject, buffer: RenderBuffer, matrix: Matrix, dirtyList?: Region[], forRenderTexture?: boolean): number;
         /**
-         * @private
-         * 从对象池取出或创建一个新的Surface实例
-         * @param useOnce 表示对取出实例的使用是一次性的，用完后立即会释放。
+         * 将一个RenderNode对象绘制到渲染缓冲
+         * @param node 要绘制的节点
+         * @param buffer 渲染缓冲
+         * @param matrix 要叠加的矩阵
+         * @param forHitTest 绘制结果是用于碰撞检测。若为true，当渲染GraphicsNode时，会忽略透明度样式设置，全都绘制为不透明的。
          */
-        create(useOnce?: boolean): Surface;
-        /**
-         * @private
-         * 释放一个Surface实例
-         * @param surface 要释放的Surface实例
-         */
-        release(surface: Surface): void;
+        drawNodeToBuffer(node: sys.RenderNode, buffer: RenderBuffer, matrix: Matrix, forHitTest?: boolean): void;
     }
 }
 declare module egret.sys {
@@ -10321,6 +9537,11 @@ declare module egret.sys {
         private lastCount;
         /**
          * @private
+         * ticker 花销的时间
+         */
+        private costEnterFrame;
+        /**
+         * @private
          * 执行一次刷新
          */
         update(): void;
@@ -10328,7 +9549,7 @@ declare module egret.sys {
          * @private
          * 执行一次屏幕渲染
          */
-        private render(triggerByFrame);
+        private render(triggerByFrame, costTicker);
         /**
          * @private
          * 广播EnterFrame事件。
@@ -10410,13 +9631,542 @@ declare module egret.sys {
         private findTarget(stageX, stageY);
     }
 }
+declare module egret.sys {
+    /**
+     * @private
+     * 渲染节点类型
+     */
+    const enum RenderNodeType {
+        /**
+         * 位图渲染节点
+         */
+        BitmapNode = 1,
+        /**
+         * 文本渲染节点
+         */
+        TextNode = 2,
+        /**
+         * 矢量渲染节点
+         */
+        GraphicsNode = 3,
+        /**
+         * 组渲染节点
+         */
+        GroupNode = 4,
+        /**
+         * 设置矩阵节点
+         */
+        SetTransformNode = 5,
+        /**
+         * 设置透明度节点
+         */
+        SetAlphaNode = 6,
+    }
+    /**
+     * @private
+     * 渲染节点基类
+     */
+    class RenderNode {
+        /**
+         * 节点类型..
+         */
+        type: number;
+        /**
+         * 是否需要重绘的标志。
+         */
+        needRedraw: boolean;
+        /**
+         * 这个对象在舞台上的整体透明度
+         */
+        renderAlpha: number;
+        /**
+         * 这个对象在舞台上的透明度
+         */
+        renderVisible: boolean;
+        /**
+         * 相对于显示列表根节点或位图缓存根节点上的矩阵对象
+         */
+        renderMatrix: Matrix;
+        /**
+         * 此显示对象自身（不包括子项）在显示列表根节点或位图缓存根节点上的显示尺寸。
+         */
+        renderRegion: sys.Region;
+        /**
+         * 是否发生移动
+         */
+        moved: boolean;
+        /**
+         * 绘制数据
+         */
+        drawData: any[];
+        /**
+         * 绘制次数
+         */
+        protected renderCount: number;
+        /**
+         * 在显示对象的$render()方法被调用前，自动清空自身的drawData数据。
+         */
+        cleanBeforeRender(): void;
+        $getRenderCount(): number;
+    }
+}
+declare module egret.sys {
+    /**
+     * @private
+     * 位图渲染节点
+     */
+    class BitmapNode extends RenderNode {
+        constructor();
+        /**
+         * 要绘制的位图
+         */
+        image: BitmapData;
+        /**
+         * 控制在缩放时是否对位图进行平滑处理。
+         */
+        smoothing: boolean;
+        /**
+         * 绘制一次位图
+         */
+        drawImage(sourceX: number, sourceY: number, sourceW: number, sourceH: number, drawX: number, drawY: number, drawW: number, drawH: number): void;
+        /**
+         * 在显示对象的$render()方法被调用前，自动清空自身的drawData数据。
+         */
+        cleanBeforeRender(): void;
+    }
+}
+declare module egret.sys {
+    /**
+     * @private
+     * 矢量渲染节点
+     */
+    class GraphicsNode extends RenderNode {
+        constructor();
+        /**
+         * 指定一种简单的单一颜色填充，在绘制时该填充将在随后对其他 Graphics 方法（如 lineTo() 或 drawCircle()）的调用中使用。
+         * @param color 填充的颜色
+         * @param alpha 填充的 Alpha 值
+         * @param beforePath 插入在指定的路径命令之前绘制，通常是插入到当前正在绘制的线条路径之前，以确保线条总在填充的上方。
+         */
+        beginFill(color: number, alpha?: number, beforePath?: Path2D): Path2D;
+        /**
+         * 指定一种简单的单一颜色填充，在绘制时该填充将在随后对其他 Graphics 方法（如 lineTo() 或 drawCircle()）的调用中使用。
+         * 调用 clear() 方法会清除填充。
+         * @param type 用于指定要使用哪种渐变类型的 GradientType 类的值：GradientType.LINEAR 或 GradientType.RADIAL。
+         * @param colors 渐变中使用的 RGB 十六进制颜色值的数组（例如，红色为 0xFF0000，蓝色为 0x0000FF，等等）。对于每种颜色，请在 alphas 和 ratios 参数中指定对应值。
+         * @param alphas colors 数组中对应颜色的 alpha 值数组。
+         * @param ratios 颜色分布比率的数组。有效值为 0 到 255。
+         * @param matrix 一个由 egret.Matrix 类定义的转换矩阵。egret.Matrix 类包括 createGradientBox() 方法，通过该方法可以方便地设置矩阵，以便与 beginGradientFill() 方法一起使用
+         * @param beforePath 插入在指定的路径命令之前绘制，通常是插入到当前正在绘制的线条路径之前，以确保线条总在填充的上方。
+         */
+        beginGradientFill(type: string, colors: number[], alphas: number[], ratios: number[], matrix?: egret.Matrix, beforePath?: Path2D): Path2D;
+        /**
+         * 指定一种线条样式以用于随后对 lineTo() 或 drawCircle() 等 Graphics 方法的调用。
+         * @param thickness 一个整数，以点为单位表示线条的粗细，有效值为 0 到 255。如果未指定数字，或者未定义该参数，则不绘制线条。如果传递的值小于 0，则默认值为 0。值 0 表示极细的粗细；最大粗细为 255。如果传递的值大于 255，则默认值为 255。
+         * @param color 线条的十六进制颜色值（例如，红色为 0xFF0000，蓝色为 0x0000FF 等）。如果未指明值，则默认值为 0x000000（黑色）。可选。
+         * @param alpha 表示线条颜色的 Alpha 值的数字；有效值为 0 到 1。如果未指明值，则默认值为 1（纯色）。如果值小于 0，则默认值为 0。如果值大于 1，则默认值为 1。
+         * @param caps 用于指定线条末端处端点类型的 CapsStyle 类的值。默认值：CapsStyle.ROUND
+         * @param joints 指定用于拐角的连接外观的类型。默认值：JointStyle.ROUND
+         * @param miterLimit 用于表示剪切斜接的极限值的数字。
+         */
+        lineStyle(thickness?: number, color?: number, alpha?: number, caps?: string, joints?: string, miterLimit?: number): Path2D;
+        /**
+         * 清空所有缓存的绘制数据
+         */
+        clear(): void;
+        /**
+         * 覆盖父类方法，不自动清空缓存的绘图数据，改为手动调用clear()方法清空。
+         */
+        cleanBeforeRender(): void;
+    }
+}
+declare module egret.sys {
+    /**
+     * @private
+     * 组渲染节点,用于组合多个渲染节点
+     */
+    class GroupNode extends RenderNode {
+        constructor();
+        addNode(node: RenderNode): void;
+        /**
+         * 覆盖父类方法，不自动清空缓存的绘图数据，改为手动调用clear()方法清空。
+         * 这里只是想清空绘制命令，因此不调用super
+         */
+        cleanBeforeRender(): void;
+        $getRenderCount(): number;
+    }
+}
+declare module egret.sys {
+    /**
+     * @private
+     * 位图渲染节点
+     */
+    class SetAlphaNode extends RenderNode {
+        constructor();
+        /**
+         * 绘制一次位图
+         */
+        setAlpha(alpha: number): void;
+    }
+}
+declare module egret.sys {
+    /**
+     * @private
+     * 位图渲染节点
+     */
+    class SetTransformNode extends RenderNode {
+        constructor();
+        /**
+         * 绘制一次位图
+         */
+        setTransform(a: number, b: number, c: number, d: number, tx: number, ty: number): void;
+    }
+}
+declare module egret.sys {
+    /**
+     * @private
+     * 文本格式
+     */
+    interface TextFormat {
+        /**
+         * 颜色值
+         */
+        textColor?: number;
+        /**
+         * 描边颜色值
+         */
+        strokeColor?: number;
+        /**
+         * 字号
+         */
+        size?: number;
+        /**
+         * 描边大小
+         */
+        stroke?: number;
+        /**
+         * 是否加粗
+         */
+        bold?: boolean;
+        /**
+         * 是否倾斜
+         */
+        italic?: boolean;
+        /**
+         * 字体名称
+         */
+        fontFamily?: string;
+    }
+}
+declare module egret.sys {
+    /**
+     * @private
+     * 文本渲染节点
+     */
+    class TextNode extends RenderNode {
+        constructor();
+        /**
+         * 颜色值
+         */
+        textColor: number;
+        /**
+         * 描边颜色值
+         */
+        strokeColor: number;
+        /**
+         * 字号
+         */
+        size: number;
+        /**
+         * 描边大小
+         */
+        stroke: number;
+        /**
+         * 是否加粗
+         */
+        bold: boolean;
+        /**
+         * 是否倾斜
+         */
+        italic: boolean;
+        /**
+         * 字体名称
+         */
+        fontFamily: string;
+        /**
+         * 绘制一行文本
+         */
+        drawText(x: number, y: number, text: string, format: TextFormat): void;
+        /**
+         * 在显示对象的$render()方法被调用前，自动清空自身的drawData数据。
+         */
+        cleanBeforeRender(): void;
+    }
+}
+declare module egret.sys {
+    /**
+     * 路径类型
+     */
+    const enum PathType {
+        /**
+         * 纯色填充路径
+         */
+        Fill = 1,
+        /**
+         * 渐变填充路径
+         */
+        GradientFill = 2,
+        /**
+         * 线条路径
+         */
+        Stroke = 3,
+    }
+    /**
+     * @private
+     * 2D路径命令
+     */
+    const enum PathCommand {
+        MoveTo = 1,
+        LineTo = 2,
+        CurveTo = 3,
+        CubicCurveTo = 4,
+    }
+    /**
+     * @private
+     * 2D路径
+     */
+    class Path2D {
+        /**
+         * 路径类型
+         */
+        type: number;
+        $commands: number[];
+        $data: number[];
+        private commandPosition;
+        private dataPosition;
+        /**
+         * 将当前绘图位置移动到 (x, y)。如果缺少任何一个参数，则此方法将失败，并且当前绘图位置不改变。
+         * @param x 一个表示相对于父显示对象注册点的水平位置的数字（以像素为单位）。
+         * @param y 一个表示相对于父显示对象注册点的垂直位置的数字（以像素为单位）。
+         */
+        moveTo(x: number, y: number): void;
+        /**
+         * 使用当前线条样式绘制一条从当前绘图位置开始到 (x, y) 结束的直线；当前绘图位置随后会设置为 (x, y)。
+         * @param x 一个表示相对于父显示对象注册点的水平位置的数字（以像素为单位）。
+         * @param y 一个表示相对于父显示对象注册点的垂直位置的数字（以像素为单位）。
+         */
+        lineTo(x: number, y: number): void;
+        /**
+         * 使用当前线条样式和由 (controlX, controlY) 指定的控制点绘制一条从当前绘图位置开始到 (anchorX, anchorY) 结束的二次贝塞尔曲线。当前绘图位置随后设置为 (anchorX, anchorY)。
+         * 如果在调用 moveTo() 方法之前调用了 curveTo() 方法，则当前绘图位置的默认值为 (0, 0)。如果缺少任何一个参数，则此方法将失败，并且当前绘图位置不改变。
+         * 绘制的曲线是二次贝塞尔曲线。二次贝塞尔曲线包含两个锚点和一个控制点。该曲线内插这两个锚点，并向控制点弯曲。
+         * @param controlX 一个数字，指定控制点相对于父显示对象注册点的水平位置。
+         * @param controlY 一个数字，指定控制点相对于父显示对象注册点的垂直位置。
+         * @param anchorX 一个数字，指定下一个锚点相对于父显示对象注册点的水平位置。
+         * @param anchorY 一个数字，指定下一个锚点相对于父显示对象注册点的垂直位置。
+         */
+        curveTo(controlX: number, controlY: number, anchorX: number, anchorY: number): void;
+        /**
+         * 从当前绘图位置到指定的锚点绘制一条三次贝塞尔曲线。三次贝塞尔曲线由两个锚点和两个控制点组成。该曲线内插这两个锚点，并向两个控制点弯曲。
+         * @param controlX1 指定首个控制点相对于父显示对象的注册点的水平位置。
+         * @param controlY1 指定首个控制点相对于父显示对象的注册点的垂直位置。
+         * @param controlX2 指定第二个控制点相对于父显示对象的注册点的水平位置。
+         * @param controlY2 指定第二个控制点相对于父显示对象的注册点的垂直位置。
+         * @param anchorX 指定锚点相对于父显示对象的注册点的水平位置。
+         * @param anchorY 指定锚点相对于父显示对象的注册点的垂直位置。
+         */
+        cubicCurveTo(controlX1: number, controlY1: number, controlX2: number, controlY2: number, anchorX: number, anchorY: number): void;
+        /**
+         * 绘制一个矩形
+         * @param x 圆心相对于父显示对象注册点的 x 位置（以像素为单位）。
+         * @param y 相对于父显示对象注册点的圆心的 y 位置（以像素为单位）。
+         * @param width 矩形的宽度（以像素为单位）。
+         * @param height 矩形的高度（以像素为单位）。
+         */
+        drawRect(x: number, y: number, width: number, height: number): void;
+        /**
+         * 绘制一个圆角矩形。
+         * @param x 圆心相对于父显示对象注册点的 x 位置（以像素为单位）。
+         * @param y 相对于父显示对象注册点的圆心的 y 位置（以像素为单位）。
+         * @param width 矩形的宽度（以像素为单位）。
+         * @param height 矩形的高度（以像素为单位）。
+         * @param ellipseWidth 用于绘制圆角的椭圆的宽度（以像素为单位）。
+         * @param ellipseHeight 用于绘制圆角的椭圆的高度（以像素为单位）。 （可选）如果未指定值，则默认值与为 ellipseWidth 参数提供的值相匹配。
+         */
+        drawRoundRect(x: number, y: number, width: number, height: number, ellipseWidth: number, ellipseHeight?: number): void;
+        /**
+         * 绘制一个圆。
+         * @param x 圆心相对于父显示对象注册点的 x 位置（以像素为单位）。
+         * @param y 相对于父显示对象注册点的圆心的 y 位置（以像素为单位）。
+         * @param radius 圆的半径（以像素为单位）。
+         */
+        drawCircle(x: number, y: number, radius: number): void;
+        /**
+         * 绘制一个椭圆。
+         * @param x 一个表示相对于父显示对象注册点的水平位置的数字（以像素为单位）。
+         * @param y 一个表示相对于父显示对象注册点的垂直位置的数字（以像素为单位）。
+         * @param width 矩形的宽度（以像素为单位）。
+         * @param height 矩形的高度（以像素为单位）。
+         */
+        drawEllipse(x: number, y: number, width: number, height: number): void;
+        /**
+         * 绘制一段圆弧路径。圆弧路径的圆心在 (x, y) 位置，半径为 r ，根据anticlockwise （默认为顺时针）指定的方向从 startAngle 开始绘制，到 endAngle 结束。
+         * @param x 圆弧中心（圆心）的 x 轴坐标。
+         * @param y 圆弧中心（圆心）的 y 轴坐标。
+         * @param radius 圆弧的半径。
+         * @param startAngle 圆弧的起始点， x轴方向开始计算，单位以弧度表示。
+         * 注意，必须在0~2π之间。
+         * @param endAngle 圆弧的终点， 单位以弧度表示。
+         * 注意，必须在0~2π之间。
+         * @param anticlockwise 如果为 true，逆时针绘制圆弧，反之，顺时针绘制。
+         */
+        drawArc(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise: boolean): void;
+        /**
+         * 绘制一段圆弧路径
+         * @param x 圆弧中心（圆心）的 x 轴坐标。
+         * @param y 圆弧中心（圆心）的 y 轴坐标。
+         * @param radiusX 圆弧的半径 x。
+         * @param radiusY 圆弧的半径 y。
+         * @param startAngle 圆弧的起始点， x轴方向开始计算，单位以弧度表示。
+         * 注意：必须为正数。
+         * @param endAngle 圆弧的终点， 单位以弧度表示。
+         * 注意：与startAngle差值必须在0~2π之间。
+         * @param anticlockwise 如果为 true，逆时针绘制圆弧，反之，顺时针绘制。
+         * 注意：如果为true，endAngle必须小于startAngle，反之必须大于。
+         */
+        private arcToBezier(x, y, radiusX, radiusY, startAngle, endAngle, anticlockwise?);
+    }
+}
+declare module egret.sys {
+    /**
+     * @private
+     * 填充路径
+     */
+    class FillPath extends Path2D {
+        constructor();
+        /**
+         * 填充颜色
+         */
+        fillColor: number;
+        /**
+         * 填充透明度
+         */
+        fillAlpha: number;
+    }
+}
+declare module egret.sys {
+    /**
+     * @private
+     * 渐变填充路径
+     */
+    class GradientFillPath extends Path2D {
+        constructor();
+        gradientType: string;
+        colors: number[];
+        alphas: number[];
+        ratios: number[];
+        matrix: Matrix;
+    }
+}
+declare module egret.sys {
+    /**
+     * @private
+     * 线条路径。
+     * 注意：当线条宽度（lineWidth）为1或3像素时，需要特殊处理，往右下角偏移0.5像素，以显示清晰锐利的线条。
+     */
+    class StrokePath extends Path2D {
+        constructor();
+        /**
+         * 线条宽度。
+         * 注意：绘制时对1像素和3像素要特殊处理，整体向右下角偏移0.5像素，以显示清晰锐利的线条。
+         */
+        lineWidth: number;
+        /**
+         * 线条颜色
+         */
+        lineColor: number;
+        /**
+         * 线条透明度
+         */
+        lineAlpha: number;
+        /**
+         * 端点样式,"none":无端点,"round":圆头端点,"square":方头端点
+         */
+        caps: string;
+        /**
+         * 联接点样式,"bevel":斜角连接,"miter":尖角连接,"round":圆角连接
+         */
+        joints: string;
+        /**
+         * 用于表示剪切斜接的极限值的数字。
+         */
+        miterLimit: number;
+    }
+}
 declare module egret {
     /**
-     * @copy egret.Orientation
+     * @private
+     * Canvas渲染器
      */
-    var DeviceOrientation: {
-        new (): DeviceOrientation;
-    };
+    class CanvasRenderer implements sys.SystemRenderer {
+        constructor();
+        private nestLevel;
+        /**
+         * 渲染一个显示对象
+         * @param displayObject 要渲染的显示对象
+         * @param buffer 渲染缓冲
+         * @param matrix 要对显示对象整体叠加的变换矩阵
+         * @param dirtyList 脏矩形列表
+         * @param forRenderTexture 绘制目标是RenderTexture的标志
+         * @returns drawCall触发绘制的次数
+         */
+        render(displayObject: DisplayObject, buffer: sys.RenderBuffer, matrix: Matrix, dirtyList?: egret.sys.Region[], forRenderTexture?: boolean): number;
+        /**
+         * @private
+         * 绘制一个显示对象
+         */
+        private drawDisplayObject(displayObject, context, dirtyList, matrix, displayList, clipRegion, root);
+        /**
+         * @private
+         */
+        private drawWithClip(displayObject, context, dirtyList, matrix, clipRegion, root);
+        /**
+         * @private
+         */
+        private drawWithScrollRect(displayObject, context, dirtyList, matrix, clipRegion, root);
+        /**
+         * 将一个RenderNode对象绘制到渲染缓冲
+         * @param node 要绘制的节点
+         * @param buffer 渲染缓冲
+         * @param matrix 要叠加的矩阵
+         * @param forHitTest 绘制结果是用于碰撞检测。若为true，当渲染GraphicsNode时，会忽略透明度样式设置，全都绘制为不透明的。
+         */
+        drawNodeToBuffer(node: sys.RenderNode, buffer: sys.RenderBuffer, matrix: Matrix, forHitTest?: boolean): void;
+        /**
+         * @private
+         */
+        private renderNode(node, context, forHitTest?);
+        /**
+         * @private
+         */
+        private renderBitmap(node, context);
+        /**
+         * @private
+         */
+        private renderText(node, context);
+        /**
+         * @private
+         */
+        private renderGraphics(node, context, forHitTest?);
+        private renderPath(path, context);
+        private renderGroup(groupNode, context);
+        /**
+         * @private
+         */
+        private createRenderBuffer(width, height);
+    }
+}
+declare module egret {
     /**
      * @language en_US
      * Orientation monitor the orientation of the device, send CHANGE event when the orientation is changed
@@ -10462,6 +10212,12 @@ declare module egret {
          */
         stop(): void;
     }
+    /**
+     * @copy egret.Orientation
+     */
+    var DeviceOrientation: {
+        new (): DeviceOrientation;
+    };
 }
 declare module egret {
     /**
@@ -10525,6 +10281,18 @@ declare module egret {
      * @copy egret.Geolocation
      */
     var Geolocation: {
+        /**
+         * @language en_US
+         * constructor
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 构造函数
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
         new (): Geolocation;
     };
 }
@@ -10696,8 +10464,44 @@ declare module egret {
     }
 }
 declare module egret {
+    /**
+     * @language en_US
+     * Type of operation.
+     * @version Egret 2.4
+     * @platform Web,Native
+     */
+    /**
+     * @language zh_CN
+     * 运行类型的类型。
+     * @version Egret 2.4
+     * @platform Web,Native
+     */
     class RuntimeType {
+        /**
+         * @language en_US
+         * Running on Web
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 运行在Web上
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
         static WEB: string;
+        /**
+         * @language en_US
+         * Running on NATIVE
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 运行在NATIVE上
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
         static NATIVE: string;
     }
     /**
@@ -10806,6 +10610,16 @@ declare module egret {
          */
         static $runtimeType: string;
         /**
+         * @language en_US
+         * It indicates the current type of operation. runtimeType property returns the following string:
+         * <ul>
+         * <li>Run on Web     egret.RuntimeType.WEB</li>
+         * <li>Run on Native     egret.RuntimeType.NATIVE</li>
+         * </ul>
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
          * @language zh_CN
          * 指示当前的运行类型。runtimeType 属性返回下列字符串：
          * <ul>
@@ -10816,6 +10630,25 @@ declare module egret {
          * @platform Web,Native
          */
         static runtimeType: string;
+        /***
+         * @language en_US
+         * version of the native support
+         * @type {string}
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        /***
+         * @language zh_CN
+         * native support 的版本号
+         * @type {string}
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        static supportVersion: string;
+        /**
+         * 设置系统信息
+         */
+        static $setNativeCapabilities(value: string): void;
     }
 }
 declare var testDeviceType: () => boolean;
@@ -10961,6 +10794,65 @@ declare module egret {
         private getConfigByKey(configText, key);
     }
 }
+declare module egret.sys {
+    /**
+     * @private
+     */
+    const enum BitmapTextKeys {
+        /**
+         * @private 外部设定的值
+         */
+        textFieldWidth = 0,
+        /**
+         * @private 外部设定的值
+         */
+        textFieldHeight = 1,
+        /**
+         * @private
+         */
+        text = 2,
+        /**
+         * @private
+         */
+        lineSpacing = 3,
+        /**
+         * @private
+         */
+        letterSpacing = 4,
+        /**
+         * @private
+         */
+        font = 5,
+        /**
+         * @private
+         */
+        fontStringChanged = 6,
+        /**
+         * @private
+         */
+        textLinesChanged = 7,
+        /**
+         * @private 测量的值
+         */
+        textWidth = 8,
+        /**
+         * @private 测量的值
+         */
+        textHeight = 9,
+        /**
+         * @private
+         */
+        textAlign = 10,
+        /**
+         * @private
+         */
+        verticalAlign = 11,
+        /**
+         * @private
+         */
+        smoothing = 12,
+    }
+}
 declare module egret {
     /**
      * @language en_US
@@ -10990,6 +10882,21 @@ declare module egret {
          * @platform Web,Native
          */
         constructor();
+        /**
+         * @language en_US
+         * Whether or not is smoothed when scaled.
+         * @default true。
+         * @version Egret 3.0
+         * @platform Web
+         */
+        /**
+         * @language zh_CN
+         * 控制在缩放时是否进行平滑处理。
+         * @default true。
+         * @version Egret 3.0
+         * @platform Web
+         */
+        smoothing: boolean;
         /**
          * @private
          */
@@ -11033,22 +10940,22 @@ declare module egret {
         $setHeight(value: number): boolean;
         /**
          * @language en_US
-         * The name of the font to use, or a comma-separated list of font names.
-         * @default "sans-serif"
+         * The name of the font to use, or a comma-separated list of font names, the type of value must be BitmapFont.
+         * @default null
          * @version Egret 2.4
          * @platform Web,Native
          */
         /**
          * @language zh_CN
-         * 要使用的字体的名称或用逗号分隔的字体名称列表。
-         * @default "sans-serif"
+         * 要使用的字体的名称或用逗号分隔的字体名称列表，类型必须是 BitmapFont。
+         * @default null
          * @version Egret 2.4
          * @platform Web,Native
          */
-        font: BitmapFont;
-        $setFont(value: BitmapFont): boolean;
+        font: Object;
+        $setFont(value: any): boolean;
         /**
-        /**
+         /**
          * @language en_US
          * An integer representing the amount of vertical space between lines.
          * @default 0
@@ -11066,14 +10973,14 @@ declare module egret {
         $setLineSpacing(value: number): boolean;
         /**
          * @language en_US
-         * An integer representing the amount of vertical space between lines.
+         * An integer representing the amount of distance between characters.
          * @default 0
          * @version Egret 2.4
          * @platform Web,Native
          */
         /**
          * @language zh_CN
-         * 一个整数，表示行与行之间的垂直间距量
+         * 一个整数，表示字符之间的距量。
          * @default 0
          * @version Egret 2.4
          * @platform Web,Native
@@ -11081,6 +10988,48 @@ declare module egret {
         letterSpacing: number;
         $setLetterSpacing(value: number): boolean;
         /**
+         * @language en_US
+         * Horizontal alignment of text.
+         * @default：egret.HorizontalAlign.LEFT
+         * @version Egret 2.5.6
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 文本的水平对齐方式。
+         * @default：egret.HorizontalAlign.LEFT
+         * @version Egret 2.5.6
+         * @platform Web,Native
+         */
+        textAlign: string;
+        $setTextAlign(value: string): boolean;
+        /**
+         * @language en_US
+         * Vertical alignment of text.
+         * @default：egret.VerticalAlign.TOP
+         * @version Egret 2.5.6
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 文字的垂直对齐方式。
+         * @default：egret.VerticalAlign.TOP
+         * @version Egret 2.5.6
+         * @platform Web,Native
+         */
+        verticalAlign: string;
+        $setVerticalAlign(value: string): boolean;
+        /**
+         * @language en_US
+         * A ratio of the width of the space character. This value is multiplied by the height of the first character is the space character width.
+         * @default 0.33
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 一个空格字符的宽度比例。这个数值乘以第一个字符的高度即为空格字符的宽。
+         * @default 0.33
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -11088,31 +11037,61 @@ declare module egret {
         /**
          * @private
          */
-        $render(context: egret.sys.RenderContext): void;
+        $render(): void;
         /**
          * @private
          */
         $measureContentBounds(bounds: Rectangle): void;
         /**
-         * @private
+         * @language en_US
+         * Get the BitmapText measured width
+         * @version Egret 2.4
+         * @platform Web,Native
          */
-        private textWidth;
+        /**
+         * @language zh_CN
+         * 获取位图文本测量宽度
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        textWidth: number;
+        /**
+         * @language en_US
+         * Get Text BitmapText height
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 获取位图文本测量高度
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        textHeight: number;
         /**
          * @private
          */
-        private textHeight;
+        private $textOffsetX;
         /**
          * @private
          */
-        private textOffsetX;
+        private $textOffsetY;
         /**
          * @private
          */
-        private textOffsetY;
+        private $textStartX;
+        /**
+         * @private
+         */
+        private $textStartY;
         /**
          * @private
          */
         private textLines;
+        /**
+         * @private 每一行文字的宽度
+         */
+        private $textLinesWidth;
         /**
          * @private
          */
@@ -11323,57 +11302,144 @@ declare module egret {
         textElementIndex: number;
     }
     /**
-     * @private
+     * @language en_US
+     * Text Style
+     * @version Egret 2.4
+     * @platform Web,Native
+     */
+    /**
+     * @language zh_CN
+     * 文本样式
      * @version Egret 2.4
      * @platform Web,Native
      */
     interface ITextStyle {
         /**
+         * @language en_US
+         * text color
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 颜色值
          * @version Egret 2.4
          * @platform Web,Native
          */
         textColor?: number;
         /**
+         * @language en_US
+         * stroke color
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 描边颜色值
          * @version Egret 2.4
          * @platform Web,Native
          */
         strokeColor?: number;
         /**
+         * @language en_US
+         * size
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 字号
          * @version Egret 2.4
          * @platform Web,Native
          */
         size?: number;
         /**
+         * @language en_US
+         * stroke width
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 描边大小
          * @version Egret 2.4
          * @platform Web,Native
          */
         stroke?: number;
         /**
+         * @language en_US
+         * whether bold
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 是否加粗
          * @version Egret 2.4
          * @platform Web,Native
          */
         bold?: boolean;
         /**
+         * @language en_US
+         * whether italic
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 是否倾斜
          * @version Egret 2.4
          * @platform Web,Native
          */
         italic?: boolean;
         /**
+         * @language en_US
+         * fontFamily
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 字体名称
          * @version Egret 2.4
          * @platform Web,Native
          */
         fontFamily?: string;
         /**
+         * @language en_US
+         * Link events or address
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 链接事件或者地址
          * @version Egret 2.4
          * @platform Web,Native
          */
         href?: string;
         /**
+         * @language en_US
+         * @private
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * @private
          * @version Egret 2.4
          * @platform Web,Native
          */
         target?: string;
         /**
+         * @language en_US
+         * Is underlined
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 是否加下划线
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -11395,11 +11461,27 @@ declare module egret {
      */
     interface ITextElement {
         /**
+         * @language en_US
+         * String Content
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 字符串内容
          * @version Egret 2.4
          * @platform Web,Native
          */
         text: string;
         /**
+         * @language en_US
+         * Text Style
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 文本样式
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -11511,6 +11593,10 @@ declare module egret {
         _setText(value: string): void;
         /**
          * @private
+         */
+        _setColor(value: number): void;
+        /**
+         * @private
          *
          * @param event
          */
@@ -11521,6 +11607,7 @@ declare module egret {
          * @param event
          */
         private blurHandler(event);
+        private tempStage;
         private onMouseDownHandler(event);
         private onStageDownHandler(event);
         /**
@@ -11553,6 +11640,7 @@ declare module egret {
 }
 declare module egret {
     /**
+     * @private
      * @version Egret 2.4
      * @platform Web,Native
      */
@@ -11584,6 +11672,12 @@ declare module egret {
          * @param value
          */
         $setText(value: string): boolean;
+        /**
+         * @private
+         *
+         * @param value
+         */
+        $setColor(value: number): boolean;
         /**
          * @private
          *
@@ -11802,6 +11896,14 @@ declare module egret {
      */
     class TextField extends DisplayObject {
         /**
+         * @language en_US
+         * default fontFamily
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 默认文本字体
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -11817,8 +11919,6 @@ declare module egret {
         $TextField: Object;
         /**
          * @private
-         *
-         * @returns
          */
         private isInput();
         $inputEnabled: boolean;
@@ -11826,14 +11926,14 @@ declare module egret {
         /**
          * @language en_US
          * The name of the font to use, or a comma-separated list of font names.
-         * @default "sans-serif"
+         * @default "Arial"
          * @version Egret 2.4
          * @platform Web,Native
          */
         /**
          * @language zh_CN
          * 要使用的字体的名称或用逗号分隔的字体名称列表。
-         * @default "sans-serif"
+         * @default "Arial"
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -11892,11 +11992,6 @@ declare module egret {
          *
          */
         private invalidateFontString();
-        /**
-         * @private
-         * 获取字体信息的字符串形式。
-         */
-        private getFontString();
         /**
          * @language en_US
          * Horizontal alignment of text.
@@ -12037,13 +12132,9 @@ declare module egret {
          */
         $setText(value: string): boolean;
         /**
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
          * @language en_US
          * Specify whether the text field is a password text field.
-         * Specify whether the text field is a password text field. If the value of this property is true, the text field is treated as a password text field and hides the input characters using asterisks instead of the actual characters. If false, the text field is not treated as a password text field.
+         * If the value of this property is true, the text field is treated as a password text field and hides the input characters using asterisks instead of the actual characters. If false, the text field is not treated as a password text field.
          * @default false
          */
         /**
@@ -12106,10 +12197,6 @@ declare module egret {
          */
         $setStroke(value: number): boolean;
         /**
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        /**
          * @language en_US
          * The maximum number of characters that the text field can contain, as entered by a user. \n A script can insert more text than maxChars allows; the maxChars property indicates only how much text a user can enter. If the value of this property is 0, a user can enter an unlimited amount of text.
          * The default value is 0.
@@ -12159,16 +12246,19 @@ declare module egret {
          */
         maxScrollV: number;
         /**
+         * @private
          * @version Egret 2.4
          * @platform Web,Native
          */
         selectionBeginIndex: number;
         /**
+         * @private
          * @version Egret 2.4
          * @platform Web,Native
          */
         selectionEndIndex: number;
         /**
+         * @private
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -12221,14 +12311,14 @@ declare module egret {
         /**
          * @language en_US
          * Indicates a user can enter into the text field character set. If you restrict property is null, you can enter any character. If you restrict property is an empty string, you can not enter any character. If you restrict property is a string of characters, you can enter only characters in the string in the text field. The string is scanned from left to right. You can use a hyphen (-) to specify a range. Only restricts user interaction; a script may put any text into the text field. <br/>
-         * If the string of characters caret (^) at the beginning, all characters are initially accepted, then the string are excluded from receiving ^ character. If the string does not begin with a caret (^) to, any characters are initially accepted and then a string of characters included in the set of accepted characters. <br/>
-         * The following example allows only uppercase characters, spaces, and numbers in the text field: <br/>
-         * My_txt.restrict = "A-Z 0-9"; <br/>
-         * The following example includes all characters except lowercase letters: <br/>
-         * My_txt.restrict = "^ a-z"; <br/>
-         * If you need to enter characters \ ^, use two backslash "\\ -" "\\ ^": <br/>
-         * Can be used anywhere in the string ^ to rule out including characters and switch between characters, but can only be used to exclude a ^. The following code includes only uppercase letters except uppercase Q: <br/>
-         * My_txt.restrict = "A-Z ^ Q"; <br/>
+                  * If the string of characters caret (^) at the beginning, all characters are initially accepted, then the string are excluded from receiving ^ character. If the string does not begin with a caret (^) to, any characters are initially accepted and then a string of characters included in the set of accepted characters. <br/>
+                  * The following example allows only uppercase characters, spaces, and numbers in the text field: <br/>
+                  * My_txt.restrict = "A-Z 0-9"; <br/>
+                  * The following example includes all characters except lowercase letters: <br/>
+                  * My_txt.restrict = "^ a-z"; <br/>
+                  * If you need to enter characters \ ^, use two backslash "\\ -" "\\ ^": <br/>
+                  * Can be used anywhere in the string ^ to rule out including characters and switch between characters, but can only be used to exclude a ^. The following code includes only uppercase letters except uppercase Q: <br/>
+                  * My_txt.restrict = "A-Z ^ Q"; <br/>
          * @version Egret 2.4
          * @platform Web,Native
          * @default null
@@ -12274,7 +12364,11 @@ declare module egret {
         /**
          * @private
          */
-        private bgGraphics;
+        private textNode;
+        /**
+         * @private
+         */
+        private graphicsNode;
         /**
          * @version Egret 2.4
          * @platform Web,Native
@@ -12351,7 +12445,7 @@ declare module egret {
          * @private
          *
          */
-        private fillBackground();
+        private fillBackground(lines);
         /**
          * @private
          * @version Egret 2.4
@@ -12374,6 +12468,7 @@ declare module egret {
          * 不能重写$invalidateContentBounds，因为内部graphics调用clear时会触发$invalidateContentBounds这狗方法，从而导致死循环。
          */
         $invalidateTextField(): void;
+        $update(bounds?: Rectangle): boolean;
         /**
          * @private
          */
@@ -12383,7 +12478,7 @@ declare module egret {
          * @see egret.DisplayObject._render
          * @param renderContext
          */
-        $render(renderContext: sys.RenderContext): void;
+        $render(): void;
         /**
          * @private
          */
@@ -12473,29 +12568,15 @@ declare module egret {
          * @private
          */
         $isTyping: boolean;
-        private drawTempArray;
         /**
          * @private
-         * @param renderContext
-         * @returns {Rectangle}
+         * 返回要绘制的下划线列表
          */
-        private drawText(renderContext);
+        private drawText();
         private addEvent();
         private removeEvent();
         private onTapHandler(e);
     }
-}
-declare module egret.sys {
-    /**
-     * @private
-     * 返回格式化的字体样式文本
-     */
-    function toFontString(style: {
-        fontFamily?: string;
-        fontSize?: number;
-        bold?: boolean;
-        italic?: boolean;
-    }): string;
 }
 declare module egret {
     /**
@@ -12600,6 +12681,17 @@ declare module egret {
          */
         static $getScrollNum(textfield: egret.TextField): number;
     }
+}
+declare module egret.sys {
+    /**
+     * 测量文本在指定样式下的宽度。
+     * @param text 要测量的文本内容。
+     * @param fontFamily 字体名称
+     * @param fontSize 字体大小
+     * @param bold 是否粗体
+     * @param italic 是否斜体
+     */
+    var measureText: (text: string, fontFamily: string, fontSize: number, bold: boolean, italic: boolean) => number;
 }
 declare module egret {
     /**
@@ -12748,7 +12840,7 @@ declare module egret {
     /**
      * @language zh_CN
      * ByteArray 类提供用于优化读取、写入以及处理二进制数据的方法和属性。
-     * 注意：ByteArray 类适用于需要在字节层访问数据的高级 开发人员。
+     * 注意：ByteArray 类适用于需要在字节层访问数据的高级开发人员。
      * @version Egret 2.4
      * @platform Web,Native
      * @includeExample egret/utils/ByteArray.ts
@@ -12839,6 +12931,7 @@ declare module egret {
          */
         buffer: ArrayBuffer;
         /**
+         * @private
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -12866,8 +12959,8 @@ declare module egret {
         /**
          * @language en_US
          * The length of the ByteArray object (in bytes).
-         * If the length is set to be larger than the current length, the right-side zero padding byte array.
-         * If the length is set smaller than the current length, the byte array is truncated.
+                  * If the length is set to be larger than the current length, the right-side zero padding byte array.
+                  * If the length is set smaller than the current length, the byte array is truncated.
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -12895,6 +12988,19 @@ declare module egret {
          * @platform Web,Native
          */
         bytesAvailable: number;
+        /**
+         * @language en_US
+         * Clears the contents of the byte array and resets the length and position properties to 0.
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 清除字节数组的内容，并将 length 和 position 属性重置为 0。
+
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
         clear(): void;
         /**
          * @language en_US
@@ -13214,6 +13320,21 @@ declare module egret {
         writeUnsignedInt(value: number): void;
         /**
          * @language en_US
+         * Write a 16-bit unsigned integer into the byte stream
+         * @param value An unsigned integer to be written into the byte stream
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 在字节流中写入一个无符号的 16 位整数
+         * @param value 要写入字节流的无符号整数
+         * @version Egret 2.5
+         * @platform Web,Native
+         */
+        writeUnsignedShort(value: number): void;
+        /**
+         * @language en_US
          * Write a UTF-8 string into the byte stream. The length of the UTF-8 string in bytes is written first, as a 16-bit integer, followed by the bytes representing the characters of the string
          * @param value Character string value to be written
          * @version Egret 2.4
@@ -13344,31 +13465,79 @@ declare module egret {
      */
     class Logger {
         /**
+         * @language en_US
+         * open all
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 全开
          * @version Egret 2.4
          * @platform Web,Native
          */
         static ALL: string;
         /**
+         * @language en_US
+         * level: DEBUG
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 等级为 DEBUG
          * @version Egret 2.4
          * @platform Web,Native
          */
         static DEBUG: string;
         /**
+         * @language en_US
+         * level: INFO
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 等级为 INFO
          * @version Egret 2.4
          * @platform Web,Native
          */
         static INFO: string;
         /**
+         * @language en_US
+         * level: WARN
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 等级为 WARN
          * @version Egret 2.4
          * @platform Web,Native
          */
         static WARN: string;
         /**
+         * @language en_US
+         * level: ERROR
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 等级为 ERROR
          * @version Egret 2.4
          * @platform Web,Native
          */
         static ERROR: string;
         /**
+         * @language en_US
+         * close all
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 全关
          * @version Egret 2.4
          * @platform Web,Native
          */
@@ -13415,8 +13584,17 @@ declare module egret {
      */
     class NumberUtils {
         /**
-         *
-         * @param value
+         * @language en_US
+         * Judge whether it is a numerical value
+         * @param value Parameter that needs to be judged
+         * @returns
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 判断是否是数值
+         * @param value 需要判断的参数
          * @returns
          * @version Egret 2.4
          * @platform Web,Native
@@ -13887,7 +14065,6 @@ declare module egret {
      */
     function $callAsync(method: Function, thisObject: any, ...args: any[]): void;
 }
-declare function __extends(d: any, b: any): void;
 declare module egret {
     /**
      * @language en_US
@@ -13897,7 +14074,7 @@ declare module egret {
      * @param type Setter property names need to call
      * @param values Value passed to the parent class
      *
-     * @exmaple egret.superSetter(this, "alpha", 1);
+     * @exmaple egret.superSetter(egret.Sprite, this, "alpha", 1);
      */
     /**
      * @language zh_CN
@@ -13907,7 +14084,7 @@ declare module egret {
      * @param type 需要调用的setter属性名称
      * @param values 传给父类的值
      *
-     * @exmaple egret.superSetter(this, "alpha", 1);
+     * @exmaple egret.superSetter(egret.Sprite, this, "alpha", 1);
      */
     function superSetter(currentClass: any, thisObj: any, type: string, ...values: any[]): any;
     /**
@@ -13918,7 +14095,7 @@ declare module egret {
      * @param type Setter property names need to call
      * @returns {any} The value returned by the parent
      *
-     * @exmaple egret.superGetter(this, "alpha");
+     * @exmaple egret.superGetter(egret.Sprite, this, "alpha");
      */
     /**
      * @language zh_CN
@@ -13928,7 +14105,7 @@ declare module egret {
      * @param type 需要调用的setter属性名称
      * @returns {any} 父类返回的值
      *
-     * @exmaple egret.superGetter(this, "alpha");
+     * @exmaple egret.superGetter(egret.Sprite, this, "alpha");
      */
     function superGetter(currentClass: any, thisObj: any, type: string): any;
 }
@@ -13959,7 +14136,6 @@ declare module egret {
      * Get the url parameter corresponds to the browser, access to the corresponding parameter in the Runtime setOption
      * @method egret.getOption
      * @param key {string} Parameters key
-     * @private
      * @version Egret 2.4
      * @platform Web,Native
      */
@@ -13969,7 +14145,6 @@ declare module egret {
      * 在浏览器中相当于获取url中参数，在Runtime获取对应setOption参数
      * @method egret.getOption
      * @param key {string} 参数key
-     * @private
      * @version Egret 2.4
      * @platform Web,Native
      */

@@ -112,9 +112,12 @@ var particle;
             this.particleMeasureRect = new egret.Rectangle();
             this.transformForMeasure = new egret.Matrix();
             this.transformForRender = new egret.Matrix();
+            this.setTransformNodeList = [];
+            this.setAlphaNodeList = [];
+            this.bitmapNodeList = [];
             this.emissionRate = emissionRate;
             this.texture = texture;
-            this.$renderRegion = new egret.sys.Region();
+            this.$renderNode = new egret.sys.GroupNode();
         }
         var d = __define,c=ParticleSystem,p=c.prototype;
         p.getParticle = function () {
@@ -150,9 +153,9 @@ var particle;
             particle.totalTime = 1000;
         };
         /**
-        * 更新当前显示对象坐标系下的边框界限
-        * @param emitterRect {egret.Rectangle} 相对发射点坐标系下的界限
-        */
+         * 更新当前显示对象坐标系下的边框界限
+         * @param emitterRect {egret.Rectangle} 相对发射点坐标系下的界限
+         */
         p.updateRelativeBounds = function (emitterRect) {
             if (emitterRect) {
                 if (this.relativeContentBounds == null) {
@@ -172,9 +175,9 @@ var particle;
                 return this._emitterBounds;
             }
             /**
-            * 表示当前粒子系统中发射粒子的渲染边界范围，使用以发射点为基准的坐标系
-            * @member {egret.Rectangle} particle.ParticleSystem#emitterBounds
-            */
+             * 表示当前粒子系统中发射粒子的渲染边界范围，使用以发射点为基准的坐标系
+             * @member {egret.Rectangle} particle.ParticleSystem#emitterBounds
+             */
             ,function (rect) {
                 this._emitterBounds = rect;
                 this.updateRelativeBounds(rect);
@@ -185,10 +188,10 @@ var particle;
                 return this._emitterX;
             }
             /**
-            * 表示粒子出现点X坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
-            * @member {number} particle.ParticleSystem#emitterX
-            * @default 0
-            */
+             * 表示粒子出现点X坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
+             * @member {number} particle.ParticleSystem#emitterX
+             * @default 0
+             */
             ,function (value) {
                 this._emitterX = value;
                 this.updateRelativeBounds(this.emitterBounds);
@@ -199,10 +202,10 @@ var particle;
                 return this._emitterY;
             }
             /**
-            * 表示粒子出现点Y坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
-            * @member {number} particle.ParticleSystem#emitterY
-            * @default 0
-            */
+             * 表示粒子出现点Y坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
+             * @member {number} particle.ParticleSystem#emitterY
+             * @default 0
+             */
             ,function (value) {
                 this._emitterY = value;
                 this.updateRelativeBounds(this.emitterBounds);
@@ -337,11 +340,10 @@ var particle;
         p.advanceParticle = function (particle, dt) {
             particle.y -= dt / 6;
         };
-        p.$render = function (renderContext) {
+        p.$render = function () {
             if (this.numParticles > 0) {
                 //todo 考虑不同粒子使用不同的texture，或者使用egret.SpriteSheet
                 var texture = this.texture;
-                renderContext.imageSmoothingEnabled = false;
                 var textureW = Math.round(texture.$getScaleBitmapWidth());
                 var textureH = Math.round(texture.$getScaleBitmapHeight());
                 var offsetX = texture._offsetX;
@@ -354,11 +356,26 @@ var particle;
                 for (var i = 0; i < this.numParticles; i++) {
                     particle = this.particles[i];
                     this.transformForRender.identity();
-                    this.transformForRender.copyFrom(this.$renderMatrix);
+                    this.transformForRender.copyFrom(this.$renderNode.renderMatrix);
                     this.appendTransform(this.transformForRender, particle.x, particle.y, particle.scale, particle.scale, particle.rotation, 0, 0, textureW / 2, textureH / 2);
-                    renderContext.setTransform(this.transformForRender.a, this.transformForRender.b, this.transformForRender.c, this.transformForRender.d, this.transformForRender.tx, this.transformForRender.ty);
-                    renderContext.globalAlpha = particle.alpha;
-                    renderContext.drawImage(texture._bitmapData, bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
+                    var setTransformNode;
+                    var setAlphaNode;
+                    var bitmapNode;
+                    if (!this.setTransformNodeList[i]) {
+                        this.setTransformNodeList[i] = new egret.sys.SetTransformNode();
+                        this.setAlphaNodeList[i] = new egret.sys.SetAlphaNode();
+                        this.bitmapNodeList[i] = new egret.sys.BitmapNode();
+                        this.$renderNode.addNode(this.setTransformNodeList[i]);
+                        this.$renderNode.addNode(this.setAlphaNodeList[i]);
+                        this.$renderNode.addNode(this.bitmapNodeList[i]);
+                    }
+                    setTransformNode = this.setTransformNodeList[i];
+                    setAlphaNode = this.setAlphaNodeList[i];
+                    bitmapNode = this.bitmapNodeList[i];
+                    setTransformNode.setTransform(this.transformForRender.a, this.transformForRender.b, this.transformForRender.c, this.transformForRender.d, this.transformForRender.tx, this.transformForRender.ty);
+                    setAlphaNode.setAlpha(particle.alpha);
+                    bitmapNode.image = texture._bitmapData;
+                    bitmapNode.drawImage(bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
                 }
             }
         };
