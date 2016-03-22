@@ -293,5 +293,31 @@ declare module particle {
         initParticle(particle: Particle): void;
         private static getValue(base, variance);
         advanceParticle(particle: Particle, dt: number): void;
+        setEmitterXVariance(emitterXVariance: number): void;
+        setEmitterYVariance(emitterYVariance: number): void;
+        setLifespan(lifespan: number): void;
+        setLifespanVariance(lifespanVariance: number): void;
+        setStartSize(startSize: number): void;
+        setStartSizeVariance(startSizeVariance: number): void;
+        setEndSize(endSize: number): void;
+        setEndSizeVariance(endSizeVariance: number): void;
+        setEmitAngle(emitAngle: number): void;
+        setEmitAngleVariance(emitAngleVariance: number): void;
+        setStartRotation(startRotation: number): void;
+        setStartRotationVariance(startRotationVariance: number): void;
+        setEndRotation(endRotation: number): void;
+        setEndRotationVariance(endRotationVariance: number): void;
+        setSpeed(speed: number): void;
+        setSpeedVariance(speedVariance: number): void;
+        setGravityX(gravityX: number): void;
+        setGravityY(gravityY: number): void;
+        setRadialAcceleration(radialAcceleration: number): void;
+        setRadialAccelerationVariance(radialAccelerationVariance: number): void;
+        setTangentialAcceleration(tangentialAcceleration: number): void;
+        setTangentialAccelerationVariance(tangentialAccelerationVariance: number): void;
+        setStartAlpha(startAlpha: number): void;
+        setStartAlphaVariance(startAlphaVariance: number): void;
+        setEndAlpha(endAlpha: number): void;
+        setEndAlphaVariance(endAlphaVariance: number): void;
     }
 }

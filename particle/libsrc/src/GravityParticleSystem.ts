@@ -325,5 +325,84 @@ module particle {
             locParticle.rotation += locParticle.rotationDelta * dt * 1000;
             locParticle.alpha += locParticle.alphaDelta * dt * 1000;
         }
+        //增加设置重力系统参数的方法，方便动态改变参数
+        public setEmitterXVariance(emitterXVariance:number) {
+            this.emitterXVariance = emitterXVariance;
+        }
+        public setEmitterYVariance(emitterYVariance:number) {
+            this.emitterYVariance = emitterYVariance;
+        }
+        public setLifespan(lifespan:number) {
+            this.lifespan = lifespan;
+        }
+        public setLifespanVariance(lifespanVariance:number) {
+            this.lifespanVariance = lifespanVariance;
+        }
+        public setStartSize(startSize:number) {
+            this.startSize = startSize;
+        }
+        public setStartSizeVariance(startSizeVariance:number) {
+            this.startSizeVariance = startSizeVariance;
+        }
+        public setEndSize(endSize:number) {
+            this.endSize = endSize;
+        }
+        public setEndSizeVariance(endSizeVariance:number) {
+            this.endSizeVariance = endSizeVariance;
+        }
+        public setEmitAngle(emitAngle:number) {
+            this.emitAngle = emitAngle;
+        }
+        public setEmitAngleVariance(emitAngleVariance:number) {
+            this.emitAngleVariance = emitAngleVariance;
+        }
+        public setStartRotation(startRotation:number) {
+            this.startRotation = startRotation;
+        }
+        public setStartRotationVariance(startRotationVariance:number) {
+            this.startRotationVariance = startRotationVariance;
+        }
+        public setEndRotation(endRotation:number) {
+            this.endRotation = endRotation;
+        }
+        public setEndRotationVariance(endRotationVariance:number) {
+            this.endRotationVariance = endRotationVariance;
+        }
+        public setSpeed(speed:number) {
+            this.speed = speed;
+        }
+        public setSpeedVariance(speedVariance:number) {
+            this.speedVariance = speedVariance;
+        }
+        public setGravityX(gravityX:number) {
+            this.gravityX = gravityX;
+        }
+        public setGravityY(gravityY:number) {
+            this.gravityY = gravityY;
+        }
+        public setRadialAcceleration(radialAcceleration:number) {
+            this.radialAcceleration = radialAcceleration;
+        }
+        public setRadialAccelerationVariance(radialAccelerationVariance:number) {
+            this.radialAccelerationVariance = radialAccelerationVariance;
+        }
+        public setTangentialAcceleration(tangentialAcceleration:number) {
+            this.tangentialAcceleration = tangentialAcceleration;
+        }
+        public setTangentialAccelerationVariance(tangentialAccelerationVariance:number) {
+            this.tangentialAccelerationVariance = tangentialAccelerationVariance;
+        }
+        public setStartAlpha(startAlpha:number) {
+            this.startAlpha = startAlpha;
+        }
+        public setStartAlphaVariance(startAlphaVariance:number) {
+            this.startAlphaVariance = startAlphaVariance;
+        }
+        public setEndAlpha(endAlpha:number) {
+            this.endAlpha = endAlpha;
+        }
+        public setEndAlphaVariance(endAlphaVariance:number) {
+            this.endAlphaVariance = endAlphaVariance;
+        }        
     }
 }
