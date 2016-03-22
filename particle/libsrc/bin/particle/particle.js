@@ -619,6 +619,85 @@ var particle;
             locParticle.rotation += locParticle.rotationDelta * dt * 1000;
             locParticle.alpha += locParticle.alphaDelta * dt * 1000;
         };
+        //增加设置重力系统参数的方法，方便动态改变参数
+        p.setEmitterXVariance = function (emitterXVariance) {
+            this.emitterXVariance = emitterXVariance;
+        };
+        p.setEmitterYVariance = function (emitterYVariance) {
+            this.emitterYVariance = emitterYVariance;
+        };
+        p.setLifespan = function (lifespan) {
+            this.lifespan = lifespan;
+        };
+        p.setLifespanVariance = function (lifespanVariance) {
+            this.lifespanVariance = lifespanVariance;
+        };
+        p.setStartSize = function (startSize) {
+            this.startSize = startSize;
+        };
+        p.setStartSizeVariance = function (startSizeVariance) {
+            this.startSizeVariance = startSizeVariance;
+        };
+        p.setEndSize = function (endSize) {
+            this.endSize = endSize;
+        };
+        p.setEndSizeVariance = function (endSizeVariance) {
+            this.endSizeVariance = endSizeVariance;
+        };
+        p.setEmitAngle = function (emitAngle) {
+            this.emitAngle = emitAngle;
+        };
+        p.setEmitAngleVariance = function (emitAngleVariance) {
+            this.emitAngleVariance = emitAngleVariance;
+        };
+        p.setStartRotation = function (startRotation) {
+            this.startRotation = startRotation;
+        };
+        p.setStartRotationVariance = function (startRotationVariance) {
+            this.startRotationVariance = startRotationVariance;
+        };
+        p.setEndRotation = function (endRotation) {
+            this.endRotation = endRotation;
+        };
+        p.setEndRotationVariance = function (endRotationVariance) {
+            this.endRotationVariance = endRotationVariance;
+        };
+        p.setSpeed = function (speed) {
+            this.speed = speed;
+        };
+        p.setSpeedVariance = function (speedVariance) {
+            this.speedVariance = speedVariance;
+        };
+        p.setGravityX = function (gravityX) {
+            this.gravityX = gravityX;
+        };
+        p.setGravityY = function (gravityY) {
+            this.gravityY = gravityY;
+        };
+        p.setRadialAcceleration = function (radialAcceleration) {
+            this.radialAcceleration = radialAcceleration;
+        };
+        p.setRadialAccelerationVariance = function (radialAccelerationVariance) {
+            this.radialAccelerationVariance = radialAccelerationVariance;
+        };
+        p.setTangentialAcceleration = function (tangentialAcceleration) {
+            this.tangentialAcceleration = tangentialAcceleration;
+        };
+        p.setTangentialAccelerationVariance = function (tangentialAccelerationVariance) {
+            this.tangentialAccelerationVariance = tangentialAccelerationVariance;
+        };
+        p.setStartAlpha = function (startAlpha) {
+            this.startAlpha = startAlpha;
+        };
+        p.setStartAlphaVariance = function (startAlphaVariance) {
+            this.startAlphaVariance = startAlphaVariance;
+        };
+        p.setEndAlpha = function (endAlpha) {
+            this.endAlpha = endAlpha;
+        };
+        p.setEndAlphaVariance = function (endAlphaVariance) {
+            this.endAlphaVariance = endAlphaVariance;
+        };
         return GravityParticleSystem;
     }(particle_1.ParticleSystem));
     particle_1.GravityParticleSystem = GravityParticleSystem;
