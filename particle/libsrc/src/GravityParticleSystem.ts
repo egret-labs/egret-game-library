@@ -322,6 +322,9 @@ module particle {
             locParticle.y += locParticle.velocityY * dt;
 
             locParticle.scale += locParticle.scaleDelta * dt * 1000;
+            if(locParticle.scale < 0) {
+                locParticle.scale = 0;
+            }
             locParticle.rotation += locParticle.rotationDelta * dt * 1000;
             locParticle.alpha += locParticle.alphaDelta * dt * 1000;
         }
