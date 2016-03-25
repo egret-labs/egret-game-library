@@ -12,9 +12,6 @@
 			"name": "egret"
 		},
 		{
-			"name": "game"
-		},
-		{
 			"name": "particle",
 			"path": "../libsrc"
 		},

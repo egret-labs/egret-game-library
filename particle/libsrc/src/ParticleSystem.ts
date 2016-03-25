@@ -185,7 +185,8 @@ module particle {
         public start(duration:number = -1):void {
             if (this.emissionRate != 0) {
                 this.emissionTime = duration;
-                egret.Ticker.getInstance().register(this.update, this);
+                this.timeStamp = egret.getTimer();
+                egret.startTick(this.update, this);
             }
         }
 
@@ -197,11 +198,15 @@ module particle {
             this.emissionTime = 0;
             if (clear) {
                 this.clear();
-                egret.Ticker.getInstance().unregister(this.update, this);
+                egret.stopTick(this.update, this);
             }
         }
 
-        private update(dt:number):void {
+        private timeStamp:number;
+
+        private update(timeStamp:number):boolean {
+            var dt:number = timeStamp - this.timeStamp;
+            this.timeStamp = timeStamp;
             //粒子数很少的时候可能会错过添加粒子的时机
             if (this.emissionTime == -1 || this.emissionTime > 0) {
                 this.frameTime += dt;
@@ -236,9 +241,10 @@ module particle {
             this.$invalidateContentBounds();
 
             if (this.numParticles == 0 && this.emissionTime == 0) {
-                egret.Ticker.getInstance().unregister(this.update, this);
+                egret.stopTick(this.update, this);
                 this.dispatchEventWith(egret.Event.COMPLETE);
             }
+            return false;
         }
 
         private particleMeasureRect:egret.Rectangle = new egret.Rectangle();

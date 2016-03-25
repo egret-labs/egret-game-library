@@ -219,7 +219,8 @@ var particle;
             if (duration === void 0) { duration = -1; }
             if (this.emissionRate != 0) {
                 this.emissionTime = duration;
-                egret.Ticker.getInstance().register(this.update, this);
+                this.timeStamp = egret.getTimer();
+                egret.startTick(this.update, this);
             }
         };
         /**
@@ -231,10 +232,12 @@ var particle;
             this.emissionTime = 0;
             if (clear) {
                 this.clear();
-                egret.Ticker.getInstance().unregister(this.update, this);
+                egret.stopTick(this.update, this);
             }
         };
-        p.update = function (dt) {
+        p.update = function (timeStamp) {
+            var dt = timeStamp - this.timeStamp;
+            this.timeStamp = timeStamp;
             //粒子数很少的时候可能会错过添加粒子的时机
             if (this.emissionTime == -1 || this.emissionTime > 0) {
                 this.frameTime += dt;
@@ -266,9 +269,10 @@ var particle;
             }
             this.$invalidateContentBounds();
             if (this.numParticles == 0 && this.emissionTime == 0) {
-                egret.Ticker.getInstance().unregister(this.update, this);
+                egret.stopTick(this.update, this);
                 this.dispatchEventWith(egret.Event.COMPLETE);
             }
+            return false;
         };
         p.$measureContentBounds = function (bounds) {
             //如果设置了固定的区域边界则直接使用这个边界，否则进行自动的内容边界测量

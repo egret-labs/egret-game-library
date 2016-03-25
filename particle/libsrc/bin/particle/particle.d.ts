@@ -121,7 +121,8 @@ declare module particle {
          * @param clear {boolean} 是否清除掉现有粒子
          */
         stop(clear?: boolean): void;
-        private update(dt);
+        private timeStamp;
+        private update(timeStamp);
         private particleMeasureRect;
         private transformForMeasure;
         $measureContentBounds(bounds: egret.Rectangle): void;

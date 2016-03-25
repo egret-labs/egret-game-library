@@ -4,8 +4,6 @@ var game_file_list = [
     //----auto game_file_list start----
 	"libs/modules/egret/egret.js",
 	"libs/modules/egret/egret.native.js",
-	"libs/modules/game/game.js",
-	"libs/modules/game/game.native.js",
 	"libs/modules/particle/particle.js",
 	"libs/modules/res/res.js",
 	"bin-debug/LoadingUI.js",
