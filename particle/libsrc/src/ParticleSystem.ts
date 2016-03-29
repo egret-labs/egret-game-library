@@ -335,9 +335,6 @@ module particle {
             particle.y -= dt / 6;
         }
 
-        private transformForRender:egret.Matrix = new egret.Matrix();
-
-        private setTransformNodeList:Array<egret.sys.SetTransformNode> = [];
         private setAlphaNodeList:Array<egret.sys.SetAlphaNode> = [];
         private bitmapNodeList:Array<egret.sys.BitmapNode> = [];
 
@@ -361,27 +358,20 @@ module particle {
                 for (var i:number = 0; i < this.numParticles; i++) {
                     particle = this.particles[i];
 
-                    this.transformForRender.identity();
-                    this.transformForRender.copyFrom(this.$renderNode.renderMatrix);
-                    this.appendTransform(this.transformForRender, particle.x, particle.y, particle.scale, particle.scale, particle.rotation, 0, 0, textureW / 2, textureH / 2);
-                    var setTransformNode:egret.sys.SetTransformNode;
                     var setAlphaNode:egret.sys.SetAlphaNode;
                     var bitmapNode:egret.sys.BitmapNode;
-                    if (!this.setTransformNodeList[i]) {
-                        this.setTransformNodeList[i] = new egret.sys.SetTransformNode();
+                    if (!this.bitmapNodeList[i]) {
                         this.setAlphaNodeList[i] = new egret.sys.SetAlphaNode();
                         this.bitmapNodeList[i] = new egret.sys.BitmapNode();
-                        (<egret.sys.GroupNode>this.$renderNode).addNode(this.setTransformNodeList[i]);
                         (<egret.sys.GroupNode>this.$renderNode).addNode(this.setAlphaNodeList[i]);
                         (<egret.sys.GroupNode>this.$renderNode).addNode(this.bitmapNodeList[i]);
                     }
-                    setTransformNode = this.setTransformNodeList[i];
                     setAlphaNode = this.setAlphaNodeList[i];
                     bitmapNode = this.bitmapNodeList[i];
 
-                    setTransformNode.setTransform(this.transformForRender.a, this.transformForRender.b, this.transformForRender.c, this.transformForRender.d, this.transformForRender.tx, this.transformForRender.ty);
                     setAlphaNode.setAlpha(particle.alpha);
 
+                    bitmapNode.matrix = particle.$getMatrix(textureW / 2, textureH / 2);
                     bitmapNode.image = texture._bitmapData;
                     bitmapNode.drawImage(bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
                 }

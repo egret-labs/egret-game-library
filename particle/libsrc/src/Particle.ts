@@ -90,5 +90,27 @@ module particle {
             this.currentTime = 0;
             this.totalTime = 1000;
         }
+
+        private matrix:egret.Matrix = new egret.Matrix();
+
+        public $getMatrix(regX:number, regY:number):egret.Matrix {
+            var matrix = this.matrix;
+            matrix.identity();
+            if (this.rotation % 360) {
+                var r = this.rotation;
+                var cos = egret.NumberUtils.cos(r);
+                var sin = egret.NumberUtils.sin(r);
+            } else {
+                cos = 1;
+                sin = 0;
+            }
+            matrix.append(cos * this.scale, sin * this.scale, -sin * this.scale, cos * this.scale, this.x, this.y);
+
+            if (regX || regY) {
+                matrix.tx -= regX * matrix.a + regY * matrix.c;
+                matrix.ty -= regX * matrix.b + regY * matrix.d;
+            }
+            return matrix;
+        }
     }
 }

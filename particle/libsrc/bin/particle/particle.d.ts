@@ -42,6 +42,8 @@ declare module particle {
         totalTime: number;
         constructor();
         reset(): void;
+        private matrix;
+        $getMatrix(regX: number, regY: number): egret.Matrix;
     }
 }
 declare module particle {
@@ -135,8 +137,6 @@ declare module particle {
         private clear();
         private addOneParticle();
         advanceParticle(particle: Particle, dt: number): void;
-        private transformForRender;
-        private setTransformNodeList;
         private setAlphaNodeList;
         private bitmapNodeList;
         $render(): void;

@@ -901,6 +901,10 @@ declare module egret {
         anchorOffsetX: number;
         /**
          * @private
+         */
+        $getAnchorOffsetX(): boolean;
+        /**
+         * @private
          *
          * @param value
          * @returns
@@ -921,6 +925,10 @@ declare module egret {
          * @platform Web,Native
          */
         anchorOffsetY: number;
+        /**
+         * @private
+         */
+        $getAnchorOffsetY(): boolean;
         /**
          * @private
          *
@@ -7671,6 +7679,21 @@ declare module egret {
          * @platform Web,Native
          */
         type: string;
+        /**
+         * @language en_US
+         * Length of the current sound (in seconds).
+         * @version Egret 2.4
+         * @platform Web,Native
+         * @readOnly
+         */
+        /**
+         * @language zh_CN
+         * 当前声音的长度（以秒为单位）。
+         * @version Egret 2.4
+         * @platform Web,Native
+         * @readOnly
+         */
+        length: number;
     }
     /**
      * @copy egret.Sound
@@ -9725,6 +9748,7 @@ declare module egret.sys {
          * 控制在缩放时是否对位图进行平滑处理。
          */
         smoothing: boolean;
+        matrix: egret.Matrix;
         /**
          * 绘制一次位图
          */
@@ -14265,9 +14289,9 @@ declare module egret {
      * @example
      * <pre>
      *     var instance = new egret.Sprite();
-     *     egret.log(egret.is(instance,egret.Types.Sprite))  //true
-     *     egret.log(egret.is(instance,egret.Types.DisplayObjectContainer))  //true
-     *     egret.log(egret.is(instance,egret.Types.Bitmap))  //false
+     *     egret.log(egret.is(instance,"egret.Sprite"))  //true
+     *     egret.log(egret.is(instance,"egret.DisplayObjectContainer"))  //true
+     *     egret.log(egret.is(instance,"egret.Bitmap"))  //false
      * </pre>
      * @see egret.registerClass()
      * @version Egret 2.4
@@ -14282,9 +14306,9 @@ declare module egret {
      * @example
      * <pre>
      *     var instance = new egret.Sprite();
-     *     egret.log(egret.is(instance,egret.Types.Sprite))  //true
-     *     egret.log(egret.is(instance,egret.Types.DisplayObjectContainer))  //true
-     *     egret.log(egret.is(instance,egret.Types.Bitmap))  //false
+     *     egret.log(egret.is(instance,"egret.Sprite"))  //true
+     *     egret.log(egret.is(instance,"egret.DisplayObjectContainer"))  //true
+     *     egret.log(egret.is(instance,"egret.Bitmap"))  //false
      * </pre>
      * @see egret.registerClass()
      * @version Egret 2.4

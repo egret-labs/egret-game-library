@@ -30,6 +30,7 @@ var particle;
 (function (particle) {
     var Particle = (function () {
         function Particle() {
+            this.matrix = new egret.Matrix();
             this.reset();
         }
         var d = __define,c=Particle,p=c.prototype;
@@ -41,6 +42,25 @@ var particle;
             this.alpha = 1;
             this.currentTime = 0;
             this.totalTime = 1000;
+        };
+        p.$getMatrix = function (regX, regY) {
+            var matrix = this.matrix;
+            matrix.identity();
+            if (this.rotation % 360) {
+                var r = this.rotation;
+                var cos = egret.NumberUtils.cos(r);
+                var sin = egret.NumberUtils.sin(r);
+            }
+            else {
+                cos = 1;
+                sin = 0;
+            }
+            matrix.append(cos * this.scale, sin * this.scale, -sin * this.scale, cos * this.scale, this.x, this.y);
+            if (regX || regY) {
+                matrix.tx -= regX * matrix.a + regY * matrix.c;
+                matrix.ty -= regX * matrix.b + regY * matrix.d;
+            }
+            return matrix;
         };
         return Particle;
     }());
@@ -111,8 +131,6 @@ var particle;
             this.particleClass = null;
             this.particleMeasureRect = new egret.Rectangle();
             this.transformForMeasure = new egret.Matrix();
-            this.transformForRender = new egret.Matrix();
-            this.setTransformNodeList = [];
             this.setAlphaNodeList = [];
             this.bitmapNodeList = [];
             this.emissionRate = emissionRate;
@@ -359,25 +377,18 @@ var particle;
                 var particle;
                 for (var i = 0; i < this.numParticles; i++) {
                     particle = this.particles[i];
-                    this.transformForRender.identity();
-                    this.transformForRender.copyFrom(this.$renderNode.renderMatrix);
-                    this.appendTransform(this.transformForRender, particle.x, particle.y, particle.scale, particle.scale, particle.rotation, 0, 0, textureW / 2, textureH / 2);
-                    var setTransformNode;
                     var setAlphaNode;
                     var bitmapNode;
-                    if (!this.setTransformNodeList[i]) {
-                        this.setTransformNodeList[i] = new egret.sys.SetTransformNode();
+                    if (!this.bitmapNodeList[i]) {
                         this.setAlphaNodeList[i] = new egret.sys.SetAlphaNode();
                         this.bitmapNodeList[i] = new egret.sys.BitmapNode();
-                        this.$renderNode.addNode(this.setTransformNodeList[i]);
                         this.$renderNode.addNode(this.setAlphaNodeList[i]);
                         this.$renderNode.addNode(this.bitmapNodeList[i]);
                     }
-                    setTransformNode = this.setTransformNodeList[i];
                     setAlphaNode = this.setAlphaNodeList[i];
                     bitmapNode = this.bitmapNodeList[i];
-                    setTransformNode.setTransform(this.transformForRender.a, this.transformForRender.b, this.transformForRender.c, this.transformForRender.d, this.transformForRender.tx, this.transformForRender.ty);
                     setAlphaNode.setAlpha(particle.alpha);
+                    bitmapNode.matrix = particle.$getMatrix(textureW / 2, textureH / 2);
                     bitmapNode.image = texture._bitmapData;
                     bitmapNode.drawImage(bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
                 }
