@@ -129,7 +129,7 @@
         var stage = document.getElementById("egret-sample");
         console.log(document_class);
         stage.setAttribute("data-entry-class",document_class);
-        egret.runEgret();
+        egret.runEgret({renderMode:"canvas"});
 
         if (getOption("mainClass")) {
             document.getElementById("examples_menu").style.display = "none";
