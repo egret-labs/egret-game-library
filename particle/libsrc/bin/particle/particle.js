@@ -136,6 +136,8 @@ var particle;
             this.emissionRate = emissionRate;
             this.texture = texture;
             this.$renderNode = new egret.sys.GroupNode();
+            //不清除绘制数据
+            this.$renderNode.cleanBeforeRender = function () { };
         }
         var d = __define,c=ParticleSystem,p=c.prototype;
         p.getParticle = function () {
@@ -342,6 +344,10 @@ var particle;
         p.changeTexture = function (texture) {
             if (this.texture != texture) {
                 this.texture = texture;
+                //todo 这里可以优化
+                this.setAlphaNodeList.length = 0;
+                this.bitmapNodeList.length = 0;
+                this.$renderNode.drawData.length = 0;
             }
         };
         p.clear = function () {
@@ -381,16 +387,17 @@ var particle;
                     var bitmapNode;
                     if (!this.bitmapNodeList[i]) {
                         this.setAlphaNodeList[i] = new egret.sys.SetAlphaNode();
-                        this.bitmapNodeList[i] = new egret.sys.BitmapNode();
+                        bitmapNode = new egret.sys.BitmapNode();
+                        this.bitmapNodeList[i] = bitmapNode;
                         this.$renderNode.addNode(this.setAlphaNodeList[i]);
                         this.$renderNode.addNode(this.bitmapNodeList[i]);
+                        bitmapNode.image = texture._bitmapData;
+                        bitmapNode.drawImage(bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
                     }
                     setAlphaNode = this.setAlphaNodeList[i];
                     bitmapNode = this.bitmapNodeList[i];
                     setAlphaNode.setAlpha(particle.alpha);
                     bitmapNode.matrix = particle.$getMatrix(textureW / 2, textureH / 2);
-                    bitmapNode.image = texture._bitmapData;
-                    bitmapNode.drawImage(bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
                 }
             }
         };
