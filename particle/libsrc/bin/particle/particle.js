@@ -392,6 +392,8 @@ var particle;
                         this.$renderNode.addNode(this.setAlphaNodeList[i]);
                         this.$renderNode.addNode(this.bitmapNodeList[i]);
                         bitmapNode.image = texture._bitmapData;
+                        bitmapNode.imageWidth = texture._sourceWidth;
+                        bitmapNode.imageHeight = texture._sourceHeight;
                         bitmapNode.drawImage(bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
                     }
                     setAlphaNode = this.setAlphaNodeList[i];

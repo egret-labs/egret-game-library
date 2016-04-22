@@ -990,6 +990,7 @@ declare module egret {
          * @platform Web,Native
          */
         cacheAsBitmap: boolean;
+        $setHasDisplayList(value: boolean): void;
         /**
          * @private
          * cacheAsBitmap属性改变
@@ -1446,6 +1447,8 @@ declare module egret.sys {
         smoothing = 10,
         explicitBitmapWidth = 11,
         explicitBitmapHeight = 12,
+        sourceWidth = 13,
+        sourceHeight = 14,
     }
 }
 declare module egret {
@@ -1549,7 +1552,7 @@ declare module egret {
         /**
          * @private
          */
-        private setImageData(image, bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureWidth, textureHeight);
+        private setImageData(image, bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureWidth, textureHeight, sourceWidth, sourceHeight);
         /**
          * @private
          */
@@ -1692,7 +1695,7 @@ declare module egret {
         /**
          * @private
          */
-        static $drawImage(node: sys.BitmapNode, image: any, bitmapX: number, bitmapY: number, bitmapWidth: number, bitmapHeight: number, offsetX: number, offsetY: number, textureWidth: number, textureHeight: number, destW: number, destH: number, scale9Grid: egret.Rectangle, fillMode: string, smoothing: boolean): void;
+        static $drawImage(node: sys.BitmapNode, image: any, bitmapX: number, bitmapY: number, bitmapWidth: number, bitmapHeight: number, offsetX: number, offsetY: number, textureWidth: number, textureHeight: number, destW: number, destH: number, sourceWidth: number, sourceHeight: number, scale9Grid: egret.Rectangle, fillMode: string, smoothing: boolean): void;
         /**
          * @private
          * 绘制九宫格位图
@@ -2843,6 +2846,9 @@ declare module egret {
          * @private
          */
         private maxY;
+        /**
+         * @private
+         */
         private extendBoundsByPoint(x, y);
         /**
          * @private
@@ -2853,11 +2859,16 @@ declare module egret {
          */
         private extendBoundsByY(y);
         /**
+         * @private
+         */
+        private updateNodeBounds();
+        /**
          * 是否已经包含上一次moveTo的坐标点
          */
         private includeLastPosition;
         /**
          * 更新当前的lineX和lineY值，并标记尺寸失效。
+         * @private
          */
         private updatePosition(x, y);
         /**
@@ -8002,6 +8013,21 @@ declare module egret {
          * @readOnly
          */
         paused: boolean;
+        /**
+         * @language en_US
+         * Length of the current video (in seconds).
+         * @version Egret 3.0.8
+         * @platform Web,Native
+         * @readOnly
+         */
+        /**
+         * @language zh_CN
+         * 当前视频的长度（以秒为单位）。
+         * @version Egret 3.0.8
+         * @platform Web,Native
+         * @readOnly
+         */
+        length: number;
     }
     /**
      * @copy egret.Video
@@ -9120,6 +9146,11 @@ declare module egret.sys {
         setTo(minX: number, minY: number, maxX: number, maxY: number): Region;
         /**
          * @private
+         * 把所有值都取整
+         */
+        intValues(): void;
+        /**
+         * @private
          */
         updateArea(): void;
         /**
@@ -9224,6 +9255,10 @@ declare module egret.sys {
          * 销毁渲染缓冲
          */
         destroy(): void;
+        /**
+         * 设置脏矩形策略
+         */
+        setDirtyRegionPolicy(state: string): void;
     }
     var RenderBuffer: {
         /**
@@ -9748,7 +9783,18 @@ declare module egret.sys {
          * 控制在缩放时是否对位图进行平滑处理。
          */
         smoothing: boolean;
+        /**
+         * 相对偏移矩阵。
+         */
         matrix: egret.Matrix;
+        /**
+         * 图片宽度。WebGL渲染使用
+         */
+        imageWidth: number;
+        /**
+         * 图片高度。WebGL渲染使用
+         */
+        imageHeight: number;
         /**
          * 绘制一次位图
          */
@@ -9802,6 +9848,29 @@ declare module egret.sys {
          * 覆盖父类方法，不自动清空缓存的绘图数据，改为手动调用clear()方法清空。
          */
         cleanBeforeRender(): void;
+        /**
+         * 绘制x偏移
+         */
+        x: number;
+        /**
+         * 绘制y偏移
+         */
+        y: number;
+        /**
+         * 绘制宽度
+         */
+        width: number;
+        /**
+         * 绘制高度
+         */
+        height: number;
+        /**
+         * 脏渲染标记
+         * 暂时调用lineStyle,beginFill,beginGradientFill标记,实际应该draw时候标记在Path2D
+         */
+        dirtyRender: boolean;
+        $canvasRenderer: any;
+        $canvasRenderBuffer: any;
     }
 }
 declare module egret.sys {
@@ -9925,6 +9994,28 @@ declare module egret.sys {
          * 在显示对象的$render()方法被调用前，自动清空自身的drawData数据。
          */
         cleanBeforeRender(): void;
+        /**
+         * 绘制x偏移
+         */
+        x: number;
+        /**
+         * 绘制y偏移
+         */
+        y: number;
+        /**
+         * 绘制宽度
+         */
+        width: number;
+        /**
+         * 绘制高度
+         */
+        height: number;
+        /**
+         * 脏渲染标记
+         */
+        dirtyRender: boolean;
+        $canvasRenderer: any;
+        $canvasRenderBuffer: any;
     }
 }
 declare module egret.sys {
@@ -10673,6 +10764,21 @@ declare module egret {
          * 设置系统信息
          */
         static $setNativeCapabilities(value: string): void;
+        /***
+         * @language en_US
+         * current render mode
+         * @type {string}
+         * @version Egret 3.0.7
+         * @platform Web,Native
+         */
+        /***
+         * @language zh_CN
+         * 当前渲染模式
+         * @type {string}
+         * @version Egret 3.0.7
+         * @platform Web,Native
+         */
+        static renderMode: string;
     }
 }
 declare var testDeviceType: () => boolean;
@@ -11633,6 +11739,7 @@ declare module egret {
         private blurHandler(event);
         private tempStage;
         private onMouseDownHandler(event);
+        $onFocus(): void;
         private onStageDownHandler(event);
         /**
          * @private
@@ -12471,8 +12578,15 @@ declare module egret {
          */
         private fillBackground(lines);
         /**
-         * @private
-         * @version Egret 2.4
+         * @language en_US
+         * Enter the text automatically entered into the input state, the input type is text only and may only be invoked in the user interaction.
+         * @version Egret 3.0.8
+         * @platform Web,Native
+         */
+        /**
+         * @language zh_CN
+         * 输入文本自动进入到输入状态，仅在类型是输入文本并且是在用户交互下才可以调用。
+         * @version Egret 3.0.8
          * @platform Web,Native
          */
         setFocus(): void;
@@ -12493,6 +12607,7 @@ declare module egret {
          */
         $invalidateTextField(): void;
         $update(bounds?: Rectangle): boolean;
+        $getRenderBounds(): Rectangle;
         /**
          * @private
          */

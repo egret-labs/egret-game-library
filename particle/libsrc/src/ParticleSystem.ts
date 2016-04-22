@@ -372,6 +372,8 @@ module particle {
                         (<egret.sys.GroupNode>this.$renderNode).addNode(this.setAlphaNodeList[i]);
                         (<egret.sys.GroupNode>this.$renderNode).addNode(this.bitmapNodeList[i]);
                         bitmapNode.image = texture._bitmapData;
+                        bitmapNode.imageWidth = texture._sourceWidth;
+                        bitmapNode.imageHeight = texture._sourceHeight;
                         bitmapNode.drawImage(bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
                     }
                     setAlphaNode = this.setAlphaNodeList[i];
