@@ -6,32 +6,7 @@
 			"name": "tiled",
 			"description": "tiled",
 			"files": [
-				"animation/TMXAnimation.ts",
-				"animation/TMXAnimationFrame.ts",
-				"const/TMXConstants.ts",
-				"events/TMXImageLoadEvent.ts",
-				"layer/Ilayer.ts",
-				"layer/TMXLayerBase.ts",
-				"layer/TMXColorLayer.ts",
-				"layer/TMXImageLayer.ts",
-				"tile/TMXTile.ts",
-				"tileset/TMXTilesetGroup.ts",
-				"object/TMXImage.ts",
-				"property/TMXProperty.ts",
-				"render/TMXRenderer.ts",
-				"render/TMXOrthogonalRenderer.ts",
-				"render/TMXIsometricRenderer.ts",
-				"render/TMXHexagonalRenderer.ts",
-				"TMXTilemap.ts",
-				"shape/Ellipse.ts",
-				"shape/Polygon.ts",
-				"shape/PolyLine.ts",
-				"tileset/TMXTileset.ts",
-				"layer/TMXLayer.ts",
-				"object/TMXObject.ts",
-				"object/TMXObjectGroup.ts",
-				"utils/Base64.ts",
-				"utils/TMXUtils.ts"
+				
 			],
 			"root": "src"
 		}

@@ -16,7 +16,7 @@ module tiled{
 		private _image: tiled.TMXImage;
 		private _imagesource: string;
 		private _transformMatrix: egret.Matrix;
-		private static _cacheRenderTextures: any;
+        private static spritesheets:Object = {};
 		
 		/**
 		 * Tileset对象
@@ -27,7 +27,6 @@ module tiled{
 		 */
 		constructor(tilemap: tiled.TMXTilemap, tilesetData: any) {
 			this._tileDatas     = [];
-			tiled.TMXTileset._cacheRenderTextures = {};
 			this._firstgid      = +tilesetData.attributes.firstgid;
 			this._lastgid       = this._firstgid;
 			this._tilemap       = tilemap;
@@ -244,7 +243,7 @@ module tiled{
 		contains(gid:number):boolean {
             return gid >= this._firstgid && gid <= this._lastgid;
 		}
-
+        
 		/**
 		 * 绘制Tile
 		 * @param renderer 渲染容器
@@ -255,57 +254,54 @@ module tiled{
 		 */
 		drawTile(renderer: egret.Sprite, dx: number, dy: number, tile: tiled.TMXTile): void {
 			//用gid+col+row作key来降低draw的次数
-			var renderTexture: egret.RenderTexture;
+			var renderTexture: any;
 			var id: number 	= tile.gid - this.firstgid;
 			var key: string = this.firstgid + "_" + id;
-			if (key) {
-				if (tiled.TMXTileset._cacheRenderTextures[key] == null) {
-					if (this.image) {
-						renderTexture = new egret.RenderTexture();
-						renderTexture.drawToTexture(
-							this.image.bitmap,
-							new egret.Rectangle(
-								(id % this.horizontalTileCount) * (this.tilewidth + this._spacing) + this._spacing,
-								(Math.floor(id / this.horizontalTileCount)) * (this.tileheight + this._margin) + this._margin,
-								this.tilewidth,
-								this.tileheight)
-							);
-						tiled.TMXTileset._cacheRenderTextures[key] = renderTexture;
-					}
-				} else {
-					renderTexture = tiled.TMXTileset._cacheRenderTextures[key];
-				}
+            var spritesheet:egret.SpriteSheet;
+            if(tiled.TMXTileset.spritesheets[this.image.source] == null){
+                spritesheet                             = new egret.SpriteSheet(this.image.texture);
+                tiled.TMXTileset.spritesheets[this.image.source]    = spritesheet;
+            }else{
+                spritesheet                             = tiled.TMXTileset.spritesheets[this.image.source];
+            }
+            renderTexture = spritesheet.getTexture(key);
+            if(renderTexture == null)
+            {
+                var rect:egret.Rectangle = new egret.Rectangle(
+                    (id % this.horizontalTileCount) * (this.tilewidth + this._spacing) + this._spacing,
+                    (Math.floor(id / this.horizontalTileCount)) * (this.tileheight + this._margin) + this._margin,
+                    this.tilewidth,
+                    this.tileheight);
+                renderTexture   = spritesheet.createTexture(key,rect.x,rect.y,rect.width,rect.height,0,0);
+            }
 
-				if (renderTexture) {
-					var isImage: boolean    = false;
-					var isObject: boolean   = false;
-					if (renderer instanceof tiled.TMXObject) {
-						isObject = true;
-						isImage = (<tiled.TMXObject>renderer).isImage;
-					}
-					this._transformMatrix.identity();
-					var _scalex: number = isObject ? renderer.width / renderTexture.textureWidth : 1;
-					var _scaley: number = isObject ? renderer.height / renderTexture.textureHeight : 1;
-					if (tile.flippedAD) {
-						this._transformMatrix.scale(-1 * _scalex, -1 * _scaley);
-						this._transformMatrix.translate(dx + renderer.width * _scalex, dy + renderer.height * _scaley);
-					} else if (tile.flippedY) {
-						this._transformMatrix.scale(1 * _scalex, -1 * _scaley);
-						this._transformMatrix.translate(dx, dy + renderer.height * _scaley);
-					} else if (tile.flippedX) {
-						this._transformMatrix.scale(-1 * _scalex, 1 * _scaley);
-						this._transformMatrix.translate(dx + renderer.width * _scalex, dy);
-					} else {
-						this._transformMatrix.scale(_scalex, _scaley);
-						this._transformMatrix.translate(dx, dy + (isObject ? (renderTexture.textureHeight - renderer.height) : 0));
-					}
-					if (tile.bitmap == null)
-						tile.bitmap 			  = new egret.Bitmap();
-					tile.bitmap.texture 		  = renderTexture;
-					tile.bitmap.matrix		  = this._transformMatrix;
-					renderer.addChild(tile.bitmap);
-				}
-			}   
+            var isImage: boolean    = false;
+            var isObject: boolean   = false;
+            if (renderer instanceof tiled.TMXObject) {
+                isObject = true;
+                isImage = (<tiled.TMXObject>renderer).isImage;
+            }
+            this._transformMatrix.identity();
+            var _scalex: number = isObject ? renderer.width / renderTexture.textureWidth : 1;
+            var _scaley: number = isObject ? renderer.height / renderTexture.textureHeight : 1;
+            if (tile.flippedAD) {
+                this._transformMatrix.scale(-1 * _scalex, -1 * _scaley);
+                this._transformMatrix.translate(dx + renderer.width * _scalex, dy + renderer.height * _scaley);
+            } else if (tile.flippedY) {
+                this._transformMatrix.scale(1 * _scalex, -1 * _scaley);
+                this._transformMatrix.translate(dx, dy + renderer.height * _scaley);
+            } else if (tile.flippedX) {
+                this._transformMatrix.scale(-1 * _scalex, 1 * _scaley);
+                this._transformMatrix.translate(dx + renderer.width * _scalex, dy);
+            } else {
+                this._transformMatrix.scale(_scalex, _scaley);
+                this._transformMatrix.translate(dx, dy + (isObject ? (renderTexture.textureHeight - renderer.height) : 0));
+            }
+            if (tile.bitmap == null)
+                tile.bitmap 			  = new egret.Bitmap();
+            tile.bitmap.texture 		  = renderTexture;
+            tile.bitmap.matrix		  = this._transformMatrix;
+            renderer.addChild(tile.bitmap);
 		}
 
 		/**
@@ -314,7 +310,11 @@ module tiled{
 		 */
 		static removeAllTextures():void
 		{
-			this._cacheRenderTextures={};
+            for (var url in this.spritesheets){
+                var spritesheet:egret.SpriteSheet=this.spritesheets[url];
+                spritesheet.dispose();
+            }
+			this.spritesheets = {};
 		}
 	} 
 }
