@@ -76,6 +76,12 @@ module particle {
          * @default 1000
          */
         public totalTime:number;
+        
+        /**
+         * 表示粒子的混合模式
+         * @member {number} particle.Particle#blendMode
+         */
+        public blendMode:number;
 
         constructor() {
             this.reset();

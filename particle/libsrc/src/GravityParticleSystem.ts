@@ -171,6 +171,12 @@ module particle {
          * @member {number} particle.GravityParticleSystem#endAlphaVariance
          */
         private endAlphaVariance:number;
+        
+        /**
+         * 表示粒子使用的混合模式
+         * @member {number} particle.GravityParticleSystem#blendMode
+         */
+        private particleBlendMode:number;
 
         constructor(texture:egret.Texture, config:any) {
             super(texture, 200);
@@ -227,6 +233,8 @@ module particle {
             this.startAlphaVariance = getValue(config.startAlphaVariance);
             this.endAlpha = getValue(config.endAlpha);
             this.endAlphaVariance = getValue(config.endAlphaVariance);
+            
+            this.particleBlendMode = config.blendMode;
 
             function getValue(value:any):number {
                 if (typeof value == "undefined") {
@@ -283,6 +291,8 @@ module particle {
 
             locParticle.alpha = startAlpha;
             locParticle.alphaDelta = (endAlpha - startAlpha) / lifespan;
+            
+            locParticle.blendMode = this.particleBlendMode;
         }
 
         private static getValue(base:number, variance:number):number {

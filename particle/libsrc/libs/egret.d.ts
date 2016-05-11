@@ -9796,6 +9796,10 @@ declare module egret.sys {
          */
         imageHeight: number;
         /**
+         * 使用的混合模式
+         */
+        blendMode: number;
+        /**
          * 绘制一次位图
          */
         drawImage(sourceX: number, sourceY: number, sourceW: number, sourceH: number, drawX: number, drawY: number, drawW: number, drawH: number): void;
@@ -9869,8 +9873,9 @@ declare module egret.sys {
          * 暂时调用lineStyle,beginFill,beginGradientFill标记,实际应该draw时候标记在Path2D
          */
         dirtyRender: boolean;
-        $canvasRenderer: any;
-        $canvasRenderBuffer: any;
+        $texture: any;
+        $textureWidth: any;
+        $textureHeight: any;
     }
 }
 declare module egret.sys {
@@ -10014,8 +10019,9 @@ declare module egret.sys {
          * 脏渲染标记
          */
         dirtyRender: boolean;
-        $canvasRenderer: any;
-        $canvasRenderBuffer: any;
+        $texture: any;
+        $textureWidth: any;
+        $textureHeight: any;
     }
 }
 declare module egret.sys {
@@ -10241,6 +10247,7 @@ declare module egret {
          * 绘制一个显示对象
          */
         private drawDisplayObject(displayObject, context, dirtyList, matrix, displayList, clipRegion, root);
+        private renderingMask;
         /**
          * @private
          */

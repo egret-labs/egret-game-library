@@ -400,6 +400,7 @@ var particle;
                     bitmapNode = this.bitmapNodeList[i];
                     setAlphaNode.setAlpha(particle.alpha);
                     bitmapNode.matrix = particle.$getMatrix(textureW / 2, textureH / 2);
+                    bitmapNode.blendMode = particle.blendMode;
                 }
             }
         };
@@ -566,6 +567,7 @@ var particle;
             this.startAlphaVariance = getValue(config.startAlphaVariance);
             this.endAlpha = getValue(config.endAlpha);
             this.endAlphaVariance = getValue(config.endAlphaVariance);
+            this.particleBlendMode = config.blendMode;
             function getValue(value) {
                 if (typeof value == "undefined") {
                     return 0;
@@ -610,6 +612,7 @@ var particle;
             var endAlpha = GravityParticleSystem.getValue(this.endAlpha, this.endAlphaVariance);
             locParticle.alpha = startAlpha;
             locParticle.alphaDelta = (endAlpha - startAlpha) / lifespan;
+            locParticle.blendMode = this.particleBlendMode;
         };
         GravityParticleSystem.getValue = function (base, variance) {
             return base + variance * (Math.random() * 2 - 1);

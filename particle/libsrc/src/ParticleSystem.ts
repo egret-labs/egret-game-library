@@ -381,6 +381,7 @@ module particle {
 
                     setAlphaNode.setAlpha(particle.alpha);
                     bitmapNode.matrix = particle.$getMatrix(textureW / 2, textureH / 2);
+                    bitmapNode.blendMode = particle.blendMode;
                 }
             }
         }

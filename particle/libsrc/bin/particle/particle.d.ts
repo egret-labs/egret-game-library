@@ -40,6 +40,11 @@ declare module particle {
          * @default 1000
          */
         totalTime: number;
+        /**
+         * 表示粒子的混合模式
+         * @member {number} particle.Particle#blendMode
+         */
+        blendMode: number;
         constructor();
         reset(): void;
         private matrix;
@@ -289,6 +294,11 @@ declare module particle {
          * @member {number} particle.GravityParticleSystem#endAlphaVariance
          */
         private endAlphaVariance;
+        /**
+         * 表示粒子使用的混合模式
+         * @member {number} particle.GravityParticleSystem#blendMode
+         */
+        private particleBlendMode;
         constructor(texture: egret.Texture, config: any);
         private parseConfig(config);
         initParticle(particle: Particle): void;
