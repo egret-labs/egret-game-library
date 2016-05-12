@@ -1,0 +1,119 @@
+{
+  "groups":[
+	{
+	  "name":"posters",
+	  "keys":"logo,rollingBack,poster1,poster2,poster3,poster4,poster5,posterend,scroll1,scroll2,scroll3,scroll4,scroll5,scrollEnd"
+	},
+	{
+	  "name":"game",
+	  "keys":"testAnim,soldier_glow,soldier,card_soldier,card_magic,card_back,game_bg"
+	}
+  ],
+	"resources":[
+	  {
+		"name":"poster1",
+		"type":"image",
+		"url":"./poster/poster1.jpg"
+	  },
+	  {
+		"name":"poster2",
+		"type":"image",
+		"url":"./poster/poster2.jpg"
+	  },
+	  {
+		"name":"poster3",
+		"type":"image",
+		"url":"./poster/poster3.jpg"
+	  },
+	  {
+		"name":"poster4",
+		"type":"image",
+		"url":"./poster/poster4.jpg"
+	  },
+	  {
+		"name":"poster5",
+		"type":"image",
+		"url":"./poster/poster5.jpg"
+	  },
+	  {
+		"name":"posterend",
+		"type":"image",
+		"url":"./poster/posterend.jpg"
+	  },
+	  {
+		"name": "scroll1",
+		"type": "json",
+		"url": "./scene/poster/scroll1.scene"
+	  },
+	  {
+		"name": "scroll2",
+		"type": "json",
+		"url": "./scene/poster/scroll2.scene"
+	  },
+	  {
+		"name": "scroll3",
+		"type": "json",
+		"url": "./scene/poster/scroll3.scene"
+	  },
+	  {
+		"name": "scroll4",
+		"type": "json",
+		"url": "./scene/poster/scroll4.scene"
+	  },
+	  {
+		"name": "scroll5",
+		"type": "json",
+		"url": "./scene/poster/scroll5.scene"
+	  },
+	  {
+		"name": "scrollEnd",
+		"type": "json",
+		"url": "./scene/poster/scrollEnd.scene"
+	  },
+	  {
+		"name":"rollingBack",
+		"type":"image",
+		"url":"./poster/rolling_back.jpg"
+	  },
+	  {
+		"name":"logo",
+		"type":"image",
+		"url":"./poster/logo.png"
+	  },
+	  {
+		"name": "card_back",
+		"type": "image",
+		"url": "./game/card_back.png"
+	  },
+	  {
+		"name": "card_magic",
+		"type": "image",
+		"url": "./game/card_magic.png"
+	  },
+	  {
+		"name": "card_soldier",
+		"type": "image",
+		"url": "./game/card_soldier.png"
+	  },
+	  {
+		"name": "soldier",
+		"type": "image",
+		"url": "./game/soldier.png"
+	  },
+	  {
+		"name": "soldier_glow",
+		"type": "image",
+		"url": "./game/soldier_glow.png"
+	  },
+	  {
+		"name": "game_bg",
+		"type": "image",
+		"url": "./game/game_bg.jpg"
+	  },
+	  {
+		"name": "testAnim",
+		"type": "json",
+		"url": "./scene/game/testAnim.scene"
+	  }
+	]
+}

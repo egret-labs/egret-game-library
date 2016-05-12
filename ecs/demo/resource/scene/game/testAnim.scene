@@ -1,0 +1,1495 @@
+[
+  {
+    "type": "ecs.Node",
+    "name": "Canvas",
+    "id": 1,
+    "parent": null,
+    "properties": {
+      "x": 360,
+      "y": 640,
+      "rotation": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "width": 720,
+      "height": 1280,
+      "alpha": 1,
+      "color": "#ffffff"
+    },
+    "children": [
+      {
+        "type": "ecs.Node",
+        "name": "game_board",
+        "id": 101,
+        "parent": 1,
+        "properties": {
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "anchorX": 0.5,
+          "anchorY": 0.5,
+          "width": 0,
+          "height": 0,
+          "alpha": 1,
+          "color": "#ffffff"
+        },
+        "children":[
+          {
+            "type": "ecs.Node",
+            "name": "enemy_card_slot",
+            "id": 10106,
+            "parent": 101,
+            "properties": {
+              "x": 0,
+              "y": 0,
+              "rotation": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "anchorX": 0.5,
+              "anchorY": 0.5,
+              "width": 0,
+              "height": 0,
+              "alpha": 1,
+              "color": "#ffffff"
+            },
+            "children":[
+              {
+                "type": "ecs.Node",
+                "name": "card_back_6",
+                "id": 1010601,
+                "parent": 10106,
+                "children": [],
+                "properties": {
+                  "x": -239,
+                  "y": -599,
+                  "rotation": -21,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "anchorX": 0.5,
+                  "anchorY": 0.5,
+                  "width": 113,
+                  "height": 163,
+                  "alpha": 1,
+                  "color_des": "0xffffff",
+                  "color": 16777215
+                },
+                "components": [
+                  {
+                    "type": "egret.Bitmap",
+                    "name": "Sprite",
+                    "id": 10106011,
+                    "node": 1010601,
+                    "properties": {
+                      "texture": "card_back"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "ecs.Node",
+                "name": "card_back_7",
+                "id": 1010602,
+                "parent": 10106,
+                "children": [],
+                "properties": {
+                  "x-1":-239,
+                  "y-1":-599,
+                  "x": 254,
+                  "y": -611,
+                  "rotation": -21,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "anchorX": 0.5,
+                  "anchorY": 0.5,
+                  "width": 113,
+                  "height": 163,
+                  "alpha": 1,
+                  "color_des":"0xffffff",
+                  "color": 16777215
+                },
+                "components": [
+                  {
+                    "type": "egret.Bitmap",
+                    "name": "Sprite",
+                    "id": 10106021,
+                    "node": 1010602,
+                    "properties": {
+                      "texture": "card_back"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "ecs.Node",
+                "name": "card_back_4",
+                "id": 1010603,
+                "parent": 10106,
+                "children": [],
+                "properties": {
+                  "x": -171,
+                  "y": -601,
+                  "rotation": -3,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "anchorX": 0.5,
+                  "anchorY": 0.5,
+                  "width": 113,
+                  "height": 163,
+                  "alpha": 1,
+                  "color_des":"0xffffff",
+                  "color": 16777215
+                },
+                "components": [
+                  {
+                    "type": "egret.Bitmap",
+                    "name": "Sprite",
+                    "id": 10106031,
+                    "node": 1010603,
+                    "properties": {
+                      "texture": "card_back"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "ecs.Node",
+                "name": "card_back_5",
+                "id": 1010604,
+                "parent": 10106,
+                "children": [],
+                "properties": {
+                  "x": 192,
+                  "y": -624,
+                  "rotation": 1,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "anchorX": 0.5,
+                  "anchorY": 0.5,
+                  "width": 113,
+                  "height": 163,
+                  "alpha": 1,
+                  "color_des":"0xffffff",
+                  "color": 16777215
+                },
+                "components": [
+                  {
+                    "type": "egret.Bitmap",
+                    "name": "Sprite",
+                    "id": 10106041,
+                    "node": 1010604,
+                    "properties": {
+                      "texture": "card_back"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "ecs.Node",
+                "name": "card_back_2",
+                "id": 1010605,
+                "parent": 10106,
+                "children": [],
+                "properties": {
+                  "x": -63,
+                  "y": -575,
+                  "rotation": 4,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "anchorX": 0.5,
+                  "anchorY": 0.5,
+                  "width": 113,
+                  "height": 163,
+                  "alpha": 1,
+                  "color_des":"0xffffff",
+                  "color": 16777215
+                },
+                "components": [
+                  {
+                    "type": "egret.Bitmap",
+                    "name": "Sprite",
+                    "id": 10106051,
+                    "node": 1010605,
+                    "properties": {
+                      "texture": "card_back"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "ecs.Node",
+                "name": "card_back_3",
+                "id": 1010606,
+                "parent": 10106,
+                "children": [],
+                "properties": {
+                  "x": 75,
+                  "y": -589,
+                  "rotation": -8,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "anchorX": 0.5,
+                  "anchorY": 0.5,
+                  "width": 113,
+                  "height": 163,
+                  "alpha": 1,
+                  "color_des":"0xffffff",
+                  "color": 16777215
+                },
+                "components": [
+                  {
+                    "type": "egret.Bitmap",
+                    "name": "Sprite",
+                    "id": 10106061,
+                    "node": 1010606,
+                    "properties": {
+                      "texture": "card_back"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "ecs.Node",
+                "name": "card_back_1",
+                "id": 1010607,
+                "parent": 10106,
+                "children": [],
+                "properties": {
+                  "x": -7,
+                  "y": -552,
+                  "rotation": 0,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "anchorX": 0.5,
+                  "anchorY": 0.5,
+                  "width": 113,
+                  "height": 163,
+                  "alpha": 1,
+                  "color_des":"0xffffff",
+                  "color": 16777215
+                },
+                "components": [
+                  {
+                    "type": "egret.Bitmap",
+                    "name": "Sprite",
+                    "id": 10106071,
+                    "node": 1010607,
+                    "properties": {
+                      "texture": "card_back"
+                    }
+                  }
+                ]
+              }
+            ],
+            "components":[
+              {
+                "type":"ecs.Component",
+                "name":"card_back_slot",
+                "id":101061,
+                "node":10106,
+                "properties":{
+                  "numbers":7
+                }
+              },
+              {
+                "type":"ecs.Component",
+                "name":"card_slot",
+                "id":101062,
+                "node":10106,
+                "properties":{
+                  "isShow":false,
+                  "slots":[]
+                }
+              }
+            ]
+          },
+          {
+            "type": "ecs.Node",
+            "name": "me_card_slot",
+            "id": 10107,
+            "parent": 101,
+            "properties": {
+              "x": 0,
+              "y": 0,
+              "rotation": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "anchorX": 0.5,
+              "anchorY": 0.5,
+              "width": 0,
+              "height": 0,
+              "alpha": 1,
+              "color": "#ffffff"
+            },
+            "children":[
+              {
+                "type": "ecs.Node",
+                "name": "slot1",
+                "id": 1010701,
+                "parent": 10107,
+                "properties": {
+                  "x-1": 2,
+                  "y-1": 285,
+                  "x": 2,
+                  "y": 285,
+                  "rotation": 0,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "anchorX": 0.5,
+                  "anchorY": 0.5,
+                  "width": 120,
+                  "height": 170,
+                  "alpha": 1,
+                  "color_des": "0xffffff",
+                  "color": 16777215
+                },
+                "children": [],
+                "components": []
+              },
+              {
+                "type": "ecs.Node",
+                "name": "slot2",
+                "id": 1010702,
+                "parent": 10107,
+                "properties": {
+                  "x": -135,
+                  "y": 294,
+                  "rotation": 0,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "anchorX": 0.5,
+                  "anchorY": 0.5,
+                  "width": 120,
+                  "height": 170,
+                  "alpha": 1,
+                  "color_des": "0xffffff",
+                  "color": 16777215
+                },
+                "children": [],
+                "components": []
+              },
+              {
+                "type": "ecs.Node",
+                "name": "slot3",
+                "id": 1010703,
+                "parent": 10107,
+                "properties": {
+                  "x": 136,
+                  "y": 311,
+                  "rotation": 0,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "anchorX": 0.5,
+                  "anchorY": 0.5,
+                  "width": 120,
+                  "height": 170,
+                  "alpha": 1,
+                  "color_des": "0xffffff",
+                  "color": 16777215
+                },
+                "children": [],
+                "components": []
+              },
+              {
+                "type": "ecs.Node",
+                "name": "slot4",
+                "id": 1010704,
+                "parent": 10107,
+                "properties": {
+                  "x": -131,
+                  "y": 482,
+                  "rotation": 0,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "anchorX": 0.5,
+                  "anchorY": 0.5,
+                  "width": 120,
+                  "height": 170,
+                  "alpha": 1,
+                  "color_des": "0xffffff",
+                  "color": 16777215
+                },
+                "children": [],
+                "components": []
+              },
+              {
+                "type": "ecs.Node",
+                "name": "slot5",
+                "id": 1010705,
+                "parent": 10107,
+                "properties": {
+                  "x": -274,
+                  "y": 328,
+                  "rotation": 0,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "anchorX": 0.5,
+                  "anchorY": 0.5,
+                  "width": 120,
+                  "height": 170,
+                  "alpha": 1,
+                  "color_des": "0xffffff",
+                  "color": 16777215
+                },
+                "children": [],
+                "components": []
+              },
+              {
+                "type": "ecs.Node",
+                "name": "slot6",
+                "id": 1010706,
+                "parent": 10107,
+                "properties": {
+                  "x": -264,
+                  "y": 508,
+                  "rotation": 0,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "anchorX": 0.5,
+                  "anchorY": 0.5,
+                  "width": 120,
+                  "height": 170,
+                  "alpha": 1,
+                  "color_des": "0xffffff",
+                  "color": 16777215
+                },
+                "children": [],
+                "components": []
+              },
+              {
+                "type": "ecs.Node",
+                "name": "slot7",
+                "id": 1010707,
+                "parent": 10107,
+                "properties": {
+                  "x": 272,
+                  "y": 343,
+                  "rotation": 0,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "anchorX": 0.5,
+                  "anchorY": 0.5,
+                  "width": 120,
+                  "height": 170,
+                  "alpha": 1,
+                  "color_des": "0xffffff",
+                  "color": 16777215
+                },
+                "children": [],
+                "components": []
+              }
+            ],
+            "components":[
+              {
+                "type": "ecs.Component",
+                "name": "card_slot",
+                "id": 101071,
+                "node": 10107,
+                "properties": {
+                  "isShow": true,
+                  "slots": [
+                    1010701,
+                    1010702,
+                    1010703,
+                    1010704,
+                    1010705,
+                    1010706,
+                    1010707
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "components":[]
+      },
+      {
+        "type": "ecs.Node",
+        "name": "UI_CARDDRAW",
+        "id": 102,
+        "parent": 1,
+        "properties": {
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "anchorX": 0.5,
+          "anchorY": 0.5,
+          "width": 120,
+          "height": 170,
+          "alpha": 1,
+          "color": "#ffffff"
+        },
+        "children":[
+        ],
+        "components": [
+          {
+            "type":"egret.Bitmap",
+            "name":"Sprite",
+            "id":1021,
+            "node":102,
+            "properties":{
+              "texture":"card_back"
+            }
+          },
+          {
+            "type": "egret.Tween",
+            "name": "Animation",
+            "id": 1022,
+            "node": 102,
+            "properties": {
+              "defaultClip": "draw_a_card",
+              "clips": [
+                {
+                  "name": "draw_a_card",
+                  "keyframes": [
+                    {
+                      "x": 538,
+                      "y": -112,
+                      "rotation": -51,
+                      "scaleX": 1,
+                      "scaleY": 1,
+                      "alpha": 1
+                    },
+                    {
+                      "x": -15,
+                      "y": -137,
+                      "rotation": -2,
+                      "scaleX": 4,
+                      "scaleY": 4
+                    },
+                    {
+                      "x": 11,
+                      "y": -135,
+                      "rotation": 4,
+                      "scaleX": 4,
+                      "scaleY": 4
+                    }
+                  ],
+                  "durations":[500,700]
+                },
+                {
+                  "name": "place_to_slot1",
+                  "keyframes": [
+                    {
+                      "x": 14,
+                      "y": -200,
+                      "rotation": 4,
+                      "scaleX": 4,
+                      "scaleY": 4,
+                      "alpha": 1
+                    },
+                    {
+                      "x": -1,
+                      "y": 280,
+                      "rotation": 0,
+                      "scaleX": 1,
+                      "scaleY": 1
+                    }
+                  ],
+                  "durations":[700]
+                },
+                {
+                  "name": "place_to_slot2",
+                  "keyframes": [
+                    {
+                      "x": 14,
+                      "y": -200,
+                      "rotation": 4,
+                      "scaleX": 4,
+                      "scaleY": 4,
+                      "alpha": 1
+                    },
+                    {
+                      "x": -158,
+                      "y": 290,
+                      "rotation": 0,
+                      "scaleX": 1,
+                      "scaleY": 1
+                    }
+                  ],
+                  "durations":[700]
+                },
+                {
+                  "name": "place_to_slot3",
+                  "keyframes": [
+                    {
+                      "x": 14,
+                      "y": -200,
+                      "rotation": 4,
+                      "scaleX": 4,
+                      "scaleY": 4,
+                      "alpha": 1
+                    },
+                    {
+                      "x": 135,
+                      "y": 298,
+                      "rotation": 0,
+                      "scaleX": 1,
+                      "scaleY": 1
+                    }
+                  ],
+                  "durations":[700]
+                },
+                {
+                  "name": "place_to_slot4",
+                  "keyframes": [
+                    {
+                      "x": 14,
+                      "y": -200,
+                      "rotation": 4,
+                      "scaleX": 4,
+                      "scaleY": 4,
+                      "alpha": 1
+                    },
+                    {
+                      "x": -114,
+                      "y": 488,
+                      "rotation": 0,
+                      "scaleX": 1,
+                      "scaleY": 1
+                    }
+                  ],
+                  "durations":[700]
+                },
+                {
+                  "name": "place_to_slot5",
+                  "keyframes": [
+                    {
+                      "x": 14,
+                      "y": -200,
+                      "rotation": 4,
+                      "scaleX": 4,
+                      "scaleY": 4,
+                      "alpha": 1
+                    },
+                    {
+                      "x": -280,
+                      "y": 312,
+                      "rotation": 0,
+                      "scaleX": 1,
+                      "scaleY": 1
+                    }
+                  ],
+                  "durations":[700]
+                },
+                {
+                  "name": "place_to_slot6",
+                  "keyframes": [
+                    {
+                      "x": 14,
+                      "y": -200,
+                      "rotation": 4,
+                      "scaleX": 4,
+                      "scaleY": 4,
+                      "alpha": 1
+                    },
+                    {
+                      "x": -251,
+                      "y": 505,
+                      "rotation": 0,
+                      "scaleX": 1,
+                      "scaleY": 1
+                    }
+                  ],
+                  "durations":[700]
+                },
+                {
+                  "name": "place_to_slot7",
+                  "keyframes": [
+                    {
+                      "x": 14,
+                      "y": -200,
+                      "rotation": 4,
+                      "scaleX": 4,
+                      "scaleY": 4,
+                      "alpha": 1
+                    },
+                    {
+                      "x": 275,
+                      "y": 330,
+                      "rotation": 0,
+                      "scaleX": 1,
+                      "scaleY": 1
+                    }
+                  ],
+                  "durations":[700]
+                },
+                {
+                  "name": "place_to_slot0",
+                  "keyframes": [
+                    {
+                      "x": 14,
+                      "y": -200,
+                      "rotation": 4,
+                      "scaleX": 4,
+                      "scaleY": 4,
+                      "alpha": 1
+                    },
+                    {
+                      "x": 0,
+                      "y": -569,
+                      "rotation": 0,
+                      "scaleX": 1,
+                      "scaleY": 1
+                    }
+                  ],
+                  "durations":[700]
+                }
+              ]
+            }
+          },
+          {
+            "type":"ecs.Component",
+            "name":"draw_a_card",
+            "id": 1023,
+            "node": 102,
+            "properties":{}
+          }
+        ]
+      },
+      {
+        "type":"ecs.Node",
+        "name":"UI_TIPS",
+        "id":103,
+        "parent":1,
+        "properties": {
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "anchorX": 0.5,
+          "anchorY": 0.5,
+          "width": 720,
+          "height": 1280,
+          "alpha": 1,
+          "color": "#ffffff"
+        },
+        "children":[
+        ],
+        "components":[
+          {
+            "type":"egret.TextField",
+            "name":"Label",
+            "id":1031,
+            "node":103,
+            "properties":{
+              "stroke":2,
+              "strokeColor_des":"0x111111",
+              "strokeColor":1118481,
+              "enableWrapText":true,
+              "textAlign":"CENTER",
+              "size":50,
+              "text":"this is a label"
+            }
+          },
+          {
+            "type":"Script",
+            "name":"toast",
+            "id":1032,
+            "node":103,
+            "properties":{
+              "tipsLabel":1031
+            }
+          }
+        ]
+      }
+    ],
+    "components":[
+      {
+        "type":"egret.Bitmap",
+        "name":"Sprite",
+        "id":11,
+        "node":1,
+        "properties":{
+          "texture":"game_bg"
+        }
+      }
+    ]
+  },
+  {
+    "prefab":true,
+    "type": "ecs.Node",
+    "name": "PrefabWork",
+    "id": 2,
+    "parent": null,
+    "properties": {
+      "x": 0,
+      "y": 0,
+      "rotation": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "width": 0,
+      "height": 0,
+      "alpha": 1,
+      "color": "#ffffff"
+    },
+    "children":[
+      {
+        "type": "ecs.Node",
+        "name": "card_magic",
+        "id": 201,
+        "parent": 2,
+        "properties": {
+          "x": 165,
+          "y": 150,
+          "rotation": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "anchorX": 0.5,
+          "anchorY": 0.5,
+          "width": 116,
+          "height": 170,
+          "alpha": 1,
+          "color": "#ffffff"
+        },
+        "children":[
+          {
+            "type": "ecs.Node",
+            "name": "cost_label",
+            "id": 20101,
+            "parent": 201,
+            "properties": {
+              "x": -45.1,
+              "y": -73.1,
+              "rotation": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "anchorX": 0.5,
+              "anchorY": 0.5,
+              "width": 100,
+              "height": 1,
+              "alpha": 1,
+              "color_des": "#ff0000",
+              "color":16711680
+            },
+            "children":[],
+            "components":[
+              {
+                "type":"egret.TextField",
+                "name":"Label",
+                "id":201011,
+                "node":20101,
+                "properties":{
+                  "stroke":2,
+                  "strokeColor_des":"0x111111",
+                  "strokeColor":1118481,
+                  "enableWrapText":true,
+                  "textAlign":"CENTER",
+                  "text":"3",
+                  "size":35
+                }
+              }
+            ]
+          },
+          {
+            "type": "ecs.Node",
+            "name": "des_label",
+            "id": 20102,
+            "parent": 201,
+            "properties": {
+              "x": 8,
+              "y": 48,
+              "rotation": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "anchorX": 0.5,
+              "anchorY": 0.5,
+              "width": 100,
+              "height": 1,
+              "alpha": 1,
+              "color_des": "#ff0000",
+              "color":16711680
+            },
+            "children":[],
+            "components":[
+              {
+                "type":"egret.TextField",
+                "name":"Label",
+                "id":201021,
+                "node":20102,
+                "properties":{
+                  "stroke":1,
+                  "strokeColor_des":"0x111111",
+                  "strokeColor":1118481,
+                  "enableWrapText":true,
+                  "textAlign":"CENTER",
+                  "text":"fire On!",
+                  "size":20
+                }
+              }
+            ]
+          },
+          {
+            "type": "ecs.Node",
+            "name": "title_label",
+            "id": 20103,
+            "parent": 201,
+            "properties": {
+              "x": 0,
+              "y": -0.8,
+              "rotation": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "anchorX": 0.5,
+              "anchorY": 0.5,
+              "width": 100,
+              "height": 1,
+              "alpha": 1,
+              "color_des": "#ff0000",
+              "color":16711680
+            },
+            "children":[],
+            "components":[
+              {
+                "type":"egret.TextField",
+                "name":"Label",
+                "id":201031,
+                "node":20103,
+                "properties":{
+                  "stroke":2,
+                  "strokeColor_des":"0x111111",
+                  "strokeColor":1118481,
+                  "enableWrapText":true,
+                  "textAlign":"CENTER",
+                  "text":"magic",
+                  "size":30
+                }
+              }
+            ]
+          }
+        ],
+        "components":[
+          {
+            "type":"egret.Bitmap",
+            "name":"Sprite",
+            "id":2011,
+            "node":201,
+            "properties":{
+              "texture":"card_magic"
+            }
+          },
+          {
+            "type":"ecs.Component",
+            "name":"card_cost",
+            "id":2012,
+            "node":201,
+            "properties":{
+              "labelCost":201011
+            }
+          },
+          {
+            "type":"ecs.Component",
+            "name":"card_base",
+            "id":2013,
+            "node":201,
+            "properties":{
+              "labelDescription":201021,
+              "lableTitle":201031
+            }
+          }
+        ]
+      },
+      {
+        "type": "ecs.Node",
+        "name": "card_soldier",
+        "id": 202,
+        "parent": 2,
+        "properties": {
+          "x": 285,
+          "y": 150,
+          "rotation": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "anchorX": 0.5,
+          "anchorY": 0.5,
+          "width": 116,
+          "height": 170,
+          "alpha": 1,
+          "color_des": "#ff0000",
+          "color":16711680
+        },
+        "children":[
+          {
+            "type": "ecs.Node",
+            "name": "cost_label",
+            "id": 20201,
+            "parent": 202,
+            "properties": {
+              "x": -45.1,
+              "y": -73.1,
+              "rotation": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "anchorX": 0.5,
+              "anchorY": 0.5,
+              "width": 100,
+              "height": 1,
+              "alpha": 1,
+              "color_des": "#ff0000",
+              "color":16711680
+            },
+            "children":[],
+            "components":[
+              {
+                "type":"egret.TextField",
+                "name":"Label",
+                "id":202011,
+                "node":20201,
+                "properties":{
+                  "stroke":2,
+                  "strokeColor_des":"0x111111",
+                  "strokeColor":1118481,
+                  "enableWrapText":true,
+                  "textAlign":"CENTER",
+                  "text":"3",
+                  "size":35
+                }
+              }
+            ]
+          },
+          {
+            "type": "ecs.Node",
+            "name": "attack_label",
+            "id": 20202,
+            "parent": 202,
+            "properties": {
+              "x": -45.1,
+              "y": 70.1,
+              "rotation": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "anchorX": 0.5,
+              "anchorY": 0.5,
+              "width": 100,
+              "height": 1,
+              "alpha": 1,
+              "color_des": "#00ff00",
+              "color":65280
+            },
+            "children":[],
+            "components":[
+              {
+                "type":"egret.TextField",
+                "name":"Label",
+                "id":202021,
+                "node":20202,
+                "properties":{
+                  "stroke":2,
+                  "strokeColor_des":"0x111111",
+                  "strokeColor":1118481,
+                  "enableWrapText":true,
+                  "textAlign":"CENTER",
+                  "text":"3",
+                  "size":35
+                }
+              }
+            ]
+          },
+          {
+            "type": "ecs.Node",
+            "name": "life_label",
+            "id": 20203,
+            "parent": 202,
+            "properties": {
+              "x": 49.1,
+              "y": 70.1,
+              "rotation": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "anchorX": 0.5,
+              "anchorY": 0.5,
+              "width": 100,
+              "height": 1,
+              "alpha": 1,
+              "color_des": "#ff0000",
+              "color":16711680
+            },
+            "children":[],
+            "components":[
+              {
+                "type":"egret.TextField",
+                "name":"Label",
+                "id":202031,
+                "node":20203,
+                "properties":{
+                  "stroke":2,
+                  "strokeColor_des":"0x111111",
+                  "strokeColor":1118481,
+                  "enableWrapText":true,
+                  "textAlign":"CENTER",
+                  "text":"3",
+                  "size":35
+                }
+              }
+            ]
+          },
+          {
+            "type": "ecs.Node",
+            "name": "des_label",
+            "id": 20204,
+            "parent": 202,
+            "properties": {
+              "x": 8,
+              "y": 48,
+              "rotation": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "anchorX": 0.5,
+              "anchorY": 0.5,
+              "width": 100,
+              "height": 1,
+              "alpha": 1,
+              "color_des": "#ff0000",
+              "color":16711680
+            },
+            "children":[],
+            "components":[
+              {
+                "type":"egret.TextField",
+                "name":"Label",
+                "id":202041,
+                "node":20204,
+                "properties":{
+                  "stroke":1,
+                  "strokeColor_des":"0x111111",
+                  "strokeColor":1118481,
+                  "enableWrapText":true,
+                  "textAlign":"CENTER",
+                  "text":"I'm attacker!",
+                  "size":20
+                }
+              }
+            ]
+          },
+          {
+            "type": "ecs.Node",
+            "name": "title_label",
+            "id": 20205,
+            "parent": 202,
+            "properties": {
+              "x": 0,
+              "y": -0.8,
+              "rotation": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "anchorX": 0.5,
+              "anchorY": 0.5,
+              "width": 100,
+              "height": 1,
+              "alpha": 1,
+              "color_des": "#ff0000",
+              "color":16711680
+            },
+            "children":[],
+            "components":[
+              {
+                "type":"egret.TextField",
+                "name":"Label",
+                "id":202051,
+                "node":20205,
+                "properties":{
+                  "stroke":2,
+                  "strokeColor_des":"0x111111",
+                  "strokeColor":1118481,
+                  "enableWrapText":true,
+                  "textAlign":"CENTER",
+                  "text":"soldier",
+                  "size":30
+                }
+              }
+            ]
+          },
+          {
+            "type": "ecs.Node",
+            "name": "subtitle_label",
+            "id": 20206,
+            "parent": 202,
+            "properties": {
+              "x": 7.9,
+              "y": 70,
+              "rotation": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "anchorX": 0.5,
+              "anchorY": 0.5,
+              "width": 100,
+              "height": 1,
+              "alpha": 1,
+              "color_des": "#ff0000",
+              "color":16711680
+            },
+            "children":[],
+            "components":[
+              {
+                "type":"egret.TextField",
+                "name":"Label",
+                "id":202061,
+                "node":20206,
+                "properties":{
+                  "stroke":1,
+                  "strokeColor_des":"0x111111",
+                  "strokeColor":1118481,
+                  "enableWrapText":true,
+                  "textAlign":"CENTER",
+                  "text":"subtitle",
+                  "size":16
+                }
+              }
+            ]
+          }
+        ],
+        "components":[
+          {
+            "type":"egret.Bitmap",
+            "name":"Sprite",
+            "id":2021,
+            "node":202,
+            "properties":{
+              "texture":"card_soldier"
+            }
+          },
+          {
+            "type":"ecs.Component",
+            "name":"card_cost",
+            "id":2022,
+            "node":202,
+            "properties":{
+              "labelCost":202011,
+              "initCost":10
+            }
+          },
+          {
+            "type":"ecs.Component",
+            "name":"card_base",
+            "id": 2023,
+            "node": 202,
+            "properties": {
+              "labelDescription": 202041,
+              "labelTitle": 202051,
+              "labelSubtitle": 202061
+            }
+          },
+          {
+            "type":"ecs.Component",
+            "name":"card_soldier",
+            "id": 2024,
+            "node": 202,
+            "properties":{
+              "labelAttack":202021,
+              "labelLife":202031
+            }
+          }
+        ]
+      },
+      {
+        "type": "ecs.Node",
+        "name": "soldier",
+        "id": 203,
+        "parent": 2,
+        "properties": {
+          "x": 235,
+          "y": 700,
+          "rotation": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "anchorX": 0.5,
+          "anchorY": 0.5,
+          "width": 95,
+          "height": 125,
+          "alpha": 1,
+          "color_des": "#ff0000",
+          "color":16711680
+        },
+        "children":[
+          {
+            "type": "ecs.Node",
+            "name": "attack_label",
+            "id": 20301,
+            "parent": 203,
+            "properties": {
+              "x": -26,
+              "y": 31,
+              "rotation": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "anchorX": 0.5,
+              "anchorY": 0.5,
+              "width": 100,
+              "height": 1,
+              "alpha": 1,
+              "color_des": "#ffffff",
+              "color":16777215
+            },
+            "children":[],
+            "components":[
+              {
+                "type":"egret.TextField",
+                "name":"Label",
+                "id":203011,
+                "node":20301,
+                "properties":{
+                  "stroke":2,
+                  "strokeColor_des":"#111111",
+                  "strokeColor":1118481,
+                  "enableWrapText":true,
+                  "textAlign":"CENTER",
+                  "text":"3",
+                  "size":35
+                }
+              }
+            ]
+          },
+          {
+            "type": "ecs.Node",
+            "name": "life_label",
+            "id": 20302,
+            "parent": 203,
+            "properties": {
+              "x": 31.1,
+              "y": 31.1,
+              "rotation": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "anchorX": 0.5,
+              "anchorY": 0.5,
+              "width": 100,
+              "height": 1,
+              "alpha": 1,
+              "color_des": "#ffffff",
+              "color":16777215
+            },
+            "children":[],
+            "components":[
+              {
+                "type":"egret.TextField",
+                "name":"Label",
+                "id":203021,
+                "node":20302,
+                "properties":{
+                  "stroke":2,
+                  "strokeColor_des":"0x111111",
+                  "strokeColor":1118481,
+                  "enableWrapText":true,
+                  "textAlign":"CENTER",
+                  "text":"3",
+                  "size":35
+                }
+              }
+            ]
+          }
+        ],
+        "components":[
+          {
+            "type":"egret.Bitmap",
+            "name":"Sprite",
+            "id":2031,
+            "node":203,
+            "properties":{
+              "texture":"soldier"
+            }
+          }
+        ]
+      },
+      {
+        "type": "ecs.Node",
+        "name": "card_back",
+        "id": 204,
+        "parent": 2,
+        "properties": {
+          "x": 565,
+          "y": 150,
+          "rotation": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "anchorX": 0.5,
+          "anchorY": 0.5,
+          "width": 116,
+          "height": 170,
+          "alpha": 1,
+          "color": "#ffffff"
+        },
+        "children":[
+        ],
+        "components": [
+          {
+            "type":"egret.Bitmap",
+            "name":"Sprite",
+            "id":2041,
+            "node":204,
+            "properties":{
+              "texture":"card_back"
+            }
+          }
+        ]
+      }
+    ],
+    "components":[]
+  },
+  {
+    "type": "ecs.Node",
+    "name": "Game",
+    "id": 3,
+    "parent": null,
+    "properties": {
+      "x": 360,
+      "y": 640,
+      "rotation": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "width": 0,
+      "height": 0,
+      "alpha": 1,
+      "color": "#ffffff"
+    },
+    "children":[
+      {
+        "type": "ecs.Node",
+        "name": "CardManager",
+        "id": 301,
+        "parent": 3,
+        "properties": {
+          "x": 360,
+          "y": 640,
+          "rotation": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "anchorX": 0.5,
+          "anchorY": 0.5,
+          "width": 0,
+          "height": 0,
+          "alpha": 1,
+          "color": "#ffffff"
+        },
+        "children":[],
+        "components":[
+          {
+            "type":"ecs.Component",
+            "name":"CardManager",
+            "id": 3011,
+            "node": 301,
+            "properties":{
+              "crystalSystem":null,
+              "enemyCardSlot":10106,
+              "myCardSlot":10107,
+              "drawCardAnimShower":102,
+              "soldierPrefab":202,
+              "magicPrefab":201,
+              "cardBackPrefab":204,
+              "toast":103
+            }
+          }
+        ]
+      }
+    ],
+    "components":[]
+  }
+]

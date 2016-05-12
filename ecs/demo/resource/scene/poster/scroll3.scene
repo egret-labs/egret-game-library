@@ -1,0 +1,93 @@
+[
+  {
+    "type": "ecs.Node",
+    "name": "Canvas",
+    "id": 1,
+    "parent": null,
+    "properties": {
+      "x": 360,
+      "y": 640,
+      "rotation": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "width": 720,
+      "height": 1280,
+      "alpha": 1,
+      "color": "#ffffff"
+    },
+    "children": [
+      {
+        "type": "ecs.Node",
+        "name": "Canvas",
+        "id": 101,
+        "parent": 1,
+        "properties": {
+          "x": 0,
+          "y": 40,
+          "rotation": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "anchorX": 0.5,
+          "anchorY": 0.5,
+          "width": 1500,
+          "height": 100,
+          "alpha": 1,
+          "color-des": "#ffffff",
+          "color":16777215
+        },
+        "children":[],
+        "components":[
+          {
+            "type":"egret.TextField",
+            "name":"Label",
+            "id":1011,
+            "node":101,
+            "properties":{
+              "stroke":1,
+              "strokeColor_des":"0x111111",
+              "strokeColor":1118481,
+              "enableWrapText":true,
+              "textAlign":"CENTER",
+              "text":"轻应用抽奖转盘报名表",
+              "size-31":35,
+              "size":60
+            }
+          },
+          {
+            "type":"ecs.Component",
+            "name":"label_anim_sets",
+            "id":1012,
+            "node":101,
+            "properties":{
+              "animTypes":"fadeIn,fadeOut,typing,crossing",
+              "animType":"fadeIn",
+              "fromPlaceX":0,
+              "fromPlaceY":0,
+              "label":1011
+            }
+          }
+        ]
+      }
+    ],
+    "components":[
+      {
+        "type":"egret.Bitmap",
+        "name":"Sprite",
+        "id":11,
+        "node":1,
+        "properties":{
+          "texture":"poster3"
+        }
+      },
+      {
+        "type":"ecs.Component",
+        "name":"switch_to_next_scene",
+        "id":12,
+        "node":1,
+        "properties":{}
+      }
+    ]
+  }
+]
