@@ -24,6 +24,9 @@ Physics system based on P2
 #### weixinapi
 wechat API
 
+#### weixinextension
+wechat extension
+
 #### dcagent
 DataEye SDK for Egret
 
@@ -52,6 +55,9 @@ Egret Game Library 是 Egret 官方团队参与维护的 Egret 第三方库。�
 
 #### weixinapi
 微信API
+
+#### weixinextension
+wechat 扩展库
 
 #### socket.io
 socket.io

@@ -1,5 +1,6 @@
 bin-debug/
 .idea/
+.wing/
 tools/node_modules
 src/resource/**/*.js
 src/resource/**/**/*.js
