@@ -1,0 +1,14 @@
+{
+	"name": "egret",
+	"version": "3.0.8",
+	"modules": [
+		{
+			"name": "weixinextension",
+			"description": "weixinextension",
+			"files": [
+			  "FullScreenVideo.ts"
+			],
+			"root": "src"
+		}
+	]
+}
