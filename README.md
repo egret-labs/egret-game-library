@@ -33,6 +33,9 @@ DataEye SDK for Egret
 #### tiled
 tiledmap 
 
+#### ecs
+Entity-Component-System support library
+
 中文
 
 ### 概述
@@ -78,3 +81,6 @@ DataEye SDK for Egret
 
 #### tiled
 tiledmap 支持库
+
+#### ecs 
+实体组件系统支持库
