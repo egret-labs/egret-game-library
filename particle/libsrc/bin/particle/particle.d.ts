@@ -132,6 +132,7 @@ declare module particle {
         private update(timeStamp);
         private particleMeasureRect;
         private transformForMeasure;
+        private lastRect;
         $measureContentBounds(bounds: egret.Rectangle): void;
         setCurrentParticles(num: number): void;
         /**

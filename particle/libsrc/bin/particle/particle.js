@@ -328,8 +328,17 @@ var particle;
                     egret.sys.Region.release(tmpRegion);
                 }
                 //console.log(totalRect.x + "," + totalRect.y + "," + totalRect.width + "," + totalRect.height);
+                this.lastRect = totalRect;
                 bounds.setTo(totalRect.x, totalRect.y, totalRect.width, totalRect.height);
                 egret.Rectangle.release(totalRect);
+            }
+            else {
+                if (this.lastRect) {
+                    totalRect = this.lastRect;
+                    bounds.setTo(totalRect.x, totalRect.y, totalRect.width, totalRect.height);
+                    egret.Rectangle.release(totalRect);
+                    this.lastRect = null;
+                }
             }
         };
         p.setCurrentParticles = function (num) {
@@ -355,6 +364,10 @@ var particle;
                 this.removeParticle(this.particles[0]);
             }
             this.numParticles = 0;
+            this.$renderNode.drawData.length = 0;
+            this.setAlphaNodeList.length = 0;
+            this.bitmapNodeList.length = 0;
+            this.$invalidateContentBounds();
         };
         p.addOneParticle = function () {
             //todo 这里可能需要返回成功与否

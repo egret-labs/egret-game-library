@@ -251,7 +251,7 @@ module particle {
 
         private particleMeasureRect:egret.Rectangle = new egret.Rectangle();
         private transformForMeasure:egret.Matrix = new egret.Matrix();
-
+        private lastRect:egret.Rectangle;
         $measureContentBounds(bounds:egret.Rectangle):void {
             //如果设置了固定的区域边界则直接使用这个边界，否则进行自动的内容边界测量
             if (this.relativeContentBounds) {
@@ -294,8 +294,16 @@ module particle {
                     egret.sys.Region.release(tmpRegion);
                 }
                 //console.log(totalRect.x + "," + totalRect.y + "," + totalRect.width + "," + totalRect.height);
+                this.lastRect = totalRect;
                 bounds.setTo(totalRect.x, totalRect.y, totalRect.width, totalRect.height);
                 egret.Rectangle.release(totalRect);
+            }else{
+                if(this.lastRect){
+                    totalRect = this.lastRect;
+                    bounds.setTo(totalRect.x, totalRect.y, totalRect.width, totalRect.height);
+                    egret.Rectangle.release(totalRect);
+                    this.lastRect = null;
+                }
             }
 
         }
@@ -325,6 +333,10 @@ module particle {
                 this.removeParticle(this.particles[0]);
             }
             this.numParticles = 0;
+            this.$renderNode.drawData.length = 0;
+            this.setAlphaNodeList.length = 0;
+            this.bitmapNodeList.length = 0;
+            this.$invalidateContentBounds();
         }
 
         private addOneParticle():void {
