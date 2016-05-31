@@ -33,10 +33,15 @@ loop
 ```
 
 下列为测试过的正常播放的设备
+
 iphone6+  iOS 9.3.1
+
 ipad2     iOS 8.4
-魅族MX5 Android 5.1  Flayme 5.1.4
+
+魅族MX5 Android 5.1  Flyme 5.1.4
+
 小米2s  Android 5.0.2  MIUI 7 6.5.5
+
 华为G621-TL00 Android 4.4.4 emotion2.3
 
 
