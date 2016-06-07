@@ -54,7 +54,13 @@ Egret Game Library 是 Egret 官方团队参与维护的 Egret 第三方库。�
 粒子系统
 
 #### physics
-物理引擎
+p2物理引擎，当前使用的版本为0.7.0
+
+[Github](https://github.com/schteppe/p2.js)
+
+[中文入门文档](https://github.com/schteppe/p2.js/wiki/Chinese-wiki-%E4%B8%AD%E6%96%87%E7%BB%B4%E5%9F%BA)
+
+[Documentation](http://schteppe.github.io/p2.js/docs/classes/FrictionEquation.html)
 
 #### weixinapi
 微信API
@@ -74,10 +80,6 @@ socket.io
 
 #### dcagent
 DataEye SDK for Egret
-[源项目地址](https://github.com/DataEye/dcagent_for_h5)
-
-#### createjs
-可以将Flash中的矢量绘图在Egret显示列表呈现
 
 #### tiled
 tiledmap 支持库
