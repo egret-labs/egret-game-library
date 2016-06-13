@@ -1,0 +1,22 @@
+{
+	"native": {
+		"path_ignore": []
+	},
+	"publish": {
+		"web": 0,
+		"native": 1
+	},
+	"egret_version": "3.1.1",
+	"modules": [
+		{
+			"name": "egret"
+		},
+		{
+			"name": "mouse",
+			"path": "../libsrc"
+		},
+		{
+			"name": "res"
+		}
+	]
+}

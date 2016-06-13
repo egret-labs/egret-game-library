@@ -86,3 +86,6 @@ tiledmap 支持库
 
 #### ecs 
 实体组件系统支持库
+
+#### mouse
+pc鼠标支持库，支持mouseOver，mouseOut，rollOver，rollOut事件，并且支持鼠标手型
