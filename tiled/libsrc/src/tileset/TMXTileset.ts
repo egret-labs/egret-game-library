@@ -14,6 +14,7 @@ module tiled{
 		private _tileDatas: Array<any>;
 		private _properties: Array<any>;
 		private _image: tiled.TMXImage;
+		private _images: tiled.TMXImage[];
 		private _imagesource: string;
 		private _transformMatrix: egret.Matrix;
         private static spritesheets:Object = {};
@@ -48,7 +49,8 @@ module tiled{
 			//每个Tileset有个偏移值，这个偏移值是指绘制在场景中的对象的偏移值
 			this._tileoffset    = new egret.Point();
 			this._hTileCount    = 0;
-			this._vTileCount    = 0;
+			this._vTileCount 	= 0;
+			this._images 		= [];
 
 			var childrens: Array<any> = tilesetData.children;
 			if (childrens) {
@@ -58,6 +60,7 @@ module tiled{
 						case tiled.TMXConstants.IMAGE:
 							this._image = new tiled.TMXImage(child, this.tilemap.baseURL);
 							this._imagesource = this._image.source;
+							this._images.push(this._image);
 							break;
 
 						case tiled.TMXConstants.TILE_OFFSET:
@@ -68,6 +71,15 @@ module tiled{
 							var gid: number = +child.attributes.id + this._firstgid;
 							if (this._tileDatas[gid] == null)
 								this._tileDatas[gid] = child;
+							//检查是否有图片
+							if(child.children && child.children.length>0){
+								if(child.children[0].localName == tiled.TMXConstants.IMAGE){
+									this._image = new tiled.TMXImage(child.children[0], this.tilemap.baseURL);
+									this._imagesource = this._image.source;
+									this._images.push(this._image);
+								}
+							}
+							
 							break;
 
 						case tiled.TMXConstants.PROPERTIES:
@@ -193,6 +205,14 @@ module tiled{
 		}
 
 		/**
+		 * 获取tileset中对标签<code>image</code>解析实例的引用,可能是列表
+		 * @version Egret 3.0.3
+		 */		
+		get images() {
+			return this._images;
+		}
+
+		/**
 		 * 根据id获取特殊格子的数据，默认情况下，tileset中格子如果没有作特殊处理，在tmx文件中是不会生成数据的，这里的特殊处理包括以下几个方面：<br/>
 		 * (1):格子添加了自定义属性<br/>
 		 * (2):格子添加了动画<br/>
@@ -255,53 +275,81 @@ module tiled{
 		drawTile(renderer: egret.Sprite, dx: number, dy: number, tile: tiled.TMXTile): void {
 			//用gid+col+row作key来降低draw的次数
 			var renderTexture: any;
-			var id: number 	= tile.gid - this.firstgid;
-			var key: string = this.firstgid + "_" + id;
-            var spritesheet:egret.SpriteSheet;
-            if(tiled.TMXTileset.spritesheets[this.image.source] == null){
-                spritesheet                             = new egret.SpriteSheet(this.image.texture);
-                tiled.TMXTileset.spritesheets[this.image.source]    = spritesheet;
-            }else{
-                spritesheet                             = tiled.TMXTileset.spritesheets[this.image.source];
-            }
-            renderTexture = spritesheet.getTexture(key);
-            if(renderTexture == null)
-            {
-                var rect:egret.Rectangle = new egret.Rectangle(
-                    (id % this.horizontalTileCount) * (this.tilewidth + this._spacing) + this._spacing,
-                    (Math.floor(id / this.horizontalTileCount)) * (this.tileheight + this._margin) + this._margin,
-                    this.tilewidth,
-                    this.tileheight);
-                renderTexture   = spritesheet.createTexture(key,rect.x,rect.y,rect.width,rect.height,0,0);
-            }
+            var spritesheet: egret.SpriteSheet;
+			var spritesheets: egret.SpriteSheet[];
+			spritesheets = [];
+			//这里可能是多张图
+			if (this.images) {
+				for (var i: number = 0; i < this.images.length; i++){
+					var _image: tiled.TMXImage = this.images[i];
+					if(_image){
+						if(tiled.TMXTileset.spritesheets[_image.source] == null){
+							spritesheet                             		= new egret.SpriteSheet(_image.texture);
+							tiled.TMXTileset.spritesheets[_image.source]    = spritesheet;
+						}else{
+							spritesheet                             		= tiled.TMXTileset.spritesheets[_image.source];
+						}
+					}
+				}
+			}
 
-            var isImage: boolean    = false;
-            var isObject: boolean   = false;
-            if (renderer instanceof tiled.TMXObject) {
-                isObject = true;
-                isImage = (<tiled.TMXObject>renderer).isImage;
-            }
-            this._transformMatrix.identity();
-            var _scalex: number = isObject ? renderer.width / renderTexture.textureWidth : 1;
-            var _scaley: number = isObject ? renderer.height / renderTexture.textureHeight : 1;
-            if (tile.flippedAD) {
-                this._transformMatrix.scale(-1 * _scalex, -1 * _scaley);
-                this._transformMatrix.translate(dx + renderer.width * _scalex, dy + renderer.height * _scaley);
-            } else if (tile.flippedY) {
-                this._transformMatrix.scale(1 * _scalex, -1 * _scaley);
-                this._transformMatrix.translate(dx, dy + renderer.height * _scaley);
-            } else if (tile.flippedX) {
-                this._transformMatrix.scale(-1 * _scalex, 1 * _scaley);
-                this._transformMatrix.translate(dx + renderer.width * _scalex, dy);
-            } else {
-                this._transformMatrix.scale(_scalex, _scaley);
-                this._transformMatrix.translate(dx, dy + (isObject ? (renderTexture.textureHeight - renderer.height) : 0));
-            }
-            if (tile.bitmap == null)
-                tile.bitmap 			  = new egret.Bitmap();
-            tile.bitmap.texture 		  = renderTexture;
-            tile.bitmap.matrix		  = this._transformMatrix;
-            renderer.addChild(tile.bitmap);
+			for (var i: number = 0; i < this.images.length; i++){
+				var _image2: tiled.TMXImage = this.images[i];
+				if (_image2)
+					spritesheets.push(tiled.TMXTileset.spritesheets[_image2.source]);	
+			}
+			var id: number 		= tile.gid - this.firstgid;
+			var key: string = this.firstgid + "_" + id;
+			var _spritesheet: egret.SpriteSheet;
+			if (this.images.length > 1)
+			{
+				_spritesheet = spritesheets[tile.gid - this.firstgid];
+				var rect:egret.Rectangle = new egret.Rectangle(
+					0 * (this.tilewidth + this._spacing) + this._spacing,
+					0 * (this.tileheight + this._margin) + this._margin,
+					this.tilewidth,
+					this.tileheight);
+			}	
+			else
+			{
+				_spritesheet = spritesheets[0];
+				var rect:egret.Rectangle = new egret.Rectangle(
+					(id % this.horizontalTileCount) * (this.tilewidth + this._spacing) + this._spacing,
+					(Math.floor(id / this.horizontalTileCount)) * (this.tileheight + this._margin) + this._margin,
+					this.tilewidth,
+					this.tileheight);
+			}	
+				
+			renderTexture   = _spritesheet.createTexture(key,rect.x,rect.y,rect.width,rect.height,0,0);
+
+			var isImage: boolean    = false;
+			var isObject: boolean   = false;
+			if (renderer instanceof tiled.TMXObject) {
+				isObject = true;
+				isImage = (<tiled.TMXObject>renderer).isImage;
+			}
+			this._transformMatrix.identity();
+			var _scalex: number = isObject ? renderer.width / renderTexture.textureWidth : 1;
+			var _scaley: number = isObject ? renderer.height / renderTexture.textureHeight : 1;
+			if (tile.flippedAD) {
+				this._transformMatrix.scale(-1 * _scalex, -1 * _scaley);
+				this._transformMatrix.translate(dx + renderer.width * _scalex, dy + renderer.height * _scaley);
+			} else if (tile.flippedY) {
+				this._transformMatrix.scale(1 * _scalex, -1 * _scaley);
+				this._transformMatrix.translate(dx, dy + renderer.height * _scaley);
+			} else if (tile.flippedX) {
+				this._transformMatrix.scale(-1 * _scalex, 1 * _scaley);
+				this._transformMatrix.translate(dx + renderer.width * _scalex, dy);
+			} else {
+				this._transformMatrix.scale(_scalex, _scaley);
+				this._transformMatrix.translate(dx, dy + (isObject ? (renderTexture.textureHeight - renderer.height) : 0));
+			}
+			if (tile.bitmap == null)
+				tile.bitmap = new egret.Bitmap();
+			tile.bitmap.texture = renderTexture;
+			tile.bitmap.matrix = this._transformMatrix;
+			renderer.addChild(tile.bitmap);
+			tile.bitmap = tile.bitmap;
 		}
 
 		/**
@@ -311,8 +359,9 @@ module tiled{
 		static removeAllTextures():void
 		{
             for (var url in this.spritesheets){
-                var spritesheet:egret.SpriteSheet=this.spritesheets[url];
-                spritesheet.dispose();
+                var spritesheet: egret.SpriteSheet = this.spritesheets[url];
+				//销毁图像不能显示
+                //spritesheet.dispose();
             }
 			this.spritesheets = {};
 		}

@@ -256,11 +256,8 @@ module tiled{
 		private setTile(tilesets: tiled.TMXTilesetGroup): void {
 			var tileset: tiled.TMXTileset = tilesets.getTilesetByGid(this._gid);
 			if (tileset) {
-				var image: tiled.TMXImage = tileset.image;
-				if (image) {
-                    this._tile = new tiled.TMXTile(0,0,this.gid,tileset.tilemap,tileset);
-                    tileset.drawTile(this,tileset.tileoffset.x,tileset.tileoffset.y - tileset.tileheight,this._tile);
-				}  
+				this._tile = new tiled.TMXTile(0,0,this.gid,tileset.tilemap,tileset);
+                tileset.drawTile(this,tileset.tileoffset.x,tileset.tileoffset.y - tileset.tileheight,this._tile);  
 			}
 		}
 	} 

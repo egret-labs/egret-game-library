@@ -276,7 +276,8 @@ module tiled{
 			var loadCount: number = 0;
 			for (var i: number = 0; i < this._tilesets.length; i++) {
 				var tileset: tiled.TMXTileset = this._tilesets.getTilesetByIndex(i);
-				if (tileset.image) {
+				for (var j: number = 0; j < tileset.images.length; j++){
+					var _image: tiled.TMXImage = tileset.images[j];
 					var onImageLoad: Function = function (event:tiled.TMXImageLoadEvent): void {
                         var target: TMXImage = event.currentTarget;
 						target.removeEventListener(tiled.TMXImageLoadEvent.IMAGE_COMPLETE,onImageLoad,this);
@@ -285,7 +286,8 @@ module tiled{
 							self.dispatchEvent(new tiled.TMXImageLoadEvent(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE));
 						}
 					}
-					tileset.image.addEventListener(tiled.TMXImageLoadEvent.IMAGE_COMPLETE, onImageLoad, this);
+					_image.addEventListener(tiled.TMXImageLoadEvent.IMAGE_COMPLETE, onImageLoad, this);
+
 				}
 			}
 
@@ -320,15 +322,12 @@ module tiled{
 			switch (obj._orientation) {
 				case "orthogonal":
 					return new tiled.TMXOrthogonalRenderer(obj.rows, obj.cols, obj.tilewidth, obj.tileheight);
-					break;
 
 				case "isometric":
 					return new tiled.TMXIsometricRenderer(obj.rows, obj.cols, obj.tilewidth, obj.tileheight);
-					break;
 
 				case "hexagonal":
 					return new tiled.TMXHexagonalRenderer(obj.rows, obj.cols, obj.tilewidth, obj.tileheight, obj._hexsidelength, obj._staggeraxis, obj._staggerindex);
-					break;
 
 				default:
 					throw new Error(obj._orientation + " type TMX Tile Map not supported!");

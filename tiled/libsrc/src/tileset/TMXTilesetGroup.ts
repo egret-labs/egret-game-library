@@ -49,8 +49,8 @@ module tiled{
 		add(tileset: tiled.TMXTileset): void {
 			this._tilesets.push(tileset);
 			this._length++;
-			if (tileset.image)
-				this._imagelength++;
+			if (tileset.images)
+				this._imagelength += tileset.images.length;
 		}
 		
 		/**

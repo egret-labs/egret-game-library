@@ -43,9 +43,9 @@ module tiled{
 			//
 			this.addChild(this._staticContainer);
 			//为了防止地图坐标为负时出现无法显示的问题，这里延迟2秒进行缓存
-			// setTimeout(function(self:any):void{
-			// 	self._staticContainer.cacheAsBitmap = true;
-			// },2000,this);
+			setTimeout(function(self:any):void{
+				self._staticContainer.cacheAsBitmap = true;
+			},2000,this);
 			
 			this._animationContainer            = new egret.Sprite();
 			this.addChild(this._animationContainer);
@@ -109,6 +109,16 @@ module tiled{
 
 			this.alpha = this._opacity;
 			this.visible = this.visible;
+			
+		}
+		
+
+		/**
+		 * 返回层的名字
+		 * @version Egret 3.0.3
+		 */
+		get name() {
+			return this._name;
 		}
 
         /**

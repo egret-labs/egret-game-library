@@ -510,6 +510,11 @@ declare module tiled {
          */
         constructor(tilemap: tiled.TMXTilemap, tilewidth: number, tileheight: number, orientation: string, tilesets: tiled.TMXTilesetGroup, z: number, data: any);
         /**
+         * 返回层的名字
+         * @version Egret 3.0.3
+         */
+        name: string;
+        /**
          * 获取静态层容器（用于渲染静态对象）
          * @version Egret 3.0.3
          */
@@ -1278,6 +1283,7 @@ declare module tiled {
         private _tileDatas;
         private _properties;
         private _image;
+        private _images;
         private _imagesource;
         private _transformMatrix;
         private static spritesheets;
@@ -1358,6 +1364,11 @@ declare module tiled {
          * @version Egret 3.0.3
          */
         image: TMXImage;
+        /**
+         * 获取tileset中对标签<code>image</code>解析实例的引用,可能是列表
+         * @version Egret 3.0.3
+         */
+        images: TMXImage[];
         /**
          * 根据id获取特殊格子的数据，默认情况下，tileset中格子如果没有作特殊处理，在tmx文件中是不会生成数据的，这里的特殊处理包括以下几个方面：<br/>
          * (1):格子添加了自定义属性<br/>

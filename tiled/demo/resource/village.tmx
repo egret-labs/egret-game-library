@@ -53,6 +53,11 @@
    </animation>
   </tile>
  </tileset>
+ <tileset firstgid="571" name="aa" tilewidth="480" tileheight="719">
+  <tile id="0">
+   <image width="480" height="719" source="bg6.png"/>
+  </tile>
+ </tileset>
  <layer name="grass" width="25" height="15">
   <properties>
    <property name="layerProperty1" value="layerPropertyValue1"/>
@@ -1582,11 +1587,4 @@
   <object id="51" gid="307" x="235" y="119" width="32" height="32"/>
   <object id="53" name="XXXXXXXXX" gid="94" x="339" y="116" width="32" height="32"/>
  </objectgroup>
- <imagelayer name="图像图层 1" x="-71" y="-82" opacity="0.1">
-  <image source="../../../../melonJS/examples/tiled_example_loader/data/sky.png" trans="aa6a10"/>
-  <properties>
-   <property name="imageLayerProperty1" value="imageLayerValue1"/>
-   <property name="imageLayerProperty2" value="imageLayerValue2"/>
-  </properties>
- </imagelayer>
 </map>
