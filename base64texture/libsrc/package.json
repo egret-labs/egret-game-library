@@ -1,0 +1,14 @@
+{
+	"name": "egret",
+	"version": "3.1.2",
+	"modules": [
+		{
+			"name": "base64texture",
+			"description": "base64texture",
+			"files": [
+			  "Base64Texture.ts"
+			],
+			"root": "src"
+		}
+	]
+}
