@@ -2,7 +2,7 @@ declare module mouse {
     class MouseEvent {
         /**
          * @language en_US
-         *
+         * When the user mouse movements are called.
          * @version Egret 3.1.0
          * @platform Web
          */
@@ -68,7 +68,43 @@ declare module mouse {
     }
 }
 declare module mouse {
+    /**
+     * @language en_US
+     * Enable mouse detection.
+     * @version Egret 3.1.0
+     * @platform Web
+     */
+    /**
+     * @language zh_CN
+     * 启用mouse检测。
+     * @version Egret 3.1.0
+     * @platform Web
+     */
     var enable: (stage: egret.Stage) => void;
+    /**
+     * @language en_US
+     * Set a target of buttonMode property setting is true, when the mouse rolls over the object becomes hand type.
+     * @version Egret 3.1.0
+     * @platform Web
+     */
+    /**
+     * @language zh_CN
+     * 设置一个对象的buttonMode属性，设置为true后，当鼠标滑过该对象会变手型。
+     * @version Egret 3.1.0
+     * @platform Web
+     */
     var setButtonMode: (displayObjcet: egret.DisplayObject, buttonMode: boolean) => void;
+    /**
+     * @language en_US
+     * Setting ON mouseMove event detection, after opening slightly impacts performance, default is not open.
+     * @version Egret 3.1.0
+     * @platform Web
+     */
+    /**
+     * @language zh_CN
+     * 设置开启mouseMove事件检测，开启后性能会稍有影响，默认为不开启。
+     * @version Egret 3.1.0
+     * @platform Web
+     */
     var setMouseMoveEnabled: (enabled: boolean) => void;
 }
