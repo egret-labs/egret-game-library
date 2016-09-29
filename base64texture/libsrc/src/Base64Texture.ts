@@ -6,7 +6,8 @@ class Base64Texture {
         var img: HTMLImageElement = new Image();
         img.src = base64;
         var texture = new egret.Texture();
-        texture._setBitmapData(img);
+        var bitmapdata = new egret.BitmapData(img);
+        texture._setBitmapData(bitmapdata);
         return texture;
     }
 }
