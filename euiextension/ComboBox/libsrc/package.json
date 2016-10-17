@@ -1,0 +1,12 @@
+{
+	"name": "egret",
+	"version": "3.2.0",
+	"modules": [
+		{
+			"name": "combobox",
+			"description": "ComboBox",
+			"files": ["ComboBoxItem.ts","ComboBox.ts"],
+			"root": "src"
+		}
+	]
+}

@@ -1,0 +1,50 @@
+{
+	"groups": [
+		{
+			"keys": "description_json,selected_png,roundthumb_png,track_sb_png,folder_normal_png,folder_press_png,icon_png,picture_png",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"url": "config/description.json",
+			"type": "json",
+			"name": "description_json"
+		},
+		{
+			"url": "assets/ItemRenderer/selected.png",
+			"type": "image",
+			"name": "selected_png"
+		},
+		{
+			"url": "assets/ScrollBar/roundthumb.png",
+			"type": "image",
+			"name": "roundthumb_png"
+		},
+		{
+			"url": "assets/ScrollBar/track_sb.png",
+			"type": "image",
+			"name": "track_sb_png"
+		},
+		{
+			"name": "folder_normal_png",
+			"type": "image",
+			"url": "assets/TreeView/folder_normal.png"
+		},
+		{
+			"name": "folder_press_png",
+			"type": "image",
+			"url": "assets/TreeView/folder_press.png"
+		},
+		{
+			"name": "icon_png",
+			"type": "image",
+			"url": "assets/TreeView/icon.png"
+		},
+		{
+			"name": "picture_png",
+			"type": "image",
+			"url": "assets/TreeView/picture.png"
+		}
+	]
+}
