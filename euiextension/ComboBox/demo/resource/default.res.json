@@ -1,0 +1,60 @@
+{
+	"groups": [
+		{
+			"keys": "roundthumb_png,track_sb_png,description_json,button_down_png,button_up_png,titleBackground_png,itemBg1_png,itemBg3_png,itemBg4_png,itemBg2_png",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"url": "assets/ScrollBar/roundthumb.png",
+			"type": "image",
+			"name": "roundthumb_png"
+		},
+		{
+			"url": "assets/ScrollBar/track_sb.png",
+			"type": "image",
+			"name": "track_sb_png"
+		},
+		{
+			"name": "description_json",
+			"type": "json",
+			"url": "config/description.json"
+		},
+		{
+			"name": "button_down_png",
+			"type": "image",
+			"url": "assets/Button/button_down.png"
+		},
+		{
+			"name": "button_up_png",
+			"type": "image",
+			"url": "assets/Button/button_up.png"
+		},
+		{
+			"name": "titleBackground_png",
+			"type": "image",
+			"url": "titleBackground.png"
+		},
+		{
+			"name": "itemBg1_png",
+			"type": "image",
+			"url": "itemBg1.png"
+		},
+		{
+			"name": "itemBg3_png",
+			"type": "image",
+			"url": "itemBg3.png"
+		},
+		{
+			"name": "itemBg4_png",
+			"type": "image",
+			"url": "itemBg4.png"
+		},
+		{
+			"name": "itemBg2_png",
+			"type": "image",
+			"url": "itemBg2.png"
+		}
+	]
+}
