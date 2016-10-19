@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="TreeViewItemSkin" width="640" height="113.6" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="157c1a485e4" ></w:Config>
+	<e:Rect id="bgRect" scaleX="1" scaleY="1" left="0" right="0" top="0" bottom="0"/>
+	<e:Rect id="itemBgRect" scaleX="1" scaleY="1" fillColor="0xffffff" height="113.6" y="0" left="0" right="0"/>
+	<e:Group id="rootNode" width="640" height="114" x="0" y="0">
+		<e:Rect id="arrowiconBg" width="93" height="115" x="0" y="0" fillAlpha="0" scaleX="1" scaleY="1"/>
+		<e:Image id="arrowicon" verticalCenter="-0.5" left="51" x="51" y="48" scaleX="1" scaleY="1" anchorOffsetX="16" anchorOffsetY="8.5" source="icon_png"/>
+		<e:Image id="foldericon" x="83" width="39" height="34" source="folder_normal_png" scaleX="1" scaleY="1" verticalCenter="0"/>
+		<e:Label id="content" text="特别关心" horizontalCenter="-35.5" textAlign="left" verticalCenter="2" x="186" y="42" scaleX="1" scaleY="1" textColor="0x000000" width="325"/>
+	</e:Group>
+</e:Skin>

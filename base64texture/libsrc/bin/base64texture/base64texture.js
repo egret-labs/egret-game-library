@@ -9,7 +9,8 @@ var Base64Texture = (function () {
         var img = new Image();
         img.src = base64;
         var texture = new egret.Texture();
-        texture._setBitmapData(img);
+        var bitmapdata = new egret.BitmapData(img);
+        texture._setBitmapData(bitmapdata);
         return texture;
     };
     return Base64Texture;
