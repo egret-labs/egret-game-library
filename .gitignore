@@ -12,6 +12,7 @@ tools/nodejs/buildTS.local
 *.map
 .idea
 */demo/libs/
+*/*/demo/libs/
 
 tsconfig.json
 
