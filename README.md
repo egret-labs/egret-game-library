@@ -18,6 +18,9 @@ DataEye SDK for Egret
 #### ecs
 Entity-Component-System support library
 
+#### euiextension
+Eui extension library
+
 #### Gesture
 Mobile Gesture library
 
@@ -26,6 +29,9 @@ Greensock animation library
 
 #### jszip
 jszip library
+
+#### keyboard
+KeyBoard evnent library
 
 #### MD5
 MD5 library
@@ -83,8 +89,14 @@ DataEye SDK for Egret
 #### ecs 
 实体组件系统支持库
 
+#### euiextension
+EUI 扩展库
+
 #### gesture
 手势库
+
+#### keyboard
+键盘事件监听库
 
 #### Greensock
 Greensock 动画库
