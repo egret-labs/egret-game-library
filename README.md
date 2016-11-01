@@ -56,7 +56,7 @@ how to use:
 
 * npm install socket.io -g
 * npm install express -g
-* enter the demo directory，use command node index.js
+* enter the demo directory，use command node socketServer.js
 * run the demo，touch screen to send messages
 
 #### tiled
@@ -129,7 +129,7 @@ socket.io
 
 * npm install socket.io -g
 * npm install express -g
-* 进入到demo目录，使用node index.js命令打开服务器
+* 进入到demo目录，使用node socketServer.js命令打开服务器
 * 运行demo，点击屏幕发送消息
 
 #### tiled
