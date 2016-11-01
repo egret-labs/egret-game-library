@@ -52,13 +52,6 @@ Physics system based on P2
 #### socket.io
 socket.io
 
-how to use:
-
-* npm install socket.io -g
-* npm install express -g
-* enter the demo directory，use command node socketServer.js
-* run the demo，touch screen to send messages
-
 #### tiled
 tiledmap
 
@@ -124,13 +117,6 @@ p2物理引擎，当前使用的版本为0.7.0
 
 #### socket.io
 socket.io
-
-使用方法:
-
-* npm install socket.io -g
-* npm install express -g
-* 进入到demo目录，使用node socketServer.js命令打开服务器
-* 运行demo，点击屏幕发送消息
 
 #### tiled
 tiledmap 支持库
