@@ -379,7 +379,7 @@ module tiled{
 		 * @param data 传入的Tileset数据
 		 */
 		private parseTileset(data: any): tiled.TMXTileset {
-			return new tiled.TMXTileset(data, this);
+			return new tiled.TMXTileset(this,data);
 		}
 		
 		/**

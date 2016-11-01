@@ -299,7 +299,7 @@ module tiled{
 					spritesheets.push(tiled.TMXTileset.spritesheets[_image2.source]);	
 			}
 			var id: number 		= tile.gid - this.firstgid;
-			var key: string = this.firstgid + "_" + id;
+			var key: string 	= this.firstgid + "_" + id;
 			var _spritesheet: egret.SpriteSheet;
 			if (this.images.length > 1)
 			{
@@ -329,20 +329,20 @@ module tiled{
 				isImage = (<tiled.TMXObject>renderer).isImage;
 			}
 			this._transformMatrix.identity();
-			var _scalex: number = isObject ? renderer.width / renderTexture.textureWidth : 1;
-			var _scaley: number = isObject ? renderer.height / renderTexture.textureHeight : 1;
+			var _scalex: number = isObject ? rect.width / renderTexture.textureWidth : 1;
+			var _scaley: number = isObject ? rect.height / renderTexture.textureHeight : 1;
 			if (tile.flippedAD) {
 				this._transformMatrix.scale(-1 * _scalex, -1 * _scaley);
-				this._transformMatrix.translate(dx + renderer.width * _scalex, dy + renderer.height * _scaley);
+				this._transformMatrix.translate(dx + rect.width * _scalex, dy + rect.height * _scaley);
 			} else if (tile.flippedY) {
 				this._transformMatrix.scale(1 * _scalex, -1 * _scaley);
-				this._transformMatrix.translate(dx, dy + renderer.height * _scaley);
+				this._transformMatrix.translate(dx, dy + rect.height * _scaley);
 			} else if (tile.flippedX) {
 				this._transformMatrix.scale(-1 * _scalex, 1 * _scaley);
-				this._transformMatrix.translate(dx + renderer.width * _scalex, dy);
+				this._transformMatrix.translate(dx + rect.width * _scalex, dy);
 			} else {
 				this._transformMatrix.scale(_scalex, _scaley);
-				this._transformMatrix.translate(dx, dy + (isObject ? (renderTexture.textureHeight - renderer.height) : 0));
+				this._transformMatrix.translate(dx, dy + (isObject ? (renderTexture.textureHeight - rect.height) : 0));
 			}
 			if (tile.bitmap == null)
 				tile.bitmap = new egret.Bitmap();

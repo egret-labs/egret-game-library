@@ -15,9 +15,9 @@ module tiled{
          * @version egret 3.0.3
          */
         constructor(tilemap: tiled.TMXTilemap,tileset: tiled.TMXTileset,col: number,row: number,data: any) {
-			this._tiledid       = +data.attributes.tileid;
+			this._tiledid 		= +data.attributes.tileid;
 			this._duration      = +data.attributes.duration;
-			this._tile 		  = new tiled.TMXTile(col, row, this._tiledid + tileset.firstgid, tilemap, tileset);
+			this._tile 			= new tiled.TMXTile(col, row, this._tiledid + tileset.firstgid, tilemap, tileset, false);
 		}
 
 		/**

@@ -48,10 +48,10 @@ module tiled{
 			if (this._childrens) {
 				for (var i: number = 0; i < this._childrens.length; i++) {
 					var object: tiled.TMXObject 	= new tiled.TMXObject(this._childrens[i], this._orientaion, this._tilesets, this._z, this._color);
-					object.alpha 			= this._opacity;
-					this._objects[i] 		= object;
+					object.alpha 					= this._opacity;
+					this._objects[i] 				= object;
 					this.addChild(object);
-					this._objectHash[object.id]=object;
+					this._objectHash[object.id]		= object;
 				}
 			}
 		}
@@ -109,7 +109,7 @@ module tiled{
 		 * @version Egret 3.0.3
 		 */
 		getObjectCount(): number {
-			return this._objects.length;
+			return this._childrens.length;
 		}
 		
 		/**

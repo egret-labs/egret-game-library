@@ -321,8 +321,9 @@ module tiled{
 				for (var y: number = 0; y < this.rows; y++) {
 					for (var x: number = 0; x < this.cols; x++) {
 						var gid = data[idx];
-						if (gid !== 0) 
-                            this.setTile(x,y,gid);
+						if (gid !== 0) {
+							this.setTile(x,y,gid);
+						}
 						idx++;
 					}
 				}
