@@ -7,7 +7,7 @@
 		"native": 1,
 		"path": "bin-release"
 	},
-	"egret_version": "3.2.0",
+	"egret_version": "3.2.2",
 	"modules": [
 		{
 			"name": "egret"
@@ -22,8 +22,8 @@
 			"name": "eui"
 		},
 		{
-			"name":"combobox",
-			"path":"../libsrc"
+			"name": "combobox",
+			"path": "../libsrc"
 		}
 	]
 }
