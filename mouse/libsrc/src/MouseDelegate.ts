@@ -90,7 +90,7 @@ module mouse {
                 preMouseX = x;
                 preMouseY = y;
             }
-            var result = stage.$hitTest(x, y);
+            var result = hitTestTarget || stage.$hitTest(x, y);
             if (result != null && result != stage) {
                 if (!currentTarget) {
                     currentTarget = result;
