@@ -76,13 +76,21 @@ module mouse {
     export var enable = function (stage:egret.Stage) {
         isPC = egret.Capabilities.os == "Windows PC" || egret.Capabilities.os == "Mac OS";
         stageObj = stage;
-        var check = function (x:number, y:number) {
+        let preMouseX = NaN;
+        let preMouseY = NaN;
+        var check = function (x:number, y:number, hitTestTarget?:egret.DisplayObject) {
             if (currentTarget && !currentTarget.$stage) {
                 dispatch(MouseEvent.MOUSE_OUT, true, x, y);
                 dispatch(MouseEvent.ROLL_OUT, false, x, y);
                 currentTarget = null;
             }
-            var result = stage.$hitTest(x, y);
+            if(preMouseX == x && preMouseY == y) {
+                return;
+            }else {
+                preMouseX = x;
+                preMouseY = y;
+            }
+            var result = hitTestTarget || stage.$hitTest(x, y);
             if (result != null && result != stage) {
                 if (!currentTarget) {
                     currentTarget = result;
@@ -115,13 +123,14 @@ module mouse {
             mouseY = y;
             onTouchMove.call(this, x, y, touchPointID);
             if(mouseMoveEnabled) {
-                var target = stageObj.$hitTest(x, y);
+                var result = stageObj.$hitTest(x, y);
+                var target = result;
                 if (!target) {
                     target = stageObj;
                 }
                 egret.TouchEvent.dispatchTouchEvent(target, MouseEvent.MOUSE_MOVE, true, true, x, y, touchPointID, true);
             }
-            check(x, y);
+            check(x, y, result);
         };
         var onTouchBegin = egret.sys.TouchHandler.prototype.onTouchBegin;
         egret.sys.TouchHandler.prototype.onTouchBegin = function (x:number, y:number, touchPointID:number) {
