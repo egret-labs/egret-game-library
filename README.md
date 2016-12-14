@@ -58,10 +58,6 @@ tiledmap
 #### weixinapi
 wechat API
 
-#### weixinextension
-wechat extension
-
-
 
 
 
@@ -123,9 +119,5 @@ tiledmap 支持库
 
 #### weixinapi
 微信API
-
-#### weixinextension
-微信扩展库
-
 
 
