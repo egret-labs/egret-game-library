@@ -1,3 +1,6 @@
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
 /**
  * 实体组件系统插件体系架构
  * @author yanjiaqi
@@ -26,12 +29,11 @@ var ecs;
             this.children = [];
             this.components = [];
         }
-        var d = __define,c=Node,p=c.prototype;
-        d(p, "visualable"
-            ,function () {
+        Object.defineProperty(Node.prototype, "visualable", {
+            get: function () {
                 return this._visualable;
-            }
-            ,function (val) {
+            },
+            set: function (val) {
                 if (val !== this._visualable) {
                     this._visualable = val;
                     if (val) {
@@ -57,11 +59,13 @@ var ecs;
                         this.active = false;
                     }
                 }
-            }
-        );
-        p.getChildren = function () {
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Node.prototype.getChildren = function () {
         };
-        p.getChildByName = function (childName) {
+        Node.prototype.getChildByName = function (childName) {
             for (var i = 0; i < this.children.length; i++) {
                 if (this.children[i].name === childName) {
                     return this.children[i];
@@ -69,7 +73,7 @@ var ecs;
             }
             return null;
         };
-        p.getComponent = function (componentName) {
+        Node.prototype.getComponent = function (componentName) {
             for (var i = 0; i < this.components.length; i++) {
                 if (this.components[i].name === componentName) {
                     return this.components[i];
@@ -77,7 +81,7 @@ var ecs;
             }
             return null;
         };
-        p.addComponent = function (component) {
+        Node.prototype.addComponent = function (component) {
             if (this._relative && component.single) {
                 return false;
             }
@@ -85,7 +89,7 @@ var ecs;
             component.node = this;
             return true;
         };
-        p.setPosition = function (x, y) {
+        Node.prototype.setPosition = function (x, y) {
             if (this._wrap_obj && this._wrap_obj.properties) {
                 this._wrap_obj.properties.x = x;
                 this._wrap_obj.properties.y = y;
@@ -97,7 +101,7 @@ var ecs;
          * 加入添加之后或之前需要setPosition(egret.Point(0,0));
          * 因为坐标点从preFab一并复制过来了
          **/
-        p.addChild = function (child) {
+        Node.prototype.addChild = function (child) {
             //关联node
             child.parent = this;
             this.children.push(child);
@@ -117,9 +121,9 @@ var ecs;
                 }
             }
         };
-        p.removeChild = function (child) {
+        Node.prototype.removeChild = function (child) {
         };
-        p.removeAllChildren = function () {
+        Node.prototype.removeAllChildren = function () {
             //var temp = this.children;
             this.children.length = 0;
             if (this.visualable) {
@@ -130,7 +134,7 @@ var ecs;
         return Node;
     }());
     ecs.Node = Node;
-    egret.registerClass(Node,'ecs.Node');
+    __reflect(Node.prototype, "ecs.Node");
     //逻辑组件,具有生命周期函数
     var Component = (function () {
         function Component(obj) {
@@ -148,20 +152,19 @@ var ecs;
             this.id = 0;
             this.node = null;
         }
-        var d = __define,c=Component,p=c.prototype;
-        p.getComponent = function (componentName) {
+        Component.prototype.getComponent = function (componentName) {
             return this.node.getComponent(componentName);
         };
-        p.onLoad = function () {
+        Component.prototype.onLoad = function () {
         };
-        p.start = function () {
+        Component.prototype.start = function () {
         };
-        p.onStop = function () {
+        Component.prototype.onStop = function () {
         };
         return Component;
     }());
     ecs.Component = Component;
-    egret.registerClass(Component,'ecs.Component');
+    __reflect(Component.prototype, "ecs.Component");
     function setScrollingEvents(target) {
         target.touchEnabled = true;
         target.addEventListener(egret.TouchEvent.TOUCH_BEGIN, onTouchBegin, target);

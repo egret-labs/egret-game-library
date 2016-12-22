@@ -1,13 +1,20 @@
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var ComboBoxItem = (function (_super) {
     __extends(ComboBoxItem, _super);
     function ComboBoxItem() {
-        _super.call(this);
+        return _super.call(this) || this;
     }
-    var d = __define,c=ComboBoxItem,p=c.prototype;
-    p.partAdded = function (partName, instance) {
+    ComboBoxItem.prototype.partAdded = function (partName, instance) {
         _super.prototype.partAdded.call(this, partName, instance);
     };
-    p.childrenCreated = function () {
+    ComboBoxItem.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
         //背景
         this.bg = new eui.Image();
@@ -22,7 +29,7 @@ var ComboBoxItem = (function (_super) {
         this.content.verticalAlign = "middle";
         this.content.textColor = 0x000000;
     };
-    p.dataChanged = function () {
+    ComboBoxItem.prototype.dataChanged = function () {
         //this.bg.source = this.data.bg;
         if (typeof (this.data.content) != "undefined") {
             //内容
@@ -55,36 +62,44 @@ var ComboBoxItem = (function (_super) {
             this.content.textAlign = this.data.textAlign;
         }
     };
-    p.onTouchEnd = function (event) {
+    ComboBoxItem.prototype.onTouchEnd = function (event) {
         var data = {};
         data["itemIndex"] = this.itemIndex;
         this.dispatchEventWith(ComboBox.onClick, true, data);
     };
     return ComboBoxItem;
 }(eui.ItemRenderer));
-egret.registerClass(ComboBoxItem,'ComboBoxItem');
+__reflect(ComboBoxItem.prototype, "ComboBoxItem");
 
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var ComboBox = (function (_super) {
     __extends(ComboBox, _super);
     function ComboBox(data) {
         if (data === void 0) { data = null; }
-        _super.call(this);
-        this.isPullDown = true;
+        var _this = _super.call(this) || this;
+        _this.isPullDown = true;
         if (data != null) {
-            this.data = data;
+            _this.data = data;
         }
+        return _this;
     }
-    var d = __define,c=ComboBox,p=c.prototype;
-    p.childrenCreated = function () {
+    ComboBox.prototype.childrenCreated = function () {
         //super.childrenCreated();
         this.initPullView();
     };
-    p.updateData = function (key, value) {
+    ComboBox.prototype.updateData = function (key, value) {
         for (var i = 0; i < this.data.length; i++) {
             this.data[i][key] = value;
         }
     };
-    p.initPullView = function () {
+    ComboBox.prototype.initPullView = function () {
         this.width = this.stage.stageWidth;
         this.height = this.stage.stageHeight;
         //背景图片
@@ -120,7 +135,7 @@ var ComboBox = (function (_super) {
         //大数据优化:numElements 会获得总的数据条数. numChildren 会获得具体的实例数量.
         this.DataGroup.useVirtualLayout = true;
     };
-    p.onRightIconBg = function (event) {
+    ComboBox.prototype.onRightIconBg = function (event) {
         if (!this.isPullDown) {
             this.isPullDown = true;
             //展开
@@ -132,14 +147,14 @@ var ComboBox = (function (_super) {
             this.removeChild(this.Scroller);
         }
     };
-    p.getTitleLabe = function () {
+    ComboBox.prototype.getTitleLabe = function () {
         return this.titleLabel;
     };
     /**
      * Set the item width of the comboBox
      *
      */
-    p.setItemWidth = function (width) {
+    ComboBox.prototype.setItemWidth = function (width) {
         this.width = width;
         this.bg.width = width;
         this.titleLabel.width = width;
@@ -150,13 +165,13 @@ var ComboBox = (function (_super) {
      * Set the item height of the comboBox
      *
      */
-    p.setItemHeight = function (height) {
+    ComboBox.prototype.setItemHeight = function (height) {
         this.updateData("height", height);
     };
     /**
      * Set the title fontSize of the comboBox
      */
-    p.setItemFontSize = function (number) {
+    ComboBox.prototype.setItemFontSize = function (number) {
         if (number === void 0) { number = 25; }
         this.updateData("fontSize", number);
     };
@@ -164,7 +179,7 @@ var ComboBox = (function (_super) {
      * Set the title height of the comboBox
      *
      */
-    p.setTitleHeight = function (height) {
+    ComboBox.prototype.setTitleHeight = function (height) {
         this.bg.height = height;
         this.titleLabel.height = height;
         this.Scroller.y = height;
@@ -173,19 +188,19 @@ var ComboBox = (function (_super) {
      * Set the title background of the comboBox
      * example:"reource/picture.png"
      */
-    p.setTitleBackground = function (src) {
+    ComboBox.prototype.setTitleBackground = function (src) {
         this.bg.source = src;
     };
     /**
      * Set the title fontSize of the comboBox
      */
-    p.setTitleFontSize = function (number) {
+    ComboBox.prototype.setTitleFontSize = function (number) {
         this.titleLabel.size = number;
     };
     /**
      * Show the comboBox
      */
-    p.show = function () {
+    ComboBox.prototype.show = function () {
         this.isPullDown = true;
         //展开
         this.addChild(this.Scroller);
@@ -193,7 +208,7 @@ var ComboBox = (function (_super) {
     /**
      * Hidden the comboBox
      */
-    p.hide = function () {
+    ComboBox.prototype.hide = function () {
         this.isPullDown = false;
         //收起
         this.removeChild(this.Scroller);
@@ -201,13 +216,13 @@ var ComboBox = (function (_super) {
     /**
      * TextAlign:"left";"center";"right"
      */
-    p.setItemTextAlign = function (align) {
+    ComboBox.prototype.setItemTextAlign = function (align) {
         this.titleLabel.textAlign = align;
         this.updateData("textAlign", align);
     };
-    //抛出事件
-    ComboBox.onClick = "ComboBoxOnClick";
     return ComboBox;
 }(eui.Component));
-egret.registerClass(ComboBox,'ComboBox');
+//抛出事件
+ComboBox.onClick = "ComboBoxOnClick";
+__reflect(ComboBox.prototype, "ComboBox");
 

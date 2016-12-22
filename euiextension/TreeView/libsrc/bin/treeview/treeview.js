@@ -1,14 +1,22 @@
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var TreeViewItem = (function (_super) {
     __extends(TreeViewItem, _super);
     function TreeViewItem() {
-        _super.call(this);
-        this.myHeight = 0;
+        var _this = _super.call(this) || this;
+        _this.myHeight = 0;
+        return _this;
     }
-    var d = __define,c=TreeViewItem,p=c.prototype;
-    p.partAdded = function (partName, instance) {
+    TreeViewItem.prototype.partAdded = function (partName, instance) {
         _super.prototype.partAdded.call(this, partName, instance);
     };
-    p.childrenCreated = function () {
+    TreeViewItem.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
         this.arrowiconBg.addEventListener(egret.TouchEvent.TOUCH_END, this.onTouchEnd, this);
         this.itemBgRect.addEventListener(egret.TouchEvent.TOUCH_END, this.itemBgRectOnTouchEnd, this);
@@ -21,7 +29,7 @@ var TreeViewItem = (function (_super) {
         this.foldericon.touchEnabled = false;
         this.content.touchEnabled = false;
     };
-    p.dataChanged = function () {
+    TreeViewItem.prototype.dataChanged = function () {
         if (typeof (this.data.arrowicon) == "undefined") {
             this.data.arrowicon = "resource/assets/TreeView/icon.png";
         }
@@ -64,7 +72,7 @@ var TreeViewItem = (function (_super) {
             this.arrowiconBg.visible = false;
         }
     };
-    p.update = function () {
+    TreeViewItem.prototype.update = function () {
         if (this.name != "") {
             if (this.name == TreeView.isSelectName) {
                 if (typeof (this.data.selectedColor) != "undefined") {
@@ -79,7 +87,7 @@ var TreeViewItem = (function (_super) {
             }
         }
     };
-    p.itemBgRectOnTouchEnd = function (event) {
+    TreeViewItem.prototype.itemBgRectOnTouchEnd = function (event) {
         event.stopPropagation();
         //按下背景
         this.name = this.hashCode.toString();
@@ -87,7 +95,7 @@ var TreeViewItem = (function (_super) {
         this.popEvent();
     };
     //事件派发
-    p.popEvent = function () {
+    TreeViewItem.prototype.popEvent = function () {
         var data = {};
         data["pos"] = this.data.pos;
         if (this.arrowicon.rotation == 0) {
@@ -98,7 +106,7 @@ var TreeViewItem = (function (_super) {
         }
         this.dispatchEventWith(TreeView.onClick, true, data);
     };
-    p.onTouchEnd = function (event) {
+    TreeViewItem.prototype.onTouchEnd = function (event) {
         //按下背景
         this.name = this.hashCode.toString();
         TreeView.isSelectName = this.name;
@@ -131,16 +139,16 @@ var TreeViewItem = (function (_super) {
                     //更改当前item的高度
                     this.height += this.height * this.data.items.length;
                     var self = this;
-                    if (typeof (this.data.items) != "undefined" && this.data.items != null) {
-                        loopData(this.data.items);
-                    }
-                    function loopData(items) {
+                    var loopData_1 = function (items) {
                         for (var i = 0; i < items.length; i++) {
                             items[i].that = self;
                             if (items[i].items != null) {
-                                loopData(items[i].items);
+                                loopData_1(items[i].items);
                             }
                         }
+                    };
+                    if (typeof (this.data.items) != "undefined" && this.data.items != null) {
+                        loopData_1(this.data.items);
                     }
                 }
                 else {
@@ -161,8 +169,16 @@ var TreeViewItem = (function (_super) {
     };
     return TreeViewItem;
 }(eui.ItemRenderer));
-egret.registerClass(TreeViewItem,'TreeViewItem');
+__reflect(TreeViewItem.prototype, "TreeViewItem");
 
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var TreeView = (function (_super) {
     __extends(TreeView, _super);
     /**
@@ -170,17 +186,17 @@ var TreeView = (function (_super) {
      */
     function TreeView(items) {
         if (items === void 0) { items = null; }
-        _super.call(this);
+        var _this = _super.call(this) || this;
         /**
          * items: treeView data
          */
-        this.items = [];
-        var self = this;
+        _this.items = [];
+        var self = _this;
         if (items != null) {
-            this.items = items;
+            _this.items = items;
         }
         else {
-            this.items = [
+            _this.items = [
                 {
                     arrowicon: "resource/assets/TreeView/icon.png",
                     foldericon: { normal: "resource/assets/TreeView/folder_normal.png", press: "resource/assets/TreeView/folder_press.png" },
@@ -202,14 +218,14 @@ var TreeView = (function (_super) {
             ];
         }
         //handle data :为了 treeViewTestItem能识别
-        loopData(this.items);
+        loopData(_this.items);
         function loopData(items) {
             for (var i = 0; i < items.length; i++) {
                 items[i]["level"] = 1;
             }
         }
         //增加识别下标
-        loopDataPos(this.items, []);
+        loopDataPos(_this.items, []);
         function loopDataPos(items, parentPos) {
             for (var i = 0; i < items.length; i++) {
                 items[i]["pos"] = [];
@@ -222,12 +238,12 @@ var TreeView = (function (_super) {
                 }
             }
         }
+        return _this;
     }
-    var d = __define,c=TreeView,p=c.prototype;
-    p.partAdded = function (partName, instance) {
+    TreeView.prototype.partAdded = function (partName, instance) {
         //super.partAdded(partName,instance);
     };
-    p.childrenCreated = function () {
+    TreeView.prototype.childrenCreated = function () {
         //super.childrenCreated();
         this.Scroller = new eui.Scroller();
         this.addChild(this.Scroller);
@@ -248,7 +264,7 @@ var TreeView = (function (_super) {
     /**
      * TreeView Width
      */
-    p.setWidth = function (width) {
+    TreeView.prototype.setWidth = function (width) {
         this.Scroller.width = width;
         //设置不能滚动
         this.DataGroup.width = width;
@@ -256,40 +272,40 @@ var TreeView = (function (_super) {
     /**
      * TreeView Height
      */
-    p.setHeight = function (height) {
+    TreeView.prototype.setHeight = function (height) {
         this.Scroller.height = height;
     };
     /**
      * set treeview item height
      */
-    p.setItemHeight = function (itemHeight) {
+    TreeView.prototype.setItemHeight = function (itemHeight) {
         this.loopData(this.items, "itemHeight", itemHeight);
     };
     /**
      * set treeview item width
      */
-    p.setItemWidth = function (itemWidth) {
+    TreeView.prototype.setItemWidth = function (itemWidth) {
         if (itemWidth === void 0) { itemWidth = 113.6; }
     };
     /**
      * item BackgroundColor
      */
-    p.setBgColor = function (color) {
+    TreeView.prototype.setBgColor = function (color) {
         this.loopData(this.items, "bgColor", color);
     };
     /**
      * treeview item selected color
      */
-    p.setSelectedColor = function (color) {
+    TreeView.prototype.setSelectedColor = function (color) {
         this.loopData(this.items, "selectedColor", color);
     };
     /**
      * treeview item content fontSize
      */
-    p.setFontSize = function (size) {
+    TreeView.prototype.setFontSize = function (size) {
         this.loopData(this.items, "fontSize", size);
     };
-    p.loopData = function (items, key, value) {
+    TreeView.prototype.loopData = function (items, key, value) {
         for (var i = 0; i < items.length; i++) {
             items[i][key] = value;
             if (items[i].items != null) {
@@ -297,12 +313,12 @@ var TreeView = (function (_super) {
             }
         }
     };
-    /**
-     * is selected
-     */
-    TreeView.isSelectName = "";
-    TreeView.onClick = "treeViewTestOnClick";
     return TreeView;
 }(eui.Component));
-egret.registerClass(TreeView,'TreeView',["eui.UIComponent"]);
+/**
+ * is selected
+ */
+TreeView.isSelectName = "";
+TreeView.onClick = "treeViewTestOnClick";
+__reflect(TreeView.prototype, "TreeView", ["eui.UIComponent"]);
 

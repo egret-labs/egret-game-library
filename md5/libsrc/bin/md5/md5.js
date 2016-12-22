@@ -6,6 +6,9 @@
 * Distributed under the BSD License
 * See http://pajhome.org.uk/crypt/md5 for more info.
 */
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
 /*
  * Configurable variables. You may need to tweak these to be compatible with
  * the server-side, but the defaults work in most cases.
@@ -15,33 +18,32 @@ var md5 = (function () {
         this.hexcase = 0; /* hex output format. 0 - lowercase; 1 - uppercase        */
         this.b64pad = ""; /* base-64 pad character. "=" for strict RFC compliance   */
     }
-    var d = __define,c=md5,p=c.prototype;
     /*
      * These are the privates you'll usually want to call
      * They take string arguments and return either hex or base-64 encoded strings
      */
-    p.hex_md5 = function (s) { return this.rstr2hex(this.rstr_md5(this.str2rstr_utf8(s))); };
-    p.b64_md5 = function (s) { return this.rstr2b64(this.rstr_md5(this.str2rstr_utf8(s))); };
-    p.any_md5 = function (s, e) { return this.rstr2any(this.rstr_md5(this.str2rstr_utf8(s)), e); };
-    p.hex_hmac_md5 = function (k, d) { return this.rstr2hex(this.rstr_hmac_md5(this.str2rstr_utf8(k), this.str2rstr_utf8(d))); };
-    p.b64_hmac_md5 = function (k, d) { return this.rstr2b64(this.rstr_hmac_md5(this.str2rstr_utf8(k), this.str2rstr_utf8(d))); };
-    p.any_hmac_md5 = function (k, d, e) { return this.rstr2any(this.rstr_hmac_md5(this.str2rstr_utf8(k), this.str2rstr_utf8(d)), e); };
+    md5.prototype.hex_md5 = function (s) { return this.rstr2hex(this.rstr_md5(this.str2rstr_utf8(s))); };
+    md5.prototype.b64_md5 = function (s) { return this.rstr2b64(this.rstr_md5(this.str2rstr_utf8(s))); };
+    md5.prototype.any_md5 = function (s, e) { return this.rstr2any(this.rstr_md5(this.str2rstr_utf8(s)), e); };
+    md5.prototype.hex_hmac_md5 = function (k, d) { return this.rstr2hex(this.rstr_hmac_md5(this.str2rstr_utf8(k), this.str2rstr_utf8(d))); };
+    md5.prototype.b64_hmac_md5 = function (k, d) { return this.rstr2b64(this.rstr_hmac_md5(this.str2rstr_utf8(k), this.str2rstr_utf8(d))); };
+    md5.prototype.any_hmac_md5 = function (k, d, e) { return this.rstr2any(this.rstr_hmac_md5(this.str2rstr_utf8(k), this.str2rstr_utf8(d)), e); };
     /*
      * Perform a simple self-test to see if the VM is working
      */
-    p.md5_vm_test = function () {
+    md5.prototype.md5_vm_test = function () {
         return this.hex_md5("abc").toLowerCase() == "900150983cd24fb0d6963f7d28e17f72";
     };
     /*
      * Calculate the MD5 of a raw string
      */
-    p.rstr_md5 = function (s) {
+    md5.prototype.rstr_md5 = function (s) {
         return this.binl2rstr(this.binl_md5(this.rstr2binl(s), s.length * 8));
     };
     /*
      * Calculate the HMAC-MD5, of a key and some data (raw strings)
      */
-    p.rstr_hmac_md5 = function (key, data) {
+    md5.prototype.rstr_hmac_md5 = function (key, data) {
         var bkey = this.rstr2binl(key);
         if (bkey.length > 16)
             bkey = this.binl_md5(bkey, key.length * 8);
@@ -56,7 +58,7 @@ var md5 = (function () {
     /*
      * Convert a raw string to a hex string
      */
-    p.rstr2hex = function (input) {
+    md5.prototype.rstr2hex = function (input) {
         try {
             this.hexcase;
         }
@@ -76,7 +78,7 @@ var md5 = (function () {
     /*
      * Convert a raw string to a base-64 string
      */
-    p.rstr2b64 = function (input) {
+    md5.prototype.rstr2b64 = function (input) {
         try {
             this.b64pad;
         }
@@ -102,7 +104,7 @@ var md5 = (function () {
     /*
      * Convert a raw string to an arbitrary string encoding
      */
-    p.rstr2any = function (input, encoding) {
+    md5.prototype.rstr2any = function (input, encoding) {
         var divisor = encoding.length;
         var i, j, q, x, quotient;
         /* Convert to an array of 16-bit big-endian values, forming the dividend */
@@ -142,7 +144,7 @@ var md5 = (function () {
      * Encode a string as utf-8.
      * For efficiency, this assumes the input is valid utf-16.
      */
-    p.str2rstr_utf8 = function (input) {
+    md5.prototype.str2rstr_utf8 = function (input) {
         var output = "";
         var i = -1;
         var x, y;
@@ -169,13 +171,13 @@ var md5 = (function () {
     /*
      * Encode a string as utf-16
      */
-    p.str2rstr_utf16le = function (input) {
+    md5.prototype.str2rstr_utf16le = function (input) {
         var output = "";
         for (var i = 0; i < input.length; i++)
             output += String.fromCharCode(input.charCodeAt(i) & 0xFF, (input.charCodeAt(i) >>> 8) & 0xFF);
         return output;
     };
-    p.str2rstr_utf16be = function (input) {
+    md5.prototype.str2rstr_utf16be = function (input) {
         var output = "";
         for (var i = 0; i < input.length; i++)
             output += String.fromCharCode((input.charCodeAt(i) >>> 8) & 0xFF, input.charCodeAt(i) & 0xFF);
@@ -185,7 +187,7 @@ var md5 = (function () {
      * Convert a raw string to an array of little-endian words
      * Characters >255 have their high-byte silently ignored.
      */
-    p.rstr2binl = function (input) {
+    md5.prototype.rstr2binl = function (input) {
         var output = Array(input.length >> 2);
         for (var i = 0; i < output.length; i++)
             output[i] = 0;
@@ -196,7 +198,7 @@ var md5 = (function () {
     /*
      * Convert an array of little-endian words to a string
      */
-    p.binl2rstr = function (input) {
+    md5.prototype.binl2rstr = function (input) {
         var output = "";
         for (var i = 0; i < input.length * 32; i += 8)
             output += String.fromCharCode((input[i >> 5] >>> (i % 32)) & 0xFF);
@@ -205,7 +207,7 @@ var md5 = (function () {
     /*
      * Calculate the MD5 of an array of little-endian words, and a bit length.
      */
-    p.binl_md5 = function (x, len) {
+    md5.prototype.binl_md5 = function (x, len) {
         /* append padding */
         x[len >> 5] |= 0x80 << ((len) % 32);
         x[(((len + 64) >>> 9) << 4) + 14] = len;
@@ -292,26 +294,26 @@ var md5 = (function () {
     /*
      * These privates implement the four basic operations the algorithm uses.
      */
-    p.md5_cmn = function (q, a, b, x, s, t) {
+    md5.prototype.md5_cmn = function (q, a, b, x, s, t) {
         return this.safe_add(this.bit_rol(this.safe_add(this.safe_add(a, q), this.safe_add(x, t)), s), b);
     };
-    p.md5_ff = function (a, b, c, d, x, s, t) {
+    md5.prototype.md5_ff = function (a, b, c, d, x, s, t) {
         return this.md5_cmn((b & c) | ((~b) & d), a, b, x, s, t);
     };
-    p.md5_gg = function (a, b, c, d, x, s, t) {
+    md5.prototype.md5_gg = function (a, b, c, d, x, s, t) {
         return this.md5_cmn((b & d) | (c & (~d)), a, b, x, s, t);
     };
-    p.md5_hh = function (a, b, c, d, x, s, t) {
+    md5.prototype.md5_hh = function (a, b, c, d, x, s, t) {
         return this.md5_cmn(b ^ c ^ d, a, b, x, s, t);
     };
-    p.md5_ii = function (a, b, c, d, x, s, t) {
+    md5.prototype.md5_ii = function (a, b, c, d, x, s, t) {
         return this.md5_cmn(c ^ (b | (~d)), a, b, x, s, t);
     };
     /*
      * Add integers, wrapping at 2^32. This uses 16-bit operations internally
      * to work around bugs in some JS interpreters.
      */
-    p.safe_add = function (x, y) {
+    md5.prototype.safe_add = function (x, y) {
         var lsw = (x & 0xFFFF) + (y & 0xFFFF);
         var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
         return (msw << 16) | (lsw & 0xFFFF);
@@ -319,10 +321,10 @@ var md5 = (function () {
     /*
      * Bitwise rotate a 32-bit number to the left.
      */
-    p.bit_rol = function (num, cnt) {
+    md5.prototype.bit_rol = function (num, cnt) {
         return (num << cnt) | (num >>> (32 - cnt));
     };
     return md5;
 }());
-egret.registerClass(md5,'md5');
+__reflect(md5.prototype, "md5");
 

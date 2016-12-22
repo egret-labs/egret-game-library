@@ -1,113 +1,3 @@
-declare class PropGesture {
-    /**
-     * 目标手势，GesturePlugin
-     */
-    t: any;
-    /**
-     * Continuous Gesture，是否需要在确认手势之后不停得更新数据
-     */
-    c: boolean;
-    /**
-     *  execute gesture recognized callback function name
-     */
-    p0: string;
-    /**
-     *  check gesture function name
-     */
-    p1: string;
-    /**
-     * update value function name
-     */
-    p2: string;
-    /**
-     * 手势需要的触摸数量，对应numTouchesRequired
-     */
-    n: number;
-    _next: PropGesture;
-    _prev: PropGesture;
-    /**
-     * Possible，还有可能被识别
-     */
-    p: boolean;
-    /**
-     * recognized
-     * 是否已经识别出此手势，如果识别出来，计算链条将被打破，识别出来的手势会放到首位
-     */
-    r: boolean;
-    /**
-     * failed
-     * 一轮手势检测中已经确认监测失败
-     */
-    f: boolean;
-    /**
-     * 是否在hold链条里面等待被执行（requireGestureRecognizerToFail确定识别失败），或者被取消执行 （requireGestureRecognizerToFail确定已经识别）
-     */
-    h: boolean;
-    /** Priority **/
-    pr: number;
-    /**
-     * requireGestureRecognizerToFail的源，
-     * 也就是这个手势g，需要当前手势再f=true的时候再次尝试
-     */
-    _o: PropGesture;
-    /**
-     * requireGestureRecognizerToFail
-     * 如果_f != null，说明此手势需要等待_f在识别失败的时候才开始识别
-     */
-    _f: PropGesture;
-    constructor(target: any, property0?: string, property1?: string, property2?: string, next?: PropGesture, isContinuous?: boolean, priority?: number, numTouchesRequired?: number);
-}
-declare class GestureEvent extends egret.Event {
-    static ACHE_GESTURE: string;
-    /**
-     *  GestureManager instance that related to this object
-     */
-    gm: GestureManager;
-    /**
-     * gesture state, all types of state is defined in acheGesture.utils.GestureState
-     * @see GestureState
-     */
-    state: string;
-    /**
-     * delta x value
-     * Pan gesture for example, dx is the delta x value updated every time user's finger moves
-     */
-    dx: number;
-    /**
-     * delta y value
-     * Pan gesture for example, dy is the delta y value updated every time user's finger moves
-     */
-    dy: number;
-    /**
-     *
-     */
-    localLocation: egret.Point;
-    /**
-     * delta scale value
-     * Pinch gesture use this value
-     */
-    dScale: number;
-    /**
-     *  The rotation of the gesture in radians since its last change.
-     */
-    rotation: number;
-    /**
-     * time interval for some specific gesture
-     * Swipe gesture for example, interval is the time interval when swip happen
-     */
-    interval: number;
-    /**
-     * possible state of some specific gesture
-     * Tap gesture for example, before touch end, the possible value will come along with this object to indicate that if the tap gesture is possible to recognize
-     */
-    possible: boolean;
-    /**
-     * @param type        Event type, use AcheGestureEvent.ACHE_GESTURE
-     * @param gm        GestureManager instance that related to this object
-     * @param state        What state of the gesture when this happen, see ache.Gesture.utils.GestureState
-     */
-    constructor(type: string, gm: GestureManager, state?: string);
-}
 declare class GestureRecognizerPlugin {
     _gestureType: string;
     /**
@@ -177,6 +67,116 @@ declare class DoubleTapGestureRecognizer extends GestureRecognizerPlugin {
     constructor(priority?: number, requireGestureRecognizerToFail?: boolean);
     checkGesture(ts: Array<egret.TouchEvent>): boolean;
     private onCheck(e);
+}
+declare class GestureEvent extends egret.Event {
+    static ACHE_GESTURE: string;
+    /**
+     *  GestureManager instance that related to this object
+     */
+    gm: GestureManager;
+    /**
+     * gesture state, all types of state is defined in acheGesture.utils.GestureState
+     * @see GestureState
+     */
+    state: string;
+    /**
+     * delta x value
+     * Pan gesture for example, dx is the delta x value updated every time user's finger moves
+     */
+    dx: number;
+    /**
+     * delta y value
+     * Pan gesture for example, dy is the delta y value updated every time user's finger moves
+     */
+    dy: number;
+    /**
+     *
+     */
+    localLocation: egret.Point;
+    /**
+     * delta scale value
+     * Pinch gesture use this value
+     */
+    dScale: number;
+    /**
+     *  The rotation of the gesture in radians since its last change.
+     */
+    rotation: number;
+    /**
+     * time interval for some specific gesture
+     * Swipe gesture for example, interval is the time interval when swip happen
+     */
+    interval: number;
+    /**
+     * possible state of some specific gesture
+     * Tap gesture for example, before touch end, the possible value will come along with this object to indicate that if the tap gesture is possible to recognize
+     */
+    possible: boolean;
+    /**
+     * @param type        Event type, use AcheGestureEvent.ACHE_GESTURE
+     * @param gm        GestureManager instance that related to this object
+     * @param state        What state of the gesture when this happen, see ache.Gesture.utils.GestureState
+     */
+    constructor(type: string, gm: GestureManager, state?: string);
+}
+declare class PropGesture {
+    /**
+     * 目标手势，GesturePlugin
+     */
+    t: any;
+    /**
+     * Continuous Gesture，是否需要在确认手势之后不停得更新数据
+     */
+    c: boolean;
+    /**
+     *  execute gesture recognized callback function name
+     */
+    p0: string;
+    /**
+     *  check gesture function name
+     */
+    p1: string;
+    /**
+     * update value function name
+     */
+    p2: string;
+    /**
+     * 手势需要的触摸数量，对应numTouchesRequired
+     */
+    n: number;
+    _next: PropGesture;
+    _prev: PropGesture;
+    /**
+     * Possible，还有可能被识别
+     */
+    p: boolean;
+    /**
+     * recognized
+     * 是否已经识别出此手势，如果识别出来，计算链条将被打破，识别出来的手势会放到首位
+     */
+    r: boolean;
+    /**
+     * failed
+     * 一轮手势检测中已经确认监测失败
+     */
+    f: boolean;
+    /**
+     * 是否在hold链条里面等待被执行（requireGestureRecognizerToFail确定识别失败），或者被取消执行 （requireGestureRecognizerToFail确定已经识别）
+     */
+    h: boolean;
+    /** Priority **/
+    pr: number;
+    /**
+     * requireGestureRecognizerToFail的源，
+     * 也就是这个手势g，需要当前手势再f=true的时候再次尝试
+     */
+    _o: PropGesture;
+    /**
+     * requireGestureRecognizerToFail
+     * 如果_f != null，说明此手势需要等待_f在识别失败的时候才开始识别
+     */
+    _f: PropGesture;
+    constructor(target: any, property0?: string, property1?: string, property2?: string, next?: PropGesture, isContinuous?: boolean, priority?: number, numTouchesRequired?: number);
 }
 declare class GestureType {
     static DOUBLE_TAP: string;
