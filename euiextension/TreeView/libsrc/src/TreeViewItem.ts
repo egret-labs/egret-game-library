@@ -152,16 +152,16 @@ class TreeViewItem extends eui.ItemRenderer {
 					this.height += this.height * this.data.items.length;
 
 					var self = this;
-					if(typeof(this.data.items) != "undefined" && this.data.items != null){
-						loopData(this.data.items);
-					}
-					function loopData(items){
+					let loopData = function(items){
 						for(let i=0; i < items.length; i++){
 							items[i].that = self;
 							if(items[i].items != null){
 								loopData(items[i].items);
 							}
 						}
+					}
+					if(typeof(this.data.items) != "undefined" && this.data.items != null){
+						loopData(this.data.items);
 					}
 				}else{
 					var changeHeight = this.height * this.data.items.length;

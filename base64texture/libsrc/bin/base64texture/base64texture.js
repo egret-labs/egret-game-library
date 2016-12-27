@@ -1,7 +1,9 @@
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
 var Base64Texture = (function () {
     function Base64Texture() {
     }
-    var d = __define,c=Base64Texture,p=c.prototype;
     /**
      * @param base64 字符串
      */
@@ -15,5 +17,5 @@ var Base64Texture = (function () {
     };
     return Base64Texture;
 }());
-egret.registerClass(Base64Texture,'Base64Texture');
+__reflect(Base64Texture.prototype, "Base64Texture");
 

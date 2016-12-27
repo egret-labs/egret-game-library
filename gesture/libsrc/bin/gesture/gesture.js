@@ -1,3 +1,6 @@
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
 var PropGesture = (function () {
     function PropGesture(target, property0, property1, property2, next, isContinuous, priority, numTouchesRequired) {
         if (property0 === void 0) { property0 = "executeGestureRecognizedCallback"; }
@@ -28,11 +31,18 @@ var PropGesture = (function () {
         this.p2 = property2;
         this.n = numTouchesRequired;
     }
-    var d = __define,c=PropGesture,p=c.prototype;
     return PropGesture;
 }());
-egret.registerClass(PropGesture,'PropGesture');
+__reflect(PropGesture.prototype, "PropGesture");
 
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var GestureEvent = (function (_super) {
     __extends(GestureEvent, _super);
     /**
@@ -42,16 +52,19 @@ var GestureEvent = (function (_super) {
      */
     function GestureEvent(type, gm, state) {
         if (state === void 0) { state = ""; }
-        _super.call(this, type, false, null);
-        this.gm = gm;
-        this.state = state;
+        var _this = _super.call(this, type, false, null) || this;
+        _this.gm = gm;
+        _this.state = state;
+        return _this;
     }
-    var d = __define,c=GestureEvent,p=c.prototype;
-    GestureEvent.ACHE_GESTURE = "acheGesture";
     return GestureEvent;
 }(egret.Event));
-egret.registerClass(GestureEvent,'GestureEvent');
+GestureEvent.ACHE_GESTURE = "acheGesture";
+__reflect(GestureEvent.prototype, "GestureEvent");
 
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
 var GestureRecognizerPlugin = (function () {
     function GestureRecognizerPlugin(name, priority, requireGestureRecognizerToFail, continuous, numTouchesRequired) {
         if (name === void 0) { name = ""; }
@@ -75,7 +88,6 @@ var GestureRecognizerPlugin = (function () {
         this._priority = priority || 0;
         this._numTouchesRequired = numTouchesRequired;
     }
-    var d = __define,c=GestureRecognizerPlugin,p=c.prototype;
     /**
      * Inject custom gesture-recognizers which extend this class.
      * @param gestures
@@ -86,7 +98,7 @@ var GestureRecognizerPlugin = (function () {
             GestureManager._gesturePlugins[(new (gestures[i])())._gestureName] = gestures[i];
         }
     };
-    p._onInitGesture = function (callback, config, g) {
+    GestureRecognizerPlugin.prototype._onInitGesture = function (callback, config, g) {
         this._callBack = callback;
         this._config = config;
         this._g = g;
@@ -96,23 +108,23 @@ var GestureRecognizerPlugin = (function () {
         return true;
     };
     /** @private **/
-    p.executeGestureRecognizedCallback = function () {
+    GestureRecognizerPlugin.prototype.executeGestureRecognizedCallback = function () {
         if (this._callBack.recognized) {
             this._result.state = GestureState.RECOGNIZED;
             this._callBack.recognized(this._result);
         }
     };
     /** @private **/
-    p.checkGesture = function (ts) {
+    GestureRecognizerPlugin.prototype.checkGesture = function (ts) {
         return false;
     };
     /** @private **/
-    p.updateValue = function (ts) {
+    GestureRecognizerPlugin.prototype.updateValue = function (ts) {
         //return true means this continuous gesture has began to effect, while return false means the gestures has stopped.
         return true;
     };
     /** @private **/
-    p.gesturePossible = function (value) {
+    GestureRecognizerPlugin.prototype.gesturePossible = function (value) {
         this._possible = value;
         if (this._callBack.possible) {
             this._result.state = GestureState.POSSIBLE;
@@ -121,14 +133,14 @@ var GestureRecognizerPlugin = (function () {
         }
     };
     /** @private **/
-    p.gestureBegan = function () {
+    GestureRecognizerPlugin.prototype.gestureBegan = function () {
         if (this._callBack.began) {
             this._result.state = GestureState.BEGAN;
             this._callBack.began(this._result);
         }
     };
     /** @private **/
-    p.gestureEnded = function () {
+    GestureRecognizerPlugin.prototype.gestureEnded = function () {
         if (this._callBack.ended) {
             this._result.state = GestureState.ENDED;
             this._callBack.ended(this._result);
@@ -136,22 +148,30 @@ var GestureRecognizerPlugin = (function () {
     };
     return GestureRecognizerPlugin;
 }());
-egret.registerClass(GestureRecognizerPlugin,'GestureRecognizerPlugin');
+__reflect(GestureRecognizerPlugin.prototype, "GestureRecognizerPlugin");
 
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var PinchGestureRecognizer = (function (_super) {
     __extends(PinchGestureRecognizer, _super);
     function PinchGestureRecognizer(priority, requireGestureRecognizerToFail) {
         if (priority === void 0) { priority = 0; }
         if (requireGestureRecognizerToFail === void 0) { requireGestureRecognizerToFail = false; }
-        _super.call(this, GestureType.PINCH, priority, requireGestureRecognizerToFail, true, 2);
-        this._cx = 0;
-        this._cy = 0;
-        this._offsetX = 0;
-        this._offsetY = 0;
-        this.pZero = new egret.Point();
+        var _this = _super.call(this, GestureType.PINCH, priority, requireGestureRecognizerToFail, true, 2) || this;
+        _this._cx = 0;
+        _this._cy = 0;
+        _this._offsetX = 0;
+        _this._offsetY = 0;
+        _this.pZero = new egret.Point();
+        return _this;
     }
-    var d = __define,c=PinchGestureRecognizer,p=c.prototype;
-    p.checkGesture = function (ts) {
+    PinchGestureRecognizer.prototype.checkGesture = function (ts) {
         if (ts.length != 2) {
             this._cx = 0;
             this._offsetX = this._offsetY = 0;
@@ -182,7 +202,7 @@ var PinchGestureRecognizer = (function (_super) {
         }
         return true;
     };
-    p.updateValue = function (ts) {
+    PinchGestureRecognizer.prototype.updateValue = function (ts) {
         if (ts.length != 2) {
             this._cx = 0;
             return false;
@@ -218,26 +238,34 @@ var PinchGestureRecognizer = (function (_super) {
     };
     return PinchGestureRecognizer;
 }(GestureRecognizerPlugin));
-egret.registerClass(PinchGestureRecognizer,'PinchGestureRecognizer');
+__reflect(PinchGestureRecognizer.prototype, "PinchGestureRecognizer");
 
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var DoubleTapGestureRecognizer = (function (_super) {
     __extends(DoubleTapGestureRecognizer, _super);
     function DoubleTapGestureRecognizer(priority, requireGestureRecognizerToFail) {
         if (priority === void 0) { priority = 0; }
         if (requireGestureRecognizerToFail === void 0) { requireGestureRecognizerToFail = false; }
-        _super.call(this, GestureType.DOUBLE_TAP, priority, requireGestureRecognizerToFail);
-        this._interval = 300;
-        this._max_dist = 80;
-        this._count = 0;
-        this._validate = false;
-        this._sx = 0;
-        this._sy = 0;
-        this._t = new egret.Timer(this._interval, 1);
-        this._t.addEventListener(egret.TimerEvent.TIMER, this.onCheck, this);
-        this._count = 0;
+        var _this = _super.call(this, GestureType.DOUBLE_TAP, priority, requireGestureRecognizerToFail) || this;
+        _this._interval = 300;
+        _this._max_dist = 80;
+        _this._count = 0;
+        _this._validate = false;
+        _this._sx = 0;
+        _this._sy = 0;
+        _this._t = new egret.Timer(_this._interval, 1);
+        _this._t.addEventListener(egret.TimerEvent.TIMER, _this.onCheck, _this);
+        _this._count = 0;
+        return _this;
     }
-    var d = __define,c=DoubleTapGestureRecognizer,p=c.prototype;
-    p.checkGesture = function (ts) {
+    DoubleTapGestureRecognizer.prototype.checkGesture = function (ts) {
         var t = ts[0];
         var validate;
         if (t.type == egret.TouchEvent.TOUCH_BEGIN) {
@@ -268,7 +296,7 @@ var DoubleTapGestureRecognizer = (function (_super) {
         }
         return validate;
     };
-    p.onCheck = function (e) {
+    DoubleTapGestureRecognizer.prototype.onCheck = function (e) {
         this._failed = true;
         this._validate = false;
         this._count = 0;
@@ -278,33 +306,40 @@ var DoubleTapGestureRecognizer = (function (_super) {
     };
     return DoubleTapGestureRecognizer;
 }(GestureRecognizerPlugin));
-egret.registerClass(DoubleTapGestureRecognizer,'DoubleTapGestureRecognizer');
+__reflect(DoubleTapGestureRecognizer.prototype, "DoubleTapGestureRecognizer");
 
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
 var GestureType = (function () {
     function GestureType() {
     }
-    var d = __define,c=GestureType,p=c.prototype;
-    GestureType.DOUBLE_TAP = "doubleTap";
-    GestureType.PINCH = "pinch";
     return GestureType;
 }());
-egret.registerClass(GestureType,'GestureType');
+GestureType.DOUBLE_TAP = "doubleTap";
+GestureType.PINCH = "pinch";
+__reflect(GestureType.prototype, "GestureType");
 
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
 var GestureState = (function () {
     function GestureState() {
     }
-    var d = __define,c=GestureState,p=c.prototype;
-    GestureState.POSSIBLE = "possible";
-    GestureState.RECOGNIZED = "recognized";
-    GestureState.FAILED = "failed";
-    GestureState.BEGAN = "began";
-    GestureState.CHANGED = "changed";
-    GestureState.ENDED = "ended";
-    GestureState.CANCELLED = "cancelled";
     return GestureState;
 }());
-egret.registerClass(GestureState,'GestureState');
+GestureState.POSSIBLE = "possible";
+GestureState.RECOGNIZED = "recognized";
+GestureState.FAILED = "failed";
+GestureState.BEGAN = "began";
+GestureState.CHANGED = "changed";
+GestureState.ENDED = "ended";
+GestureState.CANCELLED = "cancelled";
+__reflect(GestureState.prototype, "GestureState");
 
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
 var GestureManager = (function () {
     /**
      * Creates a GestureManager instance
@@ -331,9 +366,8 @@ var GestureManager = (function () {
         this._allowSimultaneous = allowSimultaneous;
         this._initGesture();
     }
-    var d = __define,c=GestureManager,p=c.prototype;
     /** @private **/
-    p._initGesture = function () {
+    GestureManager.prototype._initGesture = function () {
         var p, plugin;
         for (p in this.vars) {
             if ((p in GestureManager._gesturePlugins) && (plugin = new GestureManager._gesturePlugins[p]())._onInitGesture(this.vars[p], this.vars[p]["config"], this)) {
@@ -347,14 +381,14 @@ var GestureManager = (function () {
         this.target.addEventListener(egret.TouchEvent.TOUCH_END, this.onTouched, this);
         egret.MainContext.instance.stage.addEventListener(egret.Event.LEAVE_STAGE, this.leaveStage, this);
     };
-    p.leaveStage = function (e) {
+    GestureManager.prototype.leaveStage = function (e) {
         while (this._ts.length > 0) {
             var event = this._ts.splice(0, 1)[0];
             this._touchEventPool.push(event);
         }
     };
     /** @private **/
-    p.linkGestureCondition = function () {
+    GestureManager.prototype.linkGestureCondition = function () {
         var pg = this._firstG;
         while (pg) {
             if (pg.t._callBack.hasOwnProperty("requireGestureToFail") && pg.t._callBack.requireGestureToFail != null) {
@@ -373,7 +407,7 @@ var GestureManager = (function () {
      * @param name
      * @param value
      */
-    p.gestureRecognizerStateChange = function (name, value) {
+    GestureManager.prototype.gestureRecognizerStateChange = function (name, value) {
         var pg = this._ref[name];
         var newFirstG;
         if (pg._o != null) {
@@ -439,7 +473,7 @@ var GestureManager = (function () {
         }
         //			console.log(_firstG.t._gestureName + ">>>" + _firstG.r);
     };
-    p.removeTouch = function (e) {
+    GestureManager.prototype.removeTouch = function (e) {
         for (var index = 0; index < this._ts.length; index++) {
             if (this._ts[index].touchPointID == e.touchPointID) {
                 var eV = this._ts.splice(index, 1)[0];
@@ -448,7 +482,7 @@ var GestureManager = (function () {
             }
         }
     };
-    p.cloneTouchEvent = function (e) {
+    GestureManager.prototype.cloneTouchEvent = function (e) {
         var result = this._touchEventPool.pop();
         if (!result) {
             result = {};
@@ -461,7 +495,7 @@ var GestureManager = (function () {
         return result;
     };
     /** @private **/
-    p.onTouched = function (e) {
+    GestureManager.prototype.onTouched = function (e) {
         this.removeTouch(e);
         this._ts.push(this.cloneTouchEvent(e));
         var ts = this._ts;
@@ -649,7 +683,7 @@ var GestureManager = (function () {
      * Add some gesutres to this gesture-recognizers' chain after the GestureManger instance created.
      * @param vars
      */
-    p.add = function (vars) {
+    GestureManager.prototype.add = function (vars) {
         var p, plugin;
         for (p in vars) {
             if ((p in GestureManager._gesturePlugins) && (plugin = new GestureManager._gesturePlugins[p]())._onInitGesture(vars[p], vars[p]["config"], this)) {
@@ -662,7 +696,7 @@ var GestureManager = (function () {
      * remove certain type of gesture-recognizer
      * @param gestureType
      */
-    p.remove = function (gestureType) {
+    GestureManager.prototype.remove = function (gestureType) {
         var result;
         var pg = this._firstG;
         while (pg) {
@@ -685,36 +719,38 @@ var GestureManager = (function () {
     /**
      * dispose all the gestures managed by this instance
      */
-    p.dispose = function () {
+    GestureManager.prototype.dispose = function () {
         this.target.removeEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouched, this);
         this.target.removeEventListener(egret.TouchEvent.TOUCH_MOVE, this.onTouched, this);
         this.target.removeEventListener(egret.TouchEvent.TOUCH_END, this.onTouched, this);
         egret.MainContext.instance.stage.removeEventListener(egret.Event.LEAVE_STAGE, this.leaveStage, this);
     };
-    d(p, "allowSimultaneous"
+    Object.defineProperty(GestureManager.prototype, "allowSimultaneous", {
         /**
          * if all gesture behave simultaneously
          */
-        ,function () {
+        get: function () {
             return this._allowSimultaneous;
-        }
-        ,function (value) {
+        },
+        set: function (value) {
             this._allowSimultaneous = value;
-        }
-    );
-    /**
-     * All the available gesture-recognizers
-     * @private
-     */
-    GestureManager._gesturePlugins = {
-        "doubleTap": DoubleTapGestureRecognizer,
-        "pinch": PinchGestureRecognizer
-    };
-    /**
-     * Use the target as key value to track all the gesture-managers has been created
-     */
-    GestureManager._gestures = {};
+        },
+        enumerable: true,
+        configurable: true
+    });
     return GestureManager;
 }());
-egret.registerClass(GestureManager,'GestureManager');
+/**
+ * All the available gesture-recognizers
+ * @private
+ */
+GestureManager._gesturePlugins = {
+    "doubleTap": DoubleTapGestureRecognizer,
+    "pinch": PinchGestureRecognizer
+};
+/**
+ * Use the target as key value to track all the gesture-managers has been created
+ */
+GestureManager._gestures = {};
+__reflect(GestureManager.prototype, "GestureManager");
 

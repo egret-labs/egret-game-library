@@ -26,81 +26,83 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
 var mouse;
 (function (mouse) {
     var MouseEvent = (function () {
         function MouseEvent() {
         }
-        var d = __define,c=MouseEvent,p=c.prototype;
-        /**
-         * @language en_US
-         * When the user mouse movements are called.
-         * @version Egret 3.1.0
-         * @platform Web
-         */
-        /**
-         * @language zh_CN
-         * 当用户鼠标移动时被调用。
-         * @version Egret 3.1.0
-         * @platform Web
-         */
-        MouseEvent.MOUSE_MOVE = "mouseMove";
-        /**
-        * @language en_US
-        * Called when the mouse is within the area where the object (not covered by other object).
-        * @version Egret 3.1.0
-        * @platform Web
-        */
-        /**
-         * @language zh_CN
-         * 当鼠标正在对象所在区域内（没有被其他对象覆盖）时调用。
-         * @version Egret 3.1.0
-         * @platform Web
-         */
-        MouseEvent.MOUSE_OVER = "mouseOver";
-        /**
-         * @language en_US
-         * Called when the mouse out of the object within the Area.
-         * @version Egret 3.1.0
-         * @platform Web
-         */
-        /**
-         * @language zh_CN
-         * 当鼠标移出对象所在区域内时调用。
-         * @version Egret 3.1.0
-         * @platform Web
-         */
-        MouseEvent.MOUSE_OUT = "mouseOut";
-        /**
-         * @language en_US
-         * When the mouse enters an object within the Area calls.
-         * @version Egret 3.1.0
-         * @platform Web
-         */
-        /**
-         * @language zh_CN
-         * 当鼠标进入对象所在区域内调用。
-         * @version Egret 3.1.0
-         * @platform Web
-         */
-        MouseEvent.ROLL_OVER = "rollOver";
-        /**
-         * @language en_US
-         * Called when the mouse out of the object within the Area.
-         * @version Egret 3.1.0
-         * @platform Web
-         */
-        /**
-         * @language zh_CN
-         * 当鼠标移出对象所在区域内时调用。
-         * @version Egret 3.1.0
-         * @platform Web
-         */
-        MouseEvent.ROLL_OUT = "rollOut";
         return MouseEvent;
     }());
+    /**
+     * @language en_US
+     * When the user mouse movements are called.
+     * @version Egret 3.1.0
+     * @platform Web
+     */
+    /**
+     * @language zh_CN
+     * 当用户鼠标移动时被调用。
+     * @version Egret 3.1.0
+     * @platform Web
+     */
+    MouseEvent.MOUSE_MOVE = "mouseMove";
+    /**
+    * @language en_US
+    * Called when the mouse is within the area where the object (not covered by other object).
+    * @version Egret 3.1.0
+    * @platform Web
+    */
+    /**
+     * @language zh_CN
+     * 当鼠标正在对象所在区域内（没有被其他对象覆盖）时调用。
+     * @version Egret 3.1.0
+     * @platform Web
+     */
+    MouseEvent.MOUSE_OVER = "mouseOver";
+    /**
+     * @language en_US
+     * Called when the mouse out of the object within the Area.
+     * @version Egret 3.1.0
+     * @platform Web
+     */
+    /**
+     * @language zh_CN
+     * 当鼠标移出对象所在区域内时调用。
+     * @version Egret 3.1.0
+     * @platform Web
+     */
+    MouseEvent.MOUSE_OUT = "mouseOut";
+    /**
+     * @language en_US
+     * When the mouse enters an object within the Area calls.
+     * @version Egret 3.1.0
+     * @platform Web
+     */
+    /**
+     * @language zh_CN
+     * 当鼠标进入对象所在区域内调用。
+     * @version Egret 3.1.0
+     * @platform Web
+     */
+    MouseEvent.ROLL_OVER = "rollOver";
+    /**
+     * @language en_US
+     * Called when the mouse out of the object within the Area.
+     * @version Egret 3.1.0
+     * @platform Web
+     */
+    /**
+     * @language zh_CN
+     * 当鼠标移出对象所在区域内时调用。
+     * @version Egret 3.1.0
+     * @platform Web
+     */
+    MouseEvent.ROLL_OUT = "rollOut";
     mouse.MouseEvent = MouseEvent;
-    egret.registerClass(MouseEvent,'mouse.MouseEvent');
+    __reflect(MouseEvent.prototype, "mouse.MouseEvent");
 })(mouse || (mouse = {}));
 
 //////////////////////////////////////////////////////////////////////////////////////

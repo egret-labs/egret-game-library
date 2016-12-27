@@ -26,6 +26,9 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
 var particle;
 (function (particle) {
     var Particle = (function () {
@@ -33,8 +36,7 @@ var particle;
             this.matrix = new egret.Matrix();
             this.reset();
         }
-        var d = __define,c=Particle,p=c.prototype;
-        p.reset = function () {
+        Particle.prototype.reset = function () {
             this.x = 0;
             this.y = 0;
             this.scale = 1;
@@ -43,7 +45,7 @@ var particle;
             this.currentTime = 0;
             this.totalTime = 1000;
         };
-        p.$getMatrix = function (regX, regY) {
+        Particle.prototype.$getMatrix = function (regX, regY) {
             var matrix = this.matrix;
             matrix.identity();
             if (this.rotation % 360) {
@@ -65,7 +67,7 @@ var particle;
         return Particle;
     }());
     particle.Particle = Particle;
-    egret.registerClass(Particle,'particle.Particle');
+    __reflect(Particle.prototype, "particle.Particle");
 })(particle || (particle = {}));
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -96,51 +98,59 @@ var particle;
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var particle;
 (function (particle_1) {
     var ParticleSystem = (function (_super) {
         __extends(ParticleSystem, _super);
         function ParticleSystem(texture, emissionRate) {
-            _super.call(this);
-            this._pool = [];
-            this.frameTime = 0;
-            this.particles = [];
-            this._emitterX = 0;
-            this._emitterY = 0;
+            var _this = _super.call(this) || this;
+            _this._pool = [];
+            _this.frameTime = 0;
+            _this.particles = [];
+            _this._emitterX = 0;
+            _this._emitterY = 0;
             /**
              * 表示粒子出现总时间，单位毫秒，取值范围(0,Number.MAX_VALUE]，-1表示无限时间
              * @member {number} particle.ParticleSystem#emissionTime
              * @default -1
              */
-            this.emissionTime = -1;
+            _this.emissionTime = -1;
             /**
              * 表示粒子系统最大粒子数，超过该数量将不会继续创建粒子，取值范围[1,Number.MAX_VALUE]
              * @member {number} particle.ParticleSystem#maxParticles
              * @default 200
              */
-            this.maxParticles = 200;
+            _this.maxParticles = 200;
             /**
              * 当前粒子数
              * @member {number} particle.ParticleSystem#numParticles
              */
-            this.numParticles = 0;
+            _this.numParticles = 0;
             /**
              * 表示粒子类，如果设置创建粒子时将创建该类
              * @member {number} particle.ParticleSystem#particleClass
              */
-            this.particleClass = null;
-            this.particleMeasureRect = new egret.Rectangle();
-            this.transformForMeasure = new egret.Matrix();
-            this.setAlphaNodeList = [];
-            this.bitmapNodeList = [];
-            this.emissionRate = emissionRate;
-            this.texture = texture;
-            this.$renderNode = new egret.sys.GroupNode();
+            _this.particleClass = null;
+            _this.particleMeasureRect = new egret.Rectangle();
+            _this.transformForMeasure = new egret.Matrix();
+            _this.setAlphaNodeList = [];
+            _this.bitmapNodeList = [];
+            _this.emissionRate = emissionRate;
+            _this.texture = texture;
+            _this.$renderNode = new egret.sys.GroupNode();
             //不清除绘制数据
-            this.$renderNode.cleanBeforeRender = function () { };
+            _this.$renderNode.cleanBeforeRender = function () { };
+            return _this;
         }
-        var d = __define,c=ParticleSystem,p=c.prototype;
-        p.getParticle = function () {
+        ParticleSystem.prototype.getParticle = function () {
             var result;
             if (this._pool.length) {
                 result = this._pool.pop();
@@ -153,7 +163,7 @@ var particle;
             }
             return result;
         };
-        p.removeParticle = function (particle) {
+        ParticleSystem.prototype.removeParticle = function (particle) {
             var index = this.particles.indexOf(particle);
             if (index != -1) {
                 particle.reset();
@@ -166,7 +176,7 @@ var particle;
                 return false;
             }
         };
-        p.initParticle = function (particle) {
+        ParticleSystem.prototype.initParticle = function (particle) {
             particle.x = this.emitterX;
             particle.y = this.emitterY;
             particle.currentTime = 0;
@@ -176,7 +186,7 @@ var particle;
          * 更新当前显示对象坐标系下的边框界限
          * @param emitterRect {egret.Rectangle} 相对发射点坐标系下的界限
          */
-        p.updateRelativeBounds = function (emitterRect) {
+        ParticleSystem.prototype.updateRelativeBounds = function (emitterRect) {
             if (emitterRect) {
                 if (this.relativeContentBounds == null) {
                     this.relativeContentBounds = new egret.Rectangle();
@@ -190,52 +200,58 @@ var particle;
             }
             this.mask = this.relativeContentBounds;
         };
-        d(p, "emitterBounds"
-            ,function () {
+        Object.defineProperty(ParticleSystem.prototype, "emitterBounds", {
+            get: function () {
                 return this._emitterBounds;
-            }
+            },
             /**
              * 表示当前粒子系统中发射粒子的渲染边界范围，使用以发射点为基准的坐标系
              * @member {egret.Rectangle} particle.ParticleSystem#emitterBounds
              */
-            ,function (rect) {
+            set: function (rect) {
                 this._emitterBounds = rect;
                 this.updateRelativeBounds(rect);
-            }
-        );
-        d(p, "emitterX"
-            ,function () {
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ParticleSystem.prototype, "emitterX", {
+            get: function () {
                 return this._emitterX;
-            }
+            },
             /**
              * 表示粒子出现点X坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
              * @member {number} particle.ParticleSystem#emitterX
              * @default 0
              */
-            ,function (value) {
+            set: function (value) {
                 this._emitterX = value;
                 this.updateRelativeBounds(this.emitterBounds);
-            }
-        );
-        d(p, "emitterY"
-            ,function () {
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ParticleSystem.prototype, "emitterY", {
+            get: function () {
                 return this._emitterY;
-            }
+            },
             /**
              * 表示粒子出现点Y坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
              * @member {number} particle.ParticleSystem#emitterY
              * @default 0
              */
-            ,function (value) {
+            set: function (value) {
                 this._emitterY = value;
                 this.updateRelativeBounds(this.emitterBounds);
-            }
-        );
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * 开始创建粒子
          * @param duration {number} 粒子出现总时间
          */
-        p.start = function (duration) {
+        ParticleSystem.prototype.start = function (duration) {
             if (duration === void 0) { duration = -1; }
             if (this.emissionRate != 0) {
                 this.emissionTime = duration;
@@ -247,7 +263,7 @@ var particle;
          * 停止创建粒子
          * @param clear {boolean} 是否清除掉现有粒子
          */
-        p.stop = function (clear) {
+        ParticleSystem.prototype.stop = function (clear) {
             if (clear === void 0) { clear = false; }
             this.emissionTime = 0;
             if (clear) {
@@ -255,7 +271,7 @@ var particle;
                 egret.stopTick(this.update, this);
             }
         };
-        p.update = function (timeStamp) {
+        ParticleSystem.prototype.update = function (timeStamp) {
             var dt = timeStamp - this.timeStamp;
             this.timeStamp = timeStamp;
             //粒子数很少的时候可能会错过添加粒子的时机
@@ -294,7 +310,7 @@ var particle;
             }
             return false;
         };
-        p.$measureContentBounds = function (bounds) {
+        ParticleSystem.prototype.$measureContentBounds = function (bounds) {
             //如果设置了固定的区域边界则直接使用这个边界，否则进行自动的内容边界测量
             if (this.relativeContentBounds) {
                 bounds.copyFrom(this.relativeContentBounds);
@@ -341,7 +357,7 @@ var particle;
                 }
             }
         };
-        p.setCurrentParticles = function (num) {
+        ParticleSystem.prototype.setCurrentParticles = function (num) {
             for (var i = this.numParticles; i < num && this.numParticles < this.maxParticles; i++) {
                 this.addOneParticle();
             }
@@ -350,7 +366,7 @@ var particle;
          * 更换粒子纹理
          * @param texture {egret.Texture} 新的纹理
          */
-        p.changeTexture = function (texture) {
+        ParticleSystem.prototype.changeTexture = function (texture) {
             if (this.texture != texture) {
                 this.texture = texture;
                 //todo 这里可以优化
@@ -359,7 +375,7 @@ var particle;
                 this.$renderNode.drawData.length = 0;
             }
         };
-        p.clear = function () {
+        ParticleSystem.prototype.clear = function () {
             while (this.particles.length) {
                 this.removeParticle(this.particles[0]);
             }
@@ -369,7 +385,7 @@ var particle;
             this.bitmapNodeList.length = 0;
             this.$invalidateContentBounds();
         };
-        p.addOneParticle = function () {
+        ParticleSystem.prototype.addOneParticle = function () {
             //todo 这里可能需要返回成功与否
             var particle = this.getParticle();
             this.initParticle(particle);
@@ -378,10 +394,10 @@ var particle;
                 this.numParticles++;
             }
         };
-        p.advanceParticle = function (particle, dt) {
+        ParticleSystem.prototype.advanceParticle = function (particle, dt) {
             particle.y -= dt / 6;
         };
-        p.$render = function () {
+        ParticleSystem.prototype.$render = function () {
             if (this.numParticles > 0) {
                 //todo 考虑不同粒子使用不同的texture，或者使用egret.SpriteSheet
                 var texture = this.texture;
@@ -417,7 +433,7 @@ var particle;
                 }
             }
         };
-        p.appendTransform = function (matrix, x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY) {
+        ParticleSystem.prototype.appendTransform = function (matrix, x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY) {
             if (rotation % 360) {
                 var r = rotation; // * Matrix.DEG_TO_RAD;
                 var cos = egret.NumberUtils.cos(r);
@@ -447,7 +463,7 @@ var particle;
         return ParticleSystem;
     }(egret.DisplayObject));
     particle_1.ParticleSystem = ParticleSystem;
-    egret.registerClass(ParticleSystem,'particle.ParticleSystem');
+    __reflect(ParticleSystem.prototype, "particle.ParticleSystem");
 })(particle || (particle = {}));
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -478,15 +494,22 @@ var particle;
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var particle;
 (function (particle) {
     var GravityParticle = (function (_super) {
         __extends(GravityParticle, _super);
         function GravityParticle() {
-            _super.apply(this, arguments);
+            return _super.apply(this, arguments) || this;
         }
-        var d = __define,c=GravityParticle,p=c.prototype;
-        p.reset = function () {
+        GravityParticle.prototype.reset = function () {
             _super.prototype.reset.call(this);
             this.startX = 0;
             this.startY = 0;
@@ -500,7 +523,7 @@ var particle;
         return GravityParticle;
     }(particle.Particle));
     particle.GravityParticle = GravityParticle;
-    egret.registerClass(GravityParticle,'particle.GravityParticle');
+    __reflect(GravityParticle.prototype, "particle.GravityParticle");
 })(particle || (particle = {}));
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -531,18 +554,26 @@ var particle;
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var particle;
 (function (particle_1) {
     var GravityParticleSystem = (function (_super) {
         __extends(GravityParticleSystem, _super);
         function GravityParticleSystem(texture, config) {
-            _super.call(this, texture, 200);
-            this.parseConfig(config);
-            this.emissionRate = this.lifespan / this.maxParticles;
-            this.particleClass = particle_1.GravityParticle;
+            var _this = _super.call(this, texture, 200) || this;
+            _this.parseConfig(config);
+            _this.emissionRate = _this.lifespan / _this.maxParticles;
+            _this.particleClass = particle_1.GravityParticle;
+            return _this;
         }
-        var d = __define,c=GravityParticleSystem,p=c.prototype;
-        p.parseConfig = function (config) {
+        GravityParticleSystem.prototype.parseConfig = function (config) {
             this.emitterX = getValue(config.emitter.x);
             this.emitterY = getValue(config.emitter.y);
             this.emitterXVariance = getValue(config.emitterVariance.x);
@@ -588,7 +619,7 @@ var particle;
                 return value;
             }
         };
-        p.initParticle = function (particle) {
+        GravityParticleSystem.prototype.initParticle = function (particle) {
             var locParticle = particle;
             var lifespan = GravityParticleSystem.getValue(this.lifespan, this.lifespanVariance);
             locParticle.currentTime = 0;
@@ -630,7 +661,7 @@ var particle;
         GravityParticleSystem.getValue = function (base, variance) {
             return base + variance * (Math.random() * 2 - 1);
         };
-        p.advanceParticle = function (particle, dt) {
+        GravityParticleSystem.prototype.advanceParticle = function (particle, dt) {
             var locParticle = particle;
             dt = dt / 1000;
             var restTime = locParticle.totalTime - locParticle.currentTime;
@@ -665,6 +696,6 @@ var particle;
         return GravityParticleSystem;
     }(particle_1.ParticleSystem));
     particle_1.GravityParticleSystem = GravityParticleSystem;
-    egret.registerClass(GravityParticleSystem,'particle.GravityParticleSystem');
+    __reflect(GravityParticleSystem.prototype, "particle.GravityParticleSystem");
 })(particle || (particle = {}));
 
