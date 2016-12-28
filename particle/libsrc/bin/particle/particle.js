@@ -141,7 +141,6 @@ var particle;
             _this.particleClass = null;
             _this.particleMeasureRect = new egret.Rectangle();
             _this.transformForMeasure = new egret.Matrix();
-            _this.setAlphaNodeList = [];
             _this.bitmapNodeList = [];
             _this.emissionRate = emissionRate;
             _this.texture = texture;
@@ -370,7 +369,6 @@ var particle;
             if (this.texture != texture) {
                 this.texture = texture;
                 //todo 这里可以优化
-                this.setAlphaNodeList.length = 0;
                 this.bitmapNodeList.length = 0;
                 this.$renderNode.drawData.length = 0;
             }
@@ -381,7 +379,6 @@ var particle;
             }
             this.numParticles = 0;
             this.$renderNode.drawData.length = 0;
-            this.setAlphaNodeList.length = 0;
             this.bitmapNodeList.length = 0;
             this.$invalidateContentBounds();
         };
@@ -415,21 +412,18 @@ var particle;
                     var setAlphaNode;
                     var bitmapNode;
                     if (!this.bitmapNodeList[i]) {
-                        this.setAlphaNodeList[i] = new egret.sys.SetAlphaNode();
                         bitmapNode = new egret.sys.BitmapNode();
                         this.bitmapNodeList[i] = bitmapNode;
-                        this.$renderNode.addNode(this.setAlphaNodeList[i]);
                         this.$renderNode.addNode(this.bitmapNodeList[i]);
                         bitmapNode.image = texture._bitmapData;
                         bitmapNode.imageWidth = texture._sourceWidth;
                         bitmapNode.imageHeight = texture._sourceHeight;
                         bitmapNode.drawImage(bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
                     }
-                    setAlphaNode = this.setAlphaNodeList[i];
                     bitmapNode = this.bitmapNodeList[i];
-                    setAlphaNode.setAlpha(particle.alpha);
                     bitmapNode.matrix = particle.$getMatrix(textureW / 2, textureH / 2);
                     bitmapNode.blendMode = particle.blendMode;
+                    bitmapNode.alpha = particle.alpha;
                 }
             }
         };

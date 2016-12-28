@@ -143,7 +143,6 @@ declare module particle {
         private clear();
         private addOneParticle();
         advanceParticle(particle: Particle, dt: number): void;
-        private setAlphaNodeList;
         private bitmapNodeList;
         $render(): void;
         private appendTransform(matrix, x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY);
