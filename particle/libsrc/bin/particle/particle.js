@@ -1,3 +1,8 @@
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 //////////////////////////////////////////////////////////////////////////////////////
 //
 //  Copyright (c) 2014-present, Egret Technology.
@@ -26,9 +31,6 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
 var particle;
 (function (particle) {
     var Particle = (function () {
@@ -67,9 +69,7 @@ var particle;
         return Particle;
     }());
     particle.Particle = Particle;
-    __reflect(Particle.prototype, "particle.Particle");
 })(particle || (particle = {}));
-
 //////////////////////////////////////////////////////////////////////////////////////
 //
 //  Copyright (c) 2014-present, Egret Technology.
@@ -98,14 +98,6 @@ var particle;
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var particle;
 (function (particle_1) {
     var ParticleSystem = (function (_super) {
@@ -457,9 +449,7 @@ var particle;
         return ParticleSystem;
     }(egret.DisplayObject));
     particle_1.ParticleSystem = ParticleSystem;
-    __reflect(ParticleSystem.prototype, "particle.ParticleSystem");
 })(particle || (particle = {}));
-
 //////////////////////////////////////////////////////////////////////////////////////
 //
 //  Copyright (c) 2014-present, Egret Technology.
@@ -488,14 +478,6 @@ var particle;
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var particle;
 (function (particle) {
     var GravityParticle = (function (_super) {
@@ -517,9 +499,7 @@ var particle;
         return GravityParticle;
     }(particle.Particle));
     particle.GravityParticle = GravityParticle;
-    __reflect(GravityParticle.prototype, "particle.GravityParticle");
 })(particle || (particle = {}));
-
 //////////////////////////////////////////////////////////////////////////////////////
 //
 //  Copyright (c) 2014-present, Egret Technology.
@@ -548,23 +528,15 @@ var particle;
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var particle;
-(function (particle_1) {
+(function (particle_2) {
     var GravityParticleSystem = (function (_super) {
         __extends(GravityParticleSystem, _super);
         function GravityParticleSystem(texture, config) {
             var _this = _super.call(this, texture, 200) || this;
             _this.parseConfig(config);
             _this.emissionRate = _this.lifespan / _this.maxParticles;
-            _this.particleClass = particle_1.GravityParticle;
+            _this.particleClass = particle_2.GravityParticle;
             return _this;
         }
         GravityParticleSystem.prototype.parseConfig = function (config) {
@@ -688,8 +660,6 @@ var particle;
             locParticle.alpha += locParticle.alphaDelta * dt * 1000;
         };
         return GravityParticleSystem;
-    }(particle_1.ParticleSystem));
-    particle_1.GravityParticleSystem = GravityParticleSystem;
-    __reflect(GravityParticleSystem.prototype, "particle.GravityParticleSystem");
+    }(particle_2.ParticleSystem));
+    particle_2.GravityParticleSystem = GravityParticleSystem;
 })(particle || (particle = {}));
-

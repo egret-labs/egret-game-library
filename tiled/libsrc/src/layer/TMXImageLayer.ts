@@ -45,7 +45,6 @@ module tiled{
 							
 						default: 
                             throw new Error("TMXTileMap decode ImageLayer is Error：" + child.localName);
-							break;
 					}
 				}				
 			}

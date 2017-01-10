@@ -45,11 +45,9 @@ module tiled{
 				case "base64":
 					var decoded = tiled.Base64.decodeBase64AsArray(text, 4);
 					return (compression === "none") ? decoded : tiled.Base64.decompress(text, decoded, compression);
-					break;
 
 				case "csv":
 					return tiled.Base64.decodeCSV(text);
-					break;
 
 				case "none":
 					var datas: Array<number> = [];
@@ -57,11 +55,9 @@ module tiled{
 						datas[i] = +data.children[i].attributes.gid;
 					}
 					return datas;
-					break;
 
 				default:
 					throw new Error("未定义的编码:" + encoding);
-					break;
 			}
 		}
 		

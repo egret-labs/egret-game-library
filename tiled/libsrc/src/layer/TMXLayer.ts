@@ -102,7 +102,6 @@ module tiled{
 
 						default:
 							throw new Error("TMXTileMap decode Layer is Error：" + child.localName);
-							break;
 					}
 				}
 			}

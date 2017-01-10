@@ -1,6 +1,3 @@
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
 var Base64Texture = (function () {
     function Base64Texture() {
     }
@@ -17,5 +14,3 @@ var Base64Texture = (function () {
     };
     return Base64Texture;
 }());
-__reflect(Base64Texture.prototype, "Base64Texture");
-

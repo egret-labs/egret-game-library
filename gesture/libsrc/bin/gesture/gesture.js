@@ -1,69 +1,7 @@
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
-var PropGesture = (function () {
-    function PropGesture(target, property0, property1, property2, next, isContinuous, priority, numTouchesRequired) {
-        if (property0 === void 0) { property0 = "executeGestureRecognizedCallback"; }
-        if (property1 === void 0) { property1 = "checkGesture"; }
-        if (property2 === void 0) { property2 = "updateValue"; }
-        if (next === void 0) { next = null; }
-        if (isContinuous === void 0) { isContinuous = false; }
-        if (priority === void 0) { priority = 0; }
-        if (numTouchesRequired === void 0) { numTouchesRequired = 1; }
-        /**
-         * 手势需要的触摸数量，对应numTouchesRequired
-         */
-        this.n = 0;
-        /**
-         * Possible，还有可能被识别
-         */
-        this.p = true;
-        /** Priority **/
-        this.pr = 0;
-        this.t = target;
-        this.c = isContinuous;
-        if (next) {
-            next._prev = this;
-            this._next = next;
-        }
-        this.p0 = property0;
-        this.p1 = property1;
-        this.p2 = property2;
-        this.n = numTouchesRequired;
-    }
-    return PropGesture;
-}());
-__reflect(PropGesture.prototype, "PropGesture");
-
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var GestureEvent = (function (_super) {
-    __extends(GestureEvent, _super);
-    /**
-     * @param type        Event type, use AcheGestureEvent.ACHE_GESTURE
-     * @param gm        GestureManager instance that related to this object
-     * @param state        What state of the gesture when this happen, see ache.Gesture.utils.GestureState
-     */
-    function GestureEvent(type, gm, state) {
-        if (state === void 0) { state = ""; }
-        var _this = _super.call(this, type, false, null) || this;
-        _this.gm = gm;
-        _this.state = state;
-        return _this;
-    }
-    return GestureEvent;
-}(egret.Event));
-GestureEvent.ACHE_GESTURE = "acheGesture";
-__reflect(GestureEvent.prototype, "GestureEvent");
-
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
 var GestureRecognizerPlugin = (function () {
     function GestureRecognizerPlugin(name, priority, requireGestureRecognizerToFail, continuous, numTouchesRequired) {
@@ -148,16 +86,6 @@ var GestureRecognizerPlugin = (function () {
     };
     return GestureRecognizerPlugin;
 }());
-__reflect(GestureRecognizerPlugin.prototype, "GestureRecognizerPlugin");
-
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var PinchGestureRecognizer = (function (_super) {
     __extends(PinchGestureRecognizer, _super);
     function PinchGestureRecognizer(priority, requireGestureRecognizerToFail) {
@@ -238,16 +166,6 @@ var PinchGestureRecognizer = (function (_super) {
     };
     return PinchGestureRecognizer;
 }(GestureRecognizerPlugin));
-__reflect(PinchGestureRecognizer.prototype, "PinchGestureRecognizer");
-
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var DoubleTapGestureRecognizer = (function (_super) {
     __extends(DoubleTapGestureRecognizer, _super);
     function DoubleTapGestureRecognizer(priority, requireGestureRecognizerToFail) {
@@ -306,11 +224,55 @@ var DoubleTapGestureRecognizer = (function (_super) {
     };
     return DoubleTapGestureRecognizer;
 }(GestureRecognizerPlugin));
-__reflect(DoubleTapGestureRecognizer.prototype, "DoubleTapGestureRecognizer");
-
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
+var PropGesture = (function () {
+    function PropGesture(target, property0, property1, property2, next, isContinuous, priority, numTouchesRequired) {
+        if (property0 === void 0) { property0 = "executeGestureRecognizedCallback"; }
+        if (property1 === void 0) { property1 = "checkGesture"; }
+        if (property2 === void 0) { property2 = "updateValue"; }
+        if (next === void 0) { next = null; }
+        if (isContinuous === void 0) { isContinuous = false; }
+        if (priority === void 0) { priority = 0; }
+        if (numTouchesRequired === void 0) { numTouchesRequired = 1; }
+        /**
+         * 手势需要的触摸数量，对应numTouchesRequired
+         */
+        this.n = 0;
+        /**
+         * Possible，还有可能被识别
+         */
+        this.p = true;
+        /** Priority **/
+        this.pr = 0;
+        this.t = target;
+        this.c = isContinuous;
+        if (next) {
+            next._prev = this;
+            this._next = next;
+        }
+        this.p0 = property0;
+        this.p1 = property1;
+        this.p2 = property2;
+        this.n = numTouchesRequired;
+    }
+    return PropGesture;
+}());
+var GestureEvent = (function (_super) {
+    __extends(GestureEvent, _super);
+    /**
+     * @param type        Event type, use AcheGestureEvent.ACHE_GESTURE
+     * @param gm        GestureManager instance that related to this object
+     * @param state        What state of the gesture when this happen, see ache.Gesture.utils.GestureState
+     */
+    function GestureEvent(type, gm, state) {
+        if (state === void 0) { state = ""; }
+        var _this = _super.call(this, type, false, null) || this;
+        _this.gm = gm;
+        _this.state = state;
+        return _this;
+    }
+    return GestureEvent;
+}(egret.Event));
+GestureEvent.ACHE_GESTURE = "acheGesture";
 var GestureType = (function () {
     function GestureType() {
     }
@@ -318,11 +280,6 @@ var GestureType = (function () {
 }());
 GestureType.DOUBLE_TAP = "doubleTap";
 GestureType.PINCH = "pinch";
-__reflect(GestureType.prototype, "GestureType");
-
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
 var GestureState = (function () {
     function GestureState() {
     }
@@ -335,11 +292,6 @@ GestureState.BEGAN = "began";
 GestureState.CHANGED = "changed";
 GestureState.ENDED = "ended";
 GestureState.CANCELLED = "cancelled";
-__reflect(GestureState.prototype, "GestureState");
-
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
 var GestureManager = (function () {
     /**
      * Creates a GestureManager instance
@@ -752,5 +704,3 @@ GestureManager._gesturePlugins = {
  * Use the target as key value to track all the gesture-managers has been created
  */
 GestureManager._gestures = {};
-__reflect(GestureManager.prototype, "GestureManager");
-
