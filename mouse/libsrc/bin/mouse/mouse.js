@@ -26,9 +26,6 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
 var mouse;
 (function (mouse) {
     var MouseEvent = (function () {
@@ -102,9 +99,7 @@ var mouse;
      */
     MouseEvent.ROLL_OUT = "rollOut";
     mouse.MouseEvent = MouseEvent;
-    __reflect(MouseEvent.prototype, "mouse.MouseEvent");
 })(mouse || (mouse = {}));
-
 //////////////////////////////////////////////////////////////////////////////////////
 //
 //  Copyright (c) 2014-present, Egret Technology.
@@ -275,4 +270,3 @@ var mouse;
         mouseMoveEnabled = enabled;
     };
 })(mouse || (mouse = {}));
-

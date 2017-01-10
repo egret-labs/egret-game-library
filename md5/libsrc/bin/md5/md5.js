@@ -6,9 +6,6 @@
 * Distributed under the BSD License
 * See http://pajhome.org.uk/crypt/md5 for more info.
 */
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
 /*
  * Configurable variables. You may need to tweak these to be compatible with
  * the server-side, but the defaults work in most cases.
@@ -326,5 +323,3 @@ var md5 = (function () {
     };
     return md5;
 }());
-__reflect(md5.prototype, "md5");
-
