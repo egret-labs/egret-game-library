@@ -27,28 +27,28 @@
 	<script egret="lib" src="libs/modules/tween/tween.js" src-release="libs/modules/tween/tween.min.js"></script>
 	<script egret="lib" src="libs/modules/res/res.js" src-release="libs/modules/res/res.min.js"></script>
 	<script egret="lib" src="libs/modules/game/game.js" src-release="libs/modules/game/game.min.js"></script>
-	<script egret="lib" src="libs/modules/game/game.web.js" src-release="libs/modules/game/game.web.min.js"></script>
 	<script egret="lib" src="libs/modules/ecs/ecs.js" src-release="libs/modules/ecs/ecs.min.js"></script>
 	<!--modules_files_end-->
 
     <!--这个标签为不通过egret提供的第三方库的方式使用的 javascript 文件，请将这些文件放在libs下，但不要放在modules下面。-->
     <!--other_libs_files_start-->
+    <script egret="lib" src="polyfill/promise.js" src-release="polyfill/promise.min.js"></script>
     <!--other_libs_files_end-->
 
     <!--这个标签会被替换为项目中所有的 javascript 文件。删除 game_files 标签后，项目文件加载列表将不会变化，请谨慎操作！-->
     <!--game_files_start-->
 	<script egret="game" src="bin-debug/scripts/data/CardStack.js"></script>
 	<script egret="game" src="bin-debug/scripts/data/STATE.js"></script>
+	<script egret="game" src="bin-debug/scripts/logic/CardManager.js"></script>
+	<script egret="game" src="bin-debug/Main.js"></script>
+	<script egret="game" src="bin-debug/scripts/anim/label_anim_sets.js"></script>
+	<script egret="game" src="bin-debug/scripts/interact/switch_to_next_scene.js"></script>
+	<script egret="game" src="bin-debug/scripts/logic/card_slot.js"></script>
+	<script egret="game" src="bin-debug/scripts/anim/draw_a_card.js"></script>
+	<script egret="game" src="bin-debug/scripts/UI/card_back_slot.js"></script>
 	<script egret="game" src="bin-debug/scripts/UI/card_base.js"></script>
 	<script egret="game" src="bin-debug/scripts/UI/card_cost.js"></script>
 	<script egret="game" src="bin-debug/scripts/UI/card_soldier.js"></script>
-	<script egret="game" src="bin-debug/scripts/anim/draw_a_card.js"></script>
-	<script egret="game" src="bin-debug/scripts/anim/label_anim_sets.js"></script>
-	<script egret="game" src="bin-debug/scripts/UI/card_back_slot.js"></script>
-	<script egret="game" src="bin-debug/Main.js"></script>
-	<script egret="game" src="bin-debug/scripts/interact/switch_to_next_scene.js"></script>
-	<script egret="game" src="bin-debug/scripts/logic/CardManager.js"></script>
-	<script egret="game" src="bin-debug/scripts/logic/card_slot.js"></script>
 	<script egret="game" src="bin-debug/scripts/util/scene_loader.js"></script>
 	<script egret="game" src="bin-debug/scripts/util/toast.js"></script>
 	<!--game_files_end-->

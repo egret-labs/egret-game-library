@@ -5,7 +5,6 @@ var game_file_list = [
 	"libs/modules/egret/egret.js",
 	"libs/modules/egret/egret.native.js",
 	"libs/modules/game/game.js",
-	"libs/modules/game/game.native.js",
 	"libs/modules/res/res.js",
 	"libs/modules/eui/eui.js",
 	"libs/modules/combobox/combobox.js",
