@@ -8,6 +8,7 @@ var game_file_list = [
 	"libs/modules/res/res.js",
 	"libs/modules/game/game.js",
 	"libs/modules/ecs/ecs.js",
+	"polyfill/promise.js",
 	"bin-debug/scripts/data/CardStack.js",
 	"bin-debug/scripts/data/STATE.js",
 	"bin-debug/scripts/logic/CardManager.js",
