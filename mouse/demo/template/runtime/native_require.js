@@ -6,6 +6,7 @@ var game_file_list = [
 	"libs/modules/egret/egret.native.js",
 	"libs/modules/mouse/mouse.js",
 	"libs/modules/res/res.js",
+	"polyfill/promise.js",
 	"bin-debug/Main.js",
 	//----auto game_file_list end----
 ];

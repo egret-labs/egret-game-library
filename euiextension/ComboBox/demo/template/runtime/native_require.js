@@ -8,6 +8,7 @@ var game_file_list = [
 	"libs/modules/res/res.js",
 	"libs/modules/eui/eui.js",
 	"libs/modules/combobox/combobox.js",
+	"polyfill/promise.js",
 	"bin-debug/AssetAdapter.js",
 	"bin-debug/LoadingUI.js",
 	"bin-debug/Main.js",
