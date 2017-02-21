@@ -425,6 +425,9 @@ var tiled;
                 return;
             RES.getResByUrl(url, function (texture) {
                 if (texture) {
+                    if (this._sourcebitmap == null || this._sourcebitmap == undefined) {
+                        this._sourcebitmap = new egret.Bitmap();
+                    }
                     this._sourcebitmap.texture = texture;
                     this._texture = texture;
                     this.dispatchEvent(new tiled.TMXImageLoadEvent(tiled.TMXImageLoadEvent.IMAGE_COMPLETE, texture));
