@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-module mouse {
+namespace mouse {
 
     var currentTarget;
     var stageObj;
@@ -51,7 +51,7 @@ module mouse {
                     canvas.style.cursor = "pointer";
                 }
                 else if(type == MouseEvent.ROLL_OUT) {
-                    canvas.style.cursor = "default";
+                    canvas.style.cursor = "auto";
                 }
             }
             catch(e) {
@@ -91,7 +91,7 @@ module mouse {
                 }
                 else if (result != currentTarget) {
                     dispatch(MouseEvent.MOUSE_OUT, true, x, y);
-                    if (!currentTarget.$getConcatenatedVisible() || !currentTarget.hitTestPoint(x, y)) {
+                    if (!currentTarget.$getConcatenatedVisible() || !currentTarget.hitTestPoint(x, y, true)) {
                         dispatch(MouseEvent.ROLL_OUT, false, x, y);
                     }
                     currentTarget = result;

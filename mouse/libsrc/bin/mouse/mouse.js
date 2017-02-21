@@ -190,7 +190,7 @@ var mouse;
                 }
                 else if (result != currentTarget) {
                     dispatch(mouse.MouseEvent.MOUSE_OUT, true, x, y);
-                    if (!currentTarget.$getConcatenatedVisible() || !currentTarget.hitTestPoint(x, y)) {
+                    if (!currentTarget.$getConcatenatedVisible() || !currentTarget.hitTestPoint(x, y, true)) {
                         dispatch(mouse.MouseEvent.ROLL_OUT, false, x, y);
                     }
                     currentTarget = result;
