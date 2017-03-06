@@ -1,4 +1,4 @@
-declare module mouse {
+declare namespace mouse {
     class MouseEvent {
         /**
          * @language en_US
@@ -67,7 +67,7 @@ declare module mouse {
         static ROLL_OUT: string;
     }
 }
-declare module mouse {
+declare namespace mouse {
     /**
      * @language en_US
      * Enable mouse detection.
