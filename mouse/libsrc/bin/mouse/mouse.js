@@ -152,7 +152,7 @@ var mouse;
                     canvas.style.cursor = "pointer";
                 }
                 else if (type == mouse.MouseEvent.ROLL_OUT) {
-                    canvas.style.cursor = "default";
+                    canvas.style.cursor = "auto";
                 }
             }
             catch (e) {
