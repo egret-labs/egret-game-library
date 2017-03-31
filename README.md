@@ -112,7 +112,7 @@ p2物理引擎，当前使用的版本为0.7.0
 [Documentation](http://schteppe.github.io/p2.js/docs/classes/FrictionEquation.html)
 
 #### socket.io
-socket.io
+socket.io库，不支持native
 
 #### tiled
 tiledmap 支持库
