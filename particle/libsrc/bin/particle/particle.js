@@ -161,6 +161,10 @@ var particle;
                 this.particles.splice(index, 1);
                 this._pool.push(particle);
                 this.numParticles--;
+                if (this.bitmapNodeList.length > this.numParticles) {
+                    this.bitmapNodeList.length = this.numParticles;
+                    this.$renderNode.drawData.length = this.numParticles;
+                }
                 return true;
             }
             else {
@@ -483,7 +487,7 @@ var particle;
     var GravityParticle = (function (_super) {
         __extends(GravityParticle, _super);
         function GravityParticle() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            return _super.apply(this, arguments) || this;
         }
         GravityParticle.prototype.reset = function () {
             _super.prototype.reset.call(this);

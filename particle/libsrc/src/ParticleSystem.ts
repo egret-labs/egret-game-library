@@ -106,6 +106,10 @@ module particle {
                 this.particles.splice(index, 1);
                 this._pool.push(particle);
                 this.numParticles--;
+                if(this.bitmapNodeList.length > this.numParticles) {
+                    this.bitmapNodeList.length = this.numParticles;
+                    this.$renderNode.drawData.length = this.numParticles;
+                }
                 return true;
             }
             else {
