@@ -7,23 +7,27 @@
 		"web": 0,
 		"native": 1
 	},
-	"egret_version": "4.0.2",
+	"egret_version": "4.1.0",
 	"modules": [
 		{
-			"name": "egret"
+			"name": "egret",
+			"path": "${EGRET_DEFAULT}"
 		},
 		{
-			"name": "game"
+			"name": "game",
+			"path": "${EGRET_DEFAULT}"
 		},
 		{
-			"name": "tween"
+			"name": "tween",
+			"path": "${EGRET_DEFAULT}"
 		},
 		{
 			"name": "jszip",
 			"path": "../libsrc"
 		},
 		{
-			"name": "res"
+			"name": "res",
+			"path": "${EGRET_DEFAULT}"
 		}
 	]
 }
