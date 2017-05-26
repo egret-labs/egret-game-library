@@ -7,10 +7,11 @@
 		"native": 1,
 		"path": "bin-release"
 	},
-	"egret_version": "4.0.3",
+	"egret_version": "4.1.0",
 	"modules": [
 		{
-			"name": "egret"
+			"name": "egret",
+			"path": "${EGRET_DEFAULT}"
 		},
 		{
 			"name": "keyboard",
