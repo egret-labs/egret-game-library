@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"outFile": "bin/treeview/treeview.js",
+		"declaration": true
+	},
+	"files": [
+		"libs/egret.d.ts",
+		"libs/eui.d.ts",
+		"src/TreeViewItem.ts",
+		"src/TreeView.ts"
+	]
+}

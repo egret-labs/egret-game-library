@@ -1,4 +1,3 @@
-
 //GreenSock - TypeScript 0.9 Ambient Declarations Version 1.1 (From www.CodeBelt.com)
 //JavaScript Docs http://api.greensock.com/js/
 

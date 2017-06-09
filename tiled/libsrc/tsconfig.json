@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "outFile": "bin/tiled/tiled.js",
+        "declaration": true
+    },
+    "include": [
+        "libs/**/*.d.ts",
+        "src/**/*.ts"
+    ]
+}

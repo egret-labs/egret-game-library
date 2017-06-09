@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "outFile": "bin/particle/particle.js",
+        "declaration": true
+    },
+    "files": [
+        "libs/egret.d.ts",
+        "libs/game.d.ts",
+        "src/Particle.ts",
+			  "src/ParticleSystem.ts",
+			  "src/GravityParticle.ts",
+			  "src/GravityParticleSystem.ts"
+    ]
+}

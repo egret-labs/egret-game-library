@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "outFile": "bin/greensock/greensock.js",
+        "allowJs": true
+    },
+    "files": [
+        "src/TweenMax.min.js"
+    ]
+}

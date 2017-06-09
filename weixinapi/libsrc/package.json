@@ -1,16 +1,4 @@
 {
 	"name": "egret",
-	"version": "2.5.0",
-	"modules": [
-		{
-			"name": "weixinapi",
-			"description": "weixinapi",
-			"files": [
-			  "jweixin-1.0.0.js",
-			  "jweixin-1.0.0-additional.js",
-			  "jweixin-1.0.0.d.ts"
-			],
-			"root": "src"
-		}
-	]
+	"typings": "src/weixinapi.d.ts"
 }

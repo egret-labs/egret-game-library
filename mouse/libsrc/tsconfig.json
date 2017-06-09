@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"outFile": "bin/mouse/mouse.js",
+		"declaration": true
+	},
+	"files": [
+		"libs/egret.d.ts",
+		"libs/game.d.ts",
+		"src/MouseEvent.ts",
+		"src/MouseDelegate.ts"
+	]
+}

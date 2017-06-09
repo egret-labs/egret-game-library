@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "outFile": "bin/ecs/ecs.js",
+        "declaration": true
+    },
+    "files": [
+        "libs/egret.d.ts",
+        "libs/res.d.ts",
+        "libs/tween.d.ts",
+        "src/index.ts"
+    ]
+}

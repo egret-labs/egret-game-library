@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"outFile": "bin/combobox/combobox.js",
+		"declaration": true
+	},
+	"files": [
+		"libs/egret.d.ts",
+		"libs/eui.d.ts",
+		"src/ComboBoxItem.ts",
+		"src/ComboBox.ts"
+	]
+}

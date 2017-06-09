@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "outFile": "bin/weixinapi/weixinapi.js",
+        "allowJs": true
+    },
+    "files": [
+        "src/jweixin-1.0.0.js",
+        "src/jweixin-1.0.0-additional.js"
+    ]
+}

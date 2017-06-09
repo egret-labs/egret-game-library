@@ -205,6 +205,7 @@ declare module p2 {
             localOffsetB?: number[];
             localAngleB?: number;
             maxForce?: number;
+            collideConnected?: boolean;
         });
 
         localAngleB: number;
@@ -225,6 +226,7 @@ declare module p2 {
             disableRotationalLock?: boolean;
             upperLimit?: number;
             lowerLimit?: number;
+            collideConnected?: boolean;
         });
 
         localAnchorA: number[];
@@ -252,6 +254,7 @@ declare module p2 {
             localPivotA?: number[];
             localPivotB?: number[];
             maxForce?: number;
+            collideConnected?: boolean;
         });
 
         angle: number;

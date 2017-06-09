@@ -1,14 +1,4 @@
 {
 	"name": "egret",
-	"version": "3.0.6",
-	"modules": [
-		{
-			"name": "ecs",
-			"description": "ecs",
-			"files": [
-                "index.ts"
-            ],
-			"root": "src"
-		}
-	]
+	"version": "3.0.6"
 }

@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "outFile": "bin/dcagent/dcagent.js",
+        "allowJs": true
+    },
+    "files": [
+        "src/dcagent.min.js"
+    ]
+}

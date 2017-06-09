@@ -1,15 +1,3 @@
 {
-	"name": "egret",
-	"version": "3.0.6",
-	"modules": [
-		{
-			"name": "mouse",
-			"description": "mouse",
-			"files": [
-				"MouseEvent.ts",
-				"MouseDelegate.ts"
-			],
-			"root": "src"
-		}
-	]
+	"name": "egret"
 }

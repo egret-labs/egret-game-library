@@ -1,17 +1,4 @@
 {
 	"name": "egret",
-	"version": "2.5.0",
-	"modules": [
-		{
-			"name": "particle",
-			"description": "particle",
-			"files": [
-			  "Particle.ts",
-			  "ParticleSystem.ts",
-			  "GravityParticle.ts",
-			  "GravityParticleSystem.ts"
-			],
-			"root": "src"
-		}
-	]
+	"version": "2.5.0"
 }

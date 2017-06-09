@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "outFile": "bin/md5/md5.js",
+        "declaration": true
+    },
+    "files": [
+        "src/md5.ts"
+    ]
+}

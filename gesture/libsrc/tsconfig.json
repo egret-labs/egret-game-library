@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"outFile": "bin/gesture/gesture.js",
+		"declaration": true
+	},
+	"files": [
+		"libs/egret.d.ts",
+		"libs/game.d.ts",
+		"src/core/PropGesture.ts",
+		"src/events/GestureEvent.ts",
+		"src/gestures/GestureRecognizerPlugin.ts",
+		"src/gestures/PinchGestureRecognizer.ts",
+		"src/gestures/DoubleTapGestureRecognizer.ts",
+		"src/utils/GestureType.ts",
+		"src/utils/GestureState.ts",
+		"src/GestureManager.ts"
+	]
+}

@@ -13,6 +13,4 @@ tools/nodejs/buildTS.local
 .idea
 **/*/libs/
 
-tsconfig.json
-
 socket.io/demo/node_modules

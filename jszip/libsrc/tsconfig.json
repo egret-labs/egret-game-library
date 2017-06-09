@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "outFile": "bin/jszip/jszip.js",
+        "allowJs": true
+    },
+    "files": [
+        "src/jszip.min.js",
+			  "src/FileSaver.js"
+    ]
+}

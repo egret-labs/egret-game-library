@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "outFile": "bin/socket.io/socket.io.js",
+        "allowJs": true
+    },
+    "files": [
+        "src/socket.io.js"
+    ]
+}

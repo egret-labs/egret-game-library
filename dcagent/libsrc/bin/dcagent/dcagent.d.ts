@@ -1,5 +1,4 @@
 
-
 /**
  * DataEye SDK for HTML5 2.0 for Egret 2.5
  *
