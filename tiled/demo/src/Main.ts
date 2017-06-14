@@ -12,12 +12,6 @@ class Main extends egret.Sprite {
             var tmxTileMap: tiled.TMXTilemap = new tiled.TMXTilemap(2000, 2000, data, url);
             tmxTileMap.render();
             self.addChild(tmxTileMap);
-			
-			var tmxTileMap: tiled.TMXTilemap = new tiled.TMXTilemap(2000, 2000, data, url);
-			tmxTileMap.x=100;
-			tmxTileMap.y=100;
-            tmxTileMap.render();
-            self.addChild(tmxTileMap);
         }, url);
         urlLoader.load(new egret.URLRequest(url));
 		
