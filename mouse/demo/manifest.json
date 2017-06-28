@@ -1,0 +1,9 @@
+{
+	"initial": [
+		"libs/modules/egret/egret.js",
+		"libs/modules/egret/egret.web.js",
+		"libs/modules/mouse/mouse.js",
+		"libs/modules/res/res.js",
+		"bin-debug/Main.js"
+	]
+}
