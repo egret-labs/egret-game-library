@@ -3,7 +3,9 @@
 		"libs/modules/egret/egret.js",
 		"libs/modules/egret/egret.web.js",
 		"libs/modules/res/res.js",
-		"libs/modules/weixinapi/weixinapi.js",
+		"libs/modules/weixinapi/weixinapi.js"
+	],
+	"game": [
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js"
 	]

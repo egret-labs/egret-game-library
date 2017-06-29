@@ -8,6 +8,7 @@
 		"native": 1
 	},
 	"egret_version": "5.0.1",
+	"template":{},
 	"modules": [
 		{
 			"name": "egret",

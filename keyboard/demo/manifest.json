@@ -2,7 +2,9 @@
 	"initial": [
 		"libs/modules/egret/egret.js",
 		"libs/modules/egret/egret.web.js",
-		"libs/modules/keyboard/keyboard.js",
+		"libs/modules/keyboard/keyboard.js"
+	],
+	"game": [
 		"bin-debug/Main.js"
 	]
 }

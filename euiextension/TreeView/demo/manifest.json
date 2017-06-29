@@ -5,7 +5,9 @@
 		"libs/modules/game/game.js",
 		"libs/modules/res/res.js",
 		"libs/modules/eui/eui.js",
-		"libs/modules/treeview/treeview.js",
+		"libs/modules/treeview/treeview.js"
+	],
+	"game": [
 		"bin-debug/AssetAdapter.js",
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",

@@ -131,7 +131,8 @@
             var xhr = new XMLHttpRequest();
             xhr.open('GET', './manifest.json?v=' + Math.random(), true);
             xhr.addEventListener("load", function () {
-                var list = JSON.parse(xhr.response).initial;
+                var manifest = JSON.parse(xhr.response);
+                var list = manifest.initial.concat(manifest.game);
                 loadScript(list, function () {
                     var stage = document.getElementById("egret-sample");
                     console.log(document_class);

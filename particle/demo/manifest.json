@@ -3,7 +3,9 @@
 		"libs/modules/egret/egret.js",
 		"libs/modules/egret/egret.web.js",
 		"libs/modules/particle/particle.js",
-		"libs/modules/res/res.js",
+		"libs/modules/res/res.js"
+	],
+	"game": [
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js"
 	]

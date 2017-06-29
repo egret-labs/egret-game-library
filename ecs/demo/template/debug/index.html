@@ -28,8 +28,8 @@
          data-orientation="auto"
          data-scale-mode="showAll"
          data-frame-rate="30"
-         data-content-width="640"
-         data-content-height="1136"
+         data-content-width="720"
+         data-content-height="1280"
          data-show-paint-rect="false"
          data-multi-fingered="2"
          data-show-fps="false" data-show-log="false"
@@ -67,7 +67,8 @@
     var xhr = new XMLHttpRequest();
     xhr.open('GET', './manifest.json?v=' + Math.random(), true);
     xhr.addEventListener("load", function () {
-        var list = JSON.parse(xhr.response).initial;
+        var manifest = JSON.parse(xhr.response);
+        var list = manifest.initial.concat(manifest.game);
         loadScript(list, function () {
             /**
              * {

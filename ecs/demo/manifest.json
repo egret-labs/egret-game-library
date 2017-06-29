@@ -5,7 +5,9 @@
 		"libs/modules/tween/tween.js",
 		"libs/modules/res/res.js",
 		"libs/modules/game/game.js",
-		"libs/modules/ecs/ecs.js",
+		"libs/modules/ecs/ecs.js"
+	],
+	"game": [
 		"bin-debug/scripts/data/CardStack.js",
 		"bin-debug/scripts/data/STATE.js",
 		"bin-debug/scripts/logic/CardManager.js",

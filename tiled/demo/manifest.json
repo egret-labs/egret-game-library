@@ -4,7 +4,9 @@
 		"libs/modules/egret/egret.web.js",
 		"libs/modules/game/game.js",
 		"libs/modules/res/res.js",
-		"libs/modules/tiled/tiled.js",
+		"libs/modules/tiled/tiled.js"
+	],
+	"game": [
 		"bin-debug/testEntries/TerrainExample.js",
 		"bin-debug/LoadingUI.js",
 		"bin-debug/testEntries/CuteExample.js",
