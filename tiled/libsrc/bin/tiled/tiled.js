@@ -1,3 +1,6 @@
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -53,6 +56,7 @@ var tiled;
         return TMXLayerBase;
     }(egret.Sprite));
     tiled.TMXLayerBase = TMXLayerBase;
+    __reflect(TMXLayerBase.prototype, "tiled.TMXLayerBase", ["tiled.ILayer"]);
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -132,6 +136,7 @@ var tiled;
         return TMXRenderer;
     }());
     tiled.TMXRenderer = TMXRenderer;
+    __reflect(TMXRenderer.prototype, "tiled.TMXRenderer");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -338,6 +343,7 @@ var tiled;
         return TMXHexagonalRenderer;
     }(tiled.TMXRenderer));
     tiled.TMXHexagonalRenderer = TMXHexagonalRenderer;
+    __reflect(TMXHexagonalRenderer.prototype, "tiled.TMXHexagonalRenderer");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -372,6 +378,7 @@ var tiled;
      */
     TMXImageLoadEvent.ALL_IMAGE_COMPLETE = "allComplete";
     tiled.TMXImageLoadEvent = TMXImageLoadEvent;
+    __reflect(TMXImageLoadEvent.prototype, "tiled.TMXImageLoadEvent");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -397,6 +404,7 @@ var tiled;
         return TMXColorLayer;
     }(egret.Sprite));
     tiled.TMXColorLayer = TMXColorLayer;
+    __reflect(TMXColorLayer.prototype, "tiled.TMXColorLayer");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -512,6 +520,7 @@ var tiled;
         return TMXImageLayer;
     }(tiled.TMXLayerBase));
     tiled.TMXImageLayer = TMXImageLayer;
+    __reflect(TMXImageLayer.prototype, "tiled.TMXImageLayer");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -844,6 +853,7 @@ var tiled;
         return TMXLayer;
     }(tiled.TMXLayerBase));
     tiled.TMXLayer = TMXLayer;
+    __reflect(TMXLayer.prototype, "tiled.TMXLayer");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -910,6 +920,7 @@ var tiled;
         return TMXAnimation;
     }());
     tiled.TMXAnimation = TMXAnimation;
+    __reflect(TMXAnimation.prototype, "tiled.TMXAnimation");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -1008,6 +1019,7 @@ var tiled;
         return TMXImage;
     }(egret.EventDispatcher));
     tiled.TMXImage = TMXImage;
+    __reflect(TMXImage.prototype, "tiled.TMXImage");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -1266,6 +1278,7 @@ var tiled;
         return TMXObject;
     }(egret.Sprite));
     tiled.TMXObject = TMXObject;
+    __reflect(TMXObject.prototype, "tiled.TMXObject");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -1386,6 +1399,7 @@ var tiled;
         return TMXObjectGroup;
     }(egret.Sprite));
     tiled.TMXObjectGroup = TMXObjectGroup;
+    __reflect(TMXObjectGroup.prototype, "tiled.TMXObjectGroup");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -1403,6 +1417,7 @@ var tiled;
         return TMXProperty;
     }());
     tiled.TMXProperty = TMXProperty;
+    __reflect(TMXProperty.prototype, "tiled.TMXProperty");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -1458,6 +1473,7 @@ var tiled;
         return TMXAnimationFrame;
     }());
     tiled.TMXAnimationFrame = TMXAnimationFrame;
+    __reflect(TMXAnimationFrame.prototype, "tiled.TMXAnimationFrame");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -1608,6 +1624,7 @@ var tiled;
         return TMXIsometricRenderer;
     }(tiled.TMXRenderer));
     tiled.TMXIsometricRenderer = TMXIsometricRenderer;
+    __reflect(TMXIsometricRenderer.prototype, "tiled.TMXIsometricRenderer");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -1705,6 +1722,7 @@ var tiled;
         return TMXOrthogonalRenderer;
     }(tiled.TMXRenderer));
     tiled.TMXOrthogonalRenderer = TMXOrthogonalRenderer;
+    __reflect(TMXOrthogonalRenderer.prototype, "tiled.TMXOrthogonalRenderer");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -1838,6 +1856,7 @@ var tiled;
      */
     TMXConstants.ORIENTATION_HEXAGONAL = "hexagonal";
     tiled.TMXConstants = TMXConstants;
+    __reflect(TMXConstants.prototype, "tiled.TMXConstants");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -1874,6 +1893,7 @@ var tiled;
         return Ellipse;
     }(egret.Sprite));
     tiled.Ellipse = Ellipse;
+    __reflect(Ellipse.prototype, "tiled.Ellipse");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -1916,6 +1936,7 @@ var tiled;
         return Polygon;
     }(egret.Sprite));
     tiled.Polygon = Polygon;
+    __reflect(Polygon.prototype, "tiled.Polygon");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -1958,6 +1979,7 @@ var tiled;
         return PolyLine;
     }(egret.Sprite));
     tiled.PolyLine = PolyLine;
+    __reflect(PolyLine.prototype, "tiled.PolyLine");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -2131,6 +2153,7 @@ var tiled;
         return TMXTile;
     }(egret.Sprite));
     tiled.TMXTile = TMXTile;
+    __reflect(TMXTile.prototype, "tiled.TMXTile");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -2496,6 +2519,7 @@ var tiled;
     }());
     TMXTileset.spritesheets = {};
     tiled.TMXTileset = TMXTileset;
+    __reflect(TMXTileset.prototype, "tiled.TMXTileset");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -2589,6 +2613,7 @@ var tiled;
         return TMXTilesetGroup;
     }());
     tiled.TMXTilesetGroup = TMXTilesetGroup;
+    __reflect(TMXTilesetGroup.prototype, "tiled.TMXTilesetGroup");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -2952,6 +2977,7 @@ var tiled;
         return TMXTilemap;
     }(egret.Sprite));
     tiled.TMXTilemap = TMXTilemap;
+    __reflect(TMXTilemap.prototype, "tiled.TMXTilemap");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -3082,6 +3108,7 @@ var tiled;
     }());
     Base64._keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
     tiled.Base64 = Base64;
+    __reflect(Base64.prototype, "tiled.Base64");
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
@@ -3158,4 +3185,5 @@ var tiled;
         return TMXUtils;
     }());
     tiled.TMXUtils = TMXUtils;
+    __reflect(TMXUtils.prototype, "tiled.TMXUtils");
 })(tiled || (tiled = {}));

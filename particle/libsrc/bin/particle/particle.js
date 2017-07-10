@@ -1,3 +1,6 @@
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -69,6 +72,7 @@ var particle;
         return Particle;
     }());
     particle.Particle = Particle;
+    __reflect(Particle.prototype, "particle.Particle");
 })(particle || (particle = {}));
 //////////////////////////////////////////////////////////////////////////////////////
 //
@@ -453,6 +457,7 @@ var particle;
         return ParticleSystem;
     }(egret.DisplayObject));
     particle_1.ParticleSystem = ParticleSystem;
+    __reflect(ParticleSystem.prototype, "particle.ParticleSystem");
 })(particle || (particle = {}));
 //////////////////////////////////////////////////////////////////////////////////////
 //
@@ -503,6 +508,7 @@ var particle;
         return GravityParticle;
     }(particle.Particle));
     particle.GravityParticle = GravityParticle;
+    __reflect(GravityParticle.prototype, "particle.GravityParticle");
 })(particle || (particle = {}));
 //////////////////////////////////////////////////////////////////////////////////////
 //
@@ -666,4 +672,5 @@ var particle;
         return GravityParticleSystem;
     }(particle_2.ParticleSystem));
     particle_2.GravityParticleSystem = GravityParticleSystem;
+    __reflect(GravityParticleSystem.prototype, "particle.GravityParticleSystem");
 })(particle || (particle = {}));

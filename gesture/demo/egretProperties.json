@@ -6,8 +6,8 @@
 		"web": 0,
 		"native": 1
 	},
-	"egret_version": "5.0.1",
-	"template":{},
+	"egret_version": "5.0.2",
+	"template": {},
 	"modules": [
 		{
 			"name": "egret",

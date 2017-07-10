@@ -1,3 +1,6 @@
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
 /**
  * 实体组件系统插件体系架构
  * @author yanjiaqi
@@ -131,6 +134,7 @@ var ecs;
         return Node;
     }());
     ecs.Node = Node;
+    __reflect(Node.prototype, "ecs.Node");
     //逻辑组件,具有生命周期函数
     var Component = (function () {
         function Component(obj) {
@@ -160,6 +164,7 @@ var ecs;
         return Component;
     }());
     ecs.Component = Component;
+    __reflect(Component.prototype, "ecs.Component");
     function setScrollingEvents(target) {
         target.touchEnabled = true;
         target.addEventListener(egret.TouchEvent.TOUCH_BEGIN, onTouchBegin, target);
