@@ -1,3 +1,6 @@
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -66,6 +69,7 @@ var ComboBoxItem = (function (_super) {
     };
     return ComboBoxItem;
 }(eui.ItemRenderer));
+__reflect(ComboBoxItem.prototype, "ComboBoxItem");
 var ComboBox = (function (_super) {
     __extends(ComboBox, _super);
     function ComboBox(data) {
@@ -211,3 +215,4 @@ var ComboBox = (function (_super) {
 }(eui.Component));
 //抛出事件
 ComboBox.onClick = "ComboBoxOnClick";
+__reflect(ComboBox.prototype, "ComboBox");

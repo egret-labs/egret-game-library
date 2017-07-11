@@ -1,3 +1,6 @@
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -86,6 +89,7 @@ var GestureRecognizerPlugin = (function () {
     };
     return GestureRecognizerPlugin;
 }());
+__reflect(GestureRecognizerPlugin.prototype, "GestureRecognizerPlugin");
 var PinchGestureRecognizer = (function (_super) {
     __extends(PinchGestureRecognizer, _super);
     function PinchGestureRecognizer(priority, requireGestureRecognizerToFail) {
@@ -166,6 +170,7 @@ var PinchGestureRecognizer = (function (_super) {
     };
     return PinchGestureRecognizer;
 }(GestureRecognizerPlugin));
+__reflect(PinchGestureRecognizer.prototype, "PinchGestureRecognizer");
 var DoubleTapGestureRecognizer = (function (_super) {
     __extends(DoubleTapGestureRecognizer, _super);
     function DoubleTapGestureRecognizer(priority, requireGestureRecognizerToFail) {
@@ -224,6 +229,7 @@ var DoubleTapGestureRecognizer = (function (_super) {
     };
     return DoubleTapGestureRecognizer;
 }(GestureRecognizerPlugin));
+__reflect(DoubleTapGestureRecognizer.prototype, "DoubleTapGestureRecognizer");
 var PropGesture = (function () {
     function PropGesture(target, property0, property1, property2, next, isContinuous, priority, numTouchesRequired) {
         if (property0 === void 0) { property0 = "executeGestureRecognizedCallback"; }
@@ -256,6 +262,7 @@ var PropGesture = (function () {
     }
     return PropGesture;
 }());
+__reflect(PropGesture.prototype, "PropGesture");
 var GestureEvent = (function (_super) {
     __extends(GestureEvent, _super);
     /**
@@ -273,6 +280,7 @@ var GestureEvent = (function (_super) {
     return GestureEvent;
 }(egret.Event));
 GestureEvent.ACHE_GESTURE = "acheGesture";
+__reflect(GestureEvent.prototype, "GestureEvent");
 var GestureType = (function () {
     function GestureType() {
     }
@@ -280,6 +288,7 @@ var GestureType = (function () {
 }());
 GestureType.DOUBLE_TAP = "doubleTap";
 GestureType.PINCH = "pinch";
+__reflect(GestureType.prototype, "GestureType");
 var GestureState = (function () {
     function GestureState() {
     }
@@ -292,6 +301,7 @@ GestureState.BEGAN = "began";
 GestureState.CHANGED = "changed";
 GestureState.ENDED = "ended";
 GestureState.CANCELLED = "cancelled";
+__reflect(GestureState.prototype, "GestureState");
 var GestureManager = (function () {
     /**
      * Creates a GestureManager instance
@@ -704,3 +714,4 @@ GestureManager._gesturePlugins = {
  * Use the target as key value to track all the gesture-managers has been created
  */
 GestureManager._gestures = {};
+__reflect(GestureManager.prototype, "GestureManager");
