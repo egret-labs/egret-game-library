@@ -1,11 +1,16 @@
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var GestureRecognizerPlugin = (function () {
     function GestureRecognizerPlugin(name, priority, requireGestureRecognizerToFail, continuous, numTouchesRequired) {
         if (name === void 0) { name = ""; }
@@ -277,30 +282,30 @@ var GestureEvent = (function (_super) {
         _this.state = state;
         return _this;
     }
+    GestureEvent.ACHE_GESTURE = "acheGesture";
     return GestureEvent;
 }(egret.Event));
-GestureEvent.ACHE_GESTURE = "acheGesture";
 __reflect(GestureEvent.prototype, "GestureEvent");
 var GestureType = (function () {
     function GestureType() {
     }
+    GestureType.DOUBLE_TAP = "doubleTap";
+    GestureType.PINCH = "pinch";
     return GestureType;
 }());
-GestureType.DOUBLE_TAP = "doubleTap";
-GestureType.PINCH = "pinch";
 __reflect(GestureType.prototype, "GestureType");
 var GestureState = (function () {
     function GestureState() {
     }
+    GestureState.POSSIBLE = "possible";
+    GestureState.RECOGNIZED = "recognized";
+    GestureState.FAILED = "failed";
+    GestureState.BEGAN = "began";
+    GestureState.CHANGED = "changed";
+    GestureState.ENDED = "ended";
+    GestureState.CANCELLED = "cancelled";
     return GestureState;
 }());
-GestureState.POSSIBLE = "possible";
-GestureState.RECOGNIZED = "recognized";
-GestureState.FAILED = "failed";
-GestureState.BEGAN = "began";
-GestureState.CHANGED = "changed";
-GestureState.ENDED = "ended";
-GestureState.CANCELLED = "cancelled";
 __reflect(GestureState.prototype, "GestureState");
 var GestureManager = (function () {
     /**
@@ -494,6 +499,7 @@ var GestureManager = (function () {
             }
             if (pg.r && !that._allowSimultaneous && pg.c) {
                 pg.r = pg.t[pg.p2](ts); ////////////////----------T如果在change时候（update）返回false，说明这个连续手势也停止了
+                //					console.log("****" + pg.r + ">>" + ts.length);
             }
             else {
                 //用于确认是否需要更换手势识别链的顺序，将识别出来的，连续的手势链挪到第一个
@@ -700,18 +706,18 @@ var GestureManager = (function () {
         enumerable: true,
         configurable: true
     });
+    /**
+     * All the available gesture-recognizers
+     * @private
+     */
+    GestureManager._gesturePlugins = {
+        "doubleTap": DoubleTapGestureRecognizer,
+        "pinch": PinchGestureRecognizer
+    };
+    /**
+     * Use the target as key value to track all the gesture-managers has been created
+     */
+    GestureManager._gestures = {};
     return GestureManager;
 }());
-/**
- * All the available gesture-recognizers
- * @private
- */
-GestureManager._gesturePlugins = {
-    "doubleTap": DoubleTapGestureRecognizer,
-    "pinch": PinchGestureRecognizer
-};
-/**
- * Use the target as key value to track all the gesture-managers has been created
- */
-GestureManager._gestures = {};
 __reflect(GestureManager.prototype, "GestureManager");

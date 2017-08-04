@@ -1,11 +1,16 @@
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var KeyBoard = (function (_super) {
     __extends(KeyBoard, _super);
     function KeyBoard() {
@@ -186,121 +191,121 @@ var KeyBoard = (function (_super) {
         }
         return isContain;
     };
+    /**
+     * 同一时刻按下多个键：则返回多个键的字符串数组。
+     */
+    KeyBoard.onkeydown = "KeyBoardonkeydown";
+    KeyBoard.onkeyup = "KeyBoardonkeyup";
+    KeyBoard.NumLock = "NumLock";
+    KeyBoard.Num_Slash = "num_/";
+    KeyBoard.Num_Mul = "num_*";
+    KeyBoard.Num_Sub = "num_-";
+    KeyBoard.Num_7 = "num_7";
+    KeyBoard.Num_8 = "num_8";
+    KeyBoard.Num_9 = "num_9";
+    KeyBoard.Num_Plus = "num_+";
+    KeyBoard.Num_4 = "num_4";
+    KeyBoard.Num_5 = "num_5";
+    KeyBoard.Num_6 = "num_6";
+    KeyBoard.Num_1 = "num_1";
+    KeyBoard.Num_2 = "num_2";
+    KeyBoard.Num_3 = "num_3";
+    KeyBoard.Num_Enter = "num_Enter";
+    KeyBoard.Num_0 = "num_0";
+    KeyBoard.Num_dot = "num_.";
+    //第一行
+    KeyBoard.Esc = "Esc"; //27
+    KeyBoard.F1 = "F1";
+    KeyBoard.F2 = "F2";
+    KeyBoard.F3 = "F3";
+    KeyBoard.F4 = "F4";
+    KeyBoard.F5 = "F5";
+    KeyBoard.F6 = "F6";
+    KeyBoard.F7 = "F7";
+    KeyBoard.F8 = "F8";
+    KeyBoard.F9 = "F9";
+    KeyBoard.F10 = "F10";
+    KeyBoard.F11 = "F11";
+    KeyBoard.F12 = "F12";
+    KeyBoard.PrintScreen = "PrintScreen";
+    KeyBoard.ScrollLock = "ScrollLock";
+    KeyBoard.PauseBreak = "PauseBreak";
+    //第二行
+    KeyBoard.key_Points = "`";
+    KeyBoard.key_1 = "1";
+    KeyBoard.key_2 = "2";
+    KeyBoard.key_3 = "3";
+    KeyBoard.key_4 = "4";
+    KeyBoard.key_5 = "5";
+    KeyBoard.key_6 = "6";
+    KeyBoard.key_7 = "7";
+    KeyBoard.key_8 = "8";
+    KeyBoard.key_9 = "9";
+    KeyBoard.key_0 = "0";
+    KeyBoard.key_Sub = "-";
+    KeyBoard.key_Plus = "=";
+    KeyBoard.Backspace = "Backspace";
+    KeyBoard.Insert = "Insert";
+    KeyBoard.Home = "Home";
+    KeyBoard.PageUp = "PageUp";
+    //第三行
+    KeyBoard.Tab = "Tab";
+    KeyBoard.Q = "Q";
+    KeyBoard.W = "W";
+    KeyBoard.E = "E";
+    KeyBoard.R = "R";
+    KeyBoard.T = "T";
+    KeyBoard.Y = "Y";
+    KeyBoard.U = "U";
+    KeyBoard.I = "I";
+    KeyBoard.O = "O";
+    KeyBoard.P = "P";
+    KeyBoard.brace1 = "[";
+    KeyBoard.brace2 = "]";
+    KeyBoard.CnterEnter = "Enter";
+    KeyBoard.Delete = "Delete";
+    KeyBoard.End = "End";
+    KeyBoard.PageDown = "PageDown";
+    //第四行
+    KeyBoard.CapsLock = "CapsLock";
+    KeyBoard.A = "A";
+    KeyBoard.S = "S";
+    KeyBoard.D = "D";
+    KeyBoard.F = "F";
+    KeyBoard.G = "G";
+    KeyBoard.H = "H";
+    KeyBoard.J = "J";
+    KeyBoard.K = "K";
+    KeyBoard.L = "L";
+    KeyBoard.semicolon = ";";
+    KeyBoard.quotes = ",";
+    KeyBoard.bar = "|";
+    //第五行
+    KeyBoard.key_Shift = "Shift";
+    KeyBoard.Z = "Z";
+    KeyBoard.X = "X";
+    KeyBoard.C = "C";
+    KeyBoard.V = "V";
+    KeyBoard.B = "B";
+    KeyBoard.N = "N";
+    KeyBoard.M = "M";
+    KeyBoard.key_Semicolon = ",";
+    KeyBoard.key_Dot = ".";
+    KeyBoard.question = "/";
+    KeyBoard.Right_Shift = "Shift";
+    KeyBoard.UpArrow = "up";
+    //第六行
+    KeyBoard.left_Ctrl = "Ctrl";
+    KeyBoard.Left_Win = "left_win";
+    KeyBoard.key_Alt = "Alt";
+    KeyBoard.SPACE = "SPACE";
+    KeyBoard.RIGH_Alt = "RIGH_Alt";
+    KeyBoard.RIGHT_WIN = "right_win";
+    KeyBoard.NoteSign = "NoteSign";
+    KeyBoard.RIGHT_Ctrl = "Ctrl";
+    KeyBoard.keyArrow = "left";
+    KeyBoard.DownArrow = "down";
+    KeyBoard.RightArrow = "right";
     return KeyBoard;
 }(egret.EventDispatcher));
-/**
- * 同一时刻按下多个键：则返回多个键的字符串数组。
- */
-KeyBoard.onkeydown = "KeyBoardonkeydown";
-KeyBoard.onkeyup = "KeyBoardonkeyup";
-KeyBoard.NumLock = "NumLock";
-KeyBoard.Num_Slash = "num_/";
-KeyBoard.Num_Mul = "num_*";
-KeyBoard.Num_Sub = "num_-";
-KeyBoard.Num_7 = "num_7";
-KeyBoard.Num_8 = "num_8";
-KeyBoard.Num_9 = "num_9";
-KeyBoard.Num_Plus = "num_+";
-KeyBoard.Num_4 = "num_4";
-KeyBoard.Num_5 = "num_5";
-KeyBoard.Num_6 = "num_6";
-KeyBoard.Num_1 = "num_1";
-KeyBoard.Num_2 = "num_2";
-KeyBoard.Num_3 = "num_3";
-KeyBoard.Num_Enter = "num_Enter";
-KeyBoard.Num_0 = "num_0";
-KeyBoard.Num_dot = "num_.";
-//第一行
-KeyBoard.Esc = "Esc"; //27
-KeyBoard.F1 = "F1";
-KeyBoard.F2 = "F2";
-KeyBoard.F3 = "F3";
-KeyBoard.F4 = "F4";
-KeyBoard.F5 = "F5";
-KeyBoard.F6 = "F6";
-KeyBoard.F7 = "F7";
-KeyBoard.F8 = "F8";
-KeyBoard.F9 = "F9";
-KeyBoard.F10 = "F10";
-KeyBoard.F11 = "F11";
-KeyBoard.F12 = "F12";
-KeyBoard.PrintScreen = "PrintScreen";
-KeyBoard.ScrollLock = "ScrollLock";
-KeyBoard.PauseBreak = "PauseBreak";
-//第二行
-KeyBoard.key_Points = "`";
-KeyBoard.key_1 = "1";
-KeyBoard.key_2 = "2";
-KeyBoard.key_3 = "3";
-KeyBoard.key_4 = "4";
-KeyBoard.key_5 = "5";
-KeyBoard.key_6 = "6";
-KeyBoard.key_7 = "7";
-KeyBoard.key_8 = "8";
-KeyBoard.key_9 = "9";
-KeyBoard.key_0 = "0";
-KeyBoard.key_Sub = "-";
-KeyBoard.key_Plus = "=";
-KeyBoard.Backspace = "Backspace";
-KeyBoard.Insert = "Insert";
-KeyBoard.Home = "Home";
-KeyBoard.PageUp = "PageUp";
-//第三行
-KeyBoard.Tab = "Tab";
-KeyBoard.Q = "Q";
-KeyBoard.W = "W";
-KeyBoard.E = "E";
-KeyBoard.R = "R";
-KeyBoard.T = "T";
-KeyBoard.Y = "Y";
-KeyBoard.U = "U";
-KeyBoard.I = "I";
-KeyBoard.O = "O";
-KeyBoard.P = "P";
-KeyBoard.brace1 = "[";
-KeyBoard.brace2 = "]";
-KeyBoard.CnterEnter = "Enter";
-KeyBoard.Delete = "Delete";
-KeyBoard.End = "End";
-KeyBoard.PageDown = "PageDown";
-//第四行
-KeyBoard.CapsLock = "CapsLock";
-KeyBoard.A = "A";
-KeyBoard.S = "S";
-KeyBoard.D = "D";
-KeyBoard.F = "F";
-KeyBoard.G = "G";
-KeyBoard.H = "H";
-KeyBoard.J = "J";
-KeyBoard.K = "K";
-KeyBoard.L = "L";
-KeyBoard.semicolon = ";";
-KeyBoard.quotes = ",";
-KeyBoard.bar = "|";
-//第五行
-KeyBoard.key_Shift = "Shift";
-KeyBoard.Z = "Z";
-KeyBoard.X = "X";
-KeyBoard.C = "C";
-KeyBoard.V = "V";
-KeyBoard.B = "B";
-KeyBoard.N = "N";
-KeyBoard.M = "M";
-KeyBoard.key_Semicolon = ",";
-KeyBoard.key_Dot = ".";
-KeyBoard.question = "/";
-KeyBoard.Right_Shift = "Shift";
-KeyBoard.UpArrow = "up";
-//第六行
-KeyBoard.left_Ctrl = "Ctrl";
-KeyBoard.Left_Win = "left_win";
-KeyBoard.key_Alt = "Alt";
-KeyBoard.SPACE = "SPACE";
-KeyBoard.RIGH_Alt = "RIGH_Alt";
-KeyBoard.RIGHT_WIN = "right_win";
-KeyBoard.NoteSign = "NoteSign";
-KeyBoard.RIGHT_Ctrl = "Ctrl";
-KeyBoard.keyArrow = "left";
-KeyBoard.DownArrow = "down";
-KeyBoard.RightArrow = "right";
 __reflect(KeyBoard.prototype, "KeyBoard");

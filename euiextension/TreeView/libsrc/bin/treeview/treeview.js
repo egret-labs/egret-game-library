@@ -1,11 +1,16 @@
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var TreeViewItem = (function (_super) {
     __extends(TreeViewItem, _super);
     function TreeViewItem() {
@@ -161,6 +166,9 @@ var TreeViewItem = (function (_super) {
                 this.DataGroup.dataProvider = new eui.ArrayCollection(this.data.items);
                 this.DataGroup.itemRenderer = TreeViewItem;
                 this.DataGroup.useVirtualLayout = false;
+                // if(typeof(this.data.items.items) == "undefined" || this.data.items.items == null){
+                // 	this.arrowicon.visible = false;
+                // }
             }
             else {
                 console.log("没有子数据了");
@@ -304,11 +312,11 @@ var TreeView = (function (_super) {
             }
         }
     };
+    /**
+     * is selected
+     */
+    TreeView.isSelectName = "";
+    TreeView.onClick = "treeViewTestOnClick";
     return TreeView;
 }(eui.Component));
-/**
- * is selected
- */
-TreeView.isSelectName = "";
-TreeView.onClick = "treeViewTestOnClick";
 __reflect(TreeView.prototype, "TreeView", ["eui.UIComponent"]);
