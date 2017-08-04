@@ -118,6 +118,8 @@ var ecs;
                     //需要重置位置
                     child.x = child.x;
                     child.y = child.y;
+                    //injectNodeProperties(this._wrap_obj.properties,this);
+                    //injectNodeProperties(child._wrap_obj.properties,child);
                 }
             }
         };
@@ -691,6 +693,21 @@ var ecs;
                     //self._raw.to(keyframe,clip.durations[i-1]).call(self.onPlayEnd,self,[clip.name,i]);
                     animator.to(keyframe, clip.durations[i - 1]).call(_this.onPlayEnd, _this, [clip.name, i]);
                 });
+                //self._raw.to(clip.keyframes[0][0],null);
+                //self._raw.to(clip.keyframes[1][0],500);
+                //self._raw.to(clip.keyframes[2][0],1500);
+                //self._raw.set(clip.keyframes[0]).to(clip.keyframes[1][0],clip.keyframes[1][1]);
+                //clip.keyframes.forEach((keyframe,i,keyframes)=>{
+                //    if(i === 0){
+                //        self._raw.set(clip.keyframes[0]);
+                //    }else
+                //    //最后一段有回调
+                //    if(i === keyframes.length-1){
+                //        self._raw.to.apply(clip.keyframes[i]).call(self.onPlayEnd,self,[clip.name]);
+                //    }else{
+                //        self._raw.to.apply(clip.keyframes[i]);
+                //    }
+                //});
             }
         };
     }
@@ -826,6 +843,15 @@ var ecs;
                         Object.defineProperty(component, pname, valueStyle);
                     }
                 }
+                //var pointerOrArr = component._wrap_obj[pname];
+                //if(typeof pointerOrArr === 'number'){
+                //    component[pname] = references[pointerOrArr];
+                //}else{
+                //    component[pname] = [];
+                //    pointerOrArr.forEach(pointer=>{
+                //        component[pname].push(references[pointer]);
+                //    })
+                //}
             }
         }
     }

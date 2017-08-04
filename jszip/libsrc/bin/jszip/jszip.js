@@ -1301,7 +1301,9 @@ var saveAs = saveAs
             /MSIE [1-9]\./.test(navigator.userAgent)) {
             return;
         }
-        var doc = view.document, get_URL = function () {
+        var doc = view.document
+        // only get URL when necessary in case BlobBuilder.js hasn't overridden it yet
+        , get_URL = function () {
             return view.URL || view.webkitURL || view;
         }, URL = view.URL || view.webkitURL || view, save_link = (doc && doc.createElementNS("http://www.w3.org/1999/xhtml", "a")) || {}, can_use_save_link = !view.externalHost && "download" in save_link, click = function (node) {
             var event = doc.createEvent("MouseEvents");
@@ -1345,7 +1347,9 @@ var saveAs = saveAs
                 return object_url;
             }, dispatch_all = function () {
                 dispatch(filesaver, "writestart progress write writeend".split(" "));
-            }, fs_error = function () {
+            }
+            // on any filesys errors revert to saving with object URLs
+            , fs_error = function () {
                 // don't create more object URLs than needed
                 if (blob_changed || !object_url) {
                     object_url = get_object_url(blob);
