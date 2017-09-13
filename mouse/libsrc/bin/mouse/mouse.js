@@ -99,6 +99,19 @@ var mouse;
          * @platform Web
          */
         MouseEvent.ROLL_OUT = "rollOut";
+        /**
+         * @language en_US
+         * Called when the mouse wheel scrolls.
+         * @version Egret 5.1.0
+         * @platform Web
+         */
+        /**
+         * @language zh_CN
+         * 当鼠标滚轮滚动时调用。
+         * @version Egret 5.1.0
+         * @platform Web
+         */
+        MouseEvent.MOUSE_WHEEL = "mouseWheel";
         return MouseEvent;
     }());
     mouse.MouseEvent = MouseEvent;
@@ -179,6 +192,9 @@ var mouse;
     mouse.enable = function (stage) {
         isPC = egret.Capabilities.os == "Windows PC" || egret.Capabilities.os == "Mac OS";
         stageObj = stage;
+        if (isPC) {
+            addMouseWheelEvent();
+        }
         var check = function (x, y) {
             if (currentTarget && !currentTarget.$stage) {
                 dispatch(mouse.MouseEvent.MOUSE_OUT, true, x, y);
@@ -272,5 +288,37 @@ var mouse;
      */
     mouse.setMouseMoveEnabled = function (enabled) {
         mouseMoveEnabled = enabled;
+    };
+    var addMouseWheelEvent = function () {
+        var type = "mousewheel";
+        var _eventCompat = function (event) {
+            var type = event.type;
+            if (type == 'DOMMouseScroll' || type == 'mousewheel') {
+                event.delta = (event.wheelDelta) ? event.wheelDelta : -(event.detail || 0);
+            }
+            if (event.srcElement && !event.target) {
+                event.target = event.srcElement;
+            }
+            if (!event.preventDefault && event.returnValue !== undefined) {
+                event.preventDefault = function () {
+                    event.returnValue = false;
+                };
+            }
+            stageObj.dispatchEventWith(mouse.MouseEvent.MOUSE_WHEEL, false, event.delta);
+        };
+        if (window.addEventListener) {
+            if (type === "mousewheel" && document["mozFullScreen"] !== undefined) {
+                type = "DOMMouseScroll";
+            }
+            window.addEventListener(type, function (event) {
+                _eventCompat(event);
+            }, false);
+        }
+        else if (window["attachEvent"]) {
+            window["attachEvent"]("on" + type, function (event) {
+                event = event || window.event;
+                _eventCompat(event);
+            });
+        }
     };
 })(mouse || (mouse = {}));

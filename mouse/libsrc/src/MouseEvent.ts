@@ -98,5 +98,19 @@ namespace mouse {
          * @platform Web
          */
         public static ROLL_OUT:string = "rollOut";
+
+        /**
+         * @language en_US
+         * Called when the mouse wheel scrolls.
+         * @version Egret 5.1.0
+         * @platform Web
+         */
+        /**
+         * @language zh_CN
+         * 当鼠标滚轮滚动时调用。
+         * @version Egret 5.1.0
+         * @platform Web
+         */
+        public static MOUSE_WHEEL:string = "mouseWheel";
     }
 }

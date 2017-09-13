@@ -30,32 +30,32 @@
 namespace mouse {
 
     var currentTarget;
-    var stageObj;
-    var isPC;
+    var stageObj: egret.Stage;
+    var isPC: boolean;
 
-    var dispatch = function (type:string, bubbles:boolean, x:number, y:number) {
-        if(type == MouseEvent.ROLL_OVER && currentTarget.isRollOver) {
+    var dispatch = function (type: string, bubbles: boolean, x: number, y: number) {
+        if (type == MouseEvent.ROLL_OVER && currentTarget.isRollOver) {
             return;
         }
-        if(type == MouseEvent.ROLL_OVER) {
+        if (type == MouseEvent.ROLL_OVER) {
             currentTarget.isRollOver = true;
         }
-        else if(type == MouseEvent.ROLL_OUT) {
+        else if (type == MouseEvent.ROLL_OUT) {
             delete currentTarget.isRollOver;
         }
         //处理鼠标手型
-        if(isPC && currentTarget["buttonModeForMouse"]) {
+        if (isPC && currentTarget["buttonModeForMouse"]) {
             try {
                 var canvas = stageObj.$displayList.renderBuffer.surface;;
-                if(type == MouseEvent.ROLL_OVER) {
+                if (type == MouseEvent.ROLL_OVER) {
                     canvas.style.cursor = "pointer";
                 }
-                else if(type == MouseEvent.ROLL_OUT) {
+                else if (type == MouseEvent.ROLL_OUT) {
                     canvas.style.cursor = "auto";
                 }
             }
-            catch(e) {
-                
+            catch (e) {
+
             }
         }
         egret.TouchEvent.dispatchTouchEvent(currentTarget, type, bubbles, false, x, y, null);
@@ -73,10 +73,13 @@ namespace mouse {
      * @version Egret 3.1.0
      * @platform Web
      */
-    export var enable = function (stage:egret.Stage) {
+    export var enable = function (stage: egret.Stage) {
         isPC = egret.Capabilities.os == "Windows PC" || egret.Capabilities.os == "Mac OS";
         stageObj = stage;
-        var check = function (x:number, y:number) {
+        if(isPC) {
+            addMouseWheelEvent();
+        }
+        var check = function (x: number, y: number) {
             if (currentTarget && !currentTarget.$stage) {
                 dispatch(MouseEvent.MOUSE_OUT, true, x, y);
                 dispatch(MouseEvent.ROLL_OUT, false, x, y);
@@ -110,11 +113,11 @@ namespace mouse {
         var mouseX = NaN;
         var mouseY = NaN;
         var onTouchMove = egret.sys.TouchHandler.prototype.onTouchMove;
-        egret.sys.TouchHandler.prototype.onTouchMove = function (x:number, y:number, touchPointID:number) {
+        egret.sys.TouchHandler.prototype.onTouchMove = function (x: number, y: number, touchPointID: number) {
             mouseX = x;
             mouseY = y;
             onTouchMove.call(this, x, y, touchPointID);
-            if(mouseMoveEnabled) {
+            if (mouseMoveEnabled) {
                 var target = stageObj.$hitTest(x, y);
                 if (!target) {
                     target = stageObj;
@@ -124,22 +127,22 @@ namespace mouse {
             check(x, y);
         };
         var onTouchBegin = egret.sys.TouchHandler.prototype.onTouchBegin;
-        egret.sys.TouchHandler.prototype.onTouchBegin = function (x:number, y:number, touchPointID:number) {
+        egret.sys.TouchHandler.prototype.onTouchBegin = function (x: number, y: number, touchPointID: number) {
             onTouchBegin.call(this, x, y, touchPointID);
             check(x, y);
         };
         var onTouchEnd = egret.sys.TouchHandler.prototype.onTouchEnd;
-        egret.sys.TouchHandler.prototype.onTouchEnd = function (x:number, y:number, touchPointID:number) {
+        egret.sys.TouchHandler.prototype.onTouchEnd = function (x: number, y: number, touchPointID: number) {
             onTouchEnd.call(this, x, y, touchPointID);
             check(x, y);
         };
-        stage.addEventListener(egret.Event.ENTER_FRAME, function (){
-            if(mouseX != NaN && mouseY != NaN) {
+        stage.addEventListener(egret.Event.ENTER_FRAME, function () {
+            if (mouseX != NaN && mouseY != NaN) {
                 check(mouseX, mouseY);
             }
         }, null);
     }
-    
+
     /**
      * @language en_US
      * Set a target of buttonMode property setting is true, when the mouse rolls over the object becomes hand type.
@@ -152,12 +155,12 @@ namespace mouse {
      * @version Egret 3.1.0
      * @platform Web
      */
-    export var setButtonMode = function (displayObjcet:egret.DisplayObject, buttonMode:boolean) {
+    export var setButtonMode = function (displayObjcet: egret.DisplayObject, buttonMode: boolean) {
         displayObjcet["buttonModeForMouse"] = buttonMode;
     }
-    
+
     var mouseMoveEnabled = false;
-    
+
     /**
      * @language en_US
      * Setting ON mouseMove event detection, after opening slightly impacts performance, default is not open.
@@ -170,7 +173,32 @@ namespace mouse {
      * @version Egret 3.1.0
      * @platform Web
      */
-    export var setMouseMoveEnabled = function (enabled:boolean) {
+    export var setMouseMoveEnabled = function (enabled: boolean) {
         mouseMoveEnabled = enabled;
+    }
+
+    var addMouseWheelEvent = function () {
+        let type = "mousewheel";
+        let _eventCompat = function (event) {
+            var type = event.type;
+            if (type == "DOMMouseScroll" || type == "mousewheel") {
+                event.delta = event.wheelDelta ? event.wheelDelta : -(event.detail || 0);
+                stageObj.dispatchEventWith(MouseEvent.MOUSE_WHEEL, false, event.delta);
+            }
+        };
+
+        if (window.addEventListener) {
+            if (type === "mousewheel" && document["mozFullScreen"] !== undefined) {
+                type = "DOMMouseScroll";
+            }
+            window.addEventListener(type, function (event) {
+                _eventCompat(event);
+            }, false);
+        } else if (window["attachEvent"]) {
+            window["attachEvent"]("on" + type, function (event) {
+                event = event || window.event;
+                _eventCompat(event);
+            });
+        }
     }
 }

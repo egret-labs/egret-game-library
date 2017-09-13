@@ -169,8 +169,12 @@ class Main extends egret.DisplayObjectContainer {
         // }, this);
 
         mouse.setMouseMoveEnabled(true);
-        this.outContainer.addEventListener(mouse.MouseEvent.MOUSE_MOVE, function () { 
-            console.log("mouse move"); 
+        this.outContainer.addEventListener(mouse.MouseEvent.MOUSE_MOVE, function () {
+            console.log("mouse move");
+        }, this);
+        
+        this.stage.addEventListener(mouse.MouseEvent.MOUSE_WHEEL, function (event) {
+            console.log(event.data);
         }, this);
     }
 
