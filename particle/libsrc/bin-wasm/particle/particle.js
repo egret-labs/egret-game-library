@@ -225,6 +225,11 @@ var particle;
         function GravityParticleSystem(texture, config) {
             var _this = _super.call(this, texture, 200) || this;
             /**
+             * 表示粒子使用的混合模式
+             * @member {number} particle.GravityParticleSystem#blendMode
+             */
+            _this.particleBlendMode = 0;
+            /**
              * 是否完成解析json数据
              */
             _this.$init = false;
@@ -252,7 +257,7 @@ var particle;
                 return;
             }
             var configArray = [];
-            configArray.push(34 /* currentParticles */);
+            configArray.push(35 /* currentParticles */);
             configArray.push(num);
             this.$waNode.setCustomData(configArray);
         };
@@ -268,17 +273,17 @@ var particle;
             this.$particleConfig[1 /* emitterY */] = this._emitterY;
             configArray.push(this._emitterY);
             if (this.relativeContentBounds) {
-                configArray.push(30 /* emitterBoundsX */);
-                this.$particleConfig[30 /* emitterBoundsX */] = this.relativeContentBounds.x;
+                configArray.push(31 /* emitterBoundsX */);
+                this.$particleConfig[31 /* emitterBoundsX */] = this.relativeContentBounds.x;
                 configArray.push(this.relativeContentBounds.x);
-                configArray.push(31 /* emitterBoundsY */);
-                this.$particleConfig[31 /* emitterBoundsY */] = this.relativeContentBounds.y;
+                configArray.push(32 /* emitterBoundsY */);
+                this.$particleConfig[32 /* emitterBoundsY */] = this.relativeContentBounds.y;
                 configArray.push(this.relativeContentBounds.y);
-                configArray.push(32 /* emitterBoundsWidth */);
-                this.$particleConfig[32 /* emitterBoundsWidth */] = this.relativeContentBounds.width;
+                configArray.push(33 /* emitterBoundsWidth */);
+                this.$particleConfig[33 /* emitterBoundsWidth */] = this.relativeContentBounds.width;
                 configArray.push(this.relativeContentBounds.width);
-                configArray.push(33 /* emitterBoundsHeight */);
-                this.$particleConfig[33 /* emitterBoundsHeight */] = this.relativeContentBounds.height;
+                configArray.push(34 /* emitterBoundsHeight */);
+                this.$particleConfig[34 /* emitterBoundsHeight */] = this.relativeContentBounds.height;
                 configArray.push(this.relativeContentBounds.height);
             }
             this.$waNode.setCustomData(configArray);
@@ -321,7 +326,9 @@ var particle;
             this.startAlphaVariance = getValue(config.startAlphaVariance);
             this.endAlpha = getValue(config.endAlpha);
             this.endAlphaVariance = getValue(config.endAlphaVariance);
-            this.particleBlendMode = config.blendMode;
+            if (config.blendMode) {
+                this.particleBlendMode = config.blendMode;
+            }
             function getValue(value) {
                 if (typeof value == "undefined") {
                     return 0;
@@ -359,11 +366,12 @@ var particle;
                 27: this.startAlphaVariance,
                 28: this.endAlpha,
                 29: this.endAlphaVariance,
-                30: config.useEmitterRect ? this.relativeContentBounds.x : 0,
-                31: config.useEmitterRect ? this.relativeContentBounds.y : 0,
-                32: config.useEmitterRect ? this.relativeContentBounds.width : 0,
-                33: config.useEmitterRect ? this.relativeContentBounds.height : 0,
-                34: 0
+                30: this.particleBlendMode,
+                31: config.useEmitterRect ? this.relativeContentBounds.x : 0,
+                32: config.useEmitterRect ? this.relativeContentBounds.y : 0,
+                33: config.useEmitterRect ? this.relativeContentBounds.width : 0,
+                34: config.useEmitterRect ? this.relativeContentBounds.height : 0,
+                35: 0
             };
         };
         return GravityParticleSystem;
