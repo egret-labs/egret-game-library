@@ -293,18 +293,10 @@ var mouse;
         var type = "mousewheel";
         var _eventCompat = function (event) {
             var type = event.type;
-            if (type == 'DOMMouseScroll' || type == 'mousewheel') {
-                event.delta = (event.wheelDelta) ? event.wheelDelta : -(event.detail || 0);
+            if (type == "DOMMouseScroll" || type == "mousewheel") {
+                event.delta = event.wheelDelta ? event.wheelDelta : -(event.detail || 0);
+                stageObj.dispatchEventWith(mouse.MouseEvent.MOUSE_WHEEL, false, event.delta);
             }
-            if (event.srcElement && !event.target) {
-                event.target = event.srcElement;
-            }
-            if (!event.preventDefault && event.returnValue !== undefined) {
-                event.preventDefault = function () {
-                    event.returnValue = false;
-                };
-            }
-            stageObj.dispatchEventWith(mouse.MouseEvent.MOUSE_WHEEL, false, event.delta);
         };
         if (window.addEventListener) {
             if (type === "mousewheel" && document["mozFullScreen"] !== undefined) {
