@@ -9,8 +9,6 @@ Egret Game Library is a 3rd party library which is maintained by egret team. Eac
 
 ### Index
 
-#### base64texture
-Change base64 characters to the egert Texture
 
 #### dcagent
 DataEye SDK for Egret
@@ -69,8 +67,6 @@ Egret Game Library 是 Egret 官方团队参与维护的 Egret 第三方库。�
 
 ### 目录
 
-#### base64texture
-把 base64 字符串转换为 egert Texture
 
 #### dcagent
 DataEye SDK for Egret
