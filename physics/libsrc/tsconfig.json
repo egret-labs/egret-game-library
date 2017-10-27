@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "outFile": "bin/physics/physics.js",
+        "allowJs": true
+    },
+    "files": [
+        "src/p2.min.js"
+    ]
+}
