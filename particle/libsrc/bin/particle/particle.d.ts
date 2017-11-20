@@ -144,9 +144,63 @@ declare module particle {
         private addOneParticle();
         advanceParticle(particle: Particle, dt: number): void;
         private bitmapNodeList;
-        $render(): void;
+        $updateRenderNode(): void;
         private appendTransform(matrix, x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY);
     }
+}
+declare let regionPool: Region[];
+/**
+ * @private
+ */
+declare class Region {
+    /**
+     * @private
+     * 释放一个Region实例到对象池
+     */
+    static release(region: Region): void;
+    /**
+     * @private
+     * 从对象池中取出或创建一个新的Region对象。
+     * 建议对于一次性使用的对象，均使用此方法创建，而不是直接new一个。
+     * 使用完后调用对应的release()静态方法回收对象，能有效减少对象创建数量造成的性能开销。
+     */
+    static create(): Region;
+    /**
+     * @private
+     */
+    minX: number;
+    /**
+     * @private
+     */
+    minY: number;
+    /**
+     * @private
+     */
+    maxX: number;
+    /**
+     * @private
+     */
+    maxY: number;
+    /**
+     * @private
+     */
+    width: number;
+    /**
+     * @private
+     */
+    height: number;
+    /**
+     * @private
+     */
+    area: number;
+    /**
+     * @private
+     */
+    private setEmpty();
+    /**
+     * @private
+     */
+    updateRegion(bounds: egret.Rectangle, matrix: egret.Matrix): void;
 }
 declare module particle {
     class GravityParticle extends Particle {

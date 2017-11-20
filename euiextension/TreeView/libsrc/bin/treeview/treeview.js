@@ -319,4 +319,4 @@ var TreeView = (function (_super) {
     TreeView.onClick = "treeViewTestOnClick";
     return TreeView;
 }(eui.Component));
-__reflect(TreeView.prototype, "TreeView", ["eui.UIComponent"]);
+__reflect(TreeView.prototype, "TreeView", ["eui.UIComponent", "egret.DisplayObject"]);

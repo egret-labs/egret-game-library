@@ -307,7 +307,7 @@ var particle;
                     this.removeParticle(particle);
                 }
             }
-            this.$invalidateContentBounds();
+            this.$renderDirty = true;
             if (this.numParticles == 0 && this.emissionTime == 0) {
                 egret.stopTick(this.update, this);
                 this.dispatchEventWith(egret.Event.COMPLETE);
@@ -333,7 +333,7 @@ var particle;
                     this.particleMeasureRect.setEmpty();
                     this.particleMeasureRect.width = textureW;
                     this.particleMeasureRect.height = textureH;
-                    var tmpRegion = egret.sys.Region.create();
+                    var tmpRegion = Region.create();
                     tmpRegion.updateRegion(this.particleMeasureRect, this.transformForMeasure);
                     if (i == 0) {
                         totalRect.setTo(tmpRegion.minX, tmpRegion.minY, tmpRegion.maxX - tmpRegion.minX, tmpRegion.maxY - tmpRegion.minY);
@@ -345,7 +345,7 @@ var particle;
                         var b = Math.max(totalRect.bottom, tmpRegion.maxY);
                         totalRect.setTo(l, t, r - l, b - t);
                     }
-                    egret.sys.Region.release(tmpRegion);
+                    Region.release(tmpRegion);
                 }
                 //console.log(totalRect.x + "," + totalRect.y + "," + totalRect.width + "," + totalRect.height);
                 this.lastRect = totalRect;
@@ -385,7 +385,7 @@ var particle;
             this.numParticles = 0;
             this.$renderNode.drawData.length = 0;
             this.bitmapNodeList.length = 0;
-            this.$invalidateContentBounds();
+            this.$renderDirty = true;
         };
         ParticleSystem.prototype.addOneParticle = function () {
             //todo 这里可能需要返回成功与否
@@ -399,30 +399,29 @@ var particle;
         ParticleSystem.prototype.advanceParticle = function (particle, dt) {
             particle.y -= dt / 6;
         };
-        ParticleSystem.prototype.$render = function () {
+        ParticleSystem.prototype.$updateRenderNode = function () {
             if (this.numParticles > 0) {
                 //todo 考虑不同粒子使用不同的texture，或者使用egret.SpriteSheet
                 var texture = this.texture;
                 var textureW = Math.round(texture.$getScaleBitmapWidth());
                 var textureH = Math.round(texture.$getScaleBitmapHeight());
-                var offsetX = texture._offsetX;
-                var offsetY = texture._offsetY;
-                var bitmapX = texture._bitmapX;
-                var bitmapY = texture._bitmapY;
-                var bitmapWidth = texture._bitmapWidth;
-                var bitmapHeight = texture._bitmapHeight;
+                var offsetX = texture.$offsetX;
+                var offsetY = texture.$offsetY;
+                var bitmapX = texture.$bitmapX;
+                var bitmapY = texture.$bitmapY;
+                var bitmapWidth = texture.$bitmapWidth;
+                var bitmapHeight = texture.$bitmapHeight;
                 var particle;
                 for (var i = 0; i < this.numParticles; i++) {
                     particle = this.particles[i];
-                    var setAlphaNode;
                     var bitmapNode;
                     if (!this.bitmapNodeList[i]) {
                         bitmapNode = new egret.sys.BitmapNode();
                         this.bitmapNodeList[i] = bitmapNode;
                         this.$renderNode.addNode(this.bitmapNodeList[i]);
-                        bitmapNode.image = texture._bitmapData;
-                        bitmapNode.imageWidth = texture._sourceWidth;
-                        bitmapNode.imageHeight = texture._sourceHeight;
+                        bitmapNode.image = texture.$bitmapData;
+                        bitmapNode.imageWidth = texture.$sourceWidth;
+                        bitmapNode.imageHeight = texture.$sourceHeight;
                         bitmapNode.drawImage(bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
                     }
                     bitmapNode = this.bitmapNodeList[i];
@@ -464,6 +463,147 @@ var particle;
     particle_1.ParticleSystem = ParticleSystem;
     __reflect(ParticleSystem.prototype, "particle.ParticleSystem");
 })(particle || (particle = {}));
+var regionPool = [];
+/**
+ * @private
+ */
+var Region = (function () {
+    function Region() {
+        /**
+         * @private
+         */
+        this.minX = 0;
+        /**
+         * @private
+         */
+        this.minY = 0;
+        /**
+         * @private
+         */
+        this.maxX = 0;
+        /**
+         * @private
+         */
+        this.maxY = 0;
+        /**
+         * @private
+         */
+        this.width = 0;
+        /**
+         * @private
+         */
+        this.height = 0;
+        /**
+         * @private
+         */
+        this.area = 0;
+    }
+    /**
+     * @private
+     * 释放一个Region实例到对象池
+     */
+    Region.release = function (region) {
+        regionPool.push(region);
+    };
+    /**
+     * @private
+     * 从对象池中取出或创建一个新的Region对象。
+     * 建议对于一次性使用的对象，均使用此方法创建，而不是直接new一个。
+     * 使用完后调用对应的release()静态方法回收对象，能有效减少对象创建数量造成的性能开销。
+     */
+    Region.create = function () {
+        var region = regionPool.pop();
+        if (!region) {
+            region = new Region();
+        }
+        return region;
+    };
+    /**
+     * @private
+     */
+    Region.prototype.setEmpty = function () {
+        this.minX = 0;
+        this.minY = 0;
+        this.maxX = 0;
+        this.maxY = 0;
+        this.width = 0;
+        this.height = 0;
+        this.area = 0;
+    };
+    /**
+     * @private
+     */
+    Region.prototype.updateRegion = function (bounds, matrix) {
+        if (bounds.width == 0 || bounds.height == 0) {
+            //todo 理论上应该是空
+            this.setEmpty();
+            return;
+        }
+        var m = matrix;
+        var a = m.a;
+        var b = m.b;
+        var c = m.c;
+        var d = m.d;
+        var tx = m.tx;
+        var ty = m.ty;
+        var x = bounds.x;
+        var y = bounds.y;
+        var xMax = x + bounds.width;
+        var yMax = y + bounds.height;
+        var minX, minY, maxX, maxY;
+        //优化，通常情况下不缩放旋转的对象占多数，直接加上偏移量即可。
+        if (a == 1.0 && b == 0.0 && c == 0.0 && d == 1.0) {
+            minX = x + tx - 1;
+            minY = y + ty - 1;
+            maxX = xMax + tx + 1;
+            maxY = yMax + ty + 1;
+        }
+        else {
+            var x0 = a * x + c * y + tx;
+            var y0 = b * x + d * y + ty;
+            var x1 = a * xMax + c * y + tx;
+            var y1 = b * xMax + d * y + ty;
+            var x2 = a * xMax + c * yMax + tx;
+            var y2 = b * xMax + d * yMax + ty;
+            var x3 = a * x + c * yMax + tx;
+            var y3 = b * x + d * yMax + ty;
+            var tmp = 0;
+            if (x0 > x1) {
+                tmp = x0;
+                x0 = x1;
+                x1 = tmp;
+            }
+            if (x2 > x3) {
+                tmp = x2;
+                x2 = x3;
+                x3 = tmp;
+            }
+            minX = (x0 < x2 ? x0 : x2) - 1;
+            maxX = (x1 > x3 ? x1 : x3) + 1;
+            if (y0 > y1) {
+                tmp = y0;
+                y0 = y1;
+                y1 = tmp;
+            }
+            if (y2 > y3) {
+                tmp = y2;
+                y2 = y3;
+                y3 = tmp;
+            }
+            minY = (y0 < y2 ? y0 : y2) - 1;
+            maxY = (y1 > y3 ? y1 : y3) + 1;
+        }
+        this.minX = minX;
+        this.minY = minY;
+        this.maxX = maxX;
+        this.maxY = maxY;
+        this.width = maxX - minX;
+        this.height = maxY - minY;
+        this.area = this.width * this.height;
+    };
+    return Region;
+}());
+__reflect(Region.prototype, "Region");
 //////////////////////////////////////////////////////////////////////////////////////
 //
 //  Copyright (c) 2014-present, Egret Technology.

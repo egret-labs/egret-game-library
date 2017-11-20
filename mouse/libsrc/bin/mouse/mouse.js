@@ -145,6 +145,15 @@ var mouse;
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
+egret.DisplayObject.prototype["$getConcatenatedVisible"] = function () {
+    if (this.$parent) {
+        var parentVisible = this.$parent.$getConcatenatedVisible();
+        return parentVisible && this.$visible;
+    }
+    else {
+        return this.$visible;
+    }
+};
 var mouse;
 (function (mouse) {
     var currentTarget;

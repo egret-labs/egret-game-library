@@ -27,6 +27,16 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+egret.DisplayObject.prototype["$getConcatenatedVisible"] = function () {
+    if (this.$parent) {
+        let parentVisible = this.$parent.$getConcatenatedVisible();
+        return parentVisible && this.$visible;
+    }
+    else {
+        return this.$visible;
+    }
+}
+
 namespace mouse {
 
     var currentTarget;
@@ -76,7 +86,7 @@ namespace mouse {
     export var enable = function (stage: egret.Stage) {
         isPC = egret.Capabilities.os == "Windows PC" || egret.Capabilities.os == "Mac OS";
         stageObj = stage;
-        if(isPC) {
+        if (isPC) {
             addMouseWheelEvent();
         }
         var check = function (x: number, y: number) {
