@@ -1,9 +1,9 @@
 
-/// 阅读 config.d.ts 查看文档
-///<reference path="config.d.ts"/>
+/// 阅读 api.d.ts 查看文档
+///<reference path="api.d.ts"/>
 
 
-
+import { UglifyPlugin, IncrementCompilePlugin, CompilePlugin, ManifestPlugin, ExmlPlugin } from 'built-in';
 
 const config: ResourceManagerConfig = {
 
@@ -16,24 +16,30 @@ const config: ResourceManagerConfig = {
         const target = params.target;
         const command = params.command;
         const projectName = params.projectName;
+        const version = params.version;
 
         if (params.command == 'build') {
             const outputDir = '.';
             return {
                 outputDir,
                 commands: [
-                    "incrementCompile",
-                    "exml-debug"
+                    // new ExmlPlugin('debug'),
+                    new IncrementCompilePlugin(),
                 ]
             }
         }
         else if (params.command == 'publish') {
-            const outputDir = target == "web" ? "bin-release" : `../${projectName}_${target}`;
+            const outputDir = target == "web" ? `bin-release/${version}` : `../${projectName}_${target}`;
             return {
                 outputDir,
                 commands: [
-                    // "exml",
-                    "compile"
+                    // new ExmlPlugin('default'),
+                    new CompilePlugin(),
+                    new UglifyPlugin([{
+                        sources: ["main.js"],
+                        target: "main.min.js"
+                    }]),
+                    new ManifestPlugin()
                     // "zip",
                     // "spritesheet",
                     // "convertFileName",
@@ -42,8 +48,9 @@ const config: ResourceManagerConfig = {
                 ]
             }
         }
-
-
+        else {
+            throw `unknown command : ${params.command}`
+        }
     },
 
     mergeSelector: (path) => {
