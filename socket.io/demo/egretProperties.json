@@ -25,5 +25,7 @@
 			"name": "res",
 			"path": "${EGRET_DEFAULT}"
 		}
-	]
+	],
+	"engineVersion": "5.1.1",
+	"compilerVersion": "5.1.1"
 }

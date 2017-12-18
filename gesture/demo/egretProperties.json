@@ -29,5 +29,7 @@
 			"name": "gesture",
 			"path": "../libsrc"
 		}
-	]
+	],
+	"engineVersion": "5.1.1",
+	"compilerVersion": "5.1.1"
 }
