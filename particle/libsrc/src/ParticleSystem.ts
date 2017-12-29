@@ -34,10 +34,10 @@ module particle {
         private particles: Array<Particle> = [];
         private _emitterBounds: egret.Rectangle;
         //相对当前显示对象坐标系下的内容边界
-        private relativeContentBounds: egret.Rectangle;
+        protected relativeContentBounds: egret.Rectangle;
 
-        private _emitterX: number = 0;
-        private _emitterY: number = 0;
+        protected _emitterX: number = 0;
+        protected _emitterY: number = 0;
         /**
          * 表示粒子出现总时间，单位毫秒，取值范围(0,Number.MAX_VALUE]，-1表示无限时间
          * @member {number} particle.ParticleSystem#emissionTime
@@ -76,13 +76,39 @@ module particle {
          */
         public particleClass: any = null;
 
+        public $particleConfig:any = null;
+
         constructor(texture: egret.Texture, emissionRate: number) {
             super();
+            if (egret.nativeRender) {
+                this.initConfig(emissionRate, 0, 0);
+                this.changeTexture(texture);
+            }
+            else {
+                this.emissionRate = emissionRate;
+                this.texture = texture;
+                this.$renderNode = new egret.sys.GroupNode();
+                //不清除绘制数据
+                this.$renderNode.cleanBeforeRender = function () { };
+            }
+
+        }
+
+        protected createNativeNode(): void {
+            this.$nativeNode = new egret.NativeNode(egret.NativeObjectType.PARTICLE_SYSTEM);
+        }
+
+        public initConfig(emissionRate: number, emitterX: number, emitterY: number): void {
+            this.$particleConfig = [
+                emissionRate,      // emissionRate
+                emitterX,          //emitterX
+                emitterY,          //emitterY
+                0,                 //emitterTime 
+                200                //maxParticles
+            ]
             this.emissionRate = emissionRate;
-            this.texture = texture;
-            this.$renderNode = new egret.sys.GroupNode();
-            //不清除绘制数据
-            this.$renderNode.cleanBeforeRender = function () { };
+            this._emitterX = emitterX;
+            this._emitterY = emitterY;
         }
 
         private getParticle(): Particle {
@@ -150,10 +176,17 @@ module particle {
         public set emitterBounds(rect: egret.Rectangle) {
             this._emitterBounds = rect;
             this.updateRelativeBounds(rect);
+            if (egret.nativeRender) {
+                this.onPropertyChanges();
+            }
         }
 
         public get emitterBounds(): egret.Rectangle {
             return this._emitterBounds;
+        }
+
+        public onPropertyChanges(): void {
+            this.$nativeNode.setCustomData(this.$particleConfig);
         }
 
         /**
@@ -164,6 +197,9 @@ module particle {
         public set emitterX(value: number) {
             this._emitterX = value;
             this.updateRelativeBounds(this.emitterBounds);
+            if (egret.nativeRender) {
+                this.onPropertyChanges();
+            }
         }
 
         public get emitterX(): number {
@@ -178,6 +214,9 @@ module particle {
         public set emitterY(value: number) {
             this._emitterY = value;
             this.updateRelativeBounds(this.emitterBounds);
+            if (egret.nativeRender) {
+                this.onPropertyChanges();
+            }
         }
 
         public get emitterY(): number {
@@ -191,8 +230,14 @@ module particle {
         public start(duration: number = -1): void {
             if (this.emissionRate != 0) {
                 this.emissionTime = duration;
-                this.timeStamp = egret.getTimer();
-                egret.startTick(this.update, this);
+                if (egret.nativeRender) {
+                    this.$particleConfig[3] = duration;
+                    this.$nativeNode.setCustomData(this.$particleConfig);
+                }
+                else {
+                    this.timeStamp = egret.getTimer();
+                    egret.startTick(this.update, this);
+                }
             }
         }
 
@@ -201,6 +246,10 @@ module particle {
          * @param clear {boolean} 是否清除掉现有粒子
          */
         public stop(clear: boolean = false): void {
+            if (egret.nativeRender) {
+                this.$nativeNode.setStopToParticle(clear);
+                return;
+            }
             this.emissionTime = 0;
             if (clear) {
                 this.clear();
@@ -313,6 +362,9 @@ module particle {
         }
 
         public setCurrentParticles(num: number): void {
+            if (egret.nativeRender) {
+                return;
+            }
             for (var i: number = this.numParticles; i < num && this.numParticles < this.maxParticles; i++) {
                 this.addOneParticle();
             }
@@ -325,9 +377,14 @@ module particle {
         public changeTexture(texture: egret.Texture): void {
             if (this.texture != texture) {
                 this.texture = texture;
-                //todo 这里可以优化
-                this.bitmapNodeList.length = 0;
-                this.$renderNode.drawData.length = 0;
+                if (egret.nativeRender) {
+                    this.$nativeNode.setBitmapDataToParticle(texture);
+                }
+                else {
+                    //todo 这里可以优化
+                    this.bitmapNodeList.length = 0;
+                    this.$renderNode.drawData.length = 0;
+                }
             }
         }
 
@@ -358,6 +415,9 @@ module particle {
         private bitmapNodeList: Array<egret.sys.BitmapNode> = [];
 
         public $updateRenderNode(): void {
+            if (egret.nativeRender) {
+                return;
+            }
             if (this.numParticles > 0) {
 
                 //todo 考虑不同粒子使用不同的texture，或者使用egret.SpriteSheet

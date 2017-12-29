@@ -57,9 +57,9 @@ declare module particle {
         private frameTime;
         private particles;
         private _emitterBounds;
-        private relativeContentBounds;
-        private _emitterX;
-        private _emitterY;
+        protected relativeContentBounds: egret.Rectangle;
+        protected _emitterX: number;
+        protected _emitterY: number;
         /**
          * 表示粒子出现总时间，单位毫秒，取值范围(0,Number.MAX_VALUE]，-1表示无限时间
          * @member {number} particle.ParticleSystem#emissionTime
@@ -92,7 +92,10 @@ declare module particle {
          * @member {number} particle.ParticleSystem#particleClass
          */
         particleClass: any;
+        $particleConfig: any;
         constructor(texture: egret.Texture, emissionRate: number);
+        protected createNativeNode(): void;
+        initConfig(emissionRate: number, emitterX: number, emitterY: number): void;
         private getParticle();
         private removeParticle(particle);
         initParticle(particle: Particle): void;
@@ -106,6 +109,7 @@ declare module particle {
          * @member {egret.Rectangle} particle.ParticleSystem#emitterBounds
          */
         emitterBounds: egret.Rectangle;
+        onPropertyChanges(): void;
         /**
          * 表示粒子出现点X坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.ParticleSystem#emitterX
@@ -353,7 +357,14 @@ declare module particle {
          * @member {number} particle.GravityParticleSystem#blendMode
          */
         private particleBlendMode;
+        /**
+         * 是否完成解析json数据
+         */
+        private $init;
         constructor(texture: egret.Texture, config: any);
+        start(duration?: number): void;
+        setCurrentParticles(num: number): void;
+        onPropertyChanges(): void;
         private parseConfig(config);
         initParticle(particle: Particle): void;
         private static getValue(base, variance);
