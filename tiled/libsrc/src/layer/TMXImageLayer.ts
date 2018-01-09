@@ -24,8 +24,8 @@ module tiled{
 			this.x          = +data.attributes.x;
 			this.y          = +data.attributes.y;
 			this._z         = z;
-			this._opacity   = (typeof +data.attributes.opacity !== "undefined") ? +data.attributes.opacity : 1;
-			this.visible    = (typeof +data.attributes.visible !== "undefined") ? Boolean(+data.attributes.visible) : true;
+			this._opacity   = (typeof data.attributes.opacity !== "undefined") ? parseFloat(data.attributes.opacity) : 1;
+			this.visible    = (typeof data.attributes.visible !== "undefined") ? Boolean(+data.attributes.visible) : true;
 
 			//解析源
 			var children: Array<any>            = data.children;
