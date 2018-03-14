@@ -164,7 +164,6 @@ var mouse;
         if (isPC && currentTarget["buttonModeForMouse"]) {
             try {
                 var canvas = stageObj.$displayList.renderBuffer.surface;
-                ;
                 if (type == mouse.MouseEvent.ROLL_OVER) {
                     canvas.style.cursor = "pointer";
                 }
@@ -247,8 +246,30 @@ var mouse;
             onTouchBegin.call(this, x, y, touchPointID);
             check(x, y);
         };
+        var isMove = false;
+        var getLocation = egret["web"].WebTouchHandler.prototype.getLocation;
+        egret["web"].WebTouchHandler.prototype.getLocation = function (event) {
+            if (event.buttons == 0) {
+                isMove = true;
+            }
+            return getLocation.call(this, event);
+        };
         var onTouchEnd = egret.sys.TouchHandler.prototype.onTouchEnd;
         egret.sys.TouchHandler.prototype.onTouchEnd = function (x, y, touchPointID) {
+            if (isMove) {
+                isMove = false;
+                mouseX = x;
+                mouseY = y;
+                onTouchEnd.call(this, x, y, touchPointID);
+                if (mouseMoveEnabled) {
+                    var target = stageObj.$hitTest(x, y);
+                    if (!target) {
+                        target = stageObj;
+                    }
+                    egret.TouchEvent.dispatchTouchEvent(target, mouse.MouseEvent.MOUSE_MOVE, true, true, x, y, touchPointID, true);
+                }
+                return;
+            }
             onTouchEnd.call(this, x, y, touchPointID);
             check(x, y);
         };
