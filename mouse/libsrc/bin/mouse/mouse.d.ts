@@ -93,7 +93,7 @@ declare namespace mouse {
      * @version Egret 3.1.0
      * @platform Web
      */
-    var enable: (stage: egret.Stage) => void;
+    const enable: (stage: egret.Stage) => void;
     /**
      * @language en_US
      * Set a target of buttonMode property setting is true, when the mouse rolls over the object becomes hand type.
@@ -106,7 +106,7 @@ declare namespace mouse {
      * @version Egret 3.1.0
      * @platform Web
      */
-    var setButtonMode: (displayObjcet: egret.DisplayObject, buttonMode: boolean) => void;
+    const setButtonMode: (displayObjcet: egret.DisplayObject, buttonMode: boolean) => void;
     /**
      * @language en_US
      * Setting ON mouseMove event detection, after opening slightly impacts performance, default is not open.
@@ -119,5 +119,5 @@ declare namespace mouse {
      * @version Egret 3.1.0
      * @platform Web
      */
-    var setMouseMoveEnabled: (enabled: boolean) => void;
+    const setMouseMoveEnabled: (enabled: boolean) => void;
 }
