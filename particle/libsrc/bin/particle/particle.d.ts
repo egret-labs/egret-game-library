@@ -94,7 +94,7 @@ declare module particle {
         particleClass: any;
         $particleConfig: any;
         constructor(texture: egret.Texture, emissionRate: number);
-        protected createNativeNode(): void;
+        protected createNativeDisplayObject(): void;
         initConfig(emissionRate: number, emitterX: number, emitterY: number): void;
         private getParticle();
         private removeParticle(particle);

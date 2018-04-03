@@ -94,8 +94,8 @@ module particle {
 
         }
 
-        protected createNativeNode(): void {
-            this.$nativeNode = new egret.NativeNode(egret.NativeObjectType.PARTICLE_SYSTEM);
+        protected createNativeDisplayObject(): void {
+            this.$nativeDisplayObject = new egret_native.NativeDisplayObject(egret_native.NativeObjectType.PARTICLE_SYSTEM);
         }
 
         public initConfig(emissionRate: number, emitterX: number, emitterY: number): void {
@@ -186,7 +186,7 @@ module particle {
         }
 
         public onPropertyChanges(): void {
-            this.$nativeNode.setCustomData(this.$particleConfig);
+            this.$nativeDisplayObject.setCustomData(this.$particleConfig);
         }
 
         /**
@@ -232,7 +232,7 @@ module particle {
                 this.emissionTime = duration;
                 if (egret.nativeRender) {
                     this.$particleConfig[3] = duration;
-                    this.$nativeNode.setCustomData(this.$particleConfig);
+                    this.$nativeDisplayObject.setCustomData(this.$particleConfig);
                 }
                 else {
                     this.timeStamp = egret.getTimer();
@@ -247,7 +247,7 @@ module particle {
          */
         public stop(clear: boolean = false): void {
             if (egret.nativeRender) {
-                this.$nativeNode.setStopToParticle(clear);
+                this.$nativeDisplayObject.setStopToParticle(clear);
                 return;
             }
             this.emissionTime = 0;
@@ -378,7 +378,7 @@ module particle {
             if (this.texture != texture) {
                 this.texture = texture;
                 if (egret.nativeRender) {
-                    this.$nativeNode.setBitmapDataToParticle(texture);
+                    this.$nativeDisplayObject.setBitmapDataToParticle(texture);
                 }
                 else {
                     //todo 这里可以优化
