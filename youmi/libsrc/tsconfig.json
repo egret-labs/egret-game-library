@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "outFile": "bin/youmi/youmi.js",
+        "allowJs": true
+    },
+    "files": [
+    	"src/ymassdk.min.js"
+    ]
+}

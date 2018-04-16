@@ -1,0 +1,4 @@
+{
+	"name": "egret",
+	"typings": "src/youmi.d.ts"
+}
