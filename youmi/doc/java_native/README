@@ -1,0 +1,6 @@
+本目录为 tls_sig_api 的 java原生版本代码和库文件。
+
+使用此版本 api 生成 sig 时，需要将私钥文件做如下的格式转换，
+	openssl pkcs8 -topk8 -in ec_key.pem -outform PEM -out p8_priv.pem -nocrypt
+
+如果 identifier 中含有中文，请用 utf-8 编码
