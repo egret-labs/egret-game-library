@@ -101,66 +101,50 @@ class Main extends eui.UILayer {
      * Create scene interface
      */
     protected createGameScene(): void {
-        let sky = this.createBitmapByName("bg_jpg");
-        this.addChild(sky);
         let stageW = this.stage.stageWidth;
         let stageH = this.stage.stageHeight;
-        sky.width = stageW;
-        sky.height = stageH;
 
         let topMask = new egret.Shape();
         topMask.graphics.beginFill(0x000000, 0.5);
-        topMask.graphics.drawRect(0, 0, stageW, 172);
+        topMask.graphics.drawRect(0, 0, stageW, stageH);
         topMask.graphics.endFill();
-        topMask.y = 33;
         this.addChild(topMask);
 
         let icon: egret.Bitmap = this.createBitmapByName("egret_icon_png");
         this.addChild(icon);
-        icon.x = 26;
-        icon.y = 33;
+        icon.x = stageW / 2 - 180;
+        icon.y = 80;
+
+        let icon_ym: egret.Bitmap = this.createBitmapByName('youmilogo_png');
+        this.addChild(icon_ym);
+        icon_ym.scaleX = 1.5;
+        icon_ym.scaleY = 1.5;
+        icon_ym.x = stageW / 2 + 70;
+        icon_ym.y = 123;
+
 
         let line = new egret.Shape();
         line.graphics.lineStyle(2, 0xffffff);
         line.graphics.moveTo(0, 0);
         line.graphics.lineTo(0, 117);
         line.graphics.endFill();
-        line.x = 172;
-        line.y = 61;
+        line.x = stageW / 2;
+        line.y = 104;
         this.addChild(line);
-
-
-        let colorLabel = new egret.TextField();
-        colorLabel.textColor = 0xffffff;
-        colorLabel.width = stageW - 172;
-        colorLabel.textAlign = "center";
-        colorLabel.text = "Hello Egret";
-        colorLabel.size = 24;
-        colorLabel.x = 172;
-        colorLabel.y = 80;
-        this.addChild(colorLabel);
-
-        let textfield = new egret.TextField();
-        this.addChild(textfield);
-        textfield.alpha = 0;
-        textfield.width = stageW - 172;
-        textfield.textAlign = egret.HorizontalAlign.CENTER;
-        textfield.size = 24;
-        textfield.textColor = 0xffffff;
-        textfield.x = 172;
-        textfield.y = 135;
-        this.textfield = textfield;
 
         var gp = new eui.Group();
         gp.horizontalCenter = 0;
-        gp.verticalCenter = 0;    
+        gp.verticalCenter = 0;
         var ly = new eui.VerticalLayout();
         ly.horizontalAlign = egret.HorizontalAlign.CENTER;
         ly.gap = 20;
         gp.layout = ly;
         this.addChild(gp);
+        
+        let wid = 200;
 
         var btnLogin = new eui.Button();
+        btnLogin.width = wid;
         btnLogin.label = '用户登陆';
         gp.addChild(btnLogin);
         btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
@@ -172,6 +156,7 @@ class Main extends eui.UILayer {
         }, this)
 
         var btnOpen = new eui.Button();
+        btnOpen.width = wid;
         btnOpen.label = '打开麦克风';
         gp.addChild(btnOpen);
         btnOpen.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
@@ -181,6 +166,7 @@ class Main extends eui.UILayer {
         }, this)
 
         var btnClose = new eui.Button();
+        btnClose.width = wid;
         btnClose.label = '关闭麦克风';
         gp.addChild(btnClose);
         btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
@@ -190,6 +176,7 @@ class Main extends eui.UILayer {
         }, this)
 
         var btnOpenVideo = new eui.Button();
+        btnOpenVideo.width = wid;
         btnOpenVideo.label = '打开摄像头';
         gp.addChild(btnOpenVideo);
         btnOpenVideo.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
@@ -199,6 +186,7 @@ class Main extends eui.UILayer {
         }, this)
 
         var btnCloseVideo = new eui.Button();
+        btnCloseVideo.width = wid;
         btnCloseVideo.label = '关闭摄像头';
         gp.addChild(btnCloseVideo);
         btnCloseVideo.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
@@ -208,6 +196,7 @@ class Main extends eui.UILayer {
         }, this)
 
         var btnCreatRoom = new eui.Button();
+        btnCreatRoom.width = wid;
         btnCreatRoom.label = '创建房间';
         gp.addChild(btnCreatRoom);
         btnCreatRoom.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
@@ -216,7 +205,8 @@ class Main extends eui.UILayer {
             }
         }, this)
 
-         var btnQuit = new eui.Button();
+        var btnQuit = new eui.Button();
+        btnQuit.width = wid;
         btnQuit.label = '退出房间';
         gp.addChild(btnQuit);
         btnQuit.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
