@@ -37,6 +37,9 @@ MD5 library
 #### mouse
 Pc mouse support library, support mouseOver，mouseOut，rollOut and cursor style
 
+#### matchvs
+Matchvs game cloud
+
 #### Particle
 Particle system
 
@@ -94,6 +97,9 @@ jszip 压缩库
 
 #### md5
 一个简单的md5库
+
+#### matchvs
+Matchvs 游戏云
 
 #### mouse
 pc鼠标支持库，支持mouseOver，mouseOut，rollOver，rollOut事件，并且支持鼠标手型
