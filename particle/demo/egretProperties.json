@@ -21,6 +21,6 @@
 			"path": "${EGRET_DEFAULT}"
 		}
 	],
-	"engineVersion": "5.1.10",
-	"compilerVersion": "5.1.10"
+	"engineVersion": "5.1.11",
+	"compilerVersion": "5.1.11"
 }
