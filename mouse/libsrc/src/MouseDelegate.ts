@@ -27,6 +27,16 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+egret.DisplayObject.prototype["$getConcatenatedVisible"] = function () {
+    if (this.$parent) {
+        let parentVisible = this.$parent.$getConcatenatedVisible();
+        return parentVisible && this.$visible;
+    }
+    else {
+        return this.$visible;
+    }
+}
+
 namespace mouse {
 
     let currentTarget;

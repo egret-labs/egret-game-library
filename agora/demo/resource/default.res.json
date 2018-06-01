@@ -1,0 +1,30 @@
+{
+	"groups": [
+		{
+			"keys": "button_down_png,button_up_png,egret_icon_png,otherlogo_png",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"url": "assets/Button/button_down.png",
+			"type": "image",
+			"name": "button_down_png"
+		},
+		{
+			"url": "assets/Button/button_up.png",
+			"type": "image",
+			"name": "button_up_png"
+		},
+		{
+			"url": "assets/egret_icon.png",
+			"type": "image",
+			"name": "egret_icon_png"
+		},
+		{
+			"url": "assets/otherlogo.png",
+			"type": "image",
+			"name": "otherlogo_png"
+		}
+	]
+}

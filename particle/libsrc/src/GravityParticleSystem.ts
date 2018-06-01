@@ -28,174 +28,283 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 module particle {
+    const enum ParticleKeys {
+        emitterX,
+        emitterY,
+        emitterTime,
+        maxParticles,
+        emitterXVariance,
+        emitterYVariance,
+        gravityX,
+        gravityY,
+        speed,
+        speedVariance,
+        lifespan,
+        lifespanVariance,
+        emitAngle,
+        emitAngleVariance,
+        startSize,
+        startSizeVariance,
+        endSize,
+        endSizeVariance,
+        startRotation,
+        startRotationVariance,
+        endRotation,
+        endRotationVariance,
+        radialAcceleration,
+        radialAccelerationVariance,
+        tangentialAcceleration,
+        tangentialAccelerationVariance,
+        startAlpha,
+        startAlphaVariance,
+        endAlpha,
+        endAlphaVariance,
+        particleBlendMode,
+        emitterBoundsX,
+        emitterBoundsY,
+        emitterBoundsWidth,
+        emitterBoundsHeight,
+        currentParticles
+    }
+
     export class GravityParticleSystem extends ParticleSystem {
         /**
          * 表示粒子初始坐标 x 差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#emitterXVariance
          */
-        private emitterXVariance:number;
+        private emitterXVariance: number;
         /**
          * 表示粒子初始坐标 y 差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#emitterYVariance
          */
-        private emitterYVariance:number;
+        private emitterYVariance: number;
 
         /**
          * 表示粒子存活时间，单位毫秒，取值范围(0,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#lifespan
          */
-        private lifespan:number;
+        private lifespan: number;
         /**
          * 表示粒子存活时间差值，单位毫秒，取值范围(0,Number.MAX_VALUE]且不大于 lifespan
          * @member {number} particle.GravityParticleSystem#lifespanVariance
          */
-        private lifespanVariance:number;
+        private lifespanVariance: number;
 
         /**
          * 表示粒子出现时大小，取值范围(0,Number.MAX_VALUE]，粒子将会在存活时间内由 startSize 慢慢变为 endSize
          * @member {number} particle.GravityParticleSystem#startSize
          */
-        private startSize:number;
+        private startSize: number;
         /**
          * 表示粒子出现时大小差值，取值范围(0,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#startSizeVariance
          */
-        private startSizeVariance:number;
+        private startSizeVariance: number;
 
         /**
          * 表示粒子消失时大小，取值范围(0,Number.MAX_VALUE]，粒子将会在存活时间内由 startSize慢慢变为 endSize
          * @member {number} particle.GravityParticleSystem#endSize
          */
-        private endSize:number;
+        private endSize: number;
         /**
          * 表示粒子消失时大小差值，取值范围(0,Number.MAX_VALUE]，且不大于endSize
          * @member {number} particle.GravityParticleSystem#endSizeVariance
          */
-        private endSizeVariance:number;
+        private endSizeVariance: number;
 
         /**
          * 表示粒子出现时的角度，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#emitAngle
          */
-        private emitAngle:number;
+        private emitAngle: number;
         /**
          * 表示粒子出现时的角度差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#emitAngleVariance
          */
-        private emitAngleVariance:number;
+        private emitAngleVariance: number;
 
         /**
          * 表示粒子出现时旋转值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]，粒子将会在存活时间内由 startRotation 慢慢变为 endRotation
          * @member {number} particle.GravityParticleSystem#startRotation
          */
-        private startRotation:number;
+        private startRotation: number;
         /**
          * 表示粒子出现时旋转值差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#startRotationVariance
          */
-        private startRotationVariance:number;
+        private startRotationVariance: number;
 
         /**
          * 表示粒子消失时旋转值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]，粒子将会在存活时间内由 startRotation 慢慢变为 endRotation
          * @member {number} particle.GravityParticleSystem#endRotation
          */
-        private endRotation:number;
+        private endRotation: number;
         /**
          * 表示粒子消失时旋转值差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#endRotationVariance
          */
-        private endRotationVariance:number;
+        private endRotationVariance: number;
 
         /**
          * 表示粒子出现时速度，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#speed
          */
-        private speed:number;
+        private speed: number;
         /**
          * 表示粒子出现时速度差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#speedVariance
          */
-        private speedVariance:number;
+        private speedVariance: number;
 
         /**
          * 表示粒子水平重力，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#gravityX
          */
-        private gravityX:number;
+        private gravityX: number;
         /**
          * 表示粒子垂直重力，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#gravityX
          */
-        private gravityY:number;
+        private gravityY: number;
 
         /**
          * 表示粒子径向加速度，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#radialAcceleration
          */
-        private radialAcceleration:number;
+        private radialAcceleration: number;
         /**
          * 表示粒子径向加速度差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#radialAccelerationVariance
          */
-        private radialAccelerationVariance:number;
+        private radialAccelerationVariance: number;
 
         /**
          * 表示粒子切向加速度，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#tangentialAcceleration
          */
-        private tangentialAcceleration:number;
+        private tangentialAcceleration: number;
         /**
          * 表示粒子切向加速度差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#tangentialAccelerationVariance
          */
-        private tangentialAccelerationVariance:number;
+        private tangentialAccelerationVariance: number;
 
         /**
          * 表示粒子出现时的 Alpha 透明度值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]，粒子将会在存活时间内由 startAlpha 慢慢变为 endAlpha
          * @member {number} particle.GravityParticleSystem#startAlpha
          */
-        private startAlpha:number;
+        private startAlpha: number;
         /**
          * 表示粒子出现时的 Alpha 透明度差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#startAlphaVariance
          */
-        private startAlphaVariance:number;
+        private startAlphaVariance: number;
 
         /**
          * 表示粒子消失时的 Alpha 透明度值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]，粒子将会在存活时间内由 startAlpha 慢慢变为 endAlpha
          * @member {number} particle.GravityParticleSystem#endAlpha
          */
-        private endAlpha:number;
+        private endAlpha: number;
         /**
          * 表示粒子消失时的 Alpha 透明度差值，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.GravityParticleSystem#endAlphaVariance
          */
-        private endAlphaVariance:number;
-        
+        private endAlphaVariance: number;
+
         /**
          * 表示粒子使用的混合模式
          * @member {number} particle.GravityParticleSystem#blendMode
          */
-        private particleBlendMode:number;
+        private particleBlendMode: number;
 
-        constructor(texture:egret.Texture, config:any) {
+        /**
+         * 是否完成解析json数据
+         */
+        private $init = false;
+
+        constructor(texture: egret.Texture, config: any) {
             super(texture, 200);
             this.parseConfig(config);
             this.emissionRate = this.lifespan / this.maxParticles;
             this.particleClass = GravityParticle;
+            this.$init = true;
         }
 
-        private parseConfig(config:any):void {
-            this.emitterX = getValue(config.emitter.x);
-            this.emitterY = getValue(config.emitter.y);
+        public start(duration: number = -1): void {
+            if (egret.nativeRender) {
+                if (this.emissionRate != 0) {
+                    this.emissionTime = duration;
+                }
+                this.$particleConfig[2] = duration;
+                let configArray = [];
+                let i = 0;
+                for (let key in this.$particleConfig) {
+                    configArray.push(i++);
+                    configArray.push(this.$particleConfig[key]);
+                }
+                this.$nativeDisplayObject.setCustomData(configArray);
+            }
+            else {
+                super.start(duration);
+            }
+        }
+
+        public setCurrentParticles(num:number):void {
+            if(num > this.maxParticles) {
+                return;
+            }
+            let configArray = [];
+            configArray.push(ParticleKeys.currentParticles);
+            configArray.push(num);
+            this.$nativeDisplayObject.setCustomData(configArray);
+        }
+
+        public onPropertyChanges():void {
+            if(this.$init == false){
+                return;
+            }
+            let configArray: Array<number> = [];
+            configArray.push(ParticleKeys.emitterX);
+            this.$particleConfig[ParticleKeys.emitterX] = this._emitterX;
+            configArray.push(this._emitterX);
+            configArray.push(ParticleKeys.emitterY);
+            this.$particleConfig[ParticleKeys.emitterY] = this._emitterY;
+            configArray.push(this._emitterY);
+            
+            if(this.relativeContentBounds) {
+                configArray.push(ParticleKeys.emitterBoundsX);
+                this.$particleConfig[ParticleKeys.emitterBoundsX] = this.relativeContentBounds.x;
+                configArray.push(this.relativeContentBounds.x);
+                configArray.push(ParticleKeys.emitterBoundsY);
+                this.$particleConfig[ParticleKeys.emitterBoundsY] = this.relativeContentBounds.y;
+                configArray.push(this.relativeContentBounds.y);
+                configArray.push(ParticleKeys.emitterBoundsWidth);
+                this.$particleConfig[ParticleKeys.emitterBoundsWidth] = this.relativeContentBounds.width;
+                configArray.push(this.relativeContentBounds.width);
+                configArray.push(ParticleKeys.emitterBoundsHeight);
+                this.$particleConfig[ParticleKeys.emitterBoundsHeight] = this.relativeContentBounds.height;
+                configArray.push(this.relativeContentBounds.height);
+            }
+            this.$nativeDisplayObject.setCustomData(configArray);
+        }
+
+        private parseConfig(config: any): void {
+            if (egret.nativeRender) {
+                this._emitterX = getValue(config.emitter.x);
+                this._emitterY = getValue(config.emitter.y);
+            }
+            else {
+                this.emitterX = getValue(config.emitter.x);
+                this.emitterY = getValue(config.emitter.y);
+            }
             this.emitterXVariance = getValue(config.emitterVariance.x);
             this.emitterYVariance = getValue(config.emitterVariance.y);
 
             this.gravityX = getValue(config.gravity.x);
             this.gravityY = getValue(config.gravity.y);
-            
-            if(config.useEmitterRect == true){
-                var bounds:egret.Rectangle = new egret.Rectangle();
+
+            if (config.useEmitterRect == true) {
+                var bounds: egret.Rectangle = new egret.Rectangle();
                 bounds.x = getValue(config.emitterRect.x);
                 bounds.y = getValue(config.emitterRect.y);
                 bounds.width = getValue(config.emitterRect.width);
@@ -233,21 +342,67 @@ module particle {
             this.startAlphaVariance = getValue(config.startAlphaVariance);
             this.endAlpha = getValue(config.endAlpha);
             this.endAlphaVariance = getValue(config.endAlphaVariance);
-            
-            this.particleBlendMode = config.blendMode;
 
-            function getValue(value:any):number {
+            if (egret.nativeRender) {
+                if (config.blendMode) {
+                    this.particleBlendMode = config.blendMode;
+                }
+            }
+            else {
+                this.particleBlendMode = config.blendMode;
+            }
+
+            function getValue(value: any): number {
                 if (typeof value == "undefined") {
                     return 0;
                 }
                 return value;
             }
+
+            this.$particleConfig = {
+                0: this.emitterX,
+                1: this.emitterY,
+                2: -1,     // emitterTime, 
+                3: this.maxParticles,
+                4: this.emitterXVariance,
+                5: this.emitterYVariance,
+                6: this.gravityX,
+                7: this.gravityY,
+                8: this.speed,
+                9: this.speedVariance,
+                10: this.lifespan,
+                11: this.lifespanVariance,
+                12: this.emitAngle,
+                13: this.emitAngleVariance,
+                14: this.startSize,
+                15: this.startSizeVariance,
+                16: this.endSize,
+                17: this.endSizeVariance,
+                18: this.startRotation,
+                19: this.startRotationVariance,
+                20: this.endRotation,
+                21: this.endRotationVariance,
+                22: this.radialAcceleration,
+                23: this.radialAccelerationVariance,
+                24: this.tangentialAcceleration,
+                25: this.tangentialAccelerationVariance,
+                26: this.startAlpha,
+                27: this.startAlphaVariance,
+                28: this.endAlpha,
+                29: this.endAlphaVariance,
+                30: this.particleBlendMode,
+                31: config.useEmitterRect ? this.relativeContentBounds.x : 0,
+                32: config.useEmitterRect ? this.relativeContentBounds.y : 0,
+                33: config.useEmitterRect ? this.relativeContentBounds.width : 0,
+                34: config.useEmitterRect ? this.relativeContentBounds.height : 0,
+                35: 0
+            }
         }
 
-        public initParticle(particle:Particle):void {
-            var locParticle:GravityParticle = <GravityParticle>particle;
+        public initParticle(particle: Particle): void {
+            var locParticle: GravityParticle = <GravityParticle>particle;
 
-            var lifespan:number = GravityParticleSystem.getValue(this.lifespan, this.lifespanVariance);
+            var lifespan: number = GravityParticleSystem.getValue(this.lifespan, this.lifespanVariance);
 
             locParticle.currentTime = 0;
             locParticle.totalTime = lifespan > 0 ? lifespan : 0;
@@ -261,19 +416,19 @@ module particle {
             locParticle.startX = this.emitterX;
             locParticle.startY = this.emitterY;
 
-            var angle:number = GravityParticleSystem.getValue(this.emitAngle, this.emitAngleVariance);
-            var speed:number = GravityParticleSystem.getValue(this.speed, this.speedVariance);
+            var angle: number = GravityParticleSystem.getValue(this.emitAngle, this.emitAngleVariance);
+            var speed: number = GravityParticleSystem.getValue(this.speed, this.speedVariance);
             locParticle.velocityX = speed * egret.NumberUtils.cos(angle);
             locParticle.velocityY = speed * egret.NumberUtils.sin(angle);
 
             locParticle.radialAcceleration = GravityParticleSystem.getValue(this.radialAcceleration, this.radialAccelerationVariance);
             locParticle.tangentialAcceleration = GravityParticleSystem.getValue(this.tangentialAcceleration, this.tangentialAccelerationVariance);
 
-            var startSize:number = GravityParticleSystem.getValue(this.startSize, this.startSizeVariance);
+            var startSize: number = GravityParticleSystem.getValue(this.startSize, this.startSizeVariance);
             if (startSize < 0.1) {
                 startSize = 0.1;
             }
-            var endSize:number = GravityParticleSystem.getValue(this.endSize, this.endSizeVariance);
+            var endSize: number = GravityParticleSystem.getValue(this.endSize, this.endSizeVariance);
             if (endSize < 0.1) {
                 endSize = 0.1;
             }
@@ -281,48 +436,48 @@ module particle {
             locParticle.scale = startSize / textureWidth;
             locParticle.scaleDelta = ((endSize - startSize) / lifespan) / textureWidth;
 
-            var startRotation:number = GravityParticleSystem.getValue(this.startRotation, this.startRotationVariance);
-            var endRotation:number = GravityParticleSystem.getValue(this.endRotation, this.endRotationVariance);
+            var startRotation: number = GravityParticleSystem.getValue(this.startRotation, this.startRotationVariance);
+            var endRotation: number = GravityParticleSystem.getValue(this.endRotation, this.endRotationVariance);
             locParticle.rotation = startRotation;
             locParticle.rotationDelta = (endRotation - startRotation) / lifespan;
 
-            var startAlpha:number = GravityParticleSystem.getValue(this.startAlpha, this.startAlphaVariance);
-            var endAlpha:number = GravityParticleSystem.getValue(this.endAlpha, this.endAlphaVariance);
+            var startAlpha: number = GravityParticleSystem.getValue(this.startAlpha, this.startAlphaVariance);
+            var endAlpha: number = GravityParticleSystem.getValue(this.endAlpha, this.endAlphaVariance);
 
             locParticle.alpha = startAlpha;
             locParticle.alphaDelta = (endAlpha - startAlpha) / lifespan;
-            
+
             locParticle.blendMode = this.particleBlendMode;
         }
 
-        private static getValue(base:number, variance:number):number {
+        private static getValue(base: number, variance: number): number {
             return base + variance * (Math.random() * 2 - 1);
         }
 
-        public advanceParticle(particle:Particle, dt:number):void {
-            var locParticle:GravityParticle = <GravityParticle>particle;
+        public advanceParticle(particle: Particle, dt: number): void {
+            var locParticle: GravityParticle = <GravityParticle>particle;
             dt = dt / 1000;
 
-            var restTime:number = locParticle.totalTime - locParticle.currentTime;
+            var restTime: number = locParticle.totalTime - locParticle.currentTime;
             dt = restTime > dt ? dt : restTime;
             locParticle.currentTime += dt;
 
-            var distanceX:number = locParticle.x - locParticle.startX;
-            var distanceY:number = locParticle.y - locParticle.startY;
-            var distanceScalar:number = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+            var distanceX: number = locParticle.x - locParticle.startX;
+            var distanceY: number = locParticle.y - locParticle.startY;
+            var distanceScalar: number = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
             if (distanceScalar < 0.01) {
                 distanceScalar = 0.01;
             }
 
-            var radialX:number = distanceX / distanceScalar;
-            var radialY:number = distanceY / distanceScalar;
-            var tangentialX:number = radialX;
-            var tangentialY:number = radialY;
+            var radialX: number = distanceX / distanceScalar;
+            var radialY: number = distanceY / distanceScalar;
+            var tangentialX: number = radialX;
+            var tangentialY: number = radialY;
 
             radialX *= locParticle.radialAcceleration;
             radialY *= locParticle.radialAcceleration;
 
-            var temp:number = tangentialX;
+            var temp: number = tangentialX;
             tangentialX = -tangentialY * locParticle.tangentialAcceleration;
             tangentialY = temp * locParticle.tangentialAcceleration;
 
@@ -332,7 +487,7 @@ module particle {
             locParticle.y += locParticle.velocityY * dt;
 
             locParticle.scale += locParticle.scaleDelta * dt * 1000;
-            if(locParticle.scale < 0) {
+            if (locParticle.scale < 0) {
                 locParticle.scale = 0;
             }
             locParticle.rotation += locParticle.rotationDelta * dt * 1000;

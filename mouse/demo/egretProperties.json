@@ -6,7 +6,6 @@
 		"web": 0,
 		"native": 1
 	},
-	"egret_version": "5.0.14",
 	"template": {},
 	"modules": [
 		{
@@ -21,5 +20,7 @@
 			"name": "res",
 			"path": "${EGRET_DEFAULT}"
 		}
-	]
+	],
+	"engineVersion": "5.1.12",
+	"compilerVersion": "5.1.12"
 }

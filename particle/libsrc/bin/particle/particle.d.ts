@@ -57,9 +57,9 @@ declare module particle {
         private frameTime;
         private particles;
         private _emitterBounds;
-        private relativeContentBounds;
-        private _emitterX;
-        private _emitterY;
+        protected relativeContentBounds: egret.Rectangle;
+        protected _emitterX: number;
+        protected _emitterY: number;
         /**
          * 表示粒子出现总时间，单位毫秒，取值范围(0,Number.MAX_VALUE]，-1表示无限时间
          * @member {number} particle.ParticleSystem#emissionTime
@@ -92,7 +92,10 @@ declare module particle {
          * @member {number} particle.ParticleSystem#particleClass
          */
         particleClass: any;
+        $particleConfig: any;
         constructor(texture: egret.Texture, emissionRate: number);
+        protected createNativeDisplayObject(): void;
+        initConfig(emissionRate: number, emitterX: number, emitterY: number): void;
         private getParticle();
         private removeParticle(particle);
         initParticle(particle: Particle): void;
@@ -106,6 +109,7 @@ declare module particle {
          * @member {egret.Rectangle} particle.ParticleSystem#emitterBounds
          */
         emitterBounds: egret.Rectangle;
+        onPropertyChanges(): void;
         /**
          * 表示粒子出现点X坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.ParticleSystem#emitterX
@@ -144,9 +148,63 @@ declare module particle {
         private addOneParticle();
         advanceParticle(particle: Particle, dt: number): void;
         private bitmapNodeList;
-        $render(): void;
+        $updateRenderNode(): void;
         private appendTransform(matrix, x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY);
     }
+}
+declare let regionPool: Region[];
+/**
+ * @private
+ */
+declare class Region {
+    /**
+     * @private
+     * 释放一个Region实例到对象池
+     */
+    static release(region: Region): void;
+    /**
+     * @private
+     * 从对象池中取出或创建一个新的Region对象。
+     * 建议对于一次性使用的对象，均使用此方法创建，而不是直接new一个。
+     * 使用完后调用对应的release()静态方法回收对象，能有效减少对象创建数量造成的性能开销。
+     */
+    static create(): Region;
+    /**
+     * @private
+     */
+    minX: number;
+    /**
+     * @private
+     */
+    minY: number;
+    /**
+     * @private
+     */
+    maxX: number;
+    /**
+     * @private
+     */
+    maxY: number;
+    /**
+     * @private
+     */
+    width: number;
+    /**
+     * @private
+     */
+    height: number;
+    /**
+     * @private
+     */
+    area: number;
+    /**
+     * @private
+     */
+    private setEmpty();
+    /**
+     * @private
+     */
+    updateRegion(bounds: egret.Rectangle, matrix: egret.Matrix): void;
 }
 declare module particle {
     class GravityParticle extends Particle {
@@ -299,7 +357,14 @@ declare module particle {
          * @member {number} particle.GravityParticleSystem#blendMode
          */
         private particleBlendMode;
+        /**
+         * 是否完成解析json数据
+         */
+        private $init;
         constructor(texture: egret.Texture, config: any);
+        start(duration?: number): void;
+        setCurrentParticles(num: number): void;
+        onPropertyChanges(): void;
         private parseConfig(config);
         initParticle(particle: Particle): void;
         private static getValue(base, variance);

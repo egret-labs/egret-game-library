@@ -7,7 +7,6 @@
 		"native": 1,
 		"path": "bin-release"
 	},
-	"egret_version": "5.0.14",
 	"template": {},
 	"modules": [
 		{
@@ -30,5 +29,7 @@
 			"name": "tween",
 			"path": "${EGRET_DEFAULT}"
 		}
-	]
+	],
+	"engineVersion": "5.1.12",
+	"compilerVersion": "5.1.12"
 }

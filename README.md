@@ -10,6 +10,9 @@ Egret Game Library is a 3rd party library which is maintained by egret team. Eac
 ### Index
 
 
+### agora
+agora webrtc sdk
+
 #### dcagent
 DataEye SDK for Egret
 
@@ -37,6 +40,9 @@ MD5 library
 #### mouse
 Pc mouse support library, support mouseOver，mouseOut，rollOut and cursor style
 
+#### matchvs
+Matchvs game cloud
+
 #### Particle
 Particle system
 
@@ -56,6 +62,9 @@ tiledmap
 #### weixinapi
 wechat API
 
+### youmi
+youmi webrtc sdk
+
 
 
 
@@ -67,6 +76,8 @@ Egret Game Library 是 Egret 官方团队参与维护的 Egret 第三方库。�
 
 ### 目录
 
+### agora
+agora 网页语音视频通讯 SDK
 
 #### dcagent
 DataEye SDK for Egret
@@ -92,6 +103,9 @@ jszip 压缩库
 #### md5
 一个简单的md5库
 
+#### matchvs
+Matchvs 游戏云
+
 #### mouse
 pc鼠标支持库，支持mouseOver，mouseOut，rollOver，rollOut事件，并且支持鼠标手型
 
@@ -116,4 +130,6 @@ tiledmap 支持库
 #### weixinapi
 微信API
 
+### youmi
+游密网页语音视频通讯 SDK
 

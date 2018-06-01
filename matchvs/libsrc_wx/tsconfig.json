@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "outFile": "bin/matchvs/matchvs.js",
+        "allowJs": true
+    },
+    "files": [
+    	"src/matchvs.js"
+    ]
+}
