@@ -247,7 +247,27 @@ module tiled{
 			}
 			return this.layerData[~~(<tiled.TMXHexagonalRenderer>this.renderer).pixelToTileX(x, y)][~~(<tiled.TMXHexagonalRenderer>this.renderer).pixelToTileY(y, x)];
 		}
+
+		/**
+		 * 根据格子坐标获取Tile Id
+		 * @param tileX 水平格子坐标
+		 * @param tileY 垂直格子坐标
+		 * @version Egret 3.0.3
+		 */
+		getTileIdByTileXY(tileX:number,tileY:number): number {
+			var tile:tiled.TMXTile = this.getTileByTileXY(tileX, tileY);
+			return tile ? tile.gid : 0;
+		}
 		
+		/**
+		 * 根据格子坐标获取格子信息
+		 * @param tileX 水平格子坐标
+		 * @param tileY 垂直格子坐标
+		 * @version Egret 3.0.3
+		 */
+		getTileByTileXY(tileX: number, tileY: number): tiled.TMXTile {
+			return this.layerData[tileX][tileY];
+		}
 		
 		/**
 		 * TMXTileMap#setLayerData调用

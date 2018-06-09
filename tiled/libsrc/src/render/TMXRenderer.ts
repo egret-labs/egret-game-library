@@ -78,5 +78,25 @@ module tiled{
 				}
 			}
 		}
+
+		/**
+		 * 像素坐标转化为格子坐标
+		 * @param x 水平像素坐标
+		 * @param y 垂直像素坐标
+		 * @version Egret 3.0.3
+		 */
+		pixelToTileCoords(x: number, y: number): egret.Point {
+			throw new Error("pixelToTileCoords must be implemented!");
+		}
+		
+		/**
+		 * 返回指定的瓦片对应的像素位置
+		 * @param q
+		 * @param r
+		 * @version Egret 3.0.3
+		 */
+		tileToPixelCoords(q: number, r: number): egret.Point {
+			throw new Error("tileToPixelCoords must be implemented!");
+		}
 	} 
 }
