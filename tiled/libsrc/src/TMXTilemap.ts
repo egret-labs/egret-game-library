@@ -416,7 +416,6 @@ module tiled{
 		 * 像素坐标转化为格子坐标
 		 * @param x 水平像素坐标
 		 * @param y 垂直像素坐标
-		 * @version Egret 3.0.3
 		 */
 		pixelToTileCoords(x: number, y: number): egret.Point {
 			return this._tmxRenderer.pixelToTileCoords(x, y);
@@ -425,12 +424,11 @@ module tiled{
 		
 		/**
 		 * 返回指定的瓦片对应的像素位置
-		 * @param q
-		 * @param r
-		 * @version Egret 3.0.3
+		 * @param tileX 水平格子坐标（单位：像素）
+		 * @param tileY 垂直格子坐标（单位：像素）
 		 */
-		tileToPixelCoords(q: number, r: number): egret.Point {
-			return this._tmxRenderer.tileToPixelCoords(q, r);
+		tileToPixelCoords(tileX: number, tileY: number): egret.Point {
+			return this._tmxRenderer.tileToPixelCoords(tileX, tileY);
 		}
 	} 
 }

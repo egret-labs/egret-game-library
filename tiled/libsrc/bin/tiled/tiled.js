@@ -139,18 +139,16 @@ var tiled;
          * 像素坐标转化为格子坐标
          * @param x 水平像素坐标
          * @param y 垂直像素坐标
-         * @version Egret 3.0.3
          */
         TMXRenderer.prototype.pixelToTileCoords = function (x, y) {
             throw new Error("pixelToTileCoords must be implemented!");
         };
         /**
          * 返回指定的瓦片对应的像素位置
-         * @param q
-         * @param r
-         * @version Egret 3.0.3
+         * @param tileX 水平格子坐标（单位：像素）
+         * @param tileY 垂直格子坐标（单位：像素）
          */
-        TMXRenderer.prototype.tileToPixelCoords = function (q, r) {
+        TMXRenderer.prototype.tileToPixelCoords = function (tileX, tileY) {
             throw new Error("tileToPixelCoords must be implemented!");
         };
         return TMXRenderer;
@@ -1216,19 +1214,17 @@ var tiled;
          * 像素坐标转化为格子坐标
          * @param x 水平像素坐标
          * @param y 垂直像素坐标
-         * @version Egret 3.0.3
          */
         TMXTilemap.prototype.pixelToTileCoords = function (x, y) {
             return this._tmxRenderer.pixelToTileCoords(x, y);
         };
         /**
          * 返回指定的瓦片对应的像素位置
-         * @param q
-         * @param r
-         * @version Egret 3.0.3
+         * @param tileX 水平格子坐标（单位：像素）
+         * @param tileY 垂直格子坐标（单位：像素）
          */
-        TMXTilemap.prototype.tileToPixelCoords = function (q, r) {
-            return this._tmxRenderer.tileToPixelCoords(q, r);
+        TMXTilemap.prototype.tileToPixelCoords = function (tileX, tileY) {
+            return this._tmxRenderer.tileToPixelCoords(tileX, tileY);
         };
         return TMXTilemap;
     }(egret.Sprite));
