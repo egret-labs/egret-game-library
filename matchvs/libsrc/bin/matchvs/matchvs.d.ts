@@ -1,9 +1,9 @@
 /************************************************************************************************************
  *
  * Describe :   Matchvs skd .d.ts define files for typescrip
- * Version  :   Develop 1.3.2
+ * Version  :   Develop 1.6.000
  *
- * CHANGE   :   18.03.13
+ * CHANGE   :   2018.05.1
  *
  *
  ************************************************************************************************************/
@@ -21,6 +21,14 @@ declare function LocalStore_Clear();
  * @constructor
  */
 declare function LocalStore_Save(key:string,value:string);
+/**
+ * openLog 打开日志
+ * closeLog 关闭日志
+ */
+declare class MatchvsLog{
+    static openLog();
+    static closeLog();
+}
 /**
  * 创建房间请求参数类型
  */
@@ -52,6 +60,16 @@ declare class MsJoinOverRsp{
     public status:number;
     public  cpProto:string;
     constructor(status:number, cpProto:string)
+}
+
+/**
+ * 禁止加入房间异步通知参数类型
+ */
+declare class MsJoinOverNotifyInfo{
+    public roomID:string;
+    public srcUserID:number;
+    public cpProto :string;
+    constructor(roomID:string, srcUserID:number, cpProto:string)
 }
 
 /**
@@ -93,6 +111,75 @@ declare class MsRoomFilter{
     public canWatch:number;
     public roomProperty:string;
     constructor(maxPlayer:number,mode:number,canWatch:number, roomProperty:string)
+}
+
+/**
+ * 获取房列表扩展接口请求参数类型
+ * @param full  {number} 0-all 1-full 2-no full
+ * @param state {number} 0-StateNil 1-StateOpen 2-StateClosed
+ * @param sort  {number} 0-RoomSortNil 1-RoomSortCreateTime 2-SortPlayerNum 3-SortState
+ * @param order {number} 0-SortAsc 1-SortDesc
+ * @param pageNo {number} 0为第一页
+ */
+declare class MsRoomFilterEx{
+    public maxPlayer:number;
+    public mode:number;
+    public canWatch:number;
+    public roomProperty:string;
+    public full:number;
+    public state:number;
+    public sort:number;
+    public order:number;
+    public pageNo:number;
+    public pageSize:number;
+    constructor(maxPlayer:number, mode:number, canWatch:number, roomProperty:string,
+                full:number, state:number, sort:number, order:number, pageNo:number, pageSize:number)
+}
+
+/**
+ * 获取房间详情回调接口返回参数
+ */
+declare class MsGetRoomDetailRsp{
+    public status:number;
+    public state:number;
+    public maxPlayer:number;
+    public mode:number;
+    public canWatch:number;
+    public roomProperty:string;
+    public owner:number;
+    public createFlag:number;
+    public userInfos:Array<MsRoomUserInfo>;
+    constructor(status:number, state:number, maxPlayer:number, mode:number, canWatch:number,
+                roomProperty:number, owner:number, createFlag:number, userInfos:Array<MsRoomUserInfo>);
+}
+
+/**
+ *
+ */
+declare class MsRoomAttribute{
+    public roomID:string;
+    public roomName:string;
+    public maxPlayer:number;
+    public gamePlayer:number;
+    public watchPlayer:number;
+    public mode:number;
+    public canWatch:number;
+    public roomProperty:string;
+    public owner:number;
+    public state:number;
+    public createTime:string;
+    constructor(roomID:string, roomName:string, maxPlayer:number, gamePlayer:number, watchPlayer:number,
+                mode:number, canWatch:number, roomProperty:string, owner:number, state:number, createTime:string);
+}
+
+/**
+ * 获取房间列表扩展回调接口参数类型
+ */
+declare class MsGetRoomListExRsp{
+    public status:number;
+    public total:number;
+    public roomAttrs:Array<MsRoomAttribute>;
+    constructor(status:number, total:number, roomAttrs:Array<MsRoomAttribute>);
 }
 
 /**
@@ -174,7 +261,8 @@ declare class MsKickPlayerNotify{
 declare class MsKickPlayerRsp{
     public status:number;
     public owner:number;
-    constructor(status:number, owner:number);
+    public userID:number;
+    constructor(status:number, owner:number, userID:number);
 }
 
 
@@ -198,6 +286,14 @@ declare class MsSendEventNotify{
     constructor(srcUserID:number, cpProto:string);
 }
 
+/**
+ * 接收gameServerNotify发送的消息，srcUserId 为 0
+ */
+declare class MsGameServerNotifyInfo{
+    public srcUserId:number;
+    public cpProto:string;
+    constructor(srcUserID:number, cpProto:string);
+}
 
 declare class MsSendEventGroupNotify{
     public srcUid:number;
@@ -236,6 +332,12 @@ declare class MatchvsNetWorkCallBack{
     onErr(errCode:number,errMsg:string);
 }
 
+declare class MsGatewaySpeedResponse{
+    public status:number;
+    public seq:number;
+    constructor(status:number, seq:number)
+}
+
 /**
  *
  */
@@ -272,10 +374,51 @@ declare class MsFrameData{
     constructor(frameIndex:number,frameItems:Array<MsFrameItem>,frameWaitCount:number)
 }
 
+/**
+ * 网络状态回调
+ * @param {number} state 1-网络异常，正在重连  2-重连成功 3-重连失败，退出房间
+ */
+declare class MsNetworkStateNotify{
+    public roomID:string;
+    public userID:number;
+    public state:number;
+    public owner:number;
+    constructor(roomID:string, userID:number, state:number, owner:number);
+}
 
 /**
- *
+ * 设置房间属性回调返回类型
  */
+declare class MsSetRoomPropertyRspInfo{
+    public status:number;
+    public roomID:string;
+    public userID:number;
+    public roomProperty:string;
+    constructor(status:number, roomID:string, userID:number, roomProperty:string)
+}
+
+/**
+ * 设置房间属性异步回调返回类型
+ */
+declare class MsRoomPropertyNotifyInfo{
+    public roomID:string;
+    public userID:number;
+    public roomProperty:string;
+    constructor(roomID:string, userID:number, roomProperty:string)
+}
+
+declare class MsReopenRoomResponse {
+    public status  : number;
+    public cpProto : string;
+	constructor(status:number, cpProto:string)
+}
+declare class MsReopenRoomNotify{
+    public roomID  : string;
+    public userID  : number;
+    public cpProto : string;
+	constructor(roomID:string,userID:number, cpProto:string)
+}
+
 declare class MatchvsResponse {
     constructor();//构造函数
 
@@ -323,6 +466,18 @@ declare class MatchvsResponse {
     getRoomListResponse(status:number, roomInfos:Array<MsRoomInfoEx>);
 
     /**
+     * 获取房间列表扩展接口回调
+     * @param {MsGetRoomListExRsp} rsp
+     */
+    getRoomListExResponse(rsp:MsGetRoomListExRsp);
+
+    /**
+     * 获取房间详细信息回调
+     * @param {MsGetRoomDetailRsp} rsp
+     */
+    getRoomDetailResponse(rsp:MsGetRoomDetailRsp);
+
+    /**
      * 加入房间回调，包含随机加入房间，指定加入房间，tags加入房间
      * @param {number} status
      * @param {Array<MsRoomUserInfo>} roomUserInfoList
@@ -342,6 +497,12 @@ declare class MatchvsResponse {
      * @param {MsJoinOverRsp} rsp
      */
     joinOverResponse(rsp:MsJoinOverRsp);
+
+    /**
+     *
+     * @param {MsJoinOverNotifyInfo} notifyInfo
+     */
+    joinOverNotify(notifyInfo:MsJoinOverNotifyInfo);
 
     /**
      * 离开房间回调
@@ -379,6 +540,8 @@ declare class MatchvsResponse {
      */
     sendEventNotify(eventInfo:MsSendEventNotify);
 
+    gameServerNotify(eventInfo:MsGameServerNotifyInfo);
+
     /**
      *
      * @param {number} errCode
@@ -394,10 +557,10 @@ declare class MatchvsResponse {
 
 
     /**
-     *
-     * @param netnotify
+     * 对方网络状态异步回调
+     * @param {MsNetworkStateNotify} netnotify
      */
-    networkStateNotify(netnotify:any);
+    networkStateNotify(netnotify:MsNetworkStateNotify);
 
     /**
      * 消息订阅回调
@@ -408,29 +571,35 @@ declare class MatchvsResponse {
 
 
     /**
-     *
+     * 分组消息发送回调
      * @param {number} status
      * @param {number} dstNum
      */
     sendEventGroupResponse(status:number, dstNum:number);
 
-    sendEventGroupNotify(notify:MsSendEventGroupNotify);
+    /**
+     * 分组消息发送异步回调
+     * @param {number} srcUid
+     * @param {Array<string>} groups
+     * @param {string} cpProto
+     */
+    sendEventGroupNotify(srcUid:number, groups:Array<string>, cpProto:string);
 
     /**
      *
-     * @param rsp
+     * @param {MsSetChannelFrameSyncRsp} rsp
      */
     setFrameSyncResponse(rsp:MsSetChannelFrameSyncRsp);
 
     /**
      *
-     * @param rsp
+     * @param {MsSendFrameEventRsp} rsp
      */
     sendFrameEventResponse(rsp:MsSendFrameEventRsp);
 
     /**
      *
-     * @param data
+     * @param {MsFrameData} data
      */
     frameUpdate(data:MsFrameData);
 
@@ -442,9 +611,9 @@ declare class MatchvsResponse {
 
     /**
      *
-     * @param {gatewaySpeedResponse} rsp
+     * @param {MsGatewaySpeedResponse} rsp
      */
-    gatewaySpeedResponse(rsp:gatewaySpeedResponse);
+    gatewaySpeedResponse(rsp:MsGatewaySpeedResponse);
 
     /**
      * 房间检测异步回调
@@ -457,7 +626,40 @@ declare class MatchvsResponse {
      * @param {number} status
      */
     disConnectResponse(status:number);
+
+    /**
+     * 设置房间属性回调
+     * @param {MsSetRoomPropertyRspInfo} rsp
+     */
+    setRoomPropertyResponse(rsp:MsSetRoomPropertyRspInfo);
+
+    /**
+     * 设置房间属性异步回调
+     * @param {MsRoomPropertyNotifyInfo} notify
+     */
+    setRoomPropertyNotify(notify:MsRoomPropertyNotifyInfo);
+
+    /**
+     * 断线重连接口回调，接口参数与joinRoomResponse是一样的
+     * @param {number} status
+     * @param {Array<MsRoomUserInfo>} roomUserInfoList
+     * @param {MsRoomInfo} roomInfo
+     */
+    reconnectResponse(status:number, roomUserInfoList:Array<MsRoomUserInfo>, roomInfo:MsRoomInfo);
+	
+	 /**
+     * 允许房间加人的通知
+     * @param {MsReopenRoomNotify} data
+     */
+	joinOpenNotify(data:MsReopenRoomNotify);
+	
+	 /**
+     * 设置允许房间加人的结果
+     * @param {MsReopenRoomResponse} data
+     */
+	joinOpenResponse(data:MsReopenRoomResponse);
 }
+
 
 
 /**
@@ -528,6 +730,28 @@ declare class MatchvsEngine {
     getRoomList(filter:MsRoomFilter):number
 
     /**
+     * 获取房间列表扩展接口
+     * @param {MsRoomFilterEx} filter
+     * @returns {number}
+     */
+    getRoomListEx(filter:MsRoomFilterEx):number
+
+    /**
+     * 获取房间详细信息
+     * @param {string} roomID
+     * @returns {number}
+     */
+    getRoomDetail(roomID:string):number
+
+    /**
+     * 设置房间属性
+     * @param {string} roomID
+     * @param {string} roomProperty
+     * @returns {number}
+     */
+    setRoomProperty(roomID:string, roomProperty:string):number
+
+    /**
      * 随机加入房间
      * @param {number} maxPlayer 最大人数
      * @param {string} userProfile 附带数据，默认指定 ""
@@ -552,6 +776,12 @@ declare class MatchvsEngine {
     joinRoom(roomID:string,userProfile:string):number
 
     /**
+     * 断线重连
+     * @returns {number}
+     */
+    reconnect():number;
+
+    /**
      * 禁止加入房间
      * @param {string} cpProto 禁止加入房间附带的数据
      * @returns {number}
@@ -567,11 +797,11 @@ declare class MatchvsEngine {
 
     /**
      *
-     * @param {number} srcUserid 被踢者用户ID
+     * @param {number} userID 被踢者用户ID
      * @param {string} cpProto 踢人附带的消息
      * @returns {number}
      */
-    kickPlayer(srcUserid:number, cpProto:string):number
+    kickPlayer(userID:number, cpProto:string):number
 
     /**
      *
@@ -615,14 +845,14 @@ declare class MatchvsEngine {
      * @param {string} data             要发送的数据
      * @param {number} desttype         0-客户端+not CPS  1-not客户端+ CPS   2-客户端 + CPS
      * @param {Array<number>} userids   玩家ID集合 [1,2,3,4,5]
-     * @returns {any}
+     * @returns {{sequence: number, result: number}}
      */
     sendEventEx(msgType:number, data:string, desttype:number, userids:Array<number>):any
 
     /**
      * 发送消息
      * @param {string} data 要发送的数据
-     * @returns {any}
+     * @returns {{sequence: number, result: number}}
      */
     sendEvent(data:string):any
 
@@ -632,5 +862,49 @@ declare class MatchvsEngine {
      * @returns {number}
      */
     logout(cpProto:string):number
+	
+	/**
+     * 设置允许房间加人
+     * @param {number} cpProto
+     * @returns {number}
+     */
+    joinOpen(cpProto:string):number
+	
+	/**
+	* 存储数据
+	* @param {number} gameID
+	* @param {number} userID
+	* @param {string} key
+	* @param {any} value
+	*/
+	hashSet (gameID, userID, key, value) :void
+	
+	/**
+	* 存储数据
+	* @param {number} gameID
+	* @param {number} userID
+	* @param {string} key
+	*/
+	hashGet (gameID, userID, key) :void
+	
+
+	
+}
+declare class md5 {
+	 constructor();//构造函数
+	 
+	/**
+	*
+	*/
+	hex_md5 (s:string) :string
+
 }
 
+declare class MatchvsHttp {
+	constructor(callBack);//构造函数
+	
+	
+	get(url);
+	
+ 
+}
