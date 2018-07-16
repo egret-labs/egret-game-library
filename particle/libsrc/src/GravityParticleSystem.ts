@@ -222,8 +222,9 @@ module particle {
          */
         private $init = false;
 
-        constructor(texture: egret.Texture, config: any) {
+        constructor(texture: egret.Texture, config: ArrayBuffer) {
             super(texture, 200);
+            this.gpuRender = false;
             this.parseConfig(config);
             this.emissionRate = this.lifespan / this.maxParticles;
             this.particleClass = GravityParticle;
@@ -249,18 +250,8 @@ module particle {
             }
         }
 
-        public setCurrentParticles(num:number):void {
-            if(num > this.maxParticles) {
-                return;
-            }
-            let configArray = [];
-            configArray.push(ParticleKeys.currentParticles);
-            configArray.push(num);
-            this.$nativeDisplayObject.setCustomData(configArray);
-        }
-
-        public onPropertyChanges():void {
-            if(this.$init == false){
+        protected onPropertyChanges(): void {
+            if (this.$init == false) {
                 return;
             }
             let configArray: Array<number> = [];
@@ -270,8 +261,8 @@ module particle {
             configArray.push(ParticleKeys.emitterY);
             this.$particleConfig[ParticleKeys.emitterY] = this._emitterY;
             configArray.push(this._emitterY);
-            
-            if(this.relativeContentBounds) {
+
+            if (this.relativeContentBounds) {
                 configArray.push(ParticleKeys.emitterBoundsX);
                 this.$particleConfig[ParticleKeys.emitterBoundsX] = this.relativeContentBounds.x;
                 configArray.push(this.relativeContentBounds.x);
@@ -288,69 +279,83 @@ module particle {
             this.$nativeDisplayObject.setCustomData(configArray);
         }
 
-        private parseConfig(config: any): void {
+        private parseConfig(config: ArrayBuffer): void {
+            if(!config || config.byteLength != 139) {
+                throw "config error";
+            }
+            const byteArray = new egret.ByteArray(config);
+            const nameLength = byteArray.readUnsignedByte();
+            const name = byteArray.readUTFBytes(nameLength);
+            if(name != "feather") {
+                throw "config error";
+            }
+            byteArray.position = 12;
+
             if (egret.nativeRender) {
-                this._emitterX = getValue(config.emitter.x);
-                this._emitterY = getValue(config.emitter.y);
+                this._emitterX = getValue(byteArray.readFloat());
+                this.emitterXVariance = getValue(byteArray.readFloat());
+                this._emitterY = getValue(byteArray.readFloat());
+                this.emitterYVariance = getValue(byteArray.readFloat());
             }
             else {
-                this.emitterX = getValue(config.emitter.x);
-                this.emitterY = getValue(config.emitter.y);
+                this.emitterX = getValue(byteArray.readFloat());
+                this.emitterXVariance = getValue(byteArray.readFloat());
+                this.emitterY = getValue(byteArray.readFloat());
+                this.emitterYVariance = getValue(byteArray.readFloat());
             }
-            this.emitterXVariance = getValue(config.emitterVariance.x);
-            this.emitterYVariance = getValue(config.emitterVariance.y);
 
-            this.gravityX = getValue(config.gravity.x);
-            this.gravityY = getValue(config.gravity.y);
+            this.maxParticles = getValue(byteArray.readUnsignedShort());
 
-            if (config.useEmitterRect == true) {
-                var bounds: egret.Rectangle = new egret.Rectangle();
-                bounds.x = getValue(config.emitterRect.x);
-                bounds.y = getValue(config.emitterRect.y);
-                bounds.width = getValue(config.emitterRect.width);
-                bounds.height = getValue(config.emitterRect.height);
+            this.lifespan = Math.max(0.01, getValue(byteArray.readUnsignedShort()));
+            this.lifespanVariance = getValue(byteArray.readUnsignedShort());
+
+            this.startSize = getValue(byteArray.readFloat());
+            this.startSizeVariance = getValue(byteArray.readFloat());
+            this.endSize = getValue(byteArray.readFloat());
+            this.endSizeVariance = getValue(byteArray.readFloat());
+
+            this.startRotation = getValue(byteArray.readFloat());
+            this.startRotationVariance = getValue(byteArray.readFloat());
+            this.endRotation = getValue(byteArray.readFloat());
+            this.endRotationVariance = getValue(byteArray.readFloat());
+
+            this.startAlpha = getValue(byteArray.readFloat());
+            this.startAlphaVariance = getValue(byteArray.readFloat());
+            this.endAlpha = getValue(byteArray.readFloat());
+            this.endAlphaVariance = getValue(byteArray.readFloat());
+
+            this.gravityX = getValue(byteArray.readFloat());
+            this.gravityY = getValue(byteArray.readFloat());
+
+            this.speed = getValue(byteArray.readFloat());
+            this.speedVariance = getValue(byteArray.readFloat());
+
+            this.emitAngle = getValue(byteArray.readFloat());
+            this.emitAngleVariance = getValue(byteArray.readFloat());
+
+            this.radialAcceleration = getValue(byteArray.readFloat());
+            this.radialAccelerationVariance = getValue(byteArray.readFloat());
+            this.tangentialAcceleration = getValue(byteArray.readFloat());
+            this.tangentialAccelerationVariance = getValue(byteArray.readFloat());
+
+            const x = byteArray.readFloat();
+            const y = byteArray.readFloat();
+            const width = byteArray.readFloat();
+            const height = byteArray.readFloat();
+            const useEmitterRect = width != 0 && height != 0;
+            if (useEmitterRect) {
+                const bounds: egret.Rectangle = new egret.Rectangle();
+                bounds.x = getValue(x);
+                bounds.y = getValue(y);
+                bounds.width = getValue(width);
+                bounds.height = getValue(height);
                 this.emitterBounds = bounds;
             }
-
-            this.maxParticles = getValue(config.maxParticles);
-
-            this.speed = getValue(config.speed);
-            this.speedVariance = getValue(config.speedVariance);
-
-            this.lifespan = Math.max(0.01, getValue(config.lifespan));
-            this.lifespanVariance = getValue(config.lifespanVariance);
-
-            this.emitAngle = getValue(config.emitAngle);
-            this.emitAngleVariance = getValue(config.emitAngleVariance);
-
-            this.startSize = getValue(config.startSize);
-            this.startSizeVariance = getValue(config.startSizeVariance);
-            this.endSize = getValue(config.endSize);
-            this.endSizeVariance = getValue(config.endSizeVariance);
-
-            this.startRotation = getValue(config.startRotation);
-            this.startRotationVariance = getValue(config.startRotationVariance);
-            this.endRotation = getValue(config.endRotation);
-            this.endRotationVariance = getValue(config.endRotationVariance);
-
-            this.radialAcceleration = getValue(config.radialAcceleration);
-            this.radialAccelerationVariance = getValue(config.radialAccelerationVariance);
-            this.tangentialAcceleration = getValue(config.tangentialAcceleration);
-            this.tangentialAccelerationVariance = getValue(config.tangentialAccelerationVariance);
-
-            this.startAlpha = getValue(config.startAlpha);
-            this.startAlphaVariance = getValue(config.startAlphaVariance);
-            this.endAlpha = getValue(config.endAlpha);
-            this.endAlphaVariance = getValue(config.endAlphaVariance);
-
-            if (egret.nativeRender) {
-                if (config.blendMode) {
-                    this.particleBlendMode = config.blendMode;
-                }
-            }
             else {
-                this.particleBlendMode = config.blendMode;
+                this.emitterBounds = null;
             }
+
+            this.particleBlendMode = byteArray.readUnsignedByte();
 
             function getValue(value: any): number {
                 if (typeof value == "undefined") {
@@ -391,18 +396,18 @@ module particle {
                 28: this.endAlpha,
                 29: this.endAlphaVariance,
                 30: this.particleBlendMode,
-                31: config.useEmitterRect ? this.relativeContentBounds.x : 0,
-                32: config.useEmitterRect ? this.relativeContentBounds.y : 0,
-                33: config.useEmitterRect ? this.relativeContentBounds.width : 0,
-                34: config.useEmitterRect ? this.relativeContentBounds.height : 0,
+                31: useEmitterRect ? this.relativeContentBounds.x : 0,
+                32: useEmitterRect ? this.relativeContentBounds.y : 0,
+                33: useEmitterRect ? this.relativeContentBounds.width : 0,
+                34: useEmitterRect ? this.relativeContentBounds.height : 0,
                 35: 0
             }
         }
 
         public initParticle(particle: Particle): void {
-            var locParticle: GravityParticle = <GravityParticle>particle;
+            const locParticle: GravityParticle = <GravityParticle>particle;
 
-            var lifespan: number = GravityParticleSystem.getValue(this.lifespan, this.lifespanVariance);
+            const lifespan: number = GravityParticleSystem.getValue(this.lifespan, this.lifespanVariance);
 
             locParticle.currentTime = 0;
             locParticle.totalTime = lifespan > 0 ? lifespan : 0;
@@ -416,33 +421,33 @@ module particle {
             locParticle.startX = this.emitterX;
             locParticle.startY = this.emitterY;
 
-            var angle: number = GravityParticleSystem.getValue(this.emitAngle, this.emitAngleVariance);
-            var speed: number = GravityParticleSystem.getValue(this.speed, this.speedVariance);
+            const angle: number = GravityParticleSystem.getValue(this.emitAngle, this.emitAngleVariance);
+            const speed: number = GravityParticleSystem.getValue(this.speed, this.speedVariance);
             locParticle.velocityX = speed * egret.NumberUtils.cos(angle);
             locParticle.velocityY = speed * egret.NumberUtils.sin(angle);
 
             locParticle.radialAcceleration = GravityParticleSystem.getValue(this.radialAcceleration, this.radialAccelerationVariance);
             locParticle.tangentialAcceleration = GravityParticleSystem.getValue(this.tangentialAcceleration, this.tangentialAccelerationVariance);
 
-            var startSize: number = GravityParticleSystem.getValue(this.startSize, this.startSizeVariance);
+            let startSize: number = GravityParticleSystem.getValue(this.startSize, this.startSizeVariance);
             if (startSize < 0.1) {
                 startSize = 0.1;
             }
-            var endSize: number = GravityParticleSystem.getValue(this.endSize, this.endSizeVariance);
+            let endSize: number = GravityParticleSystem.getValue(this.endSize, this.endSizeVariance);
             if (endSize < 0.1) {
                 endSize = 0.1;
             }
-            var textureWidth = this.texture.textureWidth;
+            const textureWidth = this.texture.textureWidth;
             locParticle.scale = startSize / textureWidth;
             locParticle.scaleDelta = ((endSize - startSize) / lifespan) / textureWidth;
 
-            var startRotation: number = GravityParticleSystem.getValue(this.startRotation, this.startRotationVariance);
-            var endRotation: number = GravityParticleSystem.getValue(this.endRotation, this.endRotationVariance);
+            const startRotation: number = GravityParticleSystem.getValue(this.startRotation, this.startRotationVariance);
+            const endRotation: number = GravityParticleSystem.getValue(this.endRotation, this.endRotationVariance);
             locParticle.rotation = startRotation;
             locParticle.rotationDelta = (endRotation - startRotation) / lifespan;
 
-            var startAlpha: number = GravityParticleSystem.getValue(this.startAlpha, this.startAlphaVariance);
-            var endAlpha: number = GravityParticleSystem.getValue(this.endAlpha, this.endAlphaVariance);
+            const startAlpha: number = GravityParticleSystem.getValue(this.startAlpha, this.startAlphaVariance);
+            const endAlpha: number = GravityParticleSystem.getValue(this.endAlpha, this.endAlphaVariance);
 
             locParticle.alpha = startAlpha;
             locParticle.alphaDelta = (endAlpha - startAlpha) / lifespan;
@@ -455,29 +460,28 @@ module particle {
         }
 
         public advanceParticle(particle: Particle, dt: number): void {
-            var locParticle: GravityParticle = <GravityParticle>particle;
+            const locParticle: GravityParticle = <GravityParticle>particle;
             dt = dt / 1000;
 
-            var restTime: number = locParticle.totalTime - locParticle.currentTime;
+            const restTime: number = locParticle.totalTime - locParticle.currentTime;
             dt = restTime > dt ? dt : restTime;
-            locParticle.currentTime += dt;
 
-            var distanceX: number = locParticle.x - locParticle.startX;
-            var distanceY: number = locParticle.y - locParticle.startY;
-            var distanceScalar: number = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+            const distanceX: number = locParticle.x - locParticle.startX;
+            const distanceY: number = locParticle.y - locParticle.startY;
+            let distanceScalar: number = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
             if (distanceScalar < 0.01) {
                 distanceScalar = 0.01;
             }
 
-            var radialX: number = distanceX / distanceScalar;
-            var radialY: number = distanceY / distanceScalar;
-            var tangentialX: number = radialX;
-            var tangentialY: number = radialY;
+            let radialX: number = distanceX / distanceScalar;
+            let radialY: number = distanceY / distanceScalar;
+            let tangentialX: number = radialX;
+            let tangentialY: number = radialY;
 
             radialX *= locParticle.radialAcceleration;
             radialY *= locParticle.radialAcceleration;
 
-            var temp: number = tangentialX;
+            const temp: number = tangentialX;
             tangentialX = -tangentialY * locParticle.tangentialAcceleration;
             tangentialY = temp * locParticle.tangentialAcceleration;
 

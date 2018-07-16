@@ -28,66 +28,69 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 module particle {
-    export class Particle {
+    export class Particle extends egret.HashObject {
 
         /**
          * 表示 Particle 实例相对于父级本地坐标的 x 坐标。
          * @member {number} particle.Particle#x
          */
-        public x:number;
+        public x: number;
 
         /**
          * 表示粒子实例相对于父级本地坐标的 y 坐标。
          * @member {number} particle.Particle#y
          */
-        public y:number;
+        public y: number;
 
         /**
          * 表示从注册点开始应用的对象的缩放比例（百分比）。
          * @member {number} particle.Particle#scale
          * @default 1
          */
-        public scale:number;
+        public scale: number;
 
         /**
          * 表示 Particle 实例距其原始方向的旋转程度，以度为单位
          * @member {number} particle.Particle#rotation
          * @default 0
          */
-        public rotation:number;
+        public rotation: number;
 
         /**
          * 表示粒子的 Alpha 透明度值
          * @member {number} particle.Particle#alpha
          * @default 1
          */
-        public alpha:number;
+        public alpha: number;
 
         /**
          * 表示粒子当前存活时间，以毫秒为单位，取值范围(0,Number.MAX_VALUE]，该值超过 totalTime 时，粒子将会被销毁
          * @member {number} particle.Particle#currentTime
          * @default 0
          */
-        public currentTime:number;
+        public currentTime: number;
 
         /**
          * 表示粒子的存活总时间，以毫秒为单位，取值范围(0,Number.MAX_VALUE]
          * @member {number} particle.Particle#totalTime
          * @default 1000
          */
-        public totalTime:number;
-        
+        public totalTime: number;
+
         /**
          * 表示粒子的混合模式
          * @member {number} particle.Particle#blendMode
          */
-        public blendMode:number;
+        public blendMode: number;
+
+        public addIndex: number;
 
         constructor() {
+            super();
             this.reset();
         }
 
-        public reset():void {
+        public reset(): void {
             this.x = 0;
             this.y = 0;
             this.scale = 1;
@@ -97,9 +100,9 @@ module particle {
             this.totalTime = 1000;
         }
 
-        private matrix:egret.Matrix = new egret.Matrix();
+        private matrix: egret.Matrix = new egret.Matrix();
 
-        public $getMatrix(regX:number, regY:number):egret.Matrix {
+        public $getMatrix(regX: number, regY: number): egret.Matrix {
             var matrix = this.matrix;
             matrix.identity();
             if (this.rotation % 360) {
@@ -110,7 +113,13 @@ module particle {
                 cos = 1;
                 sin = 0;
             }
-            matrix.append(cos * this.scale, sin * this.scale, -sin * this.scale, cos * this.scale, this.x, this.y);
+
+            matrix.a = cos * this.scale;
+            matrix.b = sin * this.scale;
+            matrix.c = -sin * this.scale;
+            matrix.d = cos * this.scale;
+            matrix.tx = this.x;
+            matrix.ty = this.y;
 
             if (regX || regY) {
                 matrix.tx -= regX * matrix.a + regY * matrix.c;

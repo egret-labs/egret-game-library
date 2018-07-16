@@ -306,10 +306,11 @@ declare namespace egret {
      * @private
      */
     const enum RenderMode {
-        NONE = 1,
-        FILTER = 2,
-        CLIP = 3,
-        SCROLLRECT = 4,
+        DEFAULT = 1,
+        NONE = 2,
+        FILTER = 3,
+        CLIP = 4,
+        SCROLLRECT = 5,
     }
     /**
      * The DisplayObject class is the base class for all objects that can be placed on the display list. The display list
@@ -392,6 +393,7 @@ declare namespace egret {
          * 能够含有子项的类将子项列表存储在这个属性里。
          */
         $children: DisplayObject[];
+        $hasChildren: boolean;
         private $name;
         /**
          * Indicates the instance name of the DisplayObject. The object can be identified in the child list of its parent
@@ -817,6 +819,12 @@ declare namespace egret {
         $setAnchorOffsetY(value: number): void;
         /**
          * @private
+         * 如果有锚点，标记
+         */
+        $hasAnchor: boolean;
+        private $checkAnchorChanged();
+        /**
+         * @private
          */
         $visible: boolean;
         /**
@@ -1187,16 +1195,24 @@ declare namespace egret {
         $parentDisplayList: egret.sys.DisplayList;
         /**
          * @private
-         * 渲染节点,不为空表示自身有绘制到屏幕的内容
+         * 渲染节点,表示自身有绘制到屏幕的内容
          */
         $renderNode: sys.RenderNode;
+        /**
+         * @private
+         * 标记当前是否有渲染节点
+         */
+        $hasRenderNode: boolean;
+        /**
+         * @private
+         */
         $renderDirty: boolean;
         /**
          * @private
          * 获取渲染节点
          */
         $getRenderNode(): sys.RenderNode;
-        private updateRenderMode();
+        $updateRenderMode(): void;
         $renderMode: RenderMode;
         /**
          * @private
@@ -3234,7 +3250,6 @@ declare namespace egret {
          * @default <code>BitmapFillMode.SCALE</code>
          *
          * @version Egret 2.4
-         * @version eui 1.0
          * @platform Web
          * @language en_US
          */
@@ -3246,7 +3261,6 @@ declare namespace egret {
          * @default <code>BitmapFillMode.SCALE</code>
          *
          * @version Egret 2.4
-         * @version eui 1.0
          * @platform Web
          * @language zh_CN
          */
@@ -3365,6 +3379,10 @@ declare namespace egret.sys {
          * 普通位图渲染节点
          */
         NormalBitmapNode = 6,
+        /**
+         * 粒子节点
+         */
+        ParticleNode = 7,
     }
     /**
      * @private
@@ -8319,7 +8337,7 @@ declare namespace egret {
      * @platform Web,Native
      * @language zh_CN
      */
-    class HttpMethod {
+    namespace HttpMethod {
         /**
          * Specifies that the HttpRequest object is a GET.
          * @version Egret 2.4
@@ -8332,7 +8350,7 @@ declare namespace egret {
          * @platform Web,Native
          * @language zh_CN
          */
-        static GET: string;
+        const GET = "GET";
         /**
          * Specifies that the HttpRequest object is a POST.
          * @version Egret 2.4
@@ -8345,7 +8363,7 @@ declare namespace egret {
          * @platform Web,Native
          * @language zh_CN
          */
-        static POST: string;
+        const POST = "POST";
     }
 }
 declare namespace egret {
@@ -8759,6 +8777,11 @@ declare namespace egret.sys {
          * 绘制根节点显示对象到目标画布，返回draw的次数。
          */
         drawToSurface(): number;
+        /**
+         * @private
+         * stage渲染
+         */
+        $stageRenderToSurface(): void;
         private bitmapData;
         /**
          * @private
@@ -9014,6 +9037,93 @@ interface PlayerOption {
      */
     textureScaleFactor?: number;
 }
+declare namespace egret.sys {
+    /**
+     * @private
+     * 共享的用于碰撞检测的渲染缓冲
+     */
+    let customHitTestBuffer: sys.RenderBuffer;
+    /**
+     * @private
+     * 共享的用于canvas碰撞检测的渲染缓冲
+     */
+    let canvasHitTestBuffer: sys.RenderBuffer;
+    /**
+     * @private
+     * 渲染缓冲
+     */
+    interface RenderBuffer {
+        /**
+         * 呈现最终绘图结果的画布。
+         * @readOnly
+         */
+        surface: any;
+        /**
+         * 渲染上下文。
+         * @readOnly
+         */
+        context: any;
+        /**
+         * 渲染缓冲的宽度，以像素为单位。
+         * @readOnly
+         */
+        width: number;
+        /**
+         * 渲染缓冲的高度，以像素为单位。
+         * @readOnly
+         */
+        height: number;
+        /**
+         * 改变渲染缓冲的大小并清空缓冲区
+         * @param width 改变后的宽
+         * @param height 改变后的高
+         * @param useMaxSize 若传入true，则将改变后的尺寸与已有尺寸对比，保留较大的尺寸。
+         */
+        resize(width: number, height: number, useMaxSize?: boolean): void;
+        /**
+         * 获取指定区域的像素
+         */
+        getPixels(x: number, y: number, width?: number, height?: number): number[];
+        /**
+         * 转换成base64字符串，如果图片（或者包含的图片）跨域，则返回null
+         * @param type 转换的类型，如: "image/png","image/jpeg"
+         */
+        toDataURL(type?: string, ...args: any[]): string;
+        /**
+         * 清空缓冲区数据
+         */
+        clear(): void;
+        /**
+         * 销毁渲染缓冲
+         */
+        destroy(): void;
+    }
+    /**
+     * @private
+     */
+    let RenderBuffer: {
+        /**
+         * 创建一个RenderTarget。
+         * 注意：若内存不足或创建缓冲区失败，将会抛出错误异常。
+         * @param width 渲染缓冲的初始宽
+         * @param height 渲染缓冲的初始高
+         * @param root 是否为舞台buffer
+         */
+        new (width?: number, height?: number, root?: boolean): RenderBuffer;
+    };
+    /**
+     * @private
+     */
+    let CanvasRenderBuffer: {
+        /**
+         * 创建一个CanvasRenderBuffer。
+         * 注意：若内存不足或创建缓冲区失败，将会抛出错误异常。
+         * @param width 渲染缓冲的初始宽
+         * @param height 渲染缓冲的初始高
+         */
+        new (width?: number, height?: number): RenderBuffer;
+    };
+}
 declare namespace egret {
     /**
      * @private
@@ -9042,29 +9152,6 @@ declare namespace egret {
          * @private
          */
         $measureContentBounds(bounds: Rectangle): void;
-    }
-}
-declare namespace egret.sys {
-    /**
-     * @private
-     * 设备屏幕
-     */
-    interface Screen {
-        /**
-         * @private
-         * 更新屏幕视口尺寸
-         */
-        updateScreenSize(): any;
-        /**
-         * @private
-         * 更新触摸数量
-         */
-        updateMaxTouches(): any;
-        /**
-         * @private
-         * 设置分辨率尺寸
-         */
-        setContentSize(width: number, height: number): any;
     }
 }
 declare namespace egret.sys {
@@ -9475,7 +9562,7 @@ declare namespace egret.sys {
          * @private
          * 设置同时触摸数量
          */
-        $initMaxTouches(): void;
+        $updateMaxTouches(): void;
         /**
          * @private
          */
@@ -9491,7 +9578,7 @@ declare namespace egret.sys {
          * @param y 事件发生处相对于舞台的坐标y
          * @param touchPointID 分配给触摸点的唯一标识号
          */
-        onTouchBegin(x: number, y: number, touchPointID: number): void;
+        onTouchBegin(x: number, y: number, touchPointID: number): boolean;
         /**
          * @private
          */
@@ -9507,7 +9594,7 @@ declare namespace egret.sys {
          * @param y 事件发生处相对于舞台的坐标y
          * @param touchPointID 分配给触摸点的唯一标识号
          */
-        onTouchMove(x: number, y: number, touchPointID: number): void;
+        onTouchMove(x: number, y: number, touchPointID: number): boolean;
         /**
          * @private
          * 触摸结束（弹起）
@@ -9515,7 +9602,7 @@ declare namespace egret.sys {
          * @param y 事件发生处相对于舞台的坐标y
          * @param touchPointID 分配给触摸点的唯一标识号
          */
-        onTouchEnd(x: number, y: number, touchPointID: number): void;
+        onTouchEnd(x: number, y: number, touchPointID: number): boolean;
         /**
          * @private
          * 获取舞台坐标下的触摸对象
@@ -9786,9 +9873,48 @@ declare namespace egret.sys {
         drawW: number;
         drawH: number;
         /**
+         * 存放uv信息,
+         * 会适应rotated进行调整
+         * 存放uv四个顶点的信息
+         */
+        uvs: Uint32Array;
+        /**
          * 绘制一次位图
          */
         drawImage(sourceX: number, sourceY: number, sourceW: number, sourceH: number, drawX: number, drawY: number, drawW: number, drawH: number): void;
+        /**
+         * 在显示对象的$updateRenderNode()方法被调用前，自动清空自身的drawData数据。
+         */
+        cleanBeforeRender(): void;
+    }
+}
+declare namespace egret.sys {
+    /**
+     * @private
+     * 粒子渲染节点
+     */
+    class ParticleNode extends RenderNode {
+        constructor();
+        /**
+         * 要绘制的位图
+         */
+        image: BitmapData;
+        /**
+         * 顶点坐标。
+         */
+        vertices: Float32Array;
+        /**
+         * 使用的混合模式
+         */
+        blendMode: number;
+        /**
+         * 粒子绘制数量
+         */
+        numParticles: number;
+        /**
+         * 粒子属性数量
+         */
+        numProperties: number;
         /**
          * 在显示对象的$updateRenderNode()方法被调用前，自动清空自身的drawData数据。
          */
@@ -10045,7 +10171,6 @@ interface CanvasRenderingContext2D {
     $offsetY: number;
 }
 declare namespace egret {
-    let BLACK_COLOR: string;
     class CanvasRenderer {
         private nestLevel;
         render(displayObject: DisplayObject, buffer: sys.RenderBuffer, matrix: Matrix, forRenderTexture?: boolean): number;
@@ -11915,6 +12040,10 @@ declare namespace egret.sys {
          * @private
          */
         inputType = 37,
+        /**
+         * @private
+         */
+        textLinesChangedForNativeRender = 38,
     }
 }
 declare namespace egret {
@@ -12666,12 +12795,13 @@ declare namespace egret {
          * @private
          */
         private linesArr;
+        $getLinesArr(): Array<egret.ILineElement>;
         /**
          * @private
          *
          * @returns
          */
-        $getLinesArr(): Array<egret.ILineElement>;
+        $getLinesArr2(): Array<egret.ILineElement>;
         /**
          * @private
          */
@@ -13763,6 +13893,10 @@ declare namespace egret {
         constructor();
         protected createNativeDisplayObject(): void;
         /**
+         * @private
+         */
+        $touch: egret.sys.TouchHandler;
+        /**
          * Gets and sets the frame rate of the stage. The frame rate is defined as frames per second. Valid range for the
          * frame rate is from 0.01 to 1000 frames per second.<br/>
          * Note: setting the frameRate property of one Stage object changes the frame rate for all Stage objects
@@ -13937,6 +14071,20 @@ declare namespace egret {
          * @language zh_CN
          */
         setContentSize(width: number, height: number): void;
+        /**
+         * @private
+         */
+        $onTouchBegin(x: number, y: number, touchPointID: number): boolean;
+        /**
+         * @private
+         */
+        $onTouchEnd(x: number, y: number, touchPointID: number): boolean;
+        /**
+         * @private
+         */
+        $onTouchMove(x: number, y: number, touchPointID: number): boolean;
+        drawToSurface(): void;
+        pushResize(width: any, height: any): void;
     }
 }
 declare namespace egret {
@@ -14580,8 +14728,8 @@ declare namespace egret {
      */
     /**
      * 调用父类的setter属性，代替其他语言的写法，如 super.alpha = 1;
-     * @param thisObj 当前对象。永远都this
      * @param currentClass 当前 class 类名，非字符串
+     * @param thisObj 当前对象。永远都this
      * @param type 需要调用的setter属性名称
      * @param values 传给父类的值
      *
@@ -14601,9 +14749,9 @@ declare namespace egret {
      */
     /**
      * 获取父类的getter属性值。代替其他语言的写法，如 super.alpha;
-     * @param thisObj 当前对象。永远都this
      * @param currentClass 当前 class 类名，非字符串
-     * @param type 需要调用的setter属性名称
+     * @param thisObj 当前对象。永远都this
+     * @param type 需要调用的getter属性名称
      * @returns {any} 父类返回的值
      *
      * @exmaple egret.superGetter(egret.Sprite, this, "alpha");
@@ -14863,87 +15011,23 @@ declare namespace egret {
 declare namespace egret.sys {
     /**
      * @private
-     * 共享的用于碰撞检测的渲染缓冲
+     * 设备屏幕
      */
-    let customHitTestBuffer: sys.RenderBuffer;
-    /**
-     * @private
-     * 共享的用于canvas碰撞检测的渲染缓冲
-     */
-    let canvasHitTestBuffer: sys.RenderBuffer;
-    /**
-     * @private
-     * 渲染缓冲
-     */
-    interface RenderBuffer {
+    interface Screen {
         /**
-         * 呈现最终绘图结果的画布。
-         * @readOnly
+         * @private
+         * 更新屏幕视口尺寸
          */
-        surface: any;
+        updateScreenSize(): any;
         /**
-         * 渲染上下文。
-         * @readOnly
+         * @private
+         * 更新触摸数量
          */
-        context: any;
+        updateMaxTouches(): any;
         /**
-         * 渲染缓冲的宽度，以像素为单位。
-         * @readOnly
+         * @private
+         * 设置分辨率尺寸
          */
-        width: number;
-        /**
-         * 渲染缓冲的高度，以像素为单位。
-         * @readOnly
-         */
-        height: number;
-        /**
-         * 改变渲染缓冲的大小并清空缓冲区
-         * @param width 改变后的宽
-         * @param height 改变后的高
-         * @param useMaxSize 若传入true，则将改变后的尺寸与已有尺寸对比，保留较大的尺寸。
-         */
-        resize(width: number, height: number, useMaxSize?: boolean): void;
-        /**
-         * 获取指定区域的像素
-         */
-        getPixels(x: number, y: number, width?: number, height?: number): number[];
-        /**
-         * 转换成base64字符串，如果图片（或者包含的图片）跨域，则返回null
-         * @param type 转换的类型，如: "image/png","image/jpeg"
-         */
-        toDataURL(type?: string, ...args: any[]): string;
-        /**
-         * 清空缓冲区数据
-         */
-        clear(): void;
-        /**
-         * 销毁渲染缓冲
-         */
-        destroy(): void;
+        setContentSize(width: number, height: number): any;
     }
-    /**
-     * @private
-     */
-    let RenderBuffer: {
-        /**
-         * 创建一个RenderTarget。
-         * 注意：若内存不足或创建缓冲区失败，将会抛出错误异常。
-         * @param width 渲染缓冲的初始宽
-         * @param height 渲染缓冲的初始高
-         * @param root 是否为舞台buffer
-         */
-        new (width?: number, height?: number, root?: boolean): RenderBuffer;
-    };
-    /**
-     * @private
-     */
-    let CanvasRenderBuffer: {
-        /**
-         * 创建一个CanvasRenderBuffer。
-         * 注意：若内存不足或创建缓冲区失败，将会抛出错误异常。
-         * @param width 渲染缓冲的初始宽
-         * @param height 渲染缓冲的初始高
-         */
-        new (width?: number, height?: number): RenderBuffer;
-    };
 }

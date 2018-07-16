@@ -1,5 +1,5 @@
 declare module particle {
-    class Particle {
+    class Particle extends egret.HashObject {
         /**
          * 表示 Particle 实例相对于父级本地坐标的 x 坐标。
          * @member {number} particle.Particle#x
@@ -45,6 +45,7 @@ declare module particle {
          * @member {number} particle.Particle#blendMode
          */
         blendMode: number;
+        addIndex: number;
         constructor();
         reset(): void;
         private matrix;
@@ -65,23 +66,23 @@ declare module particle {
          * @member {number} particle.ParticleSystem#emissionTime
          * @default -1
          */
-        emissionTime: number;
+        protected emissionTime: number;
         /**
          * 表示粒子出现间隔，单位毫秒，取值范围(0,Number.MAX_VALUE]
          * @member {number} particle.ParticleSystem#emissionRate
          */
-        emissionRate: number;
+        protected emissionRate: number;
         /**
          * 表示粒子所使用的纹理
          * @member {egret.Texture} particle.ParticleSystem#texture
          */
-        texture: egret.Texture;
+        protected texture: egret.Texture;
         /**
          * 表示粒子系统最大粒子数，超过该数量将不会继续创建粒子，取值范围[1,Number.MAX_VALUE]
          * @member {number} particle.ParticleSystem#maxParticles
          * @default 200
          */
-        maxParticles: number;
+        protected maxParticles: number;
         /**
          * 当前粒子数
          * @member {number} particle.ParticleSystem#numParticles
@@ -91,14 +92,22 @@ declare module particle {
          * 表示粒子类，如果设置创建粒子时将创建该类
          * @member {number} particle.ParticleSystem#particleClass
          */
-        particleClass: any;
-        $particleConfig: any;
+        protected particleClass: any;
+        protected $particleConfig: any;
+        protected gpuRender: boolean;
+        protected vertices: Float32Array;
+        protected verticesIndex: number;
+        protected numProperties: number;
+        protected removeIndexs: number[];
+        protected pasedTime: number;
+        protected uniforms: any;
+        protected type: string;
         constructor(texture: egret.Texture, emissionRate: number);
         protected createNativeDisplayObject(): void;
-        initConfig(emissionRate: number, emitterX: number, emitterY: number): void;
+        private initConfig(emissionRate, emitterX, emitterY);
         private getParticle();
         private removeParticle(particle);
-        initParticle(particle: Particle): void;
+        protected initParticle(particle: Particle): void;
         /**
          * 更新当前显示对象坐标系下的边框界限
          * @param emitterRect {egret.Rectangle} 相对发射点坐标系下的界限
@@ -109,7 +118,7 @@ declare module particle {
          * @member {egret.Rectangle} particle.ParticleSystem#emitterBounds
          */
         emitterBounds: egret.Rectangle;
-        onPropertyChanges(): void;
+        protected onPropertyChanges(): void;
         /**
          * 表示粒子出现点X坐标，取值范围[-Number.MAX_VALUE,Number.MAX_VALUE]
          * @member {number} particle.ParticleSystem#emitterX
@@ -138,7 +147,6 @@ declare module particle {
         private transformForMeasure;
         private lastRect;
         $measureContentBounds(bounds: egret.Rectangle): void;
-        setCurrentParticles(num: number): void;
         /**
          * 更换粒子纹理
          * @param texture {egret.Texture} 新的纹理
@@ -146,7 +154,7 @@ declare module particle {
         changeTexture(texture: egret.Texture): void;
         private clear();
         private addOneParticle();
-        advanceParticle(particle: Particle, dt: number): void;
+        protected advanceParticle(particle: Particle, dt: number): void;
         private bitmapNodeList;
         $updateRenderNode(): void;
         private appendTransform(matrix, x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY);
@@ -361,13 +369,76 @@ declare module particle {
          * 是否完成解析json数据
          */
         private $init;
-        constructor(texture: egret.Texture, config: any);
+        constructor(texture: egret.Texture, config: ArrayBuffer);
         start(duration?: number): void;
-        setCurrentParticles(num: number): void;
-        onPropertyChanges(): void;
+        protected onPropertyChanges(): void;
         private parseConfig(config);
         initParticle(particle: Particle): void;
         private static getValue(base, variance);
+        advanceParticle(particle: Particle, dt: number): void;
+    }
+}
+declare module particle {
+    class RadiusParticle extends Particle {
+        emitRadius: number;
+        emitRadiusDelta: number;
+        emitRotation: number;
+        emitRotationDelta: number;
+        rotationDelta: number;
+        scaleDelta: number;
+        alphaDelta: number;
+        red: number;
+        redDelta: number;
+        green: number;
+        greenDelta: number;
+        blue: number;
+        blueDelta: number;
+        reset(): void;
+    }
+}
+declare module particle {
+    class RadiusParticleSystem extends ParticleSystem {
+        private emitterXVariance;
+        private emitterYVariance;
+        private lifespan;
+        private lifespanVariance;
+        private startSize;
+        private startSizeVariance;
+        private endSize;
+        private endSizeVariance;
+        private startRotation;
+        private startRotationVariance;
+        private endRotation;
+        private endRotationVariance;
+        private startRed;
+        private startRedVariance;
+        private endRed;
+        private endRedVariance;
+        private startGreen;
+        private startGreenVariance;
+        private endGreen;
+        private endGreenVariance;
+        private startBlue;
+        private startBlueVariance;
+        private endBlue;
+        private endBlueVariance;
+        private startAlpha;
+        private startAlphaVariance;
+        private endAlpha;
+        private endAlphaVariance;
+        private maxRadius;
+        private maxRadiusVariance;
+        private minRadius;
+        private minRadiusVariance;
+        private emitRotation;
+        private emitRotationVariance;
+        private emitRotationDelta;
+        private emitRotationDeltaVariance;
+        private particleBlendMode;
+        constructor(texture: egret.Texture, config: ArrayBuffer);
+        private parseConfig(config);
+        initParticle(particle: Particle): void;
+        private static getValue(base, variance, clamp?);
         advanceParticle(particle: Particle, dt: number): void;
     }
 }

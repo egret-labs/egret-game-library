@@ -38,10 +38,13 @@ r.prototype = e.prototype, t.prototype = new r();
 //////////////////////////////////////////////////////////////////////////////////////
 var particle;
 (function (particle) {
-    var Particle = (function () {
+    var Particle = (function (_super) {
+        __extends(Particle, _super);
         function Particle() {
-            this.matrix = new egret.Matrix();
-            this.reset();
+            var _this = _super.call(this) || this;
+            _this.matrix = new egret.Matrix();
+            _this.reset();
+            return _this;
         }
         Particle.prototype.reset = function () {
             this.x = 0;
@@ -64,7 +67,12 @@ var particle;
                 cos = 1;
                 sin = 0;
             }
-            matrix.append(cos * this.scale, sin * this.scale, -sin * this.scale, cos * this.scale, this.x, this.y);
+            matrix.a = cos * this.scale;
+            matrix.b = sin * this.scale;
+            matrix.c = -sin * this.scale;
+            matrix.d = cos * this.scale;
+            matrix.tx = this.x;
+            matrix.ty = this.y;
             if (regX || regY) {
                 matrix.tx -= regX * matrix.a + regY * matrix.c;
                 matrix.ty -= regX * matrix.b + regY * matrix.d;
@@ -72,7 +80,7 @@ var particle;
             return matrix;
         };
         return Particle;
-    }());
+    }(egret.HashObject));
     particle.Particle = Particle;
     __reflect(Particle.prototype, "particle.Particle");
 })(particle || (particle = {}));
@@ -112,7 +120,7 @@ var particle;
             var _this = _super.call(this) || this;
             _this._pool = [];
             _this.frameTime = 0;
-            _this.particles = [];
+            _this.particles = {};
             _this._emitterX = 0;
             _this._emitterY = 0;
             /**
@@ -138,6 +146,7 @@ var particle;
              */
             _this.particleClass = null;
             _this.$particleConfig = null;
+            _this.gpuRender = egret.Capabilities.renderMode == "webgl";
             _this.particleMeasureRect = new egret.Rectangle();
             _this.transformForMeasure = new egret.Matrix();
             _this.bitmapNodeList = [];
@@ -183,20 +192,21 @@ var particle;
             return result;
         };
         ParticleSystem.prototype.removeParticle = function (particle) {
-            var index = this.particles.indexOf(particle);
-            if (index != -1) {
+            var has = this.particles[particle.hashCode];
+            if (has) {
                 particle.reset();
-                this.particles.splice(index, 1);
+                delete this.particles[particle.hashCode];
                 this._pool.push(particle);
                 this.numParticles--;
-                if (this.bitmapNodeList.length > this.numParticles) {
-                    this.bitmapNodeList.length = this.numParticles;
-                    this.$renderNode.drawData.length = this.numParticles;
+                if (this.gpuRender) {
+                    this.removeIndexs.push(particle.addIndex);
                 }
-                return true;
-            }
-            else {
-                return false;
+                else {
+                    if (this.bitmapNodeList.length > this.numParticles) {
+                        this.bitmapNodeList.length = this.numParticles;
+                        this.$renderNode.drawData.length = this.numParticles;
+                    }
+                }
             }
         };
         ParticleSystem.prototype.initParticle = function (particle) {
@@ -256,6 +266,9 @@ var particle;
             set: function (value) {
                 this._emitterX = value;
                 this.updateRelativeBounds(this.emitterBounds);
+                if (this.gpuRender) {
+                    this.uniforms.uParticleEmitterX = value;
+                }
                 if (egret.nativeRender) {
                     this.onPropertyChanges();
                 }
@@ -275,6 +288,9 @@ var particle;
             set: function (value) {
                 this._emitterY = value;
                 this.updateRelativeBounds(this.emitterBounds);
+                if (this.gpuRender) {
+                    this.uniforms.uParticleEmitterY = value;
+                }
                 if (egret.nativeRender) {
                     this.onPropertyChanges();
                 }
@@ -336,17 +352,21 @@ var particle;
                 }
             }
             var particle;
-            var particleIndex = 0;
-            while (particleIndex < this.numParticles) {
-                particle = this.particles[particleIndex];
+            for (var key in this.particles) {
+                particle = this.particles[key];
                 if (particle.currentTime < particle.totalTime) {
-                    this.advanceParticle(particle, dt);
+                    if (!this.gpuRender) {
+                        this.advanceParticle(particle, dt);
+                    }
                     particle.currentTime += dt;
-                    particleIndex++;
                 }
                 else {
                     this.removeParticle(particle);
                 }
+            }
+            if (this.gpuRender) {
+                this.pasedTime += dt;
+                this.uniforms.uParticlePasedTime = this.pasedTime;
             }
             this.$renderDirty = true;
             if (this.numParticles == 0 && this.emissionTime == 0) {
@@ -361,22 +381,28 @@ var particle;
                 bounds.copyFrom(this.relativeContentBounds);
                 return;
             }
+            if (this.gpuRender) {
+                bounds.setTo(0, 0, 100, 100);
+                return;
+            }
+            var totalRect = egret.Rectangle.create();
             if (this.numParticles > 0) {
                 var texture = this.texture;
                 var textureW = Math.round(texture.$getScaleBitmapWidth());
                 var textureH = Math.round(texture.$getScaleBitmapHeight());
-                var totalRect = egret.Rectangle.create();
-                var particle;
-                for (var i = 0; i < this.numParticles; i++) {
-                    particle = this.particles[i];
+                var particle_2;
+                var first = true;
+                for (var key in this.particles) {
+                    particle_2 = this.particles[key];
                     this.transformForMeasure.identity();
-                    this.appendTransform(this.transformForMeasure, particle.x, particle.y, particle.scale, particle.scale, particle.rotation, 0, 0, textureW / 2, textureH / 2);
+                    this.appendTransform(this.transformForMeasure, particle_2.x, particle_2.y, particle_2.scale, particle_2.scale, particle_2.rotation, 0, 0, textureW / 2, textureH / 2);
                     this.particleMeasureRect.setEmpty();
                     this.particleMeasureRect.width = textureW;
                     this.particleMeasureRect.height = textureH;
                     var tmpRegion = Region.create();
                     tmpRegion.updateRegion(this.particleMeasureRect, this.transformForMeasure);
-                    if (i == 0) {
+                    if (first) {
+                        first = false;
                         totalRect.setTo(tmpRegion.minX, tmpRegion.minY, tmpRegion.maxX - tmpRegion.minX, tmpRegion.maxY - tmpRegion.minY);
                     }
                     else {
@@ -402,14 +428,6 @@ var particle;
                 }
             }
         };
-        ParticleSystem.prototype.setCurrentParticles = function (num) {
-            if (egret.nativeRender) {
-                return;
-            }
-            for (var i = this.numParticles; i < num && this.numParticles < this.maxParticles; i++) {
-                this.addOneParticle();
-            }
-        };
         /**
          * 更换粒子纹理
          * @param texture {egret.Texture} 新的纹理
@@ -421,19 +439,26 @@ var particle;
                     this.$nativeDisplayObject.setBitmapDataToParticle(texture);
                 }
                 else {
-                    //todo 这里可以优化
-                    this.bitmapNodeList.length = 0;
-                    this.$renderNode.drawData.length = 0;
+                    if (this.gpuRender) {
+                        this.$renderNode.image = texture.$bitmapData;
+                    }
+                    else {
+                        //todo 这里可以优化
+                        this.bitmapNodeList.length = 0;
+                        this.$renderNode.drawData.length = 0;
+                    }
                 }
             }
         };
         ParticleSystem.prototype.clear = function () {
-            while (this.particles.length) {
-                this.removeParticle(this.particles[0]);
+            for (var key in this.particles) {
+                this.removeParticle(this.particles[key]);
             }
             this.numParticles = 0;
-            this.$renderNode.drawData.length = 0;
-            this.bitmapNodeList.length = 0;
+            if (this.gpuRender) {
+                this.$renderNode.drawData.length = 0;
+                this.bitmapNodeList.length = 0;
+            }
             this.$renderDirty = true;
         };
         ParticleSystem.prototype.addOneParticle = function () {
@@ -441,7 +466,7 @@ var particle;
             var particle = this.getParticle();
             this.initParticle(particle);
             if (particle.totalTime > 0) {
-                this.particles.push(particle);
+                this.particles[particle.hashCode] = particle;
                 this.numParticles++;
             }
         };
@@ -449,7 +474,7 @@ var particle;
             particle.y -= dt / 6;
         };
         ParticleSystem.prototype.$updateRenderNode = function () {
-            if (egret.nativeRender) {
+            if (egret.nativeRender || this.gpuRender) {
                 return;
             }
             if (this.numParticles > 0) {
@@ -463,10 +488,11 @@ var particle;
                 var bitmapY = texture.$bitmapY;
                 var bitmapWidth = texture.$bitmapWidth;
                 var bitmapHeight = texture.$bitmapHeight;
-                var particle;
-                for (var i = 0; i < this.numParticles; i++) {
-                    particle = this.particles[i];
-                    var bitmapNode;
+                var particle_3;
+                var i = 0;
+                for (var key in this.particles) {
+                    particle_3 = this.particles[key];
+                    var bitmapNode = void 0;
                     if (!this.bitmapNodeList[i]) {
                         bitmapNode = new egret.sys.BitmapNode();
                         this.bitmapNodeList[i] = bitmapNode;
@@ -477,17 +503,20 @@ var particle;
                         bitmapNode.drawImage(bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureW, textureH);
                     }
                     bitmapNode = this.bitmapNodeList[i];
-                    bitmapNode.matrix = particle.$getMatrix(textureW / 2, textureH / 2);
-                    bitmapNode.blendMode = particle.blendMode;
-                    bitmapNode.alpha = particle.alpha;
+                    bitmapNode.matrix = particle_3.$getMatrix(textureW / 2, textureH / 2);
+                    bitmapNode.blendMode = particle_3.blendMode;
+                    bitmapNode.alpha = particle_3.alpha;
+                    i++;
                 }
             }
         };
         ParticleSystem.prototype.appendTransform = function (matrix, x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY) {
+            var cos;
+            var sin;
             if (rotation % 360) {
                 var r = rotation; // * Matrix.DEG_TO_RAD;
-                var cos = egret.NumberUtils.cos(r);
-                var sin = egret.NumberUtils.sin(r);
+                cos = egret.NumberUtils.cos(r);
+                sin = egret.NumberUtils.sin(r);
             }
             else {
                 cos = 1;
@@ -736,7 +765,7 @@ var particle;
 //
 //////////////////////////////////////////////////////////////////////////////////////
 var particle;
-(function (particle_2) {
+(function (particle_4) {
     var GravityParticleSystem = (function (_super) {
         __extends(GravityParticleSystem, _super);
         function GravityParticleSystem(texture, config) {
@@ -745,9 +774,10 @@ var particle;
              * 是否完成解析json数据
              */
             _this.$init = false;
+            _this.gpuRender = false;
             _this.parseConfig(config);
             _this.emissionRate = _this.lifespan / _this.maxParticles;
-            _this.particleClass = particle_2.GravityParticle;
+            _this.particleClass = particle_4.GravityParticle;
             _this.$init = true;
             return _this;
         }
@@ -769,15 +799,6 @@ var particle;
             else {
                 _super.prototype.start.call(this, duration);
             }
-        };
-        GravityParticleSystem.prototype.setCurrentParticles = function (num) {
-            if (num > this.maxParticles) {
-                return;
-            }
-            var configArray = [];
-            configArray.push(35 /* currentParticles */);
-            configArray.push(num);
-            this.$nativeDisplayObject.setCustomData(configArray);
         };
         GravityParticleSystem.prototype.onPropertyChanges = function () {
             if (this.$init == false) {
@@ -807,57 +828,70 @@ var particle;
             this.$nativeDisplayObject.setCustomData(configArray);
         };
         GravityParticleSystem.prototype.parseConfig = function (config) {
+            if (!config || config.byteLength != 139) {
+                throw "config error";
+            }
+            var byteArray = new egret.ByteArray(config);
+            var nameLength = byteArray.readUnsignedByte();
+            var name = byteArray.readUTFBytes(nameLength);
+            if (name != "feather") {
+                throw "config error";
+            }
+            byteArray.position = 12;
             if (egret.nativeRender) {
-                this._emitterX = getValue(config.emitter.x);
-                this._emitterY = getValue(config.emitter.y);
+                this._emitterX = getValue(byteArray.readFloat());
+                this.emitterXVariance = getValue(byteArray.readFloat());
+                this._emitterY = getValue(byteArray.readFloat());
+                this.emitterYVariance = getValue(byteArray.readFloat());
             }
             else {
-                this.emitterX = getValue(config.emitter.x);
-                this.emitterY = getValue(config.emitter.y);
+                this.emitterX = getValue(byteArray.readFloat());
+                this.emitterXVariance = getValue(byteArray.readFloat());
+                this.emitterY = getValue(byteArray.readFloat());
+                this.emitterYVariance = getValue(byteArray.readFloat());
             }
-            this.emitterXVariance = getValue(config.emitterVariance.x);
-            this.emitterYVariance = getValue(config.emitterVariance.y);
-            this.gravityX = getValue(config.gravity.x);
-            this.gravityY = getValue(config.gravity.y);
-            if (config.useEmitterRect == true) {
+            this.maxParticles = getValue(byteArray.readUnsignedShort());
+            this.lifespan = Math.max(0.01, getValue(byteArray.readUnsignedShort()));
+            this.lifespanVariance = getValue(byteArray.readUnsignedShort());
+            this.startSize = getValue(byteArray.readFloat());
+            this.startSizeVariance = getValue(byteArray.readFloat());
+            this.endSize = getValue(byteArray.readFloat());
+            this.endSizeVariance = getValue(byteArray.readFloat());
+            this.startRotation = getValue(byteArray.readFloat());
+            this.startRotationVariance = getValue(byteArray.readFloat());
+            this.endRotation = getValue(byteArray.readFloat());
+            this.endRotationVariance = getValue(byteArray.readFloat());
+            this.startAlpha = getValue(byteArray.readFloat());
+            this.startAlphaVariance = getValue(byteArray.readFloat());
+            this.endAlpha = getValue(byteArray.readFloat());
+            this.endAlphaVariance = getValue(byteArray.readFloat());
+            this.gravityX = getValue(byteArray.readFloat());
+            this.gravityY = getValue(byteArray.readFloat());
+            this.speed = getValue(byteArray.readFloat());
+            this.speedVariance = getValue(byteArray.readFloat());
+            this.emitAngle = getValue(byteArray.readFloat());
+            this.emitAngleVariance = getValue(byteArray.readFloat());
+            this.radialAcceleration = getValue(byteArray.readFloat());
+            this.radialAccelerationVariance = getValue(byteArray.readFloat());
+            this.tangentialAcceleration = getValue(byteArray.readFloat());
+            this.tangentialAccelerationVariance = getValue(byteArray.readFloat());
+            var x = byteArray.readFloat();
+            var y = byteArray.readFloat();
+            var width = byteArray.readFloat();
+            var height = byteArray.readFloat();
+            var useEmitterRect = width != 0 && height != 0;
+            if (useEmitterRect) {
                 var bounds = new egret.Rectangle();
-                bounds.x = getValue(config.emitterRect.x);
-                bounds.y = getValue(config.emitterRect.y);
-                bounds.width = getValue(config.emitterRect.width);
-                bounds.height = getValue(config.emitterRect.height);
+                bounds.x = getValue(x);
+                bounds.y = getValue(y);
+                bounds.width = getValue(width);
+                bounds.height = getValue(height);
                 this.emitterBounds = bounds;
             }
-            this.maxParticles = getValue(config.maxParticles);
-            this.speed = getValue(config.speed);
-            this.speedVariance = getValue(config.speedVariance);
-            this.lifespan = Math.max(0.01, getValue(config.lifespan));
-            this.lifespanVariance = getValue(config.lifespanVariance);
-            this.emitAngle = getValue(config.emitAngle);
-            this.emitAngleVariance = getValue(config.emitAngleVariance);
-            this.startSize = getValue(config.startSize);
-            this.startSizeVariance = getValue(config.startSizeVariance);
-            this.endSize = getValue(config.endSize);
-            this.endSizeVariance = getValue(config.endSizeVariance);
-            this.startRotation = getValue(config.startRotation);
-            this.startRotationVariance = getValue(config.startRotationVariance);
-            this.endRotation = getValue(config.endRotation);
-            this.endRotationVariance = getValue(config.endRotationVariance);
-            this.radialAcceleration = getValue(config.radialAcceleration);
-            this.radialAccelerationVariance = getValue(config.radialAccelerationVariance);
-            this.tangentialAcceleration = getValue(config.tangentialAcceleration);
-            this.tangentialAccelerationVariance = getValue(config.tangentialAccelerationVariance);
-            this.startAlpha = getValue(config.startAlpha);
-            this.startAlphaVariance = getValue(config.startAlphaVariance);
-            this.endAlpha = getValue(config.endAlpha);
-            this.endAlphaVariance = getValue(config.endAlphaVariance);
-            if (egret.nativeRender) {
-                if (config.blendMode) {
-                    this.particleBlendMode = config.blendMode;
-                }
-            }
             else {
-                this.particleBlendMode = config.blendMode;
+                this.emitterBounds = null;
             }
+            this.particleBlendMode = byteArray.readUnsignedByte();
             function getValue(value) {
                 if (typeof value == "undefined") {
                     return 0;
@@ -896,10 +930,10 @@ var particle;
                 28: this.endAlpha,
                 29: this.endAlphaVariance,
                 30: this.particleBlendMode,
-                31: config.useEmitterRect ? this.relativeContentBounds.x : 0,
-                32: config.useEmitterRect ? this.relativeContentBounds.y : 0,
-                33: config.useEmitterRect ? this.relativeContentBounds.width : 0,
-                34: config.useEmitterRect ? this.relativeContentBounds.height : 0,
+                31: useEmitterRect ? this.relativeContentBounds.x : 0,
+                32: useEmitterRect ? this.relativeContentBounds.y : 0,
+                33: useEmitterRect ? this.relativeContentBounds.width : 0,
+                34: useEmitterRect ? this.relativeContentBounds.height : 0,
                 35: 0
             };
         };
@@ -950,7 +984,6 @@ var particle;
             dt = dt / 1000;
             var restTime = locParticle.totalTime - locParticle.currentTime;
             dt = restTime > dt ? dt : restTime;
-            locParticle.currentTime += dt;
             var distanceX = locParticle.x - locParticle.startX;
             var distanceY = locParticle.y - locParticle.startY;
             var distanceScalar = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
@@ -978,7 +1011,408 @@ var particle;
             locParticle.alpha += locParticle.alphaDelta * dt * 1000;
         };
         return GravityParticleSystem;
-    }(particle_2.ParticleSystem));
-    particle_2.GravityParticleSystem = GravityParticleSystem;
+    }(particle_4.ParticleSystem));
+    particle_4.GravityParticleSystem = GravityParticleSystem;
     __reflect(GravityParticleSystem.prototype, "particle.GravityParticleSystem");
+})(particle || (particle = {}));
+//////////////////////////////////////////////////////////////////////////////////////
+//
+//  Copyright (c) 2014-present, Egret Technology.
+//  All rights reserved.
+//  Redistribution and use in source and binary forms, with or without
+//  modification, are permitted provided that the following conditions are met:
+//
+//     * Redistributions of source code must retain the above copyright
+//       notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright
+//       notice, this list of conditions and the following disclaimer in the
+//       documentation and/or other materials provided with the distribution.
+//     * Neither the name of the Egret nor the
+//       names of its contributors may be used to endorse or promote products
+//       derived from this software without specific prior written permission.
+//
+//  THIS SOFTWARE IS PROVIDED BY EGRET AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
+//  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+//  IN NO EVENT SHALL EGRET AND CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+//  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;LOSS OF USE, DATA,
+//  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+//  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+//  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+//  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+//////////////////////////////////////////////////////////////////////////////////////
+var particle;
+(function (particle) {
+    var RadiusParticle = (function (_super) {
+        __extends(RadiusParticle, _super);
+        function RadiusParticle() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        RadiusParticle.prototype.reset = function () {
+            _super.prototype.reset.call(this);
+            this.emitRadius = 0;
+            this.emitRadiusDelta = 0;
+            this.emitRotation = 0;
+            this.emitRotationDelta = 0;
+            this.rotationDelta = 0;
+            this.scaleDelta = 0;
+            this.alphaDelta = 0;
+        };
+        return RadiusParticle;
+    }(particle.Particle));
+    particle.RadiusParticle = RadiusParticle;
+    __reflect(RadiusParticle.prototype, "particle.RadiusParticle");
+})(particle || (particle = {}));
+//////////////////////////////////////////////////////////////////////////////////////
+//
+//  Copyright (c) 2014-present, Egret Technology.
+//  All rights reserved.
+//  Redistribution and use in source and binary forms, with or without
+//  modification, are permitted provided that the following conditions are met:
+//
+//     * Redistributions of source code must retain the above copyright
+//       notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright
+//       notice, this list of conditions and the following disclaimer in the
+//       documentation and/or other materials provided with the distribution.
+//     * Neither the name of the Egret nor the
+//       names of its contributors may be used to endorse or promote products
+//       derived from this software without specific prior written permission.
+//
+//  THIS SOFTWARE IS PROVIDED BY EGRET AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
+//  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+//  IN NO EVENT SHALL EGRET AND CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+//  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;LOSS OF USE, DATA,
+//  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+//  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+//  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+//  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+//////////////////////////////////////////////////////////////////////////////////////
+var particle;
+(function (particle_5) {
+    var RadiusParticleSystem = (function (_super) {
+        __extends(RadiusParticleSystem, _super);
+        function RadiusParticleSystem(texture, config) {
+            var _this = _super.call(this, texture, 200) || this;
+            if (_this.gpuRender) {
+                _this.$renderNode = new egret.sys.ParticleNode();
+                var vertexSrc = "attribute vec2 aParticlePosition;\n" +
+                    "attribute vec2 aParticleTextureCoord;\n" +
+                    "attribute vec2 aParticleScale;\n" +
+                    "attribute vec2 aParticleRotation;\n" +
+                    "attribute vec2 aParticleRed;\n" +
+                    "attribute vec2 aParticleGreen;\n" +
+                    "attribute vec2 aParticleBlue;\n" +
+                    "attribute vec2 aParticleAlpha;\n" +
+                    "attribute vec2 aParticleEmitRotation;\n" +
+                    "attribute vec2 aParticleEmitRadius;\n" +
+                    "attribute vec2 aParticleTime;\n" +
+                    "uniform vec2 projectionVector;\n" +
+                    "uniform vec2 uTextureSize;\n" +
+                    "uniform mat3 uGlobalMatrix;\n" +
+                    "uniform float uGlobalAlpha;\n" +
+                    "uniform float uParticleEmitterX;\n" +
+                    "uniform float uParticleEmitterY;\n" +
+                    "uniform float uParticlePasedTime;\n" +
+                    "varying vec2 vTextureCoord;\n" +
+                    "varying vec4 vColor;\n" +
+                    "void main(void) {\n" +
+                    "   vTextureCoord = aParticleTextureCoord;\n" +
+                    //计算dt
+                    "   float dt;\n" +
+                    "   if(uParticlePasedTime > aParticleTime.x + aParticleTime.y) {\n" +
+                    "       return;\n" +
+                    "   }\n" +
+                    "   else {\n" +
+                    "       dt = uParticlePasedTime - aParticleTime.x;\n" +
+                    "   }\n" +
+                    // global 矩阵
+                    "   float globalA = uGlobalMatrix[0][0];\n" +
+                    "   float globalB = uGlobalMatrix[1][0];\n" +
+                    "   float globalC = uGlobalMatrix[0][1];\n" +
+                    "   float globalD = uGlobalMatrix[1][1];\n" +
+                    "   float globalTx = uGlobalMatrix[0][2];\n" +
+                    "   float globalTy = uGlobalMatrix[1][2];\n" +
+                    //计算粒子矩阵
+                    "   float scale = aParticleScale.x + aParticleScale.y * dt;\n" +
+                    "   float rotation = aParticleRotation.x + aParticleRotation.y * dt;\n" +
+                    "   float cos2 = cos(rotation);\n" +
+                    "   float sin2 = sin(rotation);\n" +
+                    "   float localA = cos2 * scale;\n" +
+                    "   float localB = sin2 * scale;\n" +
+                    "   float localC = -sin2 * scale;\n" +
+                    "   float localD = cos2 * scale;\n" +
+                    "   float emitRotation = aParticleEmitRotation.x + aParticleEmitRotation.y * dt;\n" +
+                    "   float emitRadius = aParticleEmitRadius.x + aParticleEmitRadius.y * dt;\n" +
+                    "   float localTx = uParticleEmitterX - cos(emitRotation) * emitRadius;\n" +
+                    "   float localTy = uParticleEmitterY - sin(emitRotation) * emitRadius;\n" +
+                    //以中心为锚点缩放
+                    "   localTx -= uTextureSize.x / 2.0 * localA + uTextureSize.y / 2.0 * localC;\n" +
+                    "   localTy -= uTextureSize.x / 2.0 * localB + uTextureSize.y / 2.0 * localD;\n" +
+                    //计算最终矩阵
+                    "   float finalA = localA * globalA + localB * globalC;\n" +
+                    "   float finalB = localA * globalB + localB * globalD;\n" +
+                    "   float finalC = localC * globalA + localD * globalC;\n" +
+                    "   float finalD = localC * globalB + localD * globalD;\n" +
+                    "   float finalTx = localTx * globalA + localTy * globalC + globalTx;\n" +
+                    "   float finalTy = localTx * globalB + localTy * globalD + globalTy;\n" +
+                    "   float positionX = finalA * uTextureSize.x * aParticlePosition.x + finalC * uTextureSize.y * aParticlePosition.y + finalTx;\n" +
+                    "   float positionY = finalD * uTextureSize.y * aParticlePosition.y + finalB * uTextureSize.x * aParticlePosition.x + finalTy;\n" +
+                    "   gl_Position = vec4(positionX / projectionVector.x - 1.0, positionY / projectionVector.y + 1.0, 0.0, 1.0);\n" +
+                    //计算颜色变换
+                    "   float red = aParticleRed.x + aParticleRed.y * dt;\n" +
+                    "   float green = aParticleGreen.x + aParticleGreen.y * dt;\n" +
+                    "   float blue = aParticleBlue.x + aParticleBlue.y * dt;\n" +
+                    "   float alpha = aParticleAlpha.x + aParticleAlpha.y * dt;\n" +
+                    "   vColor = vec4(red, green, blue, alpha) * uGlobalAlpha;\n" +
+                    "}";
+                var fragmentSrc = "precision lowp float;\n" +
+                    "varying vec2 vTextureCoord;\n" +
+                    "varying vec4 vColor;\n" +
+                    "uniform sampler2D uSampler;\n" +
+                    "void main(void) {\n" +
+                    "   gl_FragColor = texture2D(uSampler, vTextureCoord) * vColor;\n" +
+                    "   gl_FragColor.rgb *= vColor.a;\n" +
+                    "}";
+                _this.uniforms = { uGlobalMatrix: null, uGlobalAlpha: null };
+                var filter = new egret.CustomFilter(vertexSrc, fragmentSrc, _this.uniforms);
+                _this.filters = [filter];
+            }
+            _this.parseConfig(config);
+            _this.particleClass = particle_5.RadiusParticle;
+            return _this;
+        }
+        RadiusParticleSystem.prototype.parseConfig = function (config) {
+            if (!config || config.byteLength != 179) {
+                throw "config error";
+            }
+            var byteArray = new egret.ByteArray(config);
+            var nameLength = byteArray.readUnsignedByte();
+            var name = byteArray.readUTFBytes(nameLength);
+            if (name != "feather") {
+                throw "config error";
+            }
+            byteArray.position = 12;
+            if (egret.nativeRender) {
+                this._emitterX = getValue(byteArray.readFloat());
+                this.emitterXVariance = getValue(byteArray.readFloat());
+                this._emitterY = getValue(byteArray.readFloat());
+                this.emitterYVariance = getValue(byteArray.readFloat());
+            }
+            else {
+                this.emitterX = getValue(byteArray.readFloat());
+                this.emitterXVariance = getValue(byteArray.readFloat());
+                this.emitterY = getValue(byteArray.readFloat());
+                this.emitterYVariance = getValue(byteArray.readFloat());
+            }
+            this.maxParticles = getValue(byteArray.readUnsignedShort());
+            this.lifespan = Math.max(0.01, getValue(byteArray.readUnsignedShort()));
+            this.lifespanVariance = getValue(byteArray.readUnsignedShort());
+            this.startSize = getValue(byteArray.readFloat());
+            this.startSizeVariance = getValue(byteArray.readFloat());
+            this.endSize = getValue(byteArray.readFloat());
+            this.endSizeVariance = getValue(byteArray.readFloat());
+            this.startRotation = getValue(byteArray.readFloat());
+            this.startRotationVariance = getValue(byteArray.readFloat());
+            this.endRotation = getValue(byteArray.readFloat());
+            this.endRotationVariance = getValue(byteArray.readFloat());
+            //colors
+            this.startRed = getValue(byteArray.readFloat());
+            this.startRedVariance = getValue(byteArray.readFloat());
+            this.endRed = getValue(byteArray.readFloat());
+            this.endRedVariance = getValue(byteArray.readFloat());
+            this.startGreen = getValue(byteArray.readFloat());
+            this.startGreenVariance = getValue(byteArray.readFloat());
+            this.endGreen = getValue(byteArray.readFloat());
+            this.endGreenVariance = getValue(byteArray.readFloat());
+            this.startBlue = getValue(byteArray.readFloat());
+            this.startBlueVariance = getValue(byteArray.readFloat());
+            this.endBlue = getValue(byteArray.readFloat());
+            this.endBlueVariance = getValue(byteArray.readFloat());
+            this.startAlpha = getValue(byteArray.readFloat());
+            this.startAlphaVariance = getValue(byteArray.readFloat());
+            this.endAlpha = getValue(byteArray.readFloat());
+            this.endAlphaVariance = getValue(byteArray.readFloat());
+            this.maxRadius = getValue(byteArray.readFloat());
+            this.maxRadiusVariance = getValue(byteArray.readFloat());
+            this.minRadius = getValue(byteArray.readFloat());
+            this.minRadiusVariance = getValue(byteArray.readFloat());
+            this.emitRotation = getValue(byteArray.readFloat());
+            this.emitRotationVariance = getValue(byteArray.readFloat());
+            this.emitRotationDelta = getValue(byteArray.readFloat());
+            this.emitRotationDeltaVariance = getValue(byteArray.readFloat());
+            var x = byteArray.readFloat();
+            var y = byteArray.readFloat();
+            var width = byteArray.readFloat();
+            var height = byteArray.readFloat();
+            if (width != 0 && height != 0) {
+                var bounds = new egret.Rectangle();
+                bounds.x = getValue(x);
+                bounds.y = getValue(y);
+                bounds.width = getValue(width);
+                bounds.height = getValue(height);
+                this.emitterBounds = bounds;
+            }
+            else {
+                this.emitterBounds = null;
+            }
+            this.particleBlendMode = byteArray.readUnsignedByte();
+            function getValue(value) {
+                if (typeof value == "undefined") {
+                    return 0;
+                }
+                return value;
+            }
+            this.emissionRate = this.lifespan / this.maxParticles;
+            if (this.gpuRender) {
+                this.numProperties = 22;
+                var vertices = new Float32Array(this.numProperties * this.maxParticles * 4);
+                var offset = void 0;
+                for (var i = 0; i < this.maxParticles; i++) {
+                    offset = i * this.numProperties * 4;
+                    vertices[offset + this.numProperties * 0 + 0] = 0;
+                    vertices[offset + this.numProperties * 0 + 1] = 0;
+                    vertices[offset + this.numProperties * 0 + 2] = 0;
+                    vertices[offset + this.numProperties * 0 + 3] = 0;
+                    vertices[offset + this.numProperties * 1 + 0] = 1;
+                    vertices[offset + this.numProperties * 1 + 1] = 0;
+                    vertices[offset + this.numProperties * 1 + 2] = 1;
+                    vertices[offset + this.numProperties * 1 + 3] = 0;
+                    vertices[offset + this.numProperties * 2 + 0] = 1;
+                    vertices[offset + this.numProperties * 2 + 1] = 1;
+                    vertices[offset + this.numProperties * 2 + 2] = 1;
+                    vertices[offset + this.numProperties * 2 + 3] = 1;
+                    vertices[offset + this.numProperties * 3 + 0] = 0;
+                    vertices[offset + this.numProperties * 3 + 1] = 1;
+                    vertices[offset + this.numProperties * 3 + 2] = 0;
+                    vertices[offset + this.numProperties * 3 + 3] = 1;
+                }
+                this.vertices = vertices;
+                this.$renderNode.vertices = vertices;
+                this.$renderNode.numParticles = this.maxParticles;
+                this.$renderNode.numProperties = this.numProperties;
+                this.$renderNode.image = this.texture.$bitmapData;
+                this.$renderNode.blendMode = this.particleBlendMode;
+                this.verticesIndex = 0;
+                this.removeIndexs = [];
+                this.pasedTime = 0;
+            }
+        };
+        RadiusParticleSystem.prototype.initParticle = function (particle) {
+            var locParticle = particle;
+            var lifespan = RadiusParticleSystem.getValue(this.lifespan, this.lifespanVariance);
+            locParticle.currentTime = 0;
+            locParticle.totalTime = lifespan > 0 ? lifespan : 0;
+            if (lifespan <= 0) {
+                return;
+            }
+            locParticle.x = RadiusParticleSystem.getValue(this.emitterX, this.emitterXVariance);
+            locParticle.y = RadiusParticleSystem.getValue(this.emitterY, this.emitterYVariance);
+            var startSize = RadiusParticleSystem.getValue(this.startSize, this.startSizeVariance);
+            if (startSize < 0.1) {
+                startSize = 0.1;
+            }
+            var endSize = RadiusParticleSystem.getValue(this.endSize, this.endSizeVariance);
+            if (endSize < 0.1) {
+                endSize = 0.1;
+            }
+            var textureWidth = this.texture.textureWidth;
+            locParticle.scale = startSize / textureWidth;
+            locParticle.scaleDelta = ((endSize - startSize) / lifespan) / textureWidth;
+            var startRotation = RadiusParticleSystem.getValue(this.startRotation, this.startRotationVariance);
+            var endRotation = RadiusParticleSystem.getValue(this.endRotation, this.endRotationVariance);
+            locParticle.rotation = startRotation;
+            locParticle.rotationDelta = (endRotation - startRotation) / lifespan;
+            var startRed = RadiusParticleSystem.getValue(this.startRed, this.startRedVariance, true);
+            var endRed = RadiusParticleSystem.getValue(this.endRed, this.endRedVariance, true);
+            locParticle.red = startRed;
+            locParticle.redDelta = (endRed - startRed) / lifespan;
+            var startGreen = RadiusParticleSystem.getValue(this.startGreen, this.startGreenVariance, true);
+            var endGreen = RadiusParticleSystem.getValue(this.endGreen, this.endGreenVariance, true);
+            locParticle.green = startGreen;
+            locParticle.greenDelta = (endGreen - startGreen) / lifespan;
+            var startBlue = RadiusParticleSystem.getValue(this.startBlue, this.startBlueVariance, true);
+            var endBlue = RadiusParticleSystem.getValue(this.endBlue, this.endBlueVariance, true);
+            locParticle.blue = startBlue;
+            locParticle.blueDelta = (endBlue - startBlue) / lifespan;
+            var startAlpha = RadiusParticleSystem.getValue(this.startAlpha, this.startAlphaVariance, true);
+            var endAlpha = RadiusParticleSystem.getValue(this.endAlpha, this.endAlphaVariance, true);
+            locParticle.alpha = startAlpha;
+            locParticle.alphaDelta = (endAlpha - startAlpha) / lifespan;
+            locParticle.blendMode = this.particleBlendMode;
+            var startRadius = RadiusParticleSystem.getValue(this.maxRadius, this.maxRadiusVariance);
+            var endRadius = RadiusParticleSystem.getValue(this.minRadius, this.minRadiusVariance);
+            locParticle.emitRadius = startRadius;
+            locParticle.emitRadiusDelta = (endRadius - startRadius) / lifespan;
+            locParticle.emitRotation = RadiusParticleSystem.getValue(this.emitRotation, this.emitRotationVariance);
+            locParticle.emitRotationDelta = RadiusParticleSystem.getValue(this.emitRotationDelta, this.emitRotationDeltaVariance);
+            if (this.gpuRender) {
+                var addIndex = void 0;
+                if (this.removeIndexs.length) {
+                    addIndex = this.removeIndexs.pop();
+                }
+                else {
+                    addIndex = this.verticesIndex;
+                    this.verticesIndex++;
+                }
+                var vertices = this.vertices;
+                var startIndex = addIndex * this.numProperties * 4;
+                var locParticle_1 = particle;
+                locParticle_1.addIndex = addIndex;
+                for (var i = 0; i < 4; i++) {
+                    vertices[startIndex + i * this.numProperties + 4] = locParticle_1.scale;
+                    vertices[startIndex + i * this.numProperties + 5] = locParticle_1.scaleDelta;
+                    vertices[startIndex + i * this.numProperties + 6] = locParticle_1.rotation / 180 * Math.PI;
+                    vertices[startIndex + i * this.numProperties + 7] = locParticle_1.rotationDelta / 180 * Math.PI;
+                    vertices[startIndex + i * this.numProperties + 8] = locParticle_1.red;
+                    vertices[startIndex + i * this.numProperties + 9] = locParticle_1.redDelta;
+                    vertices[startIndex + i * this.numProperties + 10] = locParticle_1.green;
+                    vertices[startIndex + i * this.numProperties + 11] = locParticle_1.greenDelta;
+                    vertices[startIndex + i * this.numProperties + 12] = locParticle_1.blue;
+                    vertices[startIndex + i * this.numProperties + 13] = locParticle_1.blueDelta;
+                    vertices[startIndex + i * this.numProperties + 14] = locParticle_1.alpha;
+                    vertices[startIndex + i * this.numProperties + 15] = locParticle_1.alphaDelta;
+                    vertices[startIndex + i * this.numProperties + 16] = locParticle_1.emitRotation;
+                    vertices[startIndex + i * this.numProperties + 17] = locParticle_1.emitRotationDelta;
+                    vertices[startIndex + i * this.numProperties + 18] = locParticle_1.emitRadius;
+                    vertices[startIndex + i * this.numProperties + 19] = locParticle_1.emitRadiusDelta;
+                    vertices[startIndex + i * this.numProperties + 20] = this.pasedTime;
+                    vertices[startIndex + i * this.numProperties + 21] = locParticle_1.totalTime;
+                }
+            }
+        };
+        RadiusParticleSystem.getValue = function (base, variance, clamp) {
+            if (clamp === void 0) { clamp = false; }
+            var result = base + variance * (Math.random() * 2 - 1);
+            if (clamp) {
+                result = Math.max(0, result);
+                result = Math.min(result, 1);
+            }
+            return result;
+        };
+        RadiusParticleSystem.prototype.advanceParticle = function (particle, dt) {
+            var locParticle = particle;
+            dt = dt / 1000;
+            var restTime = locParticle.totalTime - locParticle.currentTime;
+            dt = restTime > dt ? dt : restTime;
+            locParticle.emitRotation += locParticle.emitRotationDelta * dt * 1000;
+            locParticle.emitRadius += locParticle.emitRadiusDelta * dt * 1000;
+            locParticle.x = this.emitterX - Math.cos(locParticle.emitRotation) * locParticle.emitRadius;
+            locParticle.y = this.emitterY - Math.sin(locParticle.emitRotation) * locParticle.emitRadius;
+            locParticle.scale += locParticle.scaleDelta * dt * 1000;
+            if (locParticle.scale < 0) {
+                locParticle.scale = 0;
+            }
+            locParticle.rotation += locParticle.rotationDelta * dt * 1000;
+            locParticle.alpha += locParticle.alphaDelta * dt * 1000;
+        };
+        return RadiusParticleSystem;
+    }(particle_5.ParticleSystem));
+    particle_5.RadiusParticleSystem = RadiusParticleSystem;
+    __reflect(RadiusParticleSystem.prototype, "particle.RadiusParticleSystem");
 })(particle || (particle = {}));

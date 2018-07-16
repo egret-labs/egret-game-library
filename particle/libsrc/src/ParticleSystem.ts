@@ -31,7 +31,7 @@ module particle {
     export class ParticleSystem extends egret.DisplayObject {
         private _pool: Array<Particle> = [];
         private frameTime: number = 0;
-        private particles: Array<Particle> = [];
+        private particles = {};
         private _emitterBounds: egret.Rectangle;
         //相对当前显示对象坐标系下的内容边界
         protected relativeContentBounds: egret.Rectangle;
@@ -43,26 +43,26 @@ module particle {
          * @member {number} particle.ParticleSystem#emissionTime
          * @default -1
          */
-        public emissionTime: number = -1;
+        protected emissionTime: number = -1;
 
         /**
          * 表示粒子出现间隔，单位毫秒，取值范围(0,Number.MAX_VALUE]
          * @member {number} particle.ParticleSystem#emissionRate
          */
-        public emissionRate: number;
+        protected emissionRate: number;
 
         /**
          * 表示粒子所使用的纹理
          * @member {egret.Texture} particle.ParticleSystem#texture
          */
-        public texture: egret.Texture;
+        protected texture: egret.Texture;
 
         /**
          * 表示粒子系统最大粒子数，超过该数量将不会继续创建粒子，取值范围[1,Number.MAX_VALUE]
          * @member {number} particle.ParticleSystem#maxParticles
          * @default 200
          */
-        public maxParticles: number = 200;
+        protected maxParticles: number = 200;
 
         /**
          * 当前粒子数
@@ -74,9 +74,18 @@ module particle {
          * 表示粒子类，如果设置创建粒子时将创建该类
          * @member {number} particle.ParticleSystem#particleClass
          */
-        public particleClass: any = null;
+        protected particleClass: any = null;
 
-        public $particleConfig:any = null;
+        protected $particleConfig: any = null;
+
+        protected gpuRender = egret.Capabilities.renderMode == "webgl";
+        protected vertices: Float32Array;
+        protected verticesIndex: number;
+        protected numProperties: number;
+        protected removeIndexs: number[];
+        protected pasedTime: number;
+        protected uniforms: any;
+        protected type: string;
 
         constructor(texture: egret.Texture, emissionRate: number) {
             super();
@@ -98,7 +107,7 @@ module particle {
             this.$nativeDisplayObject = new egret_native.NativeDisplayObject(egret_native.NativeObjectType.PARTICLE_SYSTEM);
         }
 
-        public initConfig(emissionRate: number, emitterX: number, emitterY: number): void {
+        private initConfig(emissionRate: number, emitterX: number, emitterY: number): void {
             this.$particleConfig = [
                 emissionRate,      // emissionRate
                 emitterX,          //emitterX
@@ -112,7 +121,7 @@ module particle {
         }
 
         private getParticle(): Particle {
-            var result: Particle;
+            let result: Particle;
             if (this._pool.length) {
                 result = this._pool.pop();
             }
@@ -125,25 +134,26 @@ module particle {
             return result;
         }
 
-        private removeParticle(particle: Particle): boolean {
-            var index = this.particles.indexOf(particle);
-            if (index != -1) {
+        private removeParticle(particle: Particle): void {
+            const has = this.particles[particle.hashCode];
+            if (has) {
                 particle.reset();
-                this.particles.splice(index, 1);
+                delete this.particles[particle.hashCode];
                 this._pool.push(particle);
                 this.numParticles--;
-                if (this.bitmapNodeList.length > this.numParticles) {
-                    this.bitmapNodeList.length = this.numParticles;
-                    this.$renderNode.drawData.length = this.numParticles;
+                if (this.gpuRender) {
+                    this.removeIndexs.push(particle.addIndex);
                 }
-                return true;
-            }
-            else {
-                return false;
+                else {
+                    if (this.bitmapNodeList.length > this.numParticles) {
+                        this.bitmapNodeList.length = this.numParticles;
+                        this.$renderNode.drawData.length = this.numParticles;
+                    }
+                }
             }
         }
 
-        public initParticle(particle: Particle): void {
+        protected initParticle(particle: Particle): void {
             particle.x = this.emitterX;
             particle.y = this.emitterY;
             particle.currentTime = 0;
@@ -185,7 +195,7 @@ module particle {
             return this._emitterBounds;
         }
 
-        public onPropertyChanges(): void {
+        protected onPropertyChanges(): void {
             this.$nativeDisplayObject.setCustomData(this.$particleConfig);
         }
 
@@ -197,6 +207,9 @@ module particle {
         public set emitterX(value: number) {
             this._emitterX = value;
             this.updateRelativeBounds(this.emitterBounds);
+            if (this.gpuRender) {
+                this.uniforms.uParticleEmitterX = value;
+            }
             if (egret.nativeRender) {
                 this.onPropertyChanges();
             }
@@ -214,6 +227,9 @@ module particle {
         public set emitterY(value: number) {
             this._emitterY = value;
             this.updateRelativeBounds(this.emitterBounds);
+            if (this.gpuRender) {
+                this.uniforms.uParticleEmitterY = value;
+            }
             if (egret.nativeRender) {
                 this.onPropertyChanges();
             }
@@ -260,7 +276,7 @@ module particle {
         private timeStamp: number;
 
         private update(timeStamp: number): boolean {
-            var dt: number = timeStamp - this.timeStamp;
+            const dt: number = timeStamp - this.timeStamp;
             this.timeStamp = timeStamp;
             //粒子数很少的时候可能会错过添加粒子的时机
             if (this.emissionTime == -1 || this.emissionTime > 0) {
@@ -279,18 +295,23 @@ module particle {
                 }
             }
 
-            var particle: Particle;
-            var particleIndex: number = 0;
-            while (particleIndex < this.numParticles) {
-                particle = <Particle>this.particles[particleIndex];
+            let particle: Particle;
+            for (const key in this.particles) {
+                particle = <Particle>this.particles[key];
                 if (particle.currentTime < particle.totalTime) {
-                    this.advanceParticle(particle, dt);
+                    if (!this.gpuRender) {
+                        this.advanceParticle(particle, dt);
+                    }
                     particle.currentTime += dt;
-                    particleIndex++;
                 }
                 else {
                     this.removeParticle(particle);
                 }
+            }
+
+            if (this.gpuRender) {
+                this.pasedTime += dt;
+                this.uniforms.uParticlePasedTime = this.pasedTime;
             }
 
             this.$renderDirty = true;
@@ -312,17 +333,23 @@ module particle {
                 return;
             }
 
+            if (this.gpuRender) {
+                bounds.setTo(0, 0, 100, 100);
+                return;
+            }
+
+            let totalRect: egret.Rectangle = egret.Rectangle.create();
+
             if (this.numParticles > 0) {
-                var texture: egret.Texture = this.texture;
+                const texture: egret.Texture = this.texture;
 
-                var textureW: number = Math.round(texture.$getScaleBitmapWidth());
-                var textureH: number = Math.round(texture.$getScaleBitmapHeight());
+                const textureW: number = Math.round(texture.$getScaleBitmapWidth());
+                const textureH: number = Math.round(texture.$getScaleBitmapHeight());
 
-                var totalRect: egret.Rectangle = egret.Rectangle.create();
-
-                var particle: Particle;
-                for (var i: number = 0; i < this.numParticles; i++) {
-                    particle = this.particles[i];
+                let particle: Particle;
+                let first = true;
+                for (const key in this.particles) {
+                    particle = this.particles[key];
                     this.transformForMeasure.identity();
                     this.appendTransform(this.transformForMeasure, particle.x, particle.y, particle.scale, particle.scale, particle.rotation, 0, 0, textureW / 2, textureH / 2);
 
@@ -330,17 +357,18 @@ module particle {
                     this.particleMeasureRect.width = textureW;
                     this.particleMeasureRect.height = textureH;
 
-                    var tmpRegion: Region = Region.create();
+                    const tmpRegion: Region = Region.create();
                     tmpRegion.updateRegion(this.particleMeasureRect, this.transformForMeasure);
 
-                    if (i == 0) {
+                    if (first) {
+                        first = false;
                         totalRect.setTo(tmpRegion.minX, tmpRegion.minY, tmpRegion.maxX - tmpRegion.minX, tmpRegion.maxY - tmpRegion.minY);
                     } else {
-                        var l: number = Math.min(totalRect.x, tmpRegion.minX);
-                        var t: number = Math.min(totalRect.y, tmpRegion.minY);
+                        const l: number = Math.min(totalRect.x, tmpRegion.minX);
+                        const t: number = Math.min(totalRect.y, tmpRegion.minY);
 
-                        var r: number = Math.max(totalRect.right, tmpRegion.maxX);
-                        var b: number = Math.max(totalRect.bottom, tmpRegion.maxY);
+                        const r: number = Math.max(totalRect.right, tmpRegion.maxX);
+                        const b: number = Math.max(totalRect.bottom, tmpRegion.maxY);
 
                         totalRect.setTo(l, t, r - l, b - t);
                     }
@@ -358,16 +386,6 @@ module particle {
                     this.lastRect = null;
                 }
             }
-
-        }
-
-        public setCurrentParticles(num: number): void {
-            if (egret.nativeRender) {
-                return;
-            }
-            for (var i: number = this.numParticles; i < num && this.numParticles < this.maxParticles; i++) {
-                this.addOneParticle();
-            }
         }
 
         /**
@@ -381,62 +399,69 @@ module particle {
                     this.$nativeDisplayObject.setBitmapDataToParticle(texture);
                 }
                 else {
-                    //todo 这里可以优化
-                    this.bitmapNodeList.length = 0;
-                    this.$renderNode.drawData.length = 0;
+                    if (this.gpuRender) {
+                        (this.$renderNode as egret.sys.ParticleNode).image = texture.$bitmapData;
+                    }
+                    else {
+                        //todo 这里可以优化
+                        this.bitmapNodeList.length = 0;
+                        this.$renderNode.drawData.length = 0;
+                    }
                 }
             }
         }
 
         private clear(): void {
-            while (this.particles.length) {
-                this.removeParticle(this.particles[0]);
+            for (const key in this.particles) {
+                this.removeParticle(this.particles[key]);
             }
             this.numParticles = 0;
-            this.$renderNode.drawData.length = 0;
-            this.bitmapNodeList.length = 0;
+            if (this.gpuRender) {
+                this.$renderNode.drawData.length = 0;
+                this.bitmapNodeList.length = 0;
+            }
             this.$renderDirty = true;
         }
 
         private addOneParticle(): void {
             //todo 这里可能需要返回成功与否
-            var particle: Particle = this.getParticle();
+            const particle: Particle = this.getParticle();
             this.initParticle(particle);
             if (particle.totalTime > 0) {
-                this.particles.push(particle);
+                this.particles[particle.hashCode] = particle;
                 this.numParticles++;
             }
         }
 
-        public advanceParticle(particle: Particle, dt: number): void {
+        protected advanceParticle(particle: Particle, dt: number): void {
             particle.y -= dt / 6;
         }
 
         private bitmapNodeList: Array<egret.sys.BitmapNode> = [];
 
         public $updateRenderNode(): void {
-            if (egret.nativeRender) {
+            if (egret.nativeRender || this.gpuRender) {
                 return;
             }
             if (this.numParticles > 0) {
-
                 //todo 考虑不同粒子使用不同的texture，或者使用egret.SpriteSheet
-                var texture: egret.Texture = this.texture;
+                const texture: egret.Texture = this.texture;
 
-                var textureW: number = Math.round(texture.$getScaleBitmapWidth());
-                var textureH: number = Math.round(texture.$getScaleBitmapHeight());
-                var offsetX = texture.$offsetX;
-                var offsetY = texture.$offsetY;
-                var bitmapX = texture.$bitmapX;
-                var bitmapY = texture.$bitmapY;
-                var bitmapWidth = texture.$bitmapWidth;
-                var bitmapHeight = texture.$bitmapHeight;
+                const textureW: number = Math.round(texture.$getScaleBitmapWidth());
+                const textureH: number = Math.round(texture.$getScaleBitmapHeight());
+                const offsetX = texture.$offsetX;
+                const offsetY = texture.$offsetY;
+                const bitmapX = texture.$bitmapX;
+                const bitmapY = texture.$bitmapY;
+                const bitmapWidth = texture.$bitmapWidth;
+                const bitmapHeight = texture.$bitmapHeight;
 
-                var particle: Particle;
-                for (var i: number = 0; i < this.numParticles; i++) {
-                    particle = this.particles[i];
+                let particle: Particle;
+                let i = 0;
+                for (const key in this.particles) {
+                    particle = this.particles[key];
 
-                    var bitmapNode: egret.sys.BitmapNode;
+                    let bitmapNode: egret.sys.BitmapNode;
                     if (!this.bitmapNodeList[i]) {
                         bitmapNode = new egret.sys.BitmapNode();
                         this.bitmapNodeList[i] = bitmapNode;
@@ -451,15 +476,18 @@ module particle {
                     bitmapNode.matrix = particle.$getMatrix(textureW / 2, textureH / 2);
                     bitmapNode.blendMode = particle.blendMode;
                     bitmapNode.alpha = particle.alpha;
+                    i++;
                 }
             }
         }
 
         private appendTransform(matrix: egret.Matrix, x: number, y: number, scaleX: number, scaleY: number, rotation: number, skewX: number, skewY: number, regX: number, regY: number): egret.Matrix {
+            let cos;
+            let sin;
             if (rotation % 360) {
-                var r = rotation;// * Matrix.DEG_TO_RAD;
-                var cos = egret.NumberUtils.cos(r);
-                var sin = egret.NumberUtils.sin(r);
+                const r = rotation;// * Matrix.DEG_TO_RAD;
+                cos = egret.NumberUtils.cos(r);
+                sin = egret.NumberUtils.sin(r);
             } else {
                 cos = 1;
                 sin = 0;
