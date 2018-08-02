@@ -300,6 +300,9 @@ module particle {
                 this.removeIndexs = [];
                 this.pasedTime = 0;
             }
+            else {
+                (this.$renderNode as egret.sys.GroupNode).blendMode = this.particleBlendMode;
+            }
         }
 
         public initParticle(particle: Particle): void {
@@ -350,8 +353,6 @@ module particle {
             const endAlpha: number = RadiusParticleSystem.getValue(this.endAlpha, this.endAlphaVariance, true);
             locParticle.alpha = startAlpha;
             locParticle.alphaDelta = (endAlpha - startAlpha) / lifespan;
-
-            locParticle.blendMode = this.particleBlendMode;
 
             const startRadius: number = RadiusParticleSystem.getValue(this.maxRadius, this.maxRadiusVariance);
             const endRadius: number = RadiusParticleSystem.getValue(this.minRadius, this.minRadiusVariance);

@@ -213,7 +213,7 @@ module particle {
 
         /**
          * 表示粒子使用的混合模式
-         * @member {number} particle.GravityParticleSystem#blendMode
+         * @member {number} particle.GravityParticleSystem#particleBlendMode
          */
         private particleBlendMode: number;
 
@@ -356,6 +356,7 @@ module particle {
             }
 
             this.particleBlendMode = byteArray.readUnsignedByte();
+            (this.$renderNode as egret.sys.GroupNode).blendMode = this.particleBlendMode;
 
             function getValue(value: any): number {
                 if (typeof value == "undefined") {
@@ -451,8 +452,6 @@ module particle {
 
             locParticle.alpha = startAlpha;
             locParticle.alphaDelta = (endAlpha - startAlpha) / lifespan;
-
-            locParticle.blendMode = this.particleBlendMode;
         }
 
         private static getValue(base: number, variance: number): number {

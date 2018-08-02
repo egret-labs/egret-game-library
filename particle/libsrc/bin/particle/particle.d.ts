@@ -40,11 +40,6 @@ declare module particle {
          * @default 1000
          */
         totalTime: number;
-        /**
-         * 表示粒子的混合模式
-         * @member {number} particle.Particle#blendMode
-         */
-        blendMode: number;
         addIndex: number;
         constructor();
         reset(): void;
@@ -362,7 +357,7 @@ declare module particle {
         private endAlphaVariance;
         /**
          * 表示粒子使用的混合模式
-         * @member {number} particle.GravityParticleSystem#blendMode
+         * @member {number} particle.GravityParticleSystem#particleBlendMode
          */
         private particleBlendMode;
         /**

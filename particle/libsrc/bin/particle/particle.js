@@ -504,7 +504,6 @@ var particle;
                     }
                     bitmapNode = this.bitmapNodeList[i];
                     bitmapNode.matrix = particle_3.$getMatrix(textureW / 2, textureH / 2);
-                    bitmapNode.blendMode = particle_3.blendMode;
                     bitmapNode.alpha = particle_3.alpha;
                     i++;
                 }
@@ -892,6 +891,7 @@ var particle;
                 this.emitterBounds = null;
             }
             this.particleBlendMode = byteArray.readUnsignedByte();
+            this.$renderNode.blendMode = this.particleBlendMode;
             function getValue(value) {
                 if (typeof value == "undefined") {
                     return 0;
@@ -974,7 +974,6 @@ var particle;
             var endAlpha = GravityParticleSystem.getValue(this.endAlpha, this.endAlphaVariance);
             locParticle.alpha = startAlpha;
             locParticle.alphaDelta = (endAlpha - startAlpha) / lifespan;
-            locParticle.blendMode = this.particleBlendMode;
         };
         GravityParticleSystem.getValue = function (base, variance) {
             return base + variance * (Math.random() * 2 - 1);
@@ -1302,6 +1301,9 @@ var particle;
                 this.removeIndexs = [];
                 this.pasedTime = 0;
             }
+            else {
+                this.$renderNode.blendMode = this.particleBlendMode;
+            }
         };
         RadiusParticleSystem.prototype.initParticle = function (particle) {
             var locParticle = particle;
@@ -1344,7 +1346,6 @@ var particle;
             var endAlpha = RadiusParticleSystem.getValue(this.endAlpha, this.endAlphaVariance, true);
             locParticle.alpha = startAlpha;
             locParticle.alphaDelta = (endAlpha - startAlpha) / lifespan;
-            locParticle.blendMode = this.particleBlendMode;
             var startRadius = RadiusParticleSystem.getValue(this.maxRadius, this.maxRadiusVariance);
             var endRadius = RadiusParticleSystem.getValue(this.minRadius, this.minRadiusVariance);
             locParticle.emitRadius = startRadius;

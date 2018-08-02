@@ -474,7 +474,6 @@ module particle {
                     bitmapNode = this.bitmapNodeList[i];
 
                     bitmapNode.matrix = particle.$getMatrix(textureW / 2, textureH / 2);
-                    bitmapNode.blendMode = particle.blendMode;
                     bitmapNode.alpha = particle.alpha;
                     i++;
                 }

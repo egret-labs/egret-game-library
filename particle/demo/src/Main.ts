@@ -135,7 +135,7 @@ class Main extends egret.DisplayObjectContainer {
         var s = this.configList[this.configIndex];
         var textureS = this.textureList[this.textureIndex];
         var texture = RES.getRes(textureS);
-        var config = RES.getRes(s + "_json");
+        var config = RES.getRes(s + "_bin");
 
         if (this.system) {
             this.system.stop();
