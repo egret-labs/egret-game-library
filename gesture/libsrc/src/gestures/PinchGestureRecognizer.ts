@@ -35,7 +35,6 @@ class PinchGestureRecognizer extends GestureRecognizerPlugin {
         }
 
         if (this._cx != 0) {
-            this.gestureBegan();
             return true;
         }
         this._cx = (t1.stageX + t2.stageX) * 0.5;
@@ -50,7 +49,8 @@ class PinchGestureRecognizer extends GestureRecognizerPlugin {
             this._result.dy = this._offsetY;
             this._result.dScale = 1;
             this._result.localLocation = this._localLocation;
-            this._callBack.changed(this._result);
+            this.gestureBegan();
+            // this._callBack.changed(this._result);
         }
         return true;
     }
