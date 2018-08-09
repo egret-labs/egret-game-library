@@ -132,7 +132,8 @@ var PinchGestureRecognizer = (function (_super) {
             this._result.dy = this._offsetY;
             this._result.dScale = 1;
             this._result.localLocation = this._localLocation;
-            this._callBack.changed(this._result);
+            this.gestureBegan();
+            // this._callBack.changed(this._result);
         }
         return true;
     };
@@ -146,6 +147,7 @@ var PinchGestureRecognizer = (function (_super) {
         if (t1.type == egret.TouchEvent.TOUCH_END || t2.type == egret.TouchEvent.TOUCH_END) {
             this._cx = 0;
             this._offsetX = this._offsetY = 0;
+            this.gestureEnded();
             return false;
         }
         var prevX = this._cx;

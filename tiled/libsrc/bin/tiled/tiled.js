@@ -135,6 +135,22 @@ var tiled;
                 }
             }
         };
+        /**
+         * 像素坐标转化为格子坐标
+         * @param x 水平像素坐标
+         * @param y 垂直像素坐标
+         */
+        TMXRenderer.prototype.pixelToTileCoords = function (x, y) {
+            throw new Error("pixelToTileCoords must be implemented!");
+        };
+        /**
+         * 返回指定的瓦片对应的像素位置
+         * @param tileX 水平格子坐标（单位：像素）
+         * @param tileY 垂直格子坐标（单位：像素）
+         */
+        TMXRenderer.prototype.tileToPixelCoords = function (tileX, tileY) {
+            throw new Error("tileToPixelCoords must be implemented!");
+        };
         return TMXRenderer;
     }());
     tiled.TMXRenderer = TMXRenderer;
@@ -724,6 +740,25 @@ var tiled;
             return this.layerData[~~this.renderer.pixelToTileX(x, y)][~~this.renderer.pixelToTileY(y, x)];
         };
         /**
+         * 根据格子坐标获取Tile Id
+         * @param tileX 水平格子坐标
+         * @param tileY 垂直格子坐标
+         * @version Egret 3.0.3
+         */
+        TMXLayer.prototype.getTileIdByTileXY = function (tileX, tileY) {
+            var tile = this.getTileByTileXY(tileX, tileY);
+            return tile ? tile.gid : 0;
+        };
+        /**
+         * 根据格子坐标获取格子信息
+         * @param tileX 水平格子坐标
+         * @param tileY 垂直格子坐标
+         * @version Egret 3.0.3
+         */
+        TMXLayer.prototype.getTileByTileXY = function (tileX, tileY) {
+            return this.layerData[tileX][tileY];
+        };
+        /**
          * TMXTileMap#setLayerData调用
          * @param tileX 水平格子坐标
          * @param tileY 垂直格子坐标
@@ -958,6 +993,20 @@ var tiled;
             return this._layers;
         };
         /**
+         * 获取对应名称图层
+         * @version egret 3.0.3
+         */
+        TMXTilemap.prototype.getLayerByName = function (name) {
+            var layers = this.getLayers();
+            for (var _i = 0, layers_1 = layers; _i < layers_1.length; _i++) {
+                var l = layers_1[_i];
+                if (l.name == name) {
+                    return l;
+                }
+            }
+            return undefined;
+        };
+        /**
          * 获取所有的对象数据
          * @version egret 3.0.3
          */
@@ -1114,9 +1163,9 @@ var tiled;
             var layer = new tiled.TMXLayer(this, this._tilewidth, this._tileheight, this._orientation, this._tilesets, z, data);
             //渲染图层
             if (this._tmxRenderer.canRender(layer))
-                layer.setRenderer(this.getNewDefaultRenderer(this));
-            else
                 layer.setRenderer(this._tmxRenderer);
+            else
+                layer.setRenderer(this.getNewDefaultRenderer(this));
             var self = this;
             var onAllImageLoad = function (event) {
                 self.removeEventListener(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE, onAllImageLoad, this);
@@ -1160,6 +1209,22 @@ var tiled;
             };
             imageLayer.addEventListener(tiled.TMXImageLoadEvent.IMAGE_COMPLETE, onImageLoad, imageLayer);
             return imageLayer;
+        };
+        /**
+         * 像素坐标转化为格子坐标
+         * @param x 水平像素坐标
+         * @param y 垂直像素坐标
+         */
+        TMXTilemap.prototype.pixelToTileCoords = function (x, y) {
+            return this._tmxRenderer.pixelToTileCoords(x, y);
+        };
+        /**
+         * 返回指定的瓦片对应的像素位置
+         * @param tileX 水平格子坐标（单位：像素）
+         * @param tileY 垂直格子坐标（单位：像素）
+         */
+        TMXTilemap.prototype.tileToPixelCoords = function (tileX, tileY) {
+            return this._tmxRenderer.tileToPixelCoords(tileX, tileY);
         };
         return TMXTilemap;
     }(egret.Sprite));

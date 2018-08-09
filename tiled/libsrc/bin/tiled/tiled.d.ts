@@ -74,6 +74,18 @@ declare module tiled {
          * @version Egret 3.0.3
          */
         render(renderContainer: egret.Sprite): void;
+        /**
+         * 像素坐标转化为格子坐标
+         * @param x 水平像素坐标
+         * @param y 垂直像素坐标
+         */
+        pixelToTileCoords(x: number, y: number): egret.Point;
+        /**
+         * 返回指定的瓦片对应的像素位置
+         * @param tileX 水平格子坐标（单位：像素）
+         * @param tileY 垂直格子坐标（单位：像素）
+         */
+        tileToPixelCoords(tileX: number, tileY: number): egret.Point;
     }
 }
 declare module tiled {
@@ -447,6 +459,20 @@ declare module tiled {
          */
         getTile(x: number, y: number): tiled.TMXTile;
         /**
+         * 根据格子坐标获取Tile Id
+         * @param tileX 水平格子坐标
+         * @param tileY 垂直格子坐标
+         * @version Egret 3.0.3
+         */
+        getTileIdByTileXY(tileX: number, tileY: number): number;
+        /**
+         * 根据格子坐标获取格子信息
+         * @param tileX 水平格子坐标
+         * @param tileY 垂直格子坐标
+         * @version Egret 3.0.3
+         */
+        getTileByTileXY(tileX: number, tileY: number): tiled.TMXTile;
+        /**
          * TMXTileMap#setLayerData调用
          * @param tileX 水平格子坐标
          * @param tileY 垂直格子坐标
@@ -569,6 +595,11 @@ declare module tiled {
          */
         getLayers(): Array<any>;
         /**
+         * 获取对应名称图层
+         * @version egret 3.0.3
+         */
+        getLayerByName(name: string): any;
+        /**
          * 获取所有的对象数据
          * @version egret 3.0.3
          */
@@ -628,6 +659,18 @@ declare module tiled {
          * @param z
          */
         private parseImageLayer(data, z);
+        /**
+         * 像素坐标转化为格子坐标
+         * @param x 水平像素坐标
+         * @param y 垂直像素坐标
+         */
+        pixelToTileCoords(x: number, y: number): egret.Point;
+        /**
+         * 返回指定的瓦片对应的像素位置
+         * @param tileX 水平格子坐标（单位：像素）
+         * @param tileY 垂直格子坐标（单位：像素）
+         */
+        tileToPixelCoords(tileX: number, tileY: number): egret.Point;
     }
 }
 declare module tiled {

@@ -160,6 +160,20 @@ module tiled{
             this.readMapObjects(this._data);
             return this._layers;
         }
+
+		/**
+		 * 获取对应名称图层
+		 * @version egret 3.0.3
+		 */
+        getLayerByName(name:string): any {
+            let layers = this.getLayers();
+			for(let l of layers){
+				if(l.name == name){
+					return l;
+				}
+			}
+            return undefined;
+        }
 	
 		/**
 		 * 获取所有的对象数据
@@ -344,9 +358,9 @@ module tiled{
 			var layer: tiled.TMXLayer = new tiled.TMXLayer(this, this._tilewidth, this._tileheight, this._orientation, this._tilesets, z, data);
 			//渲染图层
 			if (this._tmxRenderer.canRender(layer))
-				layer.setRenderer(this.getNewDefaultRenderer(this));
-			else
 				layer.setRenderer(this._tmxRenderer);
+			else
+				layer.setRenderer(this.getNewDefaultRenderer(this));
 			var self: tiled.TMXTilemap = this;
 			var onAllImageLoad: Function = function (event:tiled.TMXImageLoadEvent): void {
 				self.removeEventListener(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE, onAllImageLoad, this);
@@ -395,6 +409,26 @@ module tiled{
 			}
 			imageLayer.addEventListener(tiled.TMXImageLoadEvent.IMAGE_COMPLETE, onImageLoad, imageLayer);
 			return imageLayer;
+		}
+
+
+		/**
+		 * 像素坐标转化为格子坐标
+		 * @param x 水平像素坐标
+		 * @param y 垂直像素坐标
+		 */
+		pixelToTileCoords(x: number, y: number): egret.Point {
+			return this._tmxRenderer.pixelToTileCoords(x, y);
+		}
+
+		
+		/**
+		 * 返回指定的瓦片对应的像素位置
+		 * @param tileX 水平格子坐标（单位：像素）
+		 * @param tileY 垂直格子坐标（单位：像素）
+		 */
+		tileToPixelCoords(tileX: number, tileY: number): egret.Point {
+			return this._tmxRenderer.tileToPixelCoords(tileX, tileY);
 		}
 	} 
 }
