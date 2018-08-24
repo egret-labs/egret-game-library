@@ -3661,6 +3661,7 @@ declare namespace egret_native {
     class NativeDisplayObject {
         id: number;
         constructor(type: number);
+        addCallBack(type:string, listener:Function, thisobj: any);
         addChildAt(childId: number, index: number): void;
         removeChild(childId: number): void;
         swapChild(index1: number, index2: number): void;

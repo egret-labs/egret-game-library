@@ -144,6 +144,9 @@ var particle;
             if (egret.nativeRender) {
                 _this.initConfig(emissionRate, 0, 0);
                 _this.changeTexture(texture);
+                _this.$nativeDisplayObject.addCallBack("on" + egret.Event.COMPLETE, function () {
+                    _this.dispatchEventWith(egret.Event.COMPLETE);
+                }, _this);
             }
             else {
                 _this.emissionRate = emissionRate;
@@ -435,6 +438,7 @@ var particle;
             this.$renderNode.drawData.length = 0;
             this.bitmapNodeList.length = 0;
             this.$renderDirty = true;
+            this._pool.length = 0;
         };
         ParticleSystem.prototype.addOneParticle = function () {
             //todo 这里可能需要返回成功与否

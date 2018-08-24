@@ -83,6 +83,9 @@ module particle {
             if (egret.nativeRender) {
                 this.initConfig(emissionRate, 0, 0);
                 this.changeTexture(texture);
+                this.$nativeDisplayObject.addCallBack("on" + egret.Event.COMPLETE, ()=>{
+                    this.dispatchEventWith(egret.Event.COMPLETE);
+                }, this);
             }
             else {
                 this.emissionRate = emissionRate;
@@ -396,6 +399,7 @@ module particle {
             this.$renderNode.drawData.length = 0;
             this.bitmapNodeList.length = 0;
             this.$renderDirty = true;
+            this._pool.length = 0;
         }
 
         private addOneParticle(): void {
