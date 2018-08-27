@@ -108,6 +108,7 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
     private createGameScene(): void {
+        this.getZip()
         var sky: egret.Bitmap = this.createBitmapByName("bgImage");
         this.addChild(sky);
         var stageW: number = this.stage.stageWidth;
@@ -156,8 +157,14 @@ class Main extends egret.DisplayObjectContainer {
         RES.getResAsync("description", this.startAnimation, this);
 
         RES.getResByUrl("resource/default.res.json.zip", function (data) {
-            var zip = new JSZip(data);
-            console.log(zip.file("default.res.json").asText());
+            // var zip = new JSZip();
+            // console.log(zip.file("default.res.json").asText());
+            JSZip.loadAsync(data).then((zip) => {
+                return zip.file("default.res.json").async('text')
+            }).then((data) => {
+                console.log(data)
+            })
+
         }, this, RES.ResourceItem.TYPE_BIN);
     }
     private getZip(): void {
@@ -167,10 +174,12 @@ class Main extends egret.DisplayObjectContainer {
         var img = zip.folder("images");
         var imgData = "R0lGODdhBQAFAIACAAAAAP/eACwAAAAABQAFAAACCIwPkWerClIBADs=";
         img.file("smile.gif", imgData, { base64: true });
-        var content = zip.generate({ type: "blob" });
-        saveAs(content, "example.zip");
+        // var content = zip.generate({ type: "blob" });
+        // saveAs(content, "example.zip");
+        zip.generateAsync({ type: "blob" }).then((blob) => {
+            saveAs(blob, "example.zip")
+        })
     }
-
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
      * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
@@ -197,7 +206,7 @@ class Main extends egret.DisplayObjectContainer {
 
         var textfield: egret.TextField = self.textfield;
         var count: number = -1;
-        var change: Function = function() {
+        var change: Function = function () {
             count++;
             if (count >= textflowArr.length) {
                 count = 0;
