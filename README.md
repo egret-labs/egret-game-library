@@ -62,8 +62,11 @@ tiledmap
 #### weixinapi
 wechat API
 
-### youmi
-youmi webrtc sdk
+### youmeim
+youme im sdk
+
+### youmertc
+youme webrtc sdk
 
 
 
@@ -130,6 +133,9 @@ tiledmap 支持库
 #### weixinapi
 微信API
 
-### youmi
+### youmeim
+游密网页IM SDK
+
+### youmertc
 游密网页语音视频通讯 SDK
 

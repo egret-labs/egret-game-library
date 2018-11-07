@@ -1,0 +1,54 @@
+{
+  "template": {},
+  "target": {
+    "current": "web"
+  },
+  "eui": {
+    "exmlRoot": [
+      "resource/eui_skins"
+    ],
+    "themes": [
+      "resource/default.thm.json"
+    ],
+    "exmlPublishPolicy": "commonjs"
+  },
+  "modules": [
+    {
+      "name": "egret"
+    },
+    {
+      "name": "eui"
+    },
+    {
+      "name": "assetsmanager"
+    },
+    {
+      "name": "tween"
+    },
+    {
+      "name": "promise"
+    },
+    {
+      "name": "yimcore",
+      "path": "../libsrc/yimcore"
+    },
+    {
+      "name": "yimtext",
+      "path": "../libsrc/yimtext"
+    },
+    {
+      "name": "yimvoice",
+      "path": "../libsrc/yimvoice"
+    },
+    {
+      "name": "yimmp3",
+      "path": "../libsrc/yimmp3"
+    },
+    {
+      "name": "yimamr",
+      "path": "../libsrc/yimamr"
+    }
+  ],
+  "engineVersion": "5.2.12",
+	"compilerVersion": "5.2.12"
+}
