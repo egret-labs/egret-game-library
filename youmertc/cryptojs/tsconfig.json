@@ -1,0 +1,10 @@
+{
+	"compilerOptions": {
+    "target": "es5",
+    "allowJs": true,
+		"outFile": "bin/cryptojs/cryptojs.js"
+  },
+  "files": [
+    "src/crypto-js.js"
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "name": "cryptojs",
+  "typings": "typings/crypto-js.d.ts"
+}
