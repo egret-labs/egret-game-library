@@ -3686,8 +3686,9 @@ declare namespace egret_native {
         setBitmapData(value: egret.Texture): void;
         setBitmapDataToMesh(value: egret.Texture): void;
         setBitmapDataToParticle(value: egret.Texture): void;
+        setStartToParticle(config: any): void;
         setStopToParticle(value: boolean): void;
-        setCustomData(config: any): void;
+        setParticleConfig(config: any): void;
         setWidth(value: number): void;
         setHeight(value: number): void;
         setCacheAsBitmap(value: boolean): void;

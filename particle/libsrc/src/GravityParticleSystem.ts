@@ -242,7 +242,7 @@ module particle {
                     configArray.push(i++);
                     configArray.push(this.$particleConfig[key]);
                 }
-                this.$nativeDisplayObject.setCustomData(configArray);
+                this.$nativeDisplayObject.setStartToParticle(configArray);
             }
             else {
                 super.start(duration);
@@ -256,7 +256,7 @@ module particle {
             let configArray = [];
             configArray.push(ParticleKeys.currentParticles);
             configArray.push(num);
-            this.$nativeDisplayObject.setCustomData(configArray);
+            this.$nativeDisplayObject.setParticleConfig(configArray);
         }
 
         public onPropertyChanges():void {
@@ -285,7 +285,7 @@ module particle {
                 this.$particleConfig[ParticleKeys.emitterBoundsHeight] = this.relativeContentBounds.height;
                 configArray.push(this.relativeContentBounds.height);
             }
-            this.$nativeDisplayObject.setCustomData(configArray);
+            this.$nativeDisplayObject.setParticleConfig(configArray);
         }
 
         private parseConfig(config: any): void {

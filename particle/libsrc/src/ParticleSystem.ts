@@ -189,7 +189,7 @@ module particle {
         }
 
         public onPropertyChanges(): void {
-            this.$nativeDisplayObject.setCustomData(this.$particleConfig);
+            this.$nativeDisplayObject.setParticleConfig(this.$particleConfig);
         }
 
         /**
@@ -235,7 +235,7 @@ module particle {
                 this.emissionTime = duration;
                 if (egret.nativeRender) {
                     this.$particleConfig[3] = duration;
-                    this.$nativeDisplayObject.setCustomData(this.$particleConfig);
+                    this.$nativeDisplayObject.setStartToParticle(this.$particleConfig);
                 }
                 else {
                     this.timeStamp = egret.getTimer();

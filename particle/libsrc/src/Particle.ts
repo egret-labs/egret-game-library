@@ -119,4 +119,21 @@ module particle {
             return matrix;
         }
     }
+
+    const requireParticleABIVersion = 1;
+    if (egret.nativeRender) {
+        if (!egret_native['nrParticleABIVersion']) {
+            egret.warn('需要升级粒子库版本才能开启原生渲染加速');
+            egret.nativeRender = false;
+        } else {
+            let nrParticleABIVersion = egret_native['nrParticleABIVersion'];
+            if (nrParticleABIVersion < requireParticleABIVersion) {
+                egret.warn('需要升级runtime版本才能开启原生渲染加速');
+                egret.nativeRender = false;
+            } else if (nrParticleABIVersion > requireParticleABIVersion) {
+                egret.warn('需要升级粒子库版本才能开启原生渲染加速');
+                egret.nativeRender = false;
+            }
+        }
+    }
 }
