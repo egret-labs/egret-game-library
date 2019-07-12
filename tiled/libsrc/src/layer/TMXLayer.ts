@@ -43,9 +43,9 @@ module tiled{
 			//
 			this.addChild(this._staticContainer);
 			//为了防止地图坐标为负时出现无法显示的问题，这里延迟2秒进行缓存
-			setTimeout(function(self:any):void{
-				self._staticContainer.cacheAsBitmap = true;
-			},2000,this);
+			setTimeout(()=>{
+				this._staticContainer.cacheAsBitmap = true;
+			},2000)
 			
 			this._animationContainer            = new egret.Sprite();
 			this.addChild(this._animationContainer);

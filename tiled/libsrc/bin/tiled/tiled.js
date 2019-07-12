@@ -493,9 +493,9 @@ var tiled;
             //
             _this.addChild(_this._staticContainer);
             //为了防止地图坐标为负时出现无法显示的问题，这里延迟2秒进行缓存
-            setTimeout(function (self) {
-                self._staticContainer.cacheAsBitmap = true;
-            }, 2000, _this);
+            setTimeout(function () {
+                _this._staticContainer.cacheAsBitmap = true;
+            }, 2000);
             _this._animationContainer = new egret.Sprite();
             _this.addChild(_this._animationContainer);
             _this._tilemap = tilemap;
