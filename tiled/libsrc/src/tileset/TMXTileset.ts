@@ -92,7 +92,7 @@ module tiled{
 			if (this._image) {
 				this._hTileCount    = ~~(this._image.width / (this._tilewidth + this._spacing));
 				this._vTileCount    = ~~(this._image.height / (this._tileheight + this._margin));
-				this._lastgid       = this._firstgid + (((this._hTileCount * this._vTileCount) - 1) || 0);
+				this._lastgid       = this._firstgid + Math.max(0,(((this._hTileCount * this._vTileCount) - 1) || 0));
 			}    
 		}
 
