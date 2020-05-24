@@ -16,7 +16,7 @@ module tiled{
 			super(rows, cols, tilewidth, tileheight);
 			this._hTilewidth 	= this.tilewidth / 2;
 			this._hTileheight 	= this.tileheight / 2;
-			this._originX 		= this.rows * this._hTilewidth;
+			this._originX 		= this.cols * this._hTilewidth;
 		}
 
 		
