@@ -21,7 +21,30 @@ module tiled{
 		canRender(layer:any): boolean {
 			return (layer.orientation === tiled.TMXConstants.ORIENTATION_ORTHOGONAL) && super.canRender(layer);
 		}
+
 		
+		/**
+		 * 地图坐标转化为格子坐标
+		 * @param x 水平地图坐标
+		 * @param y 垂直地图坐标
+		 * @version Egret 3.0.3
+		 */
+		mapToTileCoords(x: number, y: number): egret.Point {
+			return new egret.Point(Math.floor(x / this.tilewidth), Math.floor(y / this.tileheight));
+		}
+
+
+		/**
+		 * 格子坐标转化为地图坐标
+		 * @param tileX 水平格子坐标
+		 * @param tileY 垂直格子坐标
+		 * @version Egret 3.0.3
+		 */
+		tileToMapCoords(tileX: number, tileY: number): egret.Point {
+			return new egret.Point(tileX * this.tilewidth, tileY * this.tileheight);
+		}
+
+
 		/**
 		 * 像素坐标转化为格子坐标
 		 * @param x 水平像素坐标

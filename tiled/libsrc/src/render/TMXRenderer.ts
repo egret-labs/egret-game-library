@@ -29,6 +29,22 @@ module tiled{
 		}
 		
 		/**
+		 * 地图坐标转化为格子坐标
+		 * @param x 水平地图坐标
+		 * @param y 垂直地图坐标
+		 * @version Egret 3.0.3
+		 */
+		abstract mapToTileCoords(x: number, y: number): egret.Point;
+
+		/**
+		 * 格子坐标转化为地图坐标
+		 * @param tileX 水平格子坐标
+		 * @param tileY 垂直格子坐标
+		 * @version Egret 3.0.3
+		 */
+		abstract tileToMapCoords(tileX: number, tileY: number): egret.Point;
+
+		/**
 		 * 像素坐标转化为格子坐标
 		 * @param x 水平像素坐标
 		 * @param y 垂直像素坐标
