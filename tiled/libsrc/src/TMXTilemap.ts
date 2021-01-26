@@ -396,5 +396,25 @@ module tiled{
 			imageLayer.addEventListener(tiled.TMXImageLoadEvent.IMAGE_COMPLETE, onImageLoad, imageLayer);
 			return imageLayer;
 		}
+
+		/**
+		 * 像素坐标转化为格子坐标
+		 * @param x 水平像素坐标
+		 * @param y 垂直像素坐标
+		 * @version Egret 3.0.3
+		 */
+		public pixelToTileCoords(x: number, y: number): egret.Point{
+			return this._tmxRenderer.pixelToTileCoords(x, y);
+		}
+
+		/**
+		 * 格子坐标转化为像素坐标
+		 * @param tileX 水平格子坐标
+		 * @param tileY 垂直格子坐标
+		 * @version Egret 3.0.3
+		 */
+		public tileToPixelCoords(tileX: number, tileY: number): egret.Point {
+			return this._tmxRenderer.tileToPixelCoords(tileX, tileY);
+		}
 	} 
 }

@@ -30,7 +30,7 @@ declare module tiled {
     }
 }
 declare module tiled {
-    class TMXRenderer {
+    abstract class TMXRenderer {
         rows: number;
         cols: number;
         tilewidth: number;
@@ -52,6 +52,20 @@ declare module tiled {
          * @private
          */
         canRender(layer: any): boolean;
+        /**
+         * 像素坐标转化为格子坐标
+         * @param x 水平像素坐标
+         * @param y 垂直像素坐标
+         * @version Egret 3.0.3
+         */
+        abstract pixelToTileCoords(x: number, y: number): egret.Point;
+        /**
+         * 格子坐标转化为像素坐标
+         * @param tileX 水平格子坐标
+         * @param tileY 垂直格子坐标
+         * @version Egret 3.0.3
+         */
+        abstract tileToPixelCoords(tileX: number, tileY: number): egret.Point;
         /**
          * 绘制Tile图层
          * @param layer
@@ -628,6 +642,20 @@ declare module tiled {
          * @param z
          */
         private parseImageLayer(data, z);
+        /**
+         * 像素坐标转化为格子坐标
+         * @param x 水平像素坐标
+         * @param y 垂直像素坐标
+         * @version Egret 3.0.3
+         */
+        pixelToTileCoords(x: number, y: number): egret.Point;
+        /**
+         * 格子坐标转化为像素坐标
+         * @param tileX 水平格子坐标
+         * @param tileY 垂直格子坐标
+         * @version Egret 3.0.3
+         */
+        tileToPixelCoords(tileX: number, tileY: number): egret.Point;
     }
 }
 declare module tiled {
