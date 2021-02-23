@@ -1401,6 +1401,9 @@ var tiled;
             var pos = tileset.tilemap.mapToPixelCoords(_this.x, _this.y);
             _this.x = pos.x;
             _this.y = pos.y;
+            // 坐标是与矩形底边中心点对齐的
+            _this.anchorOffsetX = _this.width * 0.5;
+            _this.anchorOffsetY = _this.height;
             return _this;
         }
         Object.defineProperty(TMXObject.prototype, "id", {
@@ -1575,8 +1578,8 @@ var tiled;
             var tileset = tilesets.getTilesetByGid(this._gid);
             if (tileset) {
                 this._tile = new tiled.TMXTile(0, 0, this.gid, tileset.tilemap, tileset);
-                // 坐标是与图片底边中心点对齐的
-                tileset.drawTile(this, tileset.tileoffset.x - tileset.tilewidth * 0.5, tileset.tileoffset.y - tileset.tileheight, this._tile);
+                //tileset.drawTile(this,tileset.tileoffset.x, tileset.tileoffset.y - tileset.tileheight,this._tile);  
+                tileset.drawTile(this, tileset.tileoffset.x, tileset.tileoffset.y, this._tile);
             }
         };
         return TMXObject;
@@ -3046,8 +3049,10 @@ var tiled;
                 isImage = renderer.isImage;
             }
             this._transformMatrix.identity();
-            var _scalex = isObject ? rect.width / renderTexture.textureWidth : 1;
-            var _scaley = isObject ? rect.height / renderTexture.textureHeight : 1;
+            //var _scalex: number = isObject ? rect.width / renderTexture.textureWidth : 1;
+            //var _scaley: number = isObject ? rect.height / renderTexture.textureHeight : 1;
+            var _scalex = isObject ? renderer.width / rect.width : 1;
+            var _scaley = isObject ? renderer.height / rect.height : 1;
             if (tile.flippedAD) {
                 this._transformMatrix.scale(-1 * _scalex, -1 * _scaley);
                 this._transformMatrix.translate(dx + rect.width * _scalex, dy + rect.height * _scaley);
@@ -3062,7 +3067,8 @@ var tiled;
             }
             else {
                 this._transformMatrix.scale(_scalex, _scaley);
-                this._transformMatrix.translate(dx, dy + (isObject ? (renderTexture.textureHeight - rect.height) : 0));
+                //this._transformMatrix.translate(dx, dy + (isObject ? (renderTexture.textureHeight - rect.height) : 0));
+                this._transformMatrix.translate(dx, dy);
             }
             if (tile.bitmap == null)
                 tile.bitmap = new egret.Bitmap();
