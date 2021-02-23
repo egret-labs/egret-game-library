@@ -263,7 +263,8 @@ module tiled{
 			var tileset: tiled.TMXTileset = tilesets.getTilesetByGid(this._gid);
 			if (tileset) {
 				this._tile = new tiled.TMXTile(0,0,this.gid,tileset.tilemap,tileset);
-                tileset.drawTile(this,tileset.tileoffset.x,tileset.tileoffset.y - tileset.tileheight,this._tile);  
+				// 坐标是与图片底边中心点对齐的
+                tileset.drawTile(this, tileset.tileoffset.x - tileset.tilewidth*0.5, tileset.tileoffset.y - tileset.tileheight, this._tile);  
 			}
 		}
 	} 
