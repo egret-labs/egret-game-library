@@ -84,6 +84,30 @@ module tiled{
 		}
 
 		/**
+		 * 地图坐标转化为像素坐标
+		 * @param {number} x 水平地图坐标
+		 * @param {number} y 垂直地图坐标
+		 * @return {*}  {egret.Point}
+		 * @version Egret 3.0.3
+		 */
+		mapToPixelCoords(x: number, y: number): egret.Point {
+			return new egret.Point(x, y);
+		}
+
+
+		/**
+		 * 像素坐标转化为地图坐标
+		 * @param {number} x 水平像素坐标
+		 * @param {number} y 垂直像素坐标
+		 * @return {*}  {egret.Point}
+		 * @version Egret 3.0.3
+		 */
+		pixelToMapCoords(x: number, y: number): egret.Point {
+			return new egret.Point(x, y);
+		}
+
+
+		/**
 		 * 绘制Tile
 		 * @param renderer 渲染容器
 		 * @param tileX 水平格子坐标

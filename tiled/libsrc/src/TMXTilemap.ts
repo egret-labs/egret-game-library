@@ -436,5 +436,25 @@ module tiled{
 		public tileToMapCoords(tileX: number, tileY: number): egret.Point {
 			return this._tmxRenderer.tileToMapCoords(tileX, tileY);
 		}
+
+		/**
+		 * 地图坐标转化为像素坐标
+		 * @param x 水平地图坐标
+		 * @param y 垂直地图坐标
+		 * @version Egret 3.0.3
+		 */
+		public mapToPixelCoords(x: number, y: number): egret.Point{
+			return this._tmxRenderer.mapToPixelCoords(x, y);
+		}
+
+		/**
+		 * 像素坐标转化为地图坐标
+		 * @param x 水平像素坐标
+		 * @param y 垂直像素坐标
+		 * @version Egret 3.0.3
+		 */
+		public pixelToMapCoords(x: number, y: number): egret.Point {
+			return this._tmxRenderer.pixelToMapCoords(x, y);
+		}
 	} 
 }

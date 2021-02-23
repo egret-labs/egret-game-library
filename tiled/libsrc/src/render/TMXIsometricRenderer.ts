@@ -31,6 +31,30 @@ module tiled{
 
 		
 		/**
+		 * 地图坐标转化为水平格子坐标（保留小数）
+		 * @param x 水平像素坐标
+		 * @param y 垂直像素坐标
+		 * @version Egret 3.0.3
+		 */
+		mapToTileX(x: number, y: number): number {
+			let tileHeight = this.tileheight;
+			return x / tileHeight;
+		}
+
+
+		/**
+		 * 地图坐标转化为垂直格子坐标（保留小数）
+		 * @param x 水平像素坐标
+		 * @param y 垂直像素坐标
+		 * @version Egret 3.0.3
+		 */
+		mapToTileY(x: number, y:number): number {
+			let tileHeight = this.tileheight;
+			return y / tileHeight;
+		}
+
+
+		/**
 		 * 地图坐标转化为格子坐标
 		 * @param x 水平地图坐标
 		 * @param y 垂直地图坐标
@@ -99,6 +123,32 @@ module tiled{
 		 */
 		tileToPixelCoords(tileX: number, tileY: number): egret.Point {
 			return new egret.Point((tileX - tileY) * this._hTilewidth + this._originX, (tileX + tileY) * this._hTileheight);
+		}
+
+		/**
+		 * 地图坐标转化为像素坐标
+		 * @param {number} x 水平地图坐标
+		 * @param {number} y 垂直地图坐标
+		 * @return {*}  {egret.Point}
+		 * @version Egret 3.0.3
+		 */
+		mapToPixelCoords(x: number, y: number): egret.Point {
+			let tileX = this.mapToTileX(x, y);
+			let tileY = this.mapToTileY(x, y);
+			return this.tileToPixelCoords(tileX, tileY);
+		}
+
+		/**
+		 * 像素坐标转化为地图坐标
+		 * @param {number} x 水平像素坐标
+		 * @param {number} y 垂直像素坐标
+		 * @return {*}  {egret.Point}
+		 * @version Egret 3.0.3
+		 */
+		pixelToMapCoords(x: number, y: number): egret.Point {
+			let tileX = this.pixelToTileX(x, y);
+			let tileY = this.pixelToTileY(x, y);
+			return this.tileToMapCoords(tileX, tileY);
 		}
 
 		

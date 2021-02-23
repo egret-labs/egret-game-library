@@ -108,6 +108,12 @@ module tiled{
 				var _shape: egret.Sprite                = this._shapes[i];
 				this.addChild(_shape);
 			}
+
+			// data.attributes.x, data.attributes.y 是地图坐标，要转成像素坐标
+			let tileset: tiled.TMXTileset = tilesets.getTilesetByGid(this._gid);
+			let pos = tileset.tilemap.mapToPixelCoords(this.x, this.y);
+			this.x = pos.x;
+			this.y = pos.y;
 		}
 		
 		/**

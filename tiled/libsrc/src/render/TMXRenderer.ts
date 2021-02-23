@@ -61,6 +61,24 @@ module tiled{
 		abstract tileToPixelCoords(tileX: number, tileY: number): egret.Point;
 
 		/**
+		 * 地图坐标转化为像素坐标
+		 * @param {number} x 水平地图坐标
+		 * @param {number} y 垂直地图坐标
+		 * @return {*}  {egret.Point}
+		 * @version Egret 3.0.3
+		 */
+		abstract mapToPixelCoords(x: number, y: number): egret.Point;
+
+		/**
+		 * 像素坐标转化为地图坐标
+		 * @param {number} x 水平像素坐标
+		 * @param {number} y 垂直像素坐标
+		 * @return {*}  {egret.Point}
+		 * @version Egret 3.0.3
+		 */
+		abstract pixelToMapCoords(x: number, y: number): egret.Point;
+
+		/**
 		 * 绘制Tile图层
 		 * @param layer
 		 * @param rect

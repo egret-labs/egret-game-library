@@ -81,6 +81,22 @@ declare module tiled {
          */
         abstract tileToPixelCoords(tileX: number, tileY: number): egret.Point;
         /**
+         * 地图坐标转化为像素坐标
+         * @param {number} x 水平地图坐标
+         * @param {number} y 垂直地图坐标
+         * @return {*}  {egret.Point}
+         * @version Egret 3.0.3
+         */
+        abstract mapToPixelCoords(x: number, y: number): egret.Point;
+        /**
+         * 像素坐标转化为地图坐标
+         * @param {number} x 水平像素坐标
+         * @param {number} y 垂直像素坐标
+         * @return {*}  {egret.Point}
+         * @version Egret 3.0.3
+         */
+        abstract pixelToMapCoords(x: number, y: number): egret.Point;
+        /**
          * 绘制Tile图层
          * @param layer
          * @param rect
@@ -684,6 +700,20 @@ declare module tiled {
          * @version Egret 3.0.3
          */
         tileToMapCoords(tileX: number, tileY: number): egret.Point;
+        /**
+         * 地图坐标转化为像素坐标
+         * @param x 水平地图坐标
+         * @param y 垂直地图坐标
+         * @version Egret 3.0.3
+         */
+        mapToPixelCoords(x: number, y: number): egret.Point;
+        /**
+         * 像素坐标转化为地图坐标
+         * @param x 水平像素坐标
+         * @param y 垂直像素坐标
+         * @version Egret 3.0.3
+         */
+        pixelToMapCoords(x: number, y: number): egret.Point;
     }
 }
 declare module tiled {
@@ -1016,6 +1046,22 @@ declare module tiled {
          */
         pixelToTileY(y: number, x: number): number;
         /**
+         * 地图坐标转化为像素坐标
+         * @param {number} x 水平地图坐标
+         * @param {number} y 垂直地图坐标
+         * @return {*}  {egret.Point}
+         * @version Egret 3.0.3
+         */
+        mapToPixelCoords(x: number, y: number): egret.Point;
+        /**
+         * 像素坐标转化为地图坐标
+         * @param {number} x 水平像素坐标
+         * @param {number} y 垂直像素坐标
+         * @return {*}  {egret.Point}
+         * @version Egret 3.0.3
+         */
+        pixelToMapCoords(x: number, y: number): egret.Point;
+        /**
          * 返回指定的瓦片对应的像素位置
          * @param q
          * @param r
@@ -1061,6 +1107,20 @@ declare module tiled {
          */
         canRender(layer: any): boolean;
         /**
+         * 地图坐标转化为水平格子坐标（保留小数）
+         * @param x 水平像素坐标
+         * @param y 垂直像素坐标
+         * @version Egret 3.0.3
+         */
+        mapToTileX(x: number, y: number): number;
+        /**
+         * 地图坐标转化为垂直格子坐标（保留小数）
+         * @param x 水平像素坐标
+         * @param y 垂直像素坐标
+         * @version Egret 3.0.3
+         */
+        mapToTileY(x: number, y: number): number;
+        /**
          * 地图坐标转化为格子坐标
          * @param x 水平地图坐标
          * @param y 垂直地图坐标
@@ -1102,6 +1162,22 @@ declare module tiled {
          * @version Egret 3.0.3
          */
         tileToPixelCoords(tileX: number, tileY: number): egret.Point;
+        /**
+         * 地图坐标转化为像素坐标
+         * @param {number} x 水平地图坐标
+         * @param {number} y 垂直地图坐标
+         * @return {*}  {egret.Point}
+         * @version Egret 3.0.3
+         */
+        mapToPixelCoords(x: number, y: number): egret.Point;
+        /**
+         * 像素坐标转化为地图坐标
+         * @param {number} x 水平像素坐标
+         * @param {number} y 垂直像素坐标
+         * @return {*}  {egret.Point}
+         * @version Egret 3.0.3
+         */
+        pixelToMapCoords(x: number, y: number): egret.Point;
         /**
          * 绘制作Tile
          * @param renderer 渲染容器
@@ -1177,6 +1253,22 @@ declare module tiled {
          * @version Egret 3.0.3
          */
         tileToPixelCoords(tileX: number, tileY: number): egret.Point;
+        /**
+         * 地图坐标转化为像素坐标
+         * @param {number} x 水平地图坐标
+         * @param {number} y 垂直地图坐标
+         * @return {*}  {egret.Point}
+         * @version Egret 3.0.3
+         */
+        mapToPixelCoords(x: number, y: number): egret.Point;
+        /**
+         * 像素坐标转化为地图坐标
+         * @param {number} x 水平像素坐标
+         * @param {number} y 垂直像素坐标
+         * @return {*}  {egret.Point}
+         * @version Egret 3.0.3
+         */
+        pixelToMapCoords(x: number, y: number): egret.Point;
         /**
          * 绘制Tile
          * @param renderer 渲染容器
