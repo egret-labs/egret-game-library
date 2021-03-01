@@ -138,7 +138,32 @@ module tiled{
 		get renderheight() {
 			return this._renderHeight;
 		}
-		
+
+		/**
+		 * 获取地图朝向
+		 * @version egret 3.0.3
+		 */
+
+		get orientation() {
+			return this._orientation;
+		}
+
+		/**
+		 * 地图逻辑宽度
+		 * @version Egret 3.0.3
+		 */
+		get mapWidth(): number {
+			return this._tmxRenderer.mapWidth;
+		}
+
+		/**
+		 * 地图逻辑高度
+		 * @version Egret 3.0.3
+		 */
+		get mapHeight(): number {
+			return this._tmxRenderer.mapHeight;
+		}
+
 		/**
 		 * 渲染
 		 * @version egret 3.0.3

@@ -1,6 +1,8 @@
 module tiled{
 	export class TMXOrthogonalRenderer extends tiled.TMXRenderer {
-    	
+		private _mapWidth: number;
+		private _mapHeight: number;
+
 		/**
 		 * 创建1个正交渲染器（正常模式）
 		 * @param rows 水平方向格子数
@@ -11,6 +13,8 @@ module tiled{
 		 */
 		constructor(rows: number, cols: number, tilewidth: number, tileheight: number) {
 			super(rows, cols, tilewidth, tileheight);
+			this._mapWidth		= this.rows * this.tilewidth;
+			this._mapHeight		= this.cols * this.tileheight;
 		}
 		
 		/**
@@ -22,7 +26,25 @@ module tiled{
 			return (layer.orientation === tiled.TMXConstants.ORIENTATION_ORTHOGONAL) && super.canRender(layer);
 		}
 
-		
+
+		/**
+		 * 地图逻辑宽度
+		 * @version Egret 3.0.3
+		 */
+		get mapWidth(): number {
+			return this._mapWidth;
+		}
+
+
+		/**
+		 * 地图逻辑高度
+		 * @version Egret 3.0.3
+		 */
+		get mapHeight(): number {
+			return this._mapHeight;
+		}
+
+
 		/**
 		 * 地图坐标转化为格子坐标
 		 * @param x 水平地图坐标

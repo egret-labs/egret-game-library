@@ -27,7 +27,20 @@ module tiled{
 				(this.tilewidth === layer.tilewidth) &&
 				(this.tileheight === layer.tileheight));
 		}
-		
+
+
+		/**
+		 * 地图逻辑宽度
+		 * @version Egret 3.0.3
+		 */
+		abstract get mapWidth(): number;
+
+		/**
+		 * 地图逻辑高度
+		 * @version Egret 3.0.3
+		 */
+		abstract get mapHeight(): number;
+
 		/**
 		 * 地图坐标转化为格子坐标
 		 * @param x 水平地图坐标

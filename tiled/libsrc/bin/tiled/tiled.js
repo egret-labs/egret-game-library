@@ -937,6 +937,39 @@ var tiled;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(TMXTilemap.prototype, "orientation", {
+            /**
+             * 获取地图朝向
+             * @version egret 3.0.3
+             */
+            get: function () {
+                return this._orientation;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TMXTilemap.prototype, "mapWidth", {
+            /**
+             * 地图逻辑宽度
+             * @version Egret 3.0.3
+             */
+            get: function () {
+                return this._tmxRenderer.mapWidth;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TMXTilemap.prototype, "mapHeight", {
+            /**
+             * 地图逻辑高度
+             * @version Egret 3.0.3
+             */
+            get: function () {
+                return this._tmxRenderer.mapHeight;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * 渲染
          * @version egret 3.0.3
@@ -1792,6 +1825,8 @@ var tiled;
          */
         function TMXHexagonalRenderer(rows, cols, tilewidth, tileheight, hexsidelength, staggeraxis, staggerindex) {
             var _this = _super.call(this, rows, cols, tilewidth, tileheight) || this;
+            _this._mapWidth = _this.rows * _this.tilewidth;
+            _this._mapHeight = _this.cols * _this.tileheight;
             _this._hexsidelength = hexsidelength;
             _this._staggeraxis = staggeraxis;
             _this._staggerindex = staggerindex;
@@ -1816,6 +1851,28 @@ var tiled;
         TMXHexagonalRenderer.prototype.canRender = function (layer) {
             return (layer.orientation === tiled.TMXConstants.ORIENTATION_HEXAGONAL) && _super.prototype.canRender.call(this, layer);
         };
+        Object.defineProperty(TMXHexagonalRenderer.prototype, "mapWidth", {
+            /**
+             * 地图逻辑宽度
+             * @version Egret 3.0.3
+             */
+            get: function () {
+                return this._mapWidth;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TMXHexagonalRenderer.prototype, "mapHeight", {
+            /**
+             * 地图逻辑高度
+             * @version Egret 3.0.3
+             */
+            get: function () {
+                return this._mapHeight;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * 地图坐标转化为格子坐标
          * @param x 水平地图坐标
@@ -2037,6 +2094,8 @@ var tiled;
             _this._hTilewidth = _this.tilewidth / 2;
             _this._hTileheight = _this.tileheight / 2;
             _this._originX = _this.rows * _this._hTilewidth;
+            _this._mapWidth = _this.rows * _this.tileheight;
+            _this._mapHeight = _this.cols * _this.tileheight;
             return _this;
         }
         /**
@@ -2047,6 +2106,28 @@ var tiled;
         TMXIsometricRenderer.prototype.canRender = function (layer) {
             return (layer.orientation === tiled.TMXConstants.ORIENTATION_ISOMETRIC) && _super.prototype.canRender.call(this, layer);
         };
+        Object.defineProperty(TMXIsometricRenderer.prototype, "mapWidth", {
+            /**
+             * 地图逻辑宽度
+             * @version Egret 3.0.3
+             */
+            get: function () {
+                return this._mapHeight;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TMXIsometricRenderer.prototype, "mapHeight", {
+            /**
+             * 地图逻辑高度
+             * @version Egret 3.0.3
+             */
+            get: function () {
+                return this._mapHeight;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * 地图坐标转化为水平格子坐标（保留小数）
          * @param x 水平像素坐标
@@ -2248,7 +2329,10 @@ var tiled;
          * @version Egret 3.0.3
          */
         function TMXOrthogonalRenderer(rows, cols, tilewidth, tileheight) {
-            return _super.call(this, rows, cols, tilewidth, tileheight) || this;
+            var _this = _super.call(this, rows, cols, tilewidth, tileheight) || this;
+            _this._mapWidth = _this.rows * _this.tilewidth;
+            _this._mapHeight = _this.cols * _this.tileheight;
+            return _this;
         }
         /**
          * 是否可渲染
@@ -2258,6 +2342,28 @@ var tiled;
         TMXOrthogonalRenderer.prototype.canRender = function (layer) {
             return (layer.orientation === tiled.TMXConstants.ORIENTATION_ORTHOGONAL) && _super.prototype.canRender.call(this, layer);
         };
+        Object.defineProperty(TMXOrthogonalRenderer.prototype, "mapWidth", {
+            /**
+             * 地图逻辑宽度
+             * @version Egret 3.0.3
+             */
+            get: function () {
+                return this._mapWidth;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TMXOrthogonalRenderer.prototype, "mapHeight", {
+            /**
+             * 地图逻辑高度
+             * @version Egret 3.0.3
+             */
+            get: function () {
+                return this._mapHeight;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * 地图坐标转化为格子坐标
          * @param x 水平地图坐标

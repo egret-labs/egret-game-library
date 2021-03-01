@@ -3,6 +3,8 @@ module tiled{
 		private _hTilewidth: number;
 		private _hTileheight: number;
 		private _originX: number;
+		private _mapWidth: number;
+		private _mapHeight: number;
 		
 		/**
 		 * 创建1个iso渲染器
@@ -17,6 +19,8 @@ module tiled{
 			this._hTilewidth 	= this.tilewidth / 2;
 			this._hTileheight 	= this.tileheight / 2;
 			this._originX 		= this.rows * this._hTilewidth;
+			this._mapWidth		= this.rows * this.tileheight;
+			this._mapHeight		= this.cols * this.tileheight;
 		}
 
 		
@@ -29,7 +33,23 @@ module tiled{
 			return (layer.orientation === tiled.TMXConstants.ORIENTATION_ISOMETRIC) && super.canRender(layer);
 		}
 
-		
+
+		/**
+		 * 地图逻辑宽度
+		 * @version Egret 3.0.3
+		 */
+		get mapWidth(): number {
+			return this._mapHeight;
+		}
+
+		/**
+		 * 地图逻辑高度
+		 * @version Egret 3.0.3
+		 */
+		get mapHeight(): number {
+			return this._mapHeight;
+		}
+
 		/**
 		 * 地图坐标转化为水平格子坐标（保留小数）
 		 * @param x 水平像素坐标

@@ -1,5 +1,7 @@
 module tiled{
 	export class TMXHexagonalRenderer extends TMXRenderer {
+		private _mapWidth: number;
+		private _mapHeight: number;
 		private _hexsidelength: number;
 		private _staggeraxis: string;
 		private _staggerindex: string;
@@ -24,6 +26,9 @@ module tiled{
 		 */
 		constructor(rows: number, cols: number, tilewidth: number, tileheight: number, hexsidelength: number, staggeraxis: string, staggerindex: string) {
 			super(rows, cols, tilewidth, tileheight);
+
+			this._mapWidth		= this.rows * this.tilewidth;
+			this._mapHeight		= this.cols * this.tileheight;
 
 			this._hexsidelength  = hexsidelength;
 			this._staggeraxis    = staggeraxis;
@@ -56,7 +61,25 @@ module tiled{
 			return (layer.orientation === tiled.TMXConstants.ORIENTATION_HEXAGONAL) && super.canRender(layer);
 		}
 
-		
+
+		/**
+		 * 地图逻辑宽度
+		 * @version Egret 3.0.3
+		 */
+		get mapWidth(): number {
+			return this._mapWidth;
+		}
+
+
+		/**
+		 * 地图逻辑高度
+		 * @version Egret 3.0.3
+		 */
+		get mapHeight(): number {
+			return this._mapHeight;
+		}
+
+
 		/**
 		 * 地图坐标转化为格子坐标
 		 * @param x 水平地图坐标

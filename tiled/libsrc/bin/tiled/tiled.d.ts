@@ -53,6 +53,16 @@ declare module tiled {
          */
         canRender(layer: any): boolean;
         /**
+         * 地图逻辑宽度
+         * @version Egret 3.0.3
+         */
+        abstract get mapWidth(): number;
+        /**
+         * 地图逻辑高度
+         * @version Egret 3.0.3
+         */
+        abstract get mapHeight(): number;
+        /**
          * 地图坐标转化为格子坐标
          * @param x 水平地图坐标
          * @param y 垂直地图坐标
@@ -603,6 +613,21 @@ declare module tiled {
          */
         readonly renderheight: number;
         /**
+         * 获取地图朝向
+         * @version egret 3.0.3
+         */
+        get orientation(): string;
+        /**
+         * 地图逻辑宽度
+         * @version Egret 3.0.3
+         */
+        get mapWidth(): number;
+        /**
+         * 地图逻辑高度
+         * @version Egret 3.0.3
+         */
+        get mapHeight(): number;
+        /**
          * 渲染
          * @version egret 3.0.3
          */
@@ -982,6 +1007,8 @@ declare module tiled {
 }
 declare module tiled {
     class TMXHexagonalRenderer extends TMXRenderer {
+        private _mapWidth;
+        private _mapHeight;
         private _hexsidelength;
         private _staggeraxis;
         private _staggerindex;
@@ -1010,6 +1037,16 @@ declare module tiled {
          * @version Egret 3.0.3
          */
         canRender(layer: any): boolean;
+        /**
+         * 地图逻辑宽度
+         * @version Egret 3.0.3
+         */
+        get mapWidth(): number;
+        /**
+         * 地图逻辑高度
+         * @version Egret 3.0.3
+         */
+        get mapHeight(): number;
         /**
          * 地图坐标转化为格子坐标
          * @param x 水平地图坐标
@@ -1091,6 +1128,8 @@ declare module tiled {
         private _hTilewidth;
         private _hTileheight;
         private _originX;
+        private _mapWidth;
+        private _mapHeight;
         /**
          * 创建1个iso渲染器
          * @param rows 水平方向格子数
@@ -1106,6 +1145,16 @@ declare module tiled {
          * @version Egret 3.0.3
          */
         canRender(layer: any): boolean;
+        /**
+         * 地图逻辑宽度
+         * @version Egret 3.0.3
+         */
+        get mapWidth(): number;
+        /**
+         * 地图逻辑高度
+         * @version Egret 3.0.3
+         */
+        get mapHeight(): number;
         /**
          * 地图坐标转化为水平格子坐标（保留小数）
          * @param x 水平像素坐标
@@ -1198,6 +1247,8 @@ declare module tiled {
 }
 declare module tiled {
     class TMXOrthogonalRenderer extends tiled.TMXRenderer {
+        private _mapWidth;
+        private _mapHeight;
         /**
          * 创建1个正交渲染器（正常模式）
          * @param rows 水平方向格子数
@@ -1213,6 +1264,16 @@ declare module tiled {
          * @version Egret 3.0.3
          */
         canRender(layer: any): boolean;
+        /**
+         * 地图逻辑宽度
+         * @version Egret 3.0.3
+         */
+        get mapWidth(): number;
+        /**
+         * 地图逻辑高度
+         * @version Egret 3.0.3
+         */
+        get mapHeight(): number;
         /**
          * 地图坐标转化为格子坐标
          * @param x 水平地图坐标
