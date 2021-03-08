@@ -108,6 +108,15 @@ module tiled{
 				var _shape: egret.Sprite                = this._shapes[i];
 				this.addChild(_shape);
 			}
+
+			// data.attributes.x, data.attributes.y 是地图坐标，要转成像素坐标
+			let tileset: tiled.TMXTileset = tilesets.getTilesetByGid(this._gid);
+			let pos = tileset.tilemap.mapToPixelCoords(this.x, this.y);
+			this.x = pos.x;
+			this.y = pos.y;
+			// 坐标是与矩形底边中心点对齐的
+			this.anchorOffsetX = this.width * 0.5;
+			this.anchorOffsetY = this.height;
 		}
 		
 		/**
@@ -257,7 +266,8 @@ module tiled{
 			var tileset: tiled.TMXTileset = tilesets.getTilesetByGid(this._gid);
 			if (tileset) {
 				this._tile = new tiled.TMXTile(0,0,this.gid,tileset.tilemap,tileset);
-                tileset.drawTile(this,tileset.tileoffset.x,tileset.tileoffset.y - tileset.tileheight,this._tile);  
+                //tileset.drawTile(this,tileset.tileoffset.x, tileset.tileoffset.y - tileset.tileheight,this._tile);  
+                tileset.drawTile(this, tileset.tileoffset.x, tileset.tileoffset.y, this._tile);
 			}
 		}
 	} 

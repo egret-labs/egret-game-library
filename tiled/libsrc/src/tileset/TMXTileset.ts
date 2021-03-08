@@ -329,8 +329,10 @@ module tiled{
 				isImage = (<tiled.TMXObject>renderer).isImage;
 			}
 			this._transformMatrix.identity();
-			var _scalex: number = isObject ? rect.width / renderTexture.textureWidth : 1;
-			var _scaley: number = isObject ? rect.height / renderTexture.textureHeight : 1;
+			//var _scalex: number = isObject ? rect.width / renderTexture.textureWidth : 1;
+			//var _scaley: number = isObject ? rect.height / renderTexture.textureHeight : 1;
+			var _scalex: number = isObject ? renderer.width / rect.width : 1;
+			var _scaley: number = isObject ? renderer.height / rect.height : 1;
 			if (tile.flippedAD) {
 				this._transformMatrix.scale(-1 * _scalex, -1 * _scaley);
 				this._transformMatrix.translate(dx + rect.width * _scalex, dy + rect.height * _scaley);
@@ -342,7 +344,8 @@ module tiled{
 				this._transformMatrix.translate(dx + rect.width * _scalex, dy);
 			} else {
 				this._transformMatrix.scale(_scalex, _scaley);
-				this._transformMatrix.translate(dx, dy + (isObject ? (renderTexture.textureHeight - rect.height) : 0));
+				//this._transformMatrix.translate(dx, dy + (isObject ? (renderTexture.textureHeight - rect.height) : 0));
+				this._transformMatrix.translate(dx, dy);
 			}
 			if (tile.bitmap == null)
 				tile.bitmap = new egret.Bitmap();

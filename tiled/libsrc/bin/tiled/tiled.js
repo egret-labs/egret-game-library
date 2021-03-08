@@ -1161,6 +1161,60 @@ var tiled;
             imageLayer.addEventListener(tiled.TMXImageLoadEvent.IMAGE_COMPLETE, onImageLoad, imageLayer);
             return imageLayer;
         };
+        /**
+         * 像素坐标转化为格子坐标
+         * @param x 水平像素坐标
+         * @param y 垂直像素坐标
+         * @version Egret 3.0.3
+         */
+        TMXTilemap.prototype.pixelToTileCoords = function (x, y) {
+            return this._tmxRenderer.pixelToTileCoords(x, y);
+        };
+        /**
+         * 格子坐标转化为像素坐标
+         * @param tileX 水平格子坐标
+         * @param tileY 垂直格子坐标
+         * @version Egret 3.0.3
+         */
+        TMXTilemap.prototype.tileToPixelCoords = function (tileX, tileY) {
+            return this._tmxRenderer.tileToPixelCoords(tileX, tileY);
+        };
+        /**
+         * 地图坐标转化为格子坐标
+         * @param x 水平地图坐标
+         * @param y 垂直地图坐标
+         * @version Egret 3.0.3
+         */
+        TMXTilemap.prototype.mapToTileCoords = function (x, y) {
+            return this._tmxRenderer.mapToTileCoords(x, y);
+        };
+        /**
+         * 格子坐标转化为地图坐标
+         * @param tileX 水平格子坐标
+         * @param tileY 垂直格子坐标
+         * @version Egret 3.0.3
+         */
+        TMXTilemap.prototype.tileToMapCoords = function (tileX, tileY) {
+            return this._tmxRenderer.tileToMapCoords(tileX, tileY);
+        };
+        /**
+         * 地图坐标转化为像素坐标
+         * @param x 水平地图坐标
+         * @param y 垂直地图坐标
+         * @version Egret 3.0.3
+         */
+        TMXTilemap.prototype.mapToPixelCoords = function (x, y) {
+            return this._tmxRenderer.mapToPixelCoords(x, y);
+        };
+        /**
+         * 像素坐标转化为地图坐标
+         * @param x 水平像素坐标
+         * @param y 垂直像素坐标
+         * @version Egret 3.0.3
+         */
+        TMXTilemap.prototype.pixelToMapCoords = function (x, y) {
+            return this._tmxRenderer.pixelToMapCoords(x, y);
+        };
         return TMXTilemap;
     }(egret.Sprite));
     tiled.TMXTilemap = TMXTilemap;
@@ -1342,6 +1396,14 @@ var tiled;
                 var _shape = _this._shapes[i];
                 _this.addChild(_shape);
             }
+            // data.attributes.x, data.attributes.y 是地图坐标，要转成像素坐标
+            var tileset = tilesets.getTilesetByGid(_this._gid);
+            var pos = tileset.tilemap.mapToPixelCoords(_this.x, _this.y);
+            _this.x = pos.x;
+            _this.y = pos.y;
+            // 坐标是与矩形底边中心点对齐的
+            _this.anchorOffsetX = _this.width * 0.5;
+            _this.anchorOffsetY = _this.height;
             return _this;
         }
         Object.defineProperty(TMXObject.prototype, "id", {
@@ -1516,7 +1578,8 @@ var tiled;
             var tileset = tilesets.getTilesetByGid(this._gid);
             if (tileset) {
                 this._tile = new tiled.TMXTile(0, 0, this.gid, tileset.tilemap, tileset);
-                tileset.drawTile(this, tileset.tileoffset.x, tileset.tileoffset.y - tileset.tileheight, this._tile);
+                //tileset.drawTile(this,tileset.tileoffset.x, tileset.tileoffset.y - tileset.tileheight,this._tile);  
+                tileset.drawTile(this, tileset.tileoffset.x, tileset.tileoffset.y, this._tile);
             }
         };
         return TMXObject;
@@ -1754,6 +1817,24 @@ var tiled;
             return (layer.orientation === tiled.TMXConstants.ORIENTATION_HEXAGONAL) && _super.prototype.canRender.call(this, layer);
         };
         /**
+         * 地图坐标转化为格子坐标
+         * @param x 水平地图坐标
+         * @param y 垂直地图坐标
+         * @version Egret 3.0.3
+         */
+        TMXHexagonalRenderer.prototype.mapToTileCoords = function (x, y) {
+            return this.pixelToTileCoords(x, y);
+        };
+        /**
+         * 格子坐标转化为地图坐标
+         * @param tileX 水平格子坐标
+         * @param tileY 垂直格子坐标
+         * @version Egret 3.0.3
+         */
+        TMXHexagonalRenderer.prototype.tileToMapCoords = function (tileX, tileY) {
+            return this.tileToPixelCoords(tileX, tileY);
+        };
+        /**
          * 像素坐标转化为格子坐标
          * @param x 水平像素坐标
          * @param y 垂直像素坐标
@@ -1842,6 +1923,26 @@ var tiled;
         TMXHexagonalRenderer.prototype.pixelToTileY = function (y, x) {
             var ret = this.pixelToTileCoords(x, y);
             return ret.y;
+        };
+        /**
+         * 地图坐标转化为像素坐标
+         * @param {number} x 水平地图坐标
+         * @param {number} y 垂直地图坐标
+         * @return {*}  {egret.Point}
+         * @version Egret 3.0.3
+         */
+        TMXHexagonalRenderer.prototype.mapToPixelCoords = function (x, y) {
+            return new egret.Point(x, y);
+        };
+        /**
+         * 像素坐标转化为地图坐标
+         * @param {number} x 水平像素坐标
+         * @param {number} y 垂直像素坐标
+         * @return {*}  {egret.Point}
+         * @version Egret 3.0.3
+         */
+        TMXHexagonalRenderer.prototype.pixelToMapCoords = function (x, y) {
+            return new egret.Point(x, y);
         };
         /**
          * 返回指定的瓦片对应的像素位置
@@ -1947,6 +2048,46 @@ var tiled;
             return (layer.orientation === tiled.TMXConstants.ORIENTATION_ISOMETRIC) && _super.prototype.canRender.call(this, layer);
         };
         /**
+         * 地图坐标转化为水平格子坐标（保留小数）
+         * @param x 水平像素坐标
+         * @param y 垂直像素坐标
+         * @version Egret 3.0.3
+         */
+        TMXIsometricRenderer.prototype.mapToTileX = function (x, y) {
+            var tileHeight = this.tileheight;
+            return x / tileHeight;
+        };
+        /**
+         * 地图坐标转化为垂直格子坐标（保留小数）
+         * @param x 水平像素坐标
+         * @param y 垂直像素坐标
+         * @version Egret 3.0.3
+         */
+        TMXIsometricRenderer.prototype.mapToTileY = function (x, y) {
+            var tileHeight = this.tileheight;
+            return y / tileHeight;
+        };
+        /**
+         * 地图坐标转化为格子坐标
+         * @param x 水平地图坐标
+         * @param y 垂直地图坐标
+         * @version Egret 3.0.3
+         */
+        TMXIsometricRenderer.prototype.mapToTileCoords = function (x, y) {
+            var tileHeight = this.tileheight;
+            return new egret.Point(Math.floor(x / tileHeight), Math.floor(y / tileHeight));
+        };
+        /**
+         * 格子坐标转化为地图坐标
+         * @param tileX 水平格子坐标
+         * @param tileY 垂直格子坐标
+         * @version Egret 3.0.3
+         */
+        TMXIsometricRenderer.prototype.tileToMapCoords = function (tileX, tileY) {
+            var tileHeight = this.tileheight;
+            return new egret.Point(tileX * tileHeight, tileY * tileHeight);
+        };
+        /**
          * 像素坐标转化为格子坐标
          * @param x 水平像素坐标
          * @param y 垂直像素坐标
@@ -1985,6 +2126,30 @@ var tiled;
          */
         TMXIsometricRenderer.prototype.tileToPixelCoords = function (tileX, tileY) {
             return new egret.Point((tileX - tileY) * this._hTilewidth + this._originX, (tileX + tileY) * this._hTileheight);
+        };
+        /**
+         * 地图坐标转化为像素坐标
+         * @param {number} x 水平地图坐标
+         * @param {number} y 垂直地图坐标
+         * @return {*}  {egret.Point}
+         * @version Egret 3.0.3
+         */
+        TMXIsometricRenderer.prototype.mapToPixelCoords = function (x, y) {
+            var tileX = this.mapToTileX(x, y);
+            var tileY = this.mapToTileY(x, y);
+            return this.tileToPixelCoords(tileX, tileY);
+        };
+        /**
+         * 像素坐标转化为地图坐标
+         * @param {number} x 水平像素坐标
+         * @param {number} y 垂直像素坐标
+         * @return {*}  {egret.Point}
+         * @version Egret 3.0.3
+         */
+        TMXIsometricRenderer.prototype.pixelToMapCoords = function (x, y) {
+            var tileX = this.pixelToTileX(x, y);
+            var tileY = this.pixelToTileY(x, y);
+            return this.tileToMapCoords(tileX, tileY);
         };
         /**
          * 绘制作Tile
@@ -2094,6 +2259,24 @@ var tiled;
             return (layer.orientation === tiled.TMXConstants.ORIENTATION_ORTHOGONAL) && _super.prototype.canRender.call(this, layer);
         };
         /**
+         * 地图坐标转化为格子坐标
+         * @param x 水平地图坐标
+         * @param y 垂直地图坐标
+         * @version Egret 3.0.3
+         */
+        TMXOrthogonalRenderer.prototype.mapToTileCoords = function (x, y) {
+            return new egret.Point(Math.floor(x / this.tilewidth), Math.floor(y / this.tileheight));
+        };
+        /**
+         * 格子坐标转化为地图坐标
+         * @param tileX 水平格子坐标
+         * @param tileY 垂直格子坐标
+         * @version Egret 3.0.3
+         */
+        TMXOrthogonalRenderer.prototype.tileToMapCoords = function (tileX, tileY) {
+            return new egret.Point(tileX * this.tilewidth, tileY * this.tileheight);
+        };
+        /**
          * 像素坐标转化为格子坐标
          * @param x 水平像素坐标
          * @param y 垂直像素坐标
@@ -2126,6 +2309,26 @@ var tiled;
          */
         TMXOrthogonalRenderer.prototype.tileToPixelCoords = function (tileX, tileY) {
             return new egret.Point(tileX * this.tilewidth, tileY * this.tileheight);
+        };
+        /**
+         * 地图坐标转化为像素坐标
+         * @param {number} x 水平地图坐标
+         * @param {number} y 垂直地图坐标
+         * @return {*}  {egret.Point}
+         * @version Egret 3.0.3
+         */
+        TMXOrthogonalRenderer.prototype.mapToPixelCoords = function (x, y) {
+            return new egret.Point(x, y);
+        };
+        /**
+         * 像素坐标转化为地图坐标
+         * @param {number} x 水平像素坐标
+         * @param {number} y 垂直像素坐标
+         * @return {*}  {egret.Point}
+         * @version Egret 3.0.3
+         */
+        TMXOrthogonalRenderer.prototype.pixelToMapCoords = function (x, y) {
+            return new egret.Point(x, y);
         };
         /**
          * 绘制Tile
@@ -2846,8 +3049,10 @@ var tiled;
                 isImage = renderer.isImage;
             }
             this._transformMatrix.identity();
-            var _scalex = isObject ? rect.width / renderTexture.textureWidth : 1;
-            var _scaley = isObject ? rect.height / renderTexture.textureHeight : 1;
+            //var _scalex: number = isObject ? rect.width / renderTexture.textureWidth : 1;
+            //var _scaley: number = isObject ? rect.height / renderTexture.textureHeight : 1;
+            var _scalex = isObject ? renderer.width / rect.width : 1;
+            var _scaley = isObject ? renderer.height / rect.height : 1;
             if (tile.flippedAD) {
                 this._transformMatrix.scale(-1 * _scalex, -1 * _scaley);
                 this._transformMatrix.translate(dx + rect.width * _scalex, dy + rect.height * _scaley);
@@ -2862,7 +3067,8 @@ var tiled;
             }
             else {
                 this._transformMatrix.scale(_scalex, _scaley);
-                this._transformMatrix.translate(dx, dy + (isObject ? (renderTexture.textureHeight - rect.height) : 0));
+                //this._transformMatrix.translate(dx, dy + (isObject ? (renderTexture.textureHeight - rect.height) : 0));
+                this._transformMatrix.translate(dx, dy);
             }
             if (tile.bitmap == null)
                 tile.bitmap = new egret.Bitmap();
@@ -3191,3 +3397,4 @@ var tiled;
     tiled.TMXUtils = TMXUtils;
     __reflect(TMXUtils.prototype, "tiled.TMXUtils");
 })(tiled || (tiled = {}));
+//# sourceMappingURL=tiled.js.map

@@ -1,3 +1,5 @@
 {
-	"name": "egret"
+    "name": "tiled",
+    "compilerVersion": "5.4.0",
+    "lib": true
 }
