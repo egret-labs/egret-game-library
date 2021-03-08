@@ -3191,3 +3191,4 @@ var tiled;
     tiled.TMXUtils = TMXUtils;
     __reflect(TMXUtils.prototype, "tiled.TMXUtils");
 })(tiled || (tiled = {}));
+//# sourceMappingURL=tiled.js.map
