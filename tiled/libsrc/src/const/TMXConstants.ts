@@ -23,6 +23,12 @@ module tiled{
 
 		
 		/**
+		 * 组
+		 * @version Egret 3.0.3
+		 */
+		static GROUP: string                    = "group";
+
+		/**
 		 * 图层
 		 * @version Egret 3.0.3
 		 */

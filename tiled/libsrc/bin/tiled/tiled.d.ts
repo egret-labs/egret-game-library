@@ -179,6 +179,11 @@ declare module tiled {
          */
         static TMX_CLEAR_BIT_MASK: number;
         /**
+         * 组
+         * @version Egret 3.0.3
+         */
+        static GROUP: string;
+        /**
          * 图层
          * @version Egret 3.0.3
          */
@@ -680,6 +685,12 @@ declare module tiled {
          * @param obj
          */
         private getNewDefaultRenderer;
+        /**
+         * 解析<group>组数据
+         * @param data 传入的组数据
+         * @param z 图层深度
+         */
+        private parseGroup;
         /**
          * 解析图层数据
          * @param data 传入的图层数据

@@ -294,6 +294,10 @@ module tiled{
 						case tiled.TMXConstants.IMAGE_LAYER:
 							this._layers.push(this.parseImageLayer(child, zOrder++));
 							break;
+
+						case tiled.TMXConstants.GROUP:
+							zOrder = this.parseGroup(child, zOrder++);
+							break;
 					}
 				}
 			}
@@ -361,6 +365,47 @@ module tiled{
 		}
 
 		
+		/**
+		 * 解析<group>组数据
+		 * @param data 传入的组数据
+		 * @param z 图层深度
+		 */
+		private parseGroup(data:any, z: number) {
+			var zOrder = z;
+			var children: Array<any>    = data.children;
+			if (children) {
+				for (var i: number = 0; i < children.length; i++) {
+					var child: any      = children[i];
+					switch (child.localName) {
+						case tiled.TMXConstants.TILE_SET:
+							this._tilesets.add(new tiled.TMXTileset(this, child));
+							break;
+
+						case tiled.TMXConstants.LAYER:
+							this._layers.push(this.parseLayer(child, zOrder++));
+							break;
+
+						case tiled.TMXConstants.OBJECT_GROUP:
+							this._layers.push(this.parseObjectGroup(child, zOrder++));
+							break;
+
+						case tiled.TMXConstants.PROPERTIES:
+							this._properties = this.parseProperties(child);
+							break;
+
+						case tiled.TMXConstants.IMAGE_LAYER:
+							this._layers.push(this.parseImageLayer(child, zOrder++));
+							break;
+
+						case tiled.TMXConstants.GROUP:
+							zOrder = this.parseGroup(child, zOrder++);
+							break;
+					}
+				}
+			}
+			return zOrder;
+		}
+
 		/**
 		 * 解析图层数据
 		 * @param data 传入的图层数据

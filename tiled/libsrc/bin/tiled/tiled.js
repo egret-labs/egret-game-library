@@ -196,6 +196,11 @@ var tiled;
          */
         TMXConstants.TMX_CLEAR_BIT_MASK = ~(0x80000000 | 0x40000000 | 0x20000000);
         /**
+         * 组
+         * @version Egret 3.0.3
+         */
+        TMXConstants.GROUP = "group";
+        /**
          * 图层
          * @version Egret 3.0.3
          */
@@ -1105,6 +1110,9 @@ var tiled;
                         case tiled.TMXConstants.IMAGE_LAYER:
                             this._layers.push(this.parseImageLayer(child, zOrder++));
                             break;
+                        case tiled.TMXConstants.GROUP:
+                            zOrder = this.parseGroup(child, zOrder++);
+                            break;
                     }
                 }
             }
@@ -1160,6 +1168,41 @@ var tiled;
                 default:
                     throw new Error(obj._orientation + " type TMX Tile Map not supported!");
             }
+        };
+        /**
+         * 解析<group>组数据
+         * @param data 传入的组数据
+         * @param z 图层深度
+         */
+        TMXTilemap.prototype.parseGroup = function (data, z) {
+            var zOrder = z;
+            var children = data.children;
+            if (children) {
+                for (var i = 0; i < children.length; i++) {
+                    var child = children[i];
+                    switch (child.localName) {
+                        case tiled.TMXConstants.TILE_SET:
+                            this._tilesets.add(new tiled.TMXTileset(this, child));
+                            break;
+                        case tiled.TMXConstants.LAYER:
+                            this._layers.push(this.parseLayer(child, zOrder++));
+                            break;
+                        case tiled.TMXConstants.OBJECT_GROUP:
+                            this._layers.push(this.parseObjectGroup(child, zOrder++));
+                            break;
+                        case tiled.TMXConstants.PROPERTIES:
+                            this._properties = this.parseProperties(child);
+                            break;
+                        case tiled.TMXConstants.IMAGE_LAYER:
+                            this._layers.push(this.parseImageLayer(child, zOrder++));
+                            break;
+                        case tiled.TMXConstants.GROUP:
+                            zOrder = this.parseGroup(child, zOrder++);
+                            break;
+                    }
+                }
+            }
+            return zOrder;
         };
         /**
          * 解析图层数据
