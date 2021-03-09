@@ -2,7 +2,6 @@ declare module tiled {
     class TMXLayerBase extends egret.Sprite implements ILayer {
         protected _tilemap: tiled.TMXTilemap;
         protected _data: any;
-        protected _z: number;
         /**
          * 图层基类
          * @param tilemap TMXTilemap实例
@@ -15,12 +14,11 @@ declare module tiled {
          * 获取TMXTilemap实例
          * @version Egret 3.0.3
          */
-        readonly tilemap: TMXTilemap;
+        get tilemap(): TMXTilemap;
         /**
          * 获取图层所在的层深
          * @version Egret 3.0.3
          */
-        readonly z: number;
         /**
          * 实现ILayer绘制<code>draw</code>接口
          * @param rect 绘制的矩形区域
@@ -128,6 +126,13 @@ declare module tiled {
          * @version Egret 3.0.3
          */
         render(renderContainer: egret.Sprite): void;
+        /**
+         * 渲染动画
+         * @param renderContainer
+         * @param animationTiles
+         * @version Egret 3.0.3
+         */
+        renderAnimationTiles(renderContainer: egret.Sprite, animationTiles: any[]): void;
     }
 }
 declare module tiled {
@@ -288,6 +293,11 @@ declare module tiled {
          */
         static IMAGE_COMPLETE: string;
         /**
+         * 单张图片加载失败
+         * @version Egret 3.0.3
+         */
+        static IMAGE_LOAD_ERROR: string;
+        /**
          * 所有图片加载完成
          * @version Egret 3.0.3
          */
@@ -336,7 +346,6 @@ declare module tiled {
 }
 declare module tiled {
     class TMXImageLayer extends TMXLayerBase {
-        private _name;
         private _imagewidth;
         private _imageheight;
         private _opacity;
@@ -358,23 +367,22 @@ declare module tiled {
          * 获取图像图层的位图，如果源图像没有加载完成，那么，数据为空
          * @version Egret 3.0.3
          */
-        readonly bitmap: egret.Bitmap;
+        get bitmap(): egret.Bitmap;
         /**
          * 获取图像图层的纹理，如果源图像没有加载完成，那么，数据为空
          * @version Egret 3.0.3
          */
-        readonly texture: egret.Texture;
+        get texture(): egret.Texture;
         /**
          * 创建图像图层的透明度
          * @version Egret 3.0.3
          */
-        readonly alpha: number;
         /**
          * 加载图片
          * @param $url 图片地址
          * @version Egret 3.0.3
          */
-        private loadImage(url);
+        private loadImage;
         /**
          * 绘制矩形区域内的图像
          * @param rect 矩形区域
@@ -389,7 +397,6 @@ declare module tiled {
         private _tileheight;
         private _orientation;
         private _tilesets;
-        private _name;
         private _cols;
         private _rows;
         private _hexsidelength;
@@ -422,64 +429,63 @@ declare module tiled {
          * 返回层的名字
          * @version Egret 3.0.3
          */
-        readonly name: string;
         /**
          * 获取静态层容器（用于渲染静态对象）
          * @version Egret 3.0.3
          */
-        readonly staticContainer: egret.Sprite;
+        get staticContainer(): egret.Sprite;
         /**
          * 获取动画层容器（用于渲染动画）
          * @version Egret 3.0.3
          */
-        readonly animationContainer: egret.Sprite;
+        get animationContainer(): egret.Sprite;
         /**
          * 获取tile宽
          * @version Egret 3.0.3
          */
-        readonly tilewidth: number;
+        get tilewidth(): number;
         /**
          * 获取tile高
          * @version Egret 3.0.3
          */
-        readonly tileheight: number;
+        get tileheight(): number;
         /**
          * 获取渲染方向
          * @version Egret 3.0.3
          */
-        readonly orientation: string;
+        get orientation(): string;
         /**
          * 获取水平格子数
          * @version Egret 3.0.3
          */
-        readonly rows: number;
+        get rows(): number;
         /**
          * 获取垂直格子数
          * @version Egret 3.0.3
          */
-        readonly cols: number;
+        get cols(): number;
         /**
          * @version Egret 3.0.3
          */
-        readonly hexsidelength: number;
+        get hexsidelength(): number;
         /**
          * @version Egret 3.0.3
          */
-        readonly staggeraxis: string;
+        get staggeraxis(): string;
         /**
          * @version Egret 3.0.3
          */
-        readonly staggerindex: any;
+        get staggerindex(): any;
         /**
          * 获取透明度
          * @version Egret 3.0.3
          */
-        readonly opacity: number;
+        get opacity(): number;
         /**
          * 获取图层属性列表
          * @version Egret 3.0.3
          */
-        readonly properties: TMXProperty[];
+        get properties(): TMXProperty[];
         /**
          * 设置渲染器
          * @param renderer 渲染器(包括：1、TMXHexagonoalRenderer,2、TMXIsometricRenderer,3、TMXOrthogonalRenderer)
@@ -532,13 +538,13 @@ declare module tiled {
          * @param cols 垂直格子数
          * @version Egret 3.0.3
          */
-        private initArray(rows, cols);
+        private initArray;
         /**
          * 解析图层数据
          * @param data
          * @version Egret 3.0.3
          */
-        private parseLayerData(data);
+        private parseLayerData;
     }
 }
 declare module tiled {
@@ -576,42 +582,42 @@ declare module tiled {
          * @version egret 3.0.3
          */
         constructor(renderwidth: number, renderheight: number, data: any, url: string);
-        readonly nextobjectid: number;
+        get nextobjectid(): number;
         /**
          * 获取格子宽（单位：像素）
          * @version egret 3.0.3
          */
-        readonly tilewidth: number;
+        get tilewidth(): number;
         /**
          * 获取格子高（单位：像素）
          * @version egret 3.0.3
          */
-        readonly tileheight: number;
+        get tileheight(): number;
         /**
          * 获取场景水平方向格子数
          * @version egret 3.0.3
          */
-        readonly rows: number;
+        get rows(): number;
         /**
          * 获取场景垂直方向格子数
          * @version egret 3.0.3
          */
-        readonly cols: number;
+        get cols(): number;
         /**
          * 获取基本地址
          * @version egret 3.0.3
          */
-        readonly baseURL: string;
+        get baseURL(): string;
         /**
          * 获取渲染宽（单位：像素）
          * @version egret 3.0.3
          */
-        readonly renderwidth: number;
+        get renderwidth(): number;
         /**
          * 获取渲染高（单位：像素）
          * @version egret 3.0.3
          */
-        readonly renderheight: number;
+        get renderheight(): number;
         /**
          * 获取地图朝向
          * @version egret 3.0.3
@@ -663,40 +669,40 @@ declare module tiled {
          * 读取地图上的对象
          * @param data
          */
-        private readMapObjects(data);
+        private readMapObjects;
         /**
          * 开始渲染
          * @param event
          */
-        private onStartRendering(event);
+        private onStartRendering;
         /**
          * 建立一个兼容的渲染对象
          * @param obj
          */
-        private getNewDefaultRenderer(obj);
+        private getNewDefaultRenderer;
         /**
          * 解析图层数据
          * @param data 传入的图层数据
          * @param z 图层深度
          */
-        private parseLayer(data, z);
+        private parseLayer;
         /**
          * 解析对象组数据
          * @param data 传入的对象组数据
          * @param z 对象深度
          */
-        private parseObjectGroup(data, z);
+        private parseObjectGroup;
         /**
          * 解析Tileset数据
          * @param data 传入的Tileset数据
          */
-        private parseTileset(data);
+        private parseTileset;
         /**
          * 解析imagelayer(此类型的图层不参与渲染方向更新)
          * @param data
          * @param z
          */
-        private parseImageLayer(data, z);
+        private parseImageLayer;
         /**
          * 像素坐标转化为格子坐标
          * @param x 水平像素坐标
@@ -760,45 +766,44 @@ declare module tiled {
          * 获取图像加载完后的纹理
          * @version Egret 3.0.3
          */
-        readonly texture: egret.Texture;
+        get texture(): egret.Texture;
         /**
          * 获取图像加载完后的图片
          * @version Egret 3.0.3
          */
-        readonly bitmap: egret.Bitmap;
+        get bitmap(): egret.Bitmap;
         /**
          * 获取图像加载的源地址
          * @version Egret 3.0.3
          */
-        readonly source: string;
+        get source(): string;
         /**
          * 获取图像的原始宽（单位：像素）
          * @version Egret 3.0.3
          */
-        readonly width: number;
+        get width(): number;
         /**
          * 获取图像的原始高（单位：像素）
          * @version Egret 3.0.3
          */
-        readonly height: number;
+        get height(): number;
         /**
          * 加载图像
          * @param $url
          * @version Egret 3.0.3
          */
-        private loadImage(url);
+        private loadImage;
     }
 }
 declare module tiled {
     class TMXObject extends egret.Sprite {
         private _points;
         private _ellipse;
-        private _name;
         private _id;
         private _gid;
-        private _z;
         private _type;
         private _orientation;
+        private _objectGroup;
         private _shapes;
         private _isEllipse;
         private _isPolygon;
@@ -820,81 +825,77 @@ declare module tiled {
          * @param color 对象所使用的颜色
          * @version Egret 3.0.3
          */
-        constructor(data: any, orientation: any, tilesets: tiled.TMXTilesetGroup, z: number, color: number);
+        constructor(objectGroup: TMXObjectGroup, data: any, orientation: any, tilesets: tiled.TMXTilesetGroup, z: number, color: number);
         /**
          * 对象自增长id
          * @version Egret 3.0.3
          */
-        readonly id: number;
+        get id(): number;
         /**
          * tileset中对应的id
          * @version Egret 3.0.3
          */
-        readonly gid: number;
+        get gid(): number;
         /**
          * 对象名称
          * @version Egret 3.0.3
          */
-        readonly name: string;
         /**
          * 对象类型
          * @version Egret 3.0.3
          */
-        readonly type: string;
+        get type(): string;
         /**
          * 对象所在层深
          * @version Egret 3.0.3
          */
-        readonly z: number;
         /**
          * 当前对象是否是椭圆
          * @version Egret 3.0.3
          */
-        readonly isEllipse: boolean;
+        get isEllipse(): boolean;
         /**
          * 当前对象是否为多边形
          * @version Egret 3.0.3
          */
-        readonly isPolygon: boolean;
+        get isPolygon(): boolean;
         /**
          * 当前对象是否为折线
          * @version Egret 3.0.3
          */
-        readonly isPolyLine: boolean;
+        get isPolyLine(): boolean;
         /**
          * 当前对象是否为图像
          * @version Egret 3.0.3
          */
-        readonly isImage: boolean;
+        get isImage(): boolean;
         /**
          * 解析多边形或者折线数据
          * @param $points
          * @version Egret 3.0.3
          */
-        private parsePolygonOrPolyline($points);
+        private parsePolygonOrPolyline;
         /**
          * 解析椭圆数据
          * @param $data
          * @version Egret 3.0.3
          */
-        private parseEllipse($data);
+        private parseEllipse;
         /**
          * 解析多种对象（包括：椭圆，多边形，折线等）
          * @version Egret 3.0.3
          */
-        private parseTMXShapes();
+        private parseTMXShapes;
         /**
          * 设置Tile
          * @param tilesets TMXTileset实例
          * @version Egret 3.0.3
          */
-        private setTile(tilesets);
+        private setTile;
     }
 }
 declare module tiled {
     class TMXObjectGroup extends egret.Sprite {
-        private _name;
-        private _z;
         private _objects;
         private _objectHash;
         private _opacity;
@@ -903,6 +904,8 @@ declare module tiled {
         private _orientaion;
         private _childrens;
         private _tilesets;
+        private _animationTiles;
+        private renderer;
         type: string;
         /**
          * 创建1个对象组
@@ -917,8 +920,25 @@ declare module tiled {
          * 对象组名称
          * @version Egret 3.0.3
          */
-        readonly name: string;
-        draw(): void;
+        /**
+         * 设置渲染器
+         * @param renderer 渲染器(包括：1、TMXHexagonoalRenderer,2、TMXIsometricRenderer,3、TMXOrthogonalRenderer)
+         * @version Egret 3.0.3
+         */
+        setRenderer(renderer: tiled.TMXRenderer): void;
+        /**
+         * 绘制
+         * @param rect 要绘制的矩形区域
+         * @version Egret 3.0.3
+         */
+        draw(rect: egret.Rectangle): void;
+        /**
+         * 渲染动画
+         * @param renderContainer
+         * @param animationTile
+         * @version Egret 3.0.3
+         */
+        drawAnimationTiles(renderContainer: tiled.TMXObject, animationTile: any): void;
         /**
          * 渲染
          * @version Egret 3.0.3
@@ -997,12 +1017,12 @@ declare module tiled {
          * 获取当前运行时动画帧<code>tiled.TMXAnimationFrame</code>实例
          * @version egret 3.0.3
          */
-        readonly currentAnimationFrame: TMXAnimationFrame;
+        get currentAnimationFrame(): TMXAnimationFrame;
         /**
          * 获取动画帧列表
          * @version egret 3.0.3
          */
-        readonly animations: TMXAnimationFrame[];
+        get animations(): TMXAnimationFrame[];
     }
 }
 declare module tiled {
@@ -1368,17 +1388,17 @@ declare module tiled {
          * 获取当前画帧所使用的<code>TMXTile实例</code>
          * @version egret 3.0.3
          */
-        readonly tile: TMXTile;
+        get tile(): TMXTile;
         /**
          * 获取当前帧所使用的tileset中的id号
          * @version egret 3.0.3
          */
-        readonly tiledId: number;
+        get tiledId(): number;
         /**
          * 获取每帧持续时间(单位：毫秒)
          * @version egret 3.0.3
          */
-        readonly duration: number;
+        get duration(): number;
     }
 }
 declare module tiled {
@@ -1401,25 +1421,6 @@ declare module tiled {
     }
 }
 declare module tiled {
-    class Polygon extends egret.Sprite {
-        private points;
-        /**
-         * 创建1个新的多边形实例
-         * @param x 水平坐标（单位：像素）
-         * @param y 垂直坐标（单位：像素）
-         * @param points 多边形对应的点数据列表，三角形有三个点数据，n边形有n个点数据
-         * @version Egret 3.0.3
-         */
-        constructor(x: number, y: number, points: number[][]);
-        /**
-         * 根据参数<code>color</code>绘制多边形，参数为16进制表示形式，例如：0xff0000
-         * @param color 颜色值
-         * @version Egret 3.0.3
-         */
-        draw(color: number): void;
-    }
-}
-declare module tiled {
     class PolyLine extends egret.Sprite {
         private points;
         /**
@@ -1432,6 +1433,25 @@ declare module tiled {
         constructor(x: number, y: number, points: number[][]);
         /**
          * 根据参数<code>color</code>绘制折线，参数为16进制表示形式，例如：0xff0000
+         * @param color 颜色值
+         * @version Egret 3.0.3
+         */
+        draw(color: number): void;
+    }
+}
+declare module tiled {
+    class Polygon extends egret.Sprite {
+        private points;
+        /**
+         * 创建1个新的多边形实例
+         * @param x 水平坐标（单位：像素）
+         * @param y 垂直坐标（单位：像素）
+         * @param points 多边形对应的点数据列表，三角形有三个点数据，n边形有n个点数据
+         * @version Egret 3.0.3
+         */
+        constructor(x: number, y: number, points: number[][]);
+        /**
+         * 根据参数<code>color</code>绘制多边形，参数为16进制表示形式，例如：0xff0000
          * @param color 颜色值
          * @version Egret 3.0.3
          */
@@ -1470,53 +1490,65 @@ declare module tiled {
          * 获取在tileset所对应的格子id
          * @version Egret 3.0.3
          */
-        readonly gid: number;
+        get gid(): number;
         /**
          * 获取其在场景水平格子坐标
          * @version Egret 3.0.3
          */
-        readonly tileX: number;
+        get tileX(): number;
         /**
          * 获取其在场景中垂直格子坐标
          * @version Egret 3.0.3
          */
-        readonly tileY: number;
+        get tileY(): number;
         /**
          * 获取其在场景中所引用的TMXTileset实例
          * @version Egret 3.0.3
          */
-        readonly tileset: TMXTileset;
-        readonly image: TMXImage;
+        get tileset(): TMXTileset;
+        get image(): TMXImage;
         /**
          * 获取对TMXTilemap实例的引用
          * @version Egret 3.0.3
          */
-        readonly tilemap: TMXTilemap;
+        get tilemap(): TMXTilemap;
+        /**
+         * 获取格子是否进行了水平方向翻转
+         * @param value
+         * @version Egret 3.0.3
+         */
+        set flippedX(value: boolean);
         /**
          * 获取格子是否进行了水平方向翻转
          * @version Egret 3.0.3
          */
-        readonly flippedX: boolean;
+        get flippedX(): boolean;
+        /**
+         * 获取格子是否进行了水平方向翻转
+         * @param value
+         * @version Egret 3.0.3
+         */
+        set flippedY(value: boolean);
         /**
          * 获取格子是否进行了垂直方向翻转
          * @version Egret 3.0.3
          */
-        readonly flippedY: boolean;
+        get flippedY(): boolean;
         /**
          * 获取格子是否进行了水平且垂直方向翻转
          * @version Egret 3.0.3
          */
-        readonly flippedAD: boolean;
+        get flippedAD(): boolean;
         /**
          * 获取格子是否进行了翻转（不管是水平还是垂直）
          * @version Egret 3.0.3
          */
-        readonly flipped: boolean;
+        get flipped(): boolean;
         /**
          * 获取格子的动画信息(如果没有动画信息，那么为空)
          * @version Egret 3.0.3
          */
-        readonly animation: TMXAnimation;
+        get animation(): TMXAnimation;
     }
 }
 declare module tiled {
@@ -1551,76 +1583,76 @@ declare module tiled {
          * Tileset名称
          * @version Egret 3.0.3
          */
-        readonly name: string;
+        get name(): string;
         /**
          * 获取每个tileset第1个格子的id号。<br/>
          * 例如，1个tmx文件有3个tileset，那么第1个tileset的firstgid默认为1，如果第1个tileset有12个格子，<br/>
          * 那么第二个tileset的firstgid将为13，依此类推，firstgid为全局的标识id号，通过此id号可以计算每个tileset中格子的id号
          * @version Egret 3.0.3
          */
-        readonly firstgid: number;
+        get firstgid(): number;
         /**
          * 获取每个tileset最后1个格子的id号
          * @version Egret 3.0.3
          */
-        readonly lastgid: number;
+        get lastgid(): number;
         /**
          * 获取每个tileset中格子宽（单位：像素）
          * @version Egret 3.0.3
          */
-        readonly tilewidth: number;
+        get tilewidth(): number;
         /**
          * 获取每个tileset中格子高（单位：像素）
          * @version Egret 3.0.3
          */
-        readonly tileheight: number;
+        get tileheight(): number;
         /**
          * 获取tileset中格子与格子之间的水平间距（单位：像素）
          * @version Egret 3.0.3
          */
-        readonly spacing: number;
+        get spacing(): number;
         /**
          * 获取tileset中格子与格子之间的垂直间距（单位：像素）
          * @version Egret 3.0.3
          */
-        readonly margin: number;
+        get margin(): number;
         /**
          * 获取tileset中格子的偏移值,返回egret.Point数据
          * @version Egret 3.0.3
          */
-        readonly tileoffset: egret.Point;
+        get tileoffset(): egret.Point;
         /**
          * 获取tileset中水平方向的格子数
          * @version Egret 3.0.3
          */
-        readonly horizontalTileCount: number;
+        get horizontalTileCount(): number;
         /**
          * 获取tileset中垂直方向的格子数
          * @version Egret 3.0.3
          */
-        readonly verticalTileCount: number;
+        get verticalTileCount(): number;
         /**
          * 获取对TMXTilemap实例的引用
          * @version Egret 3.0.3
          */
-        readonly tilemap: TMXTilemap;
+        get tilemap(): TMXTilemap;
         /**
          * 获取tileset所具备的属性列表<br/>
          * 通过查看tmx文件可知，只有具备属性数据的tileset才会生成属性数据，以标签<code>properties</code>表示
          * 注意：这里表示的是tileset本身的属性列表，而非tileset中格子的属性列表
          * @version Egret 3.0.3
          */
-        readonly properties: any[];
+        get properties(): any[];
         /**
          * 获取tileset中对标签<code>image</code>解析实例的引用
          * @version Egret 3.0.3
          */
-        readonly image: TMXImage;
+        get image(): TMXImage;
         /**
          * 获取tileset中对标签<code>image</code>解析实例的引用,可能是列表
          * @version Egret 3.0.3
          */
-        readonly images: TMXImage[];
+        get images(): TMXImage[];
         /**
          * 根据id获取特殊格子的数据，默认情况下，tileset中格子如果没有作特殊处理，在tmx文件中是不会生成数据的，这里的特殊处理包括以下几个方面：<br/>
          * (1):格子添加了自定义属性<br/>
@@ -1686,17 +1718,17 @@ declare module tiled {
          * 获取tileset的长度
          * @version Egret 3.0.3
          */
-        readonly length: number;
+        get length(): number;
         /**
          * 获取所有图片的长度
          * @version Egret 3.0.3
          */
-        readonly imagelength: number;
+        get imagelength(): number;
         /**
          * 获取TMXTilemap实例的引用
          * @version Egret 3.0.3
          */
-        readonly tilemap: tiled.TMXTilemap;
+        get tilemap(): tiled.TMXTilemap;
         /**
          * 添加Tileset
          * @param tileset
@@ -1725,7 +1757,7 @@ declare module tiled {
          * 判断是否原生支持Base64位解析
          * @version Egret 3.0.3
          */
-        static readonly nativeBase64: boolean;
+        static get nativeBase64(): boolean;
         /**
          * 解码
          * @param input

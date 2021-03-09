@@ -14,6 +14,7 @@ module tiled{
 		
 		//对象方向 (orthogonal or isometric)
 		private _orientation: string;
+		private _objectGroup: tiled.TMXObjectGroup;
 		//the collision shapes defined for this object
 		private _shapes: Array<egret.Sprite>;
 		private _isEllipse: boolean;
@@ -40,9 +41,10 @@ module tiled{
 		 * @param color 对象所使用的颜色
 		 * @version Egret 3.0.3
 		 */
-		constructor(data: any, orientation: any, tilesets: tiled.TMXTilesetGroup, z: number, color: number) {
+		constructor(objectGroup: TMXObjectGroup, data: any, orientation: any, tilesets: tiled.TMXTilesetGroup, z: number, color: number) {
 			super();
 
+			this._objectGroup                          = objectGroup;
 			this._points                                = undefined;
 			this._name                                  = data.attributes.name;
 			this.x                                      = +data.attributes.x;
@@ -267,7 +269,12 @@ module tiled{
 			if (tileset) {
 				this._tile = new tiled.TMXTile(0,0,this.gid,tileset.tilemap,tileset);
                 //tileset.drawTile(this,tileset.tileoffset.x, tileset.tileoffset.y - tileset.tileheight,this._tile);  
-                tileset.drawTile(this, tileset.tileoffset.x, tileset.tileoffset.y, this._tile);
+				if(this._tile.animation) {
+					let animationTileInfo = {"tmxTile": this._tile, "pos": [0, tileset.tileheight]};
+					this._objectGroup.drawAnimationTiles(this, animationTileInfo);
+				} else {
+					tileset.drawTile(this, tileset.tileoffset.x, tileset.tileoffset.y, this._tile);
+				}
 			}
 		}
 	} 

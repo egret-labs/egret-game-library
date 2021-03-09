@@ -10,6 +10,8 @@ module tiled{
 		private _orientaion: string;
 		private _childrens: Array<any>;
 		private _tilesets: tiled.TMXTilesetGroup;
+		private _animationTiles: any;
+		private renderer: tiled.TMXRenderer;
 		type: string;
 		
 		/**
@@ -34,6 +36,7 @@ module tiled{
 			this._objects       = [];
 			this._objectHash	  = {};
 			this._childrens     = data.children;
+			this._animationTiles = {};
 		}
 
 		/**
@@ -44,15 +47,47 @@ module tiled{
 			return this._name;
 		}
 
-		draw() {
+		/**
+		 * 设置渲染器
+		 * @param renderer 渲染器(包括：1、TMXHexagonoalRenderer,2、TMXIsometricRenderer,3、TMXOrthogonalRenderer)
+		 * @version Egret 3.0.3
+		 */
+		setRenderer(renderer: tiled.TMXRenderer): void {
+			this.renderer = renderer;
+		}
+
+		/**
+		 * 绘制
+		 * @param rect 要绘制的矩形区域
+		 * @version Egret 3.0.3
+		 */
+		draw(rect: egret.Rectangle) {
 			if (this._childrens) {
 				for (var i: number = 0; i < this._childrens.length; i++) {
-					var object: tiled.TMXObject 	= new tiled.TMXObject(this._childrens[i], this._orientaion, this._tilesets, this._z, this._color);
+					//var object: tiled.TMXObject 	= new tiled.TMXObject(this._childrens[i], this._orientaion, this._tilesets, this._z, this._color);
+					var object: tiled.TMXObject 	= new tiled.TMXObject(this, this._childrens[i], this._orientaion, this._tilesets, this._z, this._color);
 					object.alpha 					= this._opacity;
 					this._objects[i] 				= object;
-					this.addChild(object);
+					// <objectgroup>的子结点后加的显示在上面
+					this.addChildAt(object, 0);
 					this._objectHash[object.id]		= object;
 				}
+			}
+		}
+
+		/**
+		 * 渲染动画
+		 * @param renderContainer
+		 * @param animationTile
+		 * @version Egret 3.0.3
+		 */
+		drawAnimationTiles(renderContainer: tiled.TMXObject, animationTile: any) {
+			let id = renderContainer.id;
+			let info = this._animationTiles[id];
+			if(info) {
+				info["animationTiles"].push(animationTile);
+			} else {
+				this._animationTiles[id] = {"renderContainer": renderContainer, "animationTiles": [animationTile]};
 			}
 		}
 
@@ -61,7 +96,10 @@ module tiled{
 		 * @version Egret 3.0.3
 		 */
 		render(): void {
-
+			for(let k in this._animationTiles) {
+				let info = this._animationTiles[k];
+				this.renderer.renderAnimationTiles(info["renderContainer"], info["animationTiles"]);
+			}
 		}
 
 		/**

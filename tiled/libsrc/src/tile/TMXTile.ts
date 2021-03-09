@@ -66,8 +66,13 @@ module tiled{
 								break;
 
 							case tiled.TMXConstants.ANIMATION:
-								if(decodeAnimation)	
-                                	this._animation = new tiled.TMXAnimation(tilemap,tileset,tileX,tileY,child);
+								if(decodeAnimation)	{
+									this._animation = new tiled.TMXAnimation(tilemap,tileset,tileX,tileY,child);
+									for(let frame of this._animation.animations) {
+										frame.tile.flippedX = this.flippedX;
+										frame.tile.flippedY = this.flippedY;
+									}
+								}
 								break;
 						}
 					}
@@ -121,10 +126,32 @@ module tiled{
 
 		/**
 		 * 获取格子是否进行了水平方向翻转
+		 * @param value
+		 * @version Egret 3.0.3
+		 */
+		set flippedX(value: boolean) {
+			this._flippedX = value;
+			this._flippedAD = this._flippedX && this._flippedY;
+			this._flipped   = this._flippedX || this._flippedY || this._flippedAD;
+		}
+
+		/**
+		 * 获取格子是否进行了水平方向翻转
 		 * @version Egret 3.0.3
 		 */
 		get flippedX() {
 			return this._flippedX;
+		}
+
+		/**
+		 * 获取格子是否进行了水平方向翻转
+		 * @param value
+		 * @version Egret 3.0.3
+		 */
+		set flippedY(value: boolean) {
+			this._flippedY = value;
+			this._flippedAD = this._flippedX && this._flippedY;
+			this._flipped   = this._flippedX || this._flippedY || this._flippedAD;
 		}
 
 		/**

@@ -121,10 +121,19 @@ module tiled{
 		render(renderContainer: egret.Sprite): void {
 			if (!this.animationTiles)
 				return;
+			this.renderAnimationTiles(renderContainer, this.animationTiles);
+		}
 
+		/**
+		 * 渲染动画
+		 * @param renderContainer
+		 * @param animationTiles
+		 * @version Egret 3.0.3
+		 */
+		renderAnimationTiles(renderContainer: egret.Sprite, animationTiles: any[]): void {
 			var currentTime: number 			        = egret.getTimer();
-			for (var i: number = 0; i < this.animationTiles.length; i++) {
-				var animationInfo: any 			  = this.animationTiles[i];
+			for (var i: number = 0; i < animationTiles.length; i++) {
+				var animationInfo: any 			  = animationTiles[i];
 				var tmxTile: tiled.TMXTile 		  = animationInfo.tmxTile;
 				var pos: Array<number> 			  = animationInfo.pos;
 				var animation: tiled.TMXAnimation 	  = tmxTile.animation;

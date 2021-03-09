@@ -335,6 +335,7 @@ module tiled{
 			var objects: Array<tiled.TMXObjectGroup> = this.getObjects();
 			for (var i: number = 0; i < objects.length; i++) {
 				var object: tiled.TMXObjectGroup = objects[i];
+				object.render();
 			}
 		}
 		
@@ -389,6 +390,7 @@ module tiled{
 		 */
 		private parseObjectGroup(data: any, z: number): tiled.TMXObjectGroup {
 			var objectGroup: tiled.TMXObjectGroup   = new tiled.TMXObjectGroup(data, this._orientation, this._tilesets, z);
+			objectGroup.setRenderer(this._tmxRenderer);
 			var self: tiled.TMXTilemap              = this;
 			var onAllImageLoad: Function            = function (event: tiled.TMXImageLoadEvent): void {
 				self.removeEventListener(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE, onAllImageLoad, this);
