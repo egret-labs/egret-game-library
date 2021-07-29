@@ -1,24 +1,17 @@
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+var __extends = this && this.__extends || function __extends(t, e) { 
+ function r() { 
+ this.constructor = t;
+}
+for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
+r.prototype = e.prototype, t.prototype = new r();
+};
 var tiled;
 (function (tiled) {
-    var TMXLayerBase = /** @class */ (function (_super) {
+    var TMXLayerBase = (function (_super) {
         __extends(TMXLayerBase, _super);
-        //protected _z:number;
         /**
          * 图层基类
          * @param tilemap TMXTilemap实例
@@ -30,8 +23,7 @@ var tiled;
             var _this = _super.call(this) || this;
             _this._tilemap = tilemap;
             _this._data = data;
-            //this._z         = z;
-            _this.z = z;
+            _this._z = z;
             return _this;
         }
         Object.defineProperty(TMXLayerBase.prototype, "tilemap", {
@@ -45,13 +37,17 @@ var tiled;
             enumerable: true,
             configurable: true
         });
-        /**
-         * 获取图层所在的层深
-         * @version Egret 3.0.3
-         */
-        //get z() {
-        //    return this._z;
-        //}
+        Object.defineProperty(TMXLayerBase.prototype, "z", {
+            /**
+             * 获取图层所在的层深
+             * @version Egret 3.0.3
+             */
+            get: function () {
+                return this._z;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * 实现ILayer绘制<code>draw</code>接口
          * @param rect 绘制的矩形区域
@@ -66,7 +62,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXRenderer = /** @class */ (function () {
+    var TMXRenderer = (function () {
         /**
          * 渲染器基类
          * @param rows 水平方向格子数
@@ -158,7 +154,7 @@ var tiled;
     /**
      * 属性VO,存储map、tileset、tile相关属性数据
      */
-    var TMXProperty = /** @class */ (function () {
+    var TMXProperty = (function () {
         function TMXProperty() {
             /**
              * id
@@ -176,7 +172,7 @@ var tiled;
     /**
      * TMX常量数据
      */
-    var TMXConstants = /** @class */ (function () {
+    var TMXConstants = (function () {
         function TMXConstants() {
         }
         /**
@@ -312,7 +308,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXImageLoadEvent = /** @class */ (function (_super) {
+    var TMXImageLoadEvent = (function (_super) {
         __extends(TMXImageLoadEvent, _super);
         /**
          * Tile中图片加载完成事件
@@ -336,11 +332,6 @@ var tiled;
          */
         TMXImageLoadEvent.IMAGE_COMPLETE = "complete";
         /**
-         * 单张图片加载失败
-         * @version Egret 3.0.3
-         */
-        TMXImageLoadEvent.IMAGE_LOAD_ERROR = "imageLoadError";
-        /**
          * 所有图片加载完成
          * @version Egret 3.0.3
          */
@@ -352,7 +343,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXColorLayer = /** @class */ (function (_super) {
+    var TMXColorLayer = (function (_super) {
         __extends(TMXColorLayer, _super);
         /**
          * 创建1个Tile颜色图层
@@ -378,7 +369,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXImageLayer = /** @class */ (function (_super) {
+    var TMXImageLayer = (function (_super) {
         __extends(TMXImageLayer, _super);
         /**
          * 创建1个图像图层实例
@@ -389,12 +380,10 @@ var tiled;
          */
         function TMXImageLayer(tilemap, data, z) {
             var _this = _super.call(this, tilemap, data, z) || this;
-            //this._name      = data.attributes.name;
-            _this.name = data.attributes.name;
+            _this._name = data.attributes.name;
             _this.x = +data.attributes.x;
             _this.y = +data.attributes.y;
-            //this._z         = z;
-            _this.z = z;
+            _this._z = z;
             _this._opacity = (typeof +data.attributes.opacity !== "undefined") ? +data.attributes.opacity : 1;
             _this.visible = (typeof +data.attributes.visible !== "undefined") ? Boolean(+data.attributes.visible) : true;
             //解析源
@@ -416,7 +405,6 @@ var tiled;
                     }
                 }
             }
-            _this.alpha = _this._opacity;
             return _this;
         }
         Object.defineProperty(TMXImageLayer.prototype, "bitmap", {
@@ -441,13 +429,17 @@ var tiled;
             enumerable: true,
             configurable: true
         });
-        /**
-         * 创建图像图层的透明度
-         * @version Egret 3.0.3
-         */
-        //get alpha() {
-        //	return this._opacity;
-        //}
+        Object.defineProperty(TMXImageLayer.prototype, "alpha", {
+            /**
+             * 创建图像图层的透明度
+             * @version Egret 3.0.3
+             */
+            get: function () {
+                return this._opacity;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * 加载图片
          * @param $url 图片地址
@@ -457,12 +449,6 @@ var tiled;
             if (url == null || url == "")
                 return;
             RES.getResByUrl(url, function (texture) {
-                // 兼容传egret.BitmapData
-                if (texture instanceof egret.BitmapData) {
-                    var bitmapData = texture;
-                    texture = new egret.Texture();
-                    texture._setBitmapData(bitmapData);
-                }
                 if (texture) {
                     if (this._sourcebitmap == null || this._sourcebitmap == undefined) {
                         this._sourcebitmap = new egret.Bitmap();
@@ -499,7 +485,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXLayer = /** @class */ (function (_super) {
+    var TMXLayer = (function (_super) {
         __extends(TMXLayer, _super);
         /**
          * 创建1个基本图层实例
@@ -539,8 +525,7 @@ var tiled;
                 _this.maxTileSize.width = Math.max(_this.maxTileSize.width, tileset.tilewidth);
                 _this.maxTileSize.height = Math.max(_this.maxTileSize.height, tileset.tileheight);
             }
-            //this._name                          = data.attributes.name;
-            _this.name = data.attributes.name;
+            _this._name = data.attributes.name;
             _this._cols = +data.attributes.width;
             _this._rows = +data.attributes.height;
             _this._opacity = (typeof data.attributes.opacity !== "undefined") ? parseFloat(data.attributes.opacity) : 1;
@@ -564,10 +549,10 @@ var tiled;
                 for (var i = 0; i < children.length; i++) {
                     var child = children[i];
                     switch (child.localName) {
-                        case tiled.TMXConstants.DATA: //解析数据
+                        case tiled.TMXConstants.DATA://解析数据
                             _this.parseLayerData(tiled.TMXUtils.decode(child, child.attributes.encoding, child.attributes.compression));
                             break;
-                        case tiled.TMXConstants.PROPERTIES: //解析属性
+                        case tiled.TMXConstants.PROPERTIES://解析属性
                             _this._properties = _this.tilemap.parseProperties(child);
                             break;
                         default:
@@ -579,14 +564,18 @@ var tiled;
             _this.visible = _this.visible;
             return _this;
         }
-        Object.defineProperty(TMXLayer.prototype, "staticContainer", {
+        Object.defineProperty(TMXLayer.prototype, "name", {
             /**
              * 返回层的名字
              * @version Egret 3.0.3
              */
-            //get name() {
-            //	return this._name;
-            //}
+            get: function () {
+                return this._name;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TMXLayer.prototype, "staticContainer", {
             /**
              * 获取静态层容器（用于渲染静态对象）
              * @version Egret 3.0.3
@@ -829,7 +818,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXTilemap = /** @class */ (function (_super) {
+    var TMXTilemap = (function (_super) {
         __extends(TMXTilemap, _super);
         /**
          * 创建1个TMXTilemap实例对象
@@ -1124,14 +1113,12 @@ var tiled;
                     var onImageLoad = function (event) {
                         var target = event.currentTarget;
                         target.removeEventListener(tiled.TMXImageLoadEvent.IMAGE_COMPLETE, onImageLoad, this);
-                        target.removeEventListener(tiled.TMXImageLoadEvent.IMAGE_LOAD_ERROR, onImageLoad, this);
                         loadCount++;
                         if (loadCount == this._tilesets.imagelength) {
                             self.dispatchEvent(new tiled.TMXImageLoadEvent(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE));
                         }
                     };
                     _image.addEventListener(tiled.TMXImageLoadEvent.IMAGE_COMPLETE, onImageLoad, this);
-                    _image.addEventListener(tiled.TMXImageLoadEvent.IMAGE_LOAD_ERROR, onImageLoad, this);
                 }
             }
             this._initialized = true;
@@ -1322,7 +1309,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXImage = /** @class */ (function (_super) {
+    var TMXImage = (function (_super) {
         __extends(TMXImage, _super);
         /**
          * Tile图像
@@ -1405,21 +1392,12 @@ var tiled;
             if (url == null || url == "")
                 return;
             RES.getResByUrl(url, function (texture) {
-                // 兼容传egret.BitmapData
-                if (texture instanceof egret.BitmapData) {
-                    var bitmapData = texture;
-                    texture = new egret.Texture();
-                    texture._setBitmapData(bitmapData);
-                }
                 if (texture) {
                     this._bitmap.texture = texture;
                     this._texture = texture;
                     this._width = texture.textureWidth;
                     this._height = texture.textureHeight;
                     this.dispatchEvent(new tiled.TMXImageLoadEvent(tiled.TMXImageLoadEvent.IMAGE_COMPLETE, texture));
-                }
-                else {
-                    this.dispatchEvent(new tiled.TMXImageLoadEvent(tiled.TMXImageLoadEvent.IMAGE_LOAD_ERROR, null));
                 }
             }, this, RES.ResourceItem.TYPE_IMAGE);
         };
@@ -1431,7 +1409,7 @@ var tiled;
 var tiled;
 (function (tiled) {
     //可能存在普通对象，也可能存在动画
-    var TMXObject = /** @class */ (function (_super) {
+    var TMXObject = (function (_super) {
         __extends(TMXObject, _super);
         /**
          * 创建一个Tile对象实例
@@ -1446,12 +1424,10 @@ var tiled;
             var _this = _super.call(this) || this;
             _this._objectGroup = objectGroup;
             _this._points = undefined;
-            //this._name                                  = data.attributes.name;
-            _this.name = data.attributes.name;
+            _this._name = data.attributes.name;
             _this.x = +data.attributes.x;
             _this.y = +data.attributes.y;
-            //this._z                                     = +z;
-            _this.z = +z;
+            _this._z = +z;
             _this.width = +data.attributes.width || 0;
             _this.height = +data.attributes.height || 0;
             _this._gid = +data.attributes.gid || null;
@@ -1540,14 +1516,18 @@ var tiled;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(TMXObject.prototype, "type", {
+        Object.defineProperty(TMXObject.prototype, "name", {
             /**
              * 对象名称
              * @version Egret 3.0.3
              */
-            //get name() {
-            //	return this._name;
-            //}
+            get: function () {
+                return this._name;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TMXObject.prototype, "type", {
             /**
              * 对象类型
              * @version Egret 3.0.3
@@ -1558,14 +1538,18 @@ var tiled;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(TMXObject.prototype, "isEllipse", {
+        Object.defineProperty(TMXObject.prototype, "z", {
             /**
              * 对象所在层深
              * @version Egret 3.0.3
              */
-            //get z() {
-            //	return this._z;
-            //}
+            get: function () {
+                return this._z;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TMXObject.prototype, "isEllipse", {
             /**
              * 当前对象是否是椭圆
              * @version Egret 3.0.3
@@ -1699,7 +1683,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXObjectGroup = /** @class */ (function (_super) {
+    var TMXObjectGroup = (function (_super) {
         __extends(TMXObjectGroup, _super);
         /**
          * 创建1个对象组
@@ -1711,15 +1695,13 @@ var tiled;
          */
         function TMXObjectGroup(data, orientation, tilesets, z) {
             var _this = _super.call(this) || this;
-            //this._name          = data.attributes.name;
-            _this.name = data.attributes.name;
+            _this._name = data.attributes.name;
             _this._opacity = (typeof data.attributes.opacity !== "undefined") ? +data.attributes.opacity : 1;
             _this._draworder = data.attributes.draworder;
             _this._color = data.attributes.color ? (tiled.TMXUtils.color16ToUnit(data.attributes.color)) : tiled.TMXConstants.DEFAULT_COLOR;
             _this._orientaion = orientation;
             _this._tilesets = tilesets;
-            //this._z             = z;
-            _this.z = z;
+            _this._z = z;
             _this.visible = (typeof data.attributes.visible !== "undefined") ? Boolean(+data.attributes.visible) : true;
             _this._objects = [];
             _this._objectHash = {};
@@ -1727,13 +1709,17 @@ var tiled;
             _this._animationTiles = {};
             return _this;
         }
-        /**
-         * 对象组名称
-         * @version Egret 3.0.3
-         */
-        //get name() {
-        //	return this._name;
-        //}
+        Object.defineProperty(TMXObjectGroup.prototype, "name", {
+            /**
+             * 对象组名称
+             * @version Egret 3.0.3
+             */
+            get: function () {
+                return this._name;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * 设置渲染器
          * @param renderer 渲染器(包括：1、TMXHexagonoalRenderer,2、TMXIsometricRenderer,3、TMXOrthogonalRenderer)
@@ -1751,7 +1737,7 @@ var tiled;
             if (this._childrens) {
                 for (var i = 0; i < this._childrens.length; i++) {
                     //var object: tiled.TMXObject 	= new tiled.TMXObject(this._childrens[i], this._orientaion, this._tilesets, this._z, this._color);
-                    var object = new tiled.TMXObject(this, this._childrens[i], this._orientaion, this._tilesets, this.z, this._color);
+                    var object = new tiled.TMXObject(this, this._childrens[i], this._orientaion, this._tilesets, this._z, this._color);
                     object.alpha = this._opacity;
                     this._objects[i] = object;
                     // <objectgroup>的子结点后加的显示在上面
@@ -1854,7 +1840,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXAnimation = /** @class */ (function () {
+    var TMXAnimation = (function () {
         /**
          * 创建1个新的tile动画实例
          * @param tilemap TMXTilemap实例引用
@@ -1921,7 +1907,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXHexagonalRenderer = /** @class */ (function (_super) {
+    var TMXHexagonalRenderer = (function (_super) {
         __extends(TMXHexagonalRenderer, _super);
         /**
          * 创建1个六角形渲染器实例
@@ -2009,9 +1995,9 @@ var tiled;
          * @version Egret 3.0.3
          */
         TMXHexagonalRenderer.prototype.pixelToTileCoords = function (x, y) {
-            if (this._staggeraxis === "x") //平顶
+            if (this._staggeraxis === "x")
                 x = x - ((this._staggerindex === "old") ? this._sidelengthx : this.tilewidth);
-            else //尖顶
+            else
                 y = y - ((this._staggerindex === "old") ? this._sideoffsety : this.tileheight);
             var referencePoint = new egret.Point(Math.floor(x / (this.tilewidth + this._sidelengthx)), Math.floor(y / (this.tileheight + this._sidelengthy)));
             var rel = new egret.Point(x - referencePoint.x * (this.tilewidth + this._sidelengthx), y - referencePoint.y * (this.tilewidth + this._sidelengthy));
@@ -2190,7 +2176,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXIsometricRenderer = /** @class */ (function (_super) {
+    var TMXIsometricRenderer = (function (_super) {
         __extends(TMXIsometricRenderer, _super);
         /**
          * 创建1个iso渲染器
@@ -2429,7 +2415,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXOrthogonalRenderer = /** @class */ (function (_super) {
+    var TMXOrthogonalRenderer = (function (_super) {
         __extends(TMXOrthogonalRenderer, _super);
         /**
          * 创建1个正交渲染器（正常模式）
@@ -2590,7 +2576,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXAnimationFrame = /** @class */ (function () {
+    var TMXAnimationFrame = (function () {
         /**
          * 创建1个动画帧数据解析类
          * @param tilemap 获取Tiledmap实例
@@ -2646,7 +2632,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var Ellipse = /** @class */ (function (_super) {
+    var Ellipse = (function (_super) {
         __extends(Ellipse, _super);
         /**
          * 创建1个椭圆形状实例
@@ -2683,50 +2669,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var PolyLine = /** @class */ (function (_super) {
-        __extends(PolyLine, _super);
-        /**
-         * 创建1个新的折线实例
-         * @param x 水平坐标（单位：像素）
-         * @param y 垂直坐标（单位：像素）
-         * @param points 折线对应的点数据列表
-         * @version Egret 3.0.3
-         */
-        function PolyLine(x, y, points) {
-            var _this = _super.call(this) || this;
-            _this.points = points;
-            _this.x = x;
-            _this.y = y;
-            return _this;
-        }
-        /**
-         * 根据参数<code>color</code>绘制折线，参数为16进制表示形式，例如：0xff0000
-         * @param color 颜色值
-         * @version Egret 3.0.3
-         */
-        PolyLine.prototype.draw = function (color) {
-            this.graphics.clear();
-            this.graphics.lineStyle(2, color);
-            this.graphics.beginFill(color, 0.2);
-            if (this.points) {
-                for (var i = 0; i < this.points.length; i++) {
-                    var _data = this.points[i];
-                    if (i == 0)
-                        this.graphics.moveTo(_data[0], _data[1]);
-                    else
-                        this.graphics.lineTo(_data[0], _data[1]);
-                }
-            }
-            this.graphics.endFill();
-        };
-        return PolyLine;
-    }(egret.Sprite));
-    tiled.PolyLine = PolyLine;
-    __reflect(PolyLine.prototype, "tiled.PolyLine");
-})(tiled || (tiled = {}));
-var tiled;
-(function (tiled) {
-    var Polygon = /** @class */ (function (_super) {
+    var Polygon = (function (_super) {
         __extends(Polygon, _super);
         /**
          * 创建1个新的多边形实例
@@ -2769,7 +2712,50 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXTile = /** @class */ (function (_super) {
+    var PolyLine = (function (_super) {
+        __extends(PolyLine, _super);
+        /**
+         * 创建1个新的折线实例
+         * @param x 水平坐标（单位：像素）
+         * @param y 垂直坐标（单位：像素）
+         * @param points 折线对应的点数据列表
+         * @version Egret 3.0.3
+         */
+        function PolyLine(x, y, points) {
+            var _this = _super.call(this) || this;
+            _this.points = points;
+            _this.x = x;
+            _this.y = y;
+            return _this;
+        }
+        /**
+         * 根据参数<code>color</code>绘制折线，参数为16进制表示形式，例如：0xff0000
+         * @param color 颜色值
+         * @version Egret 3.0.3
+         */
+        PolyLine.prototype.draw = function (color) {
+            this.graphics.clear();
+            this.graphics.lineStyle(2, color);
+            this.graphics.beginFill(color, 0.2);
+            if (this.points) {
+                for (var i = 0; i < this.points.length; i++) {
+                    var _data = this.points[i];
+                    if (i == 0)
+                        this.graphics.moveTo(_data[0], _data[1]);
+                    else
+                        this.graphics.lineTo(_data[0], _data[1]);
+                }
+            }
+            this.graphics.endFill();
+        };
+        return PolyLine;
+    }(egret.Sprite));
+    tiled.PolyLine = PolyLine;
+    __reflect(PolyLine.prototype, "tiled.PolyLine");
+})(tiled || (tiled = {}));
+var tiled;
+(function (tiled) {
+    var TMXTile = (function (_super) {
         __extends(TMXTile, _super);
         /**
          * 创建一个新的TMXTile实例，此类存储了场景的格子数据与Tileset中格子的数据
@@ -2969,7 +2955,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXTileset = /** @class */ (function () {
+    var TMXTileset = (function () {
         /**
          * Tileset对象
          * @param tilemap 引用的TMXTilemap对象
@@ -3340,7 +3326,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXTilesetGroup = /** @class */ (function () {
+    var TMXTilesetGroup = (function () {
         /**
          * Tileset集合，所有的Tileset都存储在这里
          * @param $tilemap
@@ -3434,7 +3420,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var Base64 = /** @class */ (function () {
+    var Base64 = (function () {
         function Base64() {
         }
         Object.defineProperty(Base64, "nativeBase64", {
@@ -3565,7 +3551,7 @@ var tiled;
 })(tiled || (tiled = {}));
 var tiled;
 (function (tiled) {
-    var TMXUtils = /** @class */ (function () {
+    var TMXUtils = (function () {
         function TMXUtils() {
         }
         /**
@@ -3640,3 +3626,4 @@ var tiled;
     tiled.TMXUtils = TMXUtils;
     __reflect(TMXUtils.prototype, "tiled.TMXUtils");
 })(tiled || (tiled = {}));
+//# sourceMappingURL=tiled.js.map

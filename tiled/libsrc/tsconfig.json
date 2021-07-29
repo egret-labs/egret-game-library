@@ -2,7 +2,8 @@
 	"compilerOptions": {
 		"target": "es5",
 		"noImplicitAny": false,
-		"sourceMap": false,
+		"sourceMap": true,
+		"sourceRoot": "src/tiled",
 		"bundledPackageName": "tiled",
 		"declaration": true,
 		"outFile": "bin/tiled/tiled.js"
